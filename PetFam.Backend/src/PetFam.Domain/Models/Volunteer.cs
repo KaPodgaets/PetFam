@@ -2,48 +2,28 @@
 {
     public class Volunteer
     {
-        public Guid Id { get; set; }
-        public string FullName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string GeneralInformation { get; set; } = string.Empty;
-        public int AgesOfExpirience { get; set; }
-        public List<SocialMediaLink> Links { get; set; } = [];
-        public List<Requisite> Requisites { get; set; } = [];
-        public List<Pet> Pets { get; set; } = [];
+        private readonly List<SocialMediaLink> _links = [];
+        private readonly List<Pet> _pets = [];
+        private readonly List<Requisite> _requisites = [];
+        public Volunteer(FullName fullName, string email)
+        {
+            FullName = fullName;
+            Email = email;
+        }
+
+        public Guid Id { get; }
+        public FullName FullName { get; }
+        public string Email { get; } = string.Empty;
+        public string GeneralInformation { get; } = string.Empty;
+        public int AgesOfExpirience { get; }
+        public IReadOnlyList<SocialMediaLink> Links => _links;
+        public IReadOnlyList<Requisite> Requisites => _requisites;
+        public IReadOnlyList<Pet> Pets => _pets;
         public int PetsFoundedHomeCount =>
-            (Pets.Where(x => x.Status == PetStatus.Adopted).Count());
+            (Pets.Count(x => x.Status == PetStatus.Adopted));
         public int PetsLookingForHomeCount =>
-            (Pets.Where(x => x.Status == PetStatus.LookingForHome).Count());
+            (Pets.Count(x => x.Status == PetStatus.LookingForHome));
         public int PetsOnTreatment =>
-            (Pets.Where(x => x.Status == PetStatus.OnTreatment).Count());
-
-        public void AddPet(Pet pet)
-        {
-            if (Pets.Any(p => p.Id == pet.Id))
-            {
-                throw new InvalidOperationException("This pet is already assigned to the volunteer.");
-            }
-
-            Pets.Add(pet);
-        }
-
-        public void RemovePet(Guid petId)
-        {
-            var pet = Pets.FirstOrDefault(p => p.Id == petId);
-            if (pet != null)
-            {
-                Pets.Remove(pet);
-            }
-        }
-
-        public void UpdatePetStatus(Guid petId, PetStatus newStatus)
-        {
-            var pet = Pets.FirstOrDefault(p => p.Id == petId);
-
-            if (pet != null)
-            {
-                pet.UpdateStatus(newStatus);
-            }
-        }
+            (Pets.Count(x => x.Status == PetStatus.OnTreatment));
     }
 }
