@@ -11,11 +11,11 @@
             Email = email;
         }
 
-        public Guid Id { get; }
-        public FullName FullName { get; }
-        public string Email { get; } = string.Empty;
-        public string GeneralInformation { get; } = string.Empty;
-        public int AgesOfExpirience { get; }
+        public Guid Id { get; private set; }
+        public FullName FullName { get; private set; }
+        public string Email { get; private set; } = string.Empty;
+        public string GeneralInformation { get; private set; } = string.Empty;
+        public int AgesOfExpirience { get; private set; }
         public IReadOnlyList<SocialMediaLink> Links => _links;
         public IReadOnlyList<Requisite> Requisites => _requisites;
         public IReadOnlyList<Pet> Pets => _pets;

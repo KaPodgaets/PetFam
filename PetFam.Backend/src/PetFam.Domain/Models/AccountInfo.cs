@@ -14,7 +14,7 @@
             BankName = bankName;
         }
 
-        public string Number { get; set; } = string.Empty;
-        public string BankName { get; set; } = string.Empty;
+        public string Number { get; private set; } = string.Empty;
+        public string BankName { get; private set; } = string.Empty;
     }
 }
