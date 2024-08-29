@@ -19,6 +19,7 @@
         public PetStatus Status { get; set; }
         public string AccountInfo { get; set; } = string.Empty;
         public DateTime CreateDate { get; set; }
+        public List<PetPhoto> Photos { get; set; } = [];
 
         public void UpdateStatus(PetStatus newStatus)
         {
