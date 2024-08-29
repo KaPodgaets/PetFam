@@ -3,6 +3,7 @@
     public enum PetStatus
     {
         Adopted,
-        LookingForHome
+        LookingForHome,
+        OnTreatment
     }
 }
