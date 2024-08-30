@@ -4,10 +4,14 @@
     {
         public AccountInfo(string number, string bankName)
         {
-            if (string.IsNullOrWhiteSpace(number) ||
-                string.IsNullOrWhiteSpace(bankName))
+            if (string.IsNullOrWhiteSpace(number))
             {
-                throw new ArgumentException("First name and last name cannot be empty.");
+                throw new ArgumentException("Account number cannot be empty.");
+            }
+
+            if (string.IsNullOrWhiteSpace(bankName))
+            {
+                throw new ArgumentException("Bank's name cannot be empty.");
             }
 
             Number = number;

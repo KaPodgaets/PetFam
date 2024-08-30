@@ -20,10 +20,10 @@
         public IReadOnlyList<Requisite> Requisites => _requisites;
         public IReadOnlyList<Pet> Pets => _pets;
         public int PetsFoundedHomeCount =>
-            (Pets.Count(x => x.Status == PetStatus.Adopted));
+            (_pets.Count(x => x.Status == PetStatus.Adopted));
         public int PetsLookingForHomeCount =>
-            (Pets.Count(x => x.Status == PetStatus.LookingForHome));
+            (_pets.Count(x => x.Status == PetStatus.LookingForHome));
         public int PetsOnTreatment =>
-            (Pets.Count(x => x.Status == PetStatus.OnTreatment));
+            (_pets.Count(x => x.Status == PetStatus.OnTreatment));
     }
 }
