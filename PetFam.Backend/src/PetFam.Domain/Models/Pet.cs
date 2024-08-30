@@ -1,10 +1,16 @@
 ﻿namespace PetFam.Domain.Models
 {
+
     public class Pet
     {
         private readonly List<PetPhoto> _petPhotos = [];
 
-        public Guid Id { get; private set; }
+        private Pet(PetId id)
+        {
+            Id = id;
+        }
+
+        public PetId Id { get; private set; }
         public string NickName { get; private set; } = string.Empty;
         public string Species { get; private set; } = string.Empty;
         public string GeneralInfo { get; private set; } = string.Empty;
