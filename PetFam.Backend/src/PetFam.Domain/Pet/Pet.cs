@@ -21,7 +21,7 @@ namespace PetFam.Domain.Pet
         public string Breed { get; private set; } = string.Empty;
         public string Color { get; private set; } = string.Empty;
         public string HealthInfo { get; private set; } = string.Empty;
-        public Address Address { get; private set; }
+        public Address Address { get; private set; } = null!;
         public double Weight { get; private set; }
         public double Height { get; private set; }
         public string PhoneNumber { get; private set; } = string.Empty;

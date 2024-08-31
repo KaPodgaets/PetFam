@@ -18,7 +18,7 @@ namespace PetFam.Domain.Volunteer
             FullName = fullName;
             Email = email;
         }
-        public FullName FullName { get; private set; }
+        public FullName FullName { get; private set; } = null!;
         public string Email { get; private set; } = string.Empty;
         public string GeneralInformation { get; private set; } = string.Empty;
         public int AgesOfExpirience { get; private set; }

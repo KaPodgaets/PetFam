@@ -15,7 +15,7 @@ namespace PetFam.Domain.Volunteer
             Value = value.ToList();
         }
 
-        public IReadOnlyList<SocialMediaLink> Value { get; }
+        public IReadOnlyList<SocialMediaLink> Value { get; } = null!;
 
         public static Result<SocialMediaDetails> Create(IEnumerable<SocialMediaLink> value)
         {

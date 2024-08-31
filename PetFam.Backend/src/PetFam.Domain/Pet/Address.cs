@@ -22,9 +22,9 @@ namespace PetFam.Domain.Pet
             Litteral = litteral;
         }
 
-        public string Country { get; }
-        public string City { get; }
-        public string Street { get; }
+        public string Country { get; } = null!;
+        public string City { get; } = null!;
+        public string Street { get; } = null!;
         public int? Building { get; }
         public string? Litteral { get; }
 
