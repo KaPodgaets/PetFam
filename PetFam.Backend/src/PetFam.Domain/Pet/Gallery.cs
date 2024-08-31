@@ -19,7 +19,7 @@ namespace PetFam.Domain.Pet
 
         public static Result<Gallery> Create(IEnumerable<PetPhoto> petPhotos)
         {
-            if (petPhotos.Count < Constants.MIN_ELEMENTS_IN_ARRAY)
+            if (petPhotos.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
                 return "There is no photos in gallery";
 
             return new Gallery(petPhotos);
