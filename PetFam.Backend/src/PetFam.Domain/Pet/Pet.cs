@@ -1,16 +1,19 @@
-﻿namespace PetFam.Domain.Models
+﻿using PetFam.Domain.Shared;
+
+namespace PetFam.Domain.Pet
 {
 
-    public class Pet
+    public class Pet : Entity<PetId>
     {
-        private readonly List<PetPhoto> _petPhotos = [];
-
-        private Pet(PetId id)
+        private Pet(PetId id) : base(id)
         {
-            Id = id;
         }
 
-        public PetId Id { get; private set; }
+        private Pet(PetId petId, string nickName) : base(petId)
+        {
+            NickName = nickName;
+        }
+
         public string NickName { get; private set; } = string.Empty;
         public string Species { get; private set; } = string.Empty;
         public string GeneralInfo { get; private set; } = string.Empty;
@@ -27,6 +30,20 @@
         public PetStatus Status { get; private set; }
         public AccountInfo? AccountInfo { get; private set; }
         public DateTime CreateDate { get; private set; }
-        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+        public Gallery? Gallery { get; private set; }
+
+        public static Result<Pet> Create(PetId petId,
+            string nickName)
+        {
+            if (petId.Value == Guid.Empty)
+                return "Can't create Pet model with Empty id";
+
+            if (string.IsNullOrWhiteSpace(nickName))
+                return "Pet's nickname could not be empty";
+            if (nickName.Length > Constants.MAX_LOW_TEXT_LENGTH)
+                return $"Pet's nickname could not be longer that {Constants.MAX_LOW_TEXT_LENGTH} symbols";
+
+            return new Pet(petId, nickName);
+        }
     }
 }
