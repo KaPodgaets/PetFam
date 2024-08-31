@@ -10,14 +10,14 @@ namespace PetFam.Domain.Volunteer
 
         }
 
-        private SocialMediaDetails(List<SocialMediaLink> value)
+        private SocialMediaDetails(IEnumerable<SocialMediaLink> value)
         {
-            Value = value;
+            Value = value.ToList();
         }
 
         public IReadOnlyList<SocialMediaLink> Value { get; }
 
-        public static Result<SocialMediaDetails> Create(List<SocialMediaLink> value)
+        public static Result<SocialMediaDetails> Create(IEnumerable<SocialMediaLink> value)
         {
             if (value.Count < Constants.MIN_ELEMENTS_IN_ARRAY)
                 return $"In social media should be at least {Constants.MIN_ELEMENTS_IN_ARRAY} link";

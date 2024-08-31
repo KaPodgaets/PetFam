@@ -9,15 +9,15 @@ namespace PetFam.Domain.Pet
 
         }
 
-        private Gallery(List<PetPhoto> value)
+        private Gallery(IEnumerable<PetPhoto> value)
         {
-            Value = value;
+            Value = value.ToList();
         }
 
         public IReadOnlyList<PetPhoto> Value { get; }
         public int ImagesCount => Value.Count;
 
-        public static Result<Gallery> Create(List<PetPhoto> petPhotos)
+        public static Result<Gallery> Create(IEnumerable<PetPhoto> petPhotos)
         {
             if (petPhotos.Count < Constants.MIN_ELEMENTS_IN_ARRAY)
                 return "There is no photos in gallery";
