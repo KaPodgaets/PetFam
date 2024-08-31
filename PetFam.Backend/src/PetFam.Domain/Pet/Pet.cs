@@ -18,7 +18,6 @@ namespace PetFam.Domain.Pet
         public string NickName { get; private set; } = string.Empty;
         public string Species { get; private set; } = string.Empty;
         public string GeneralInfo { get; private set; } = string.Empty;
-        public string Breed { get; private set; } = string.Empty;
         public string Color { get; private set; } = string.Empty;
         public string HealthInfo { get; private set; } = string.Empty;
         public Address Address { get; private set; } = null!;
@@ -32,6 +31,7 @@ namespace PetFam.Domain.Pet
         public AccountInfo? AccountInfo { get; private set; }
         public DateTime CreateDate { get; private set; }
         public Gallery? Gallery { get; private set; }
+        public BreedInfo? Breed { get; private set; }
 
         public static Result<Pet> Create(PetId petId,
             string nickName,
