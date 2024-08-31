@@ -55,6 +55,27 @@ namespace PetFam.Infrastructure.Configurations
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
             });
 
+            builder.ComplexProperty(p => p.Address, ab =>
+            {
+                ab.Property(ai => ai.Country)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+
+                ab.Property(ai => ai.City)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+
+                ab.Property(ai => ai.Street)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+
+                ab.Property(ai => ai.Building);
+
+                ab.Property(ai => ai.Litteral)
+                    .IsRequired()
+                    .HasMaxLength(Constants.ONE_CHAR_LIMIT);
+            });
+
         }
     }
 }
