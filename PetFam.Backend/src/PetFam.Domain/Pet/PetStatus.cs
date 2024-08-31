@@ -1,4 +1,4 @@
-﻿namespace PetFam.Domain.Models
+﻿namespace PetFam.Domain.Pet
 {
     public enum PetStatus
     {
