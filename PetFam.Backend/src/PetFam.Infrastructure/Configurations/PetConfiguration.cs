@@ -76,6 +76,21 @@ namespace PetFam.Infrastructure.Configurations
                     .HasMaxLength(Constants.ONE_CHAR_LIMIT);
             });
 
+            builder.ComplexProperty(p => p.Breed, bb =>
+            {
+                bb.Property(b => b.SpeciesId)
+                    .HasConversion(
+                        s => s.Value,
+                        v => SpeciesId.Create(v))
+                    .IsRequired();
+
+                bb.Property(b => b.BreedId)
+                    .HasConversion(
+                        s => s.Value,
+                        v => BreedId.Create(v))
+                    .IsRequired();
+            });
+
         }
     }
 }

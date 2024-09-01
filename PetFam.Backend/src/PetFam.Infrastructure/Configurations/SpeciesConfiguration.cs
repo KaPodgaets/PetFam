@@ -11,12 +11,12 @@ namespace PetFam.Infrastructure.Configurations
         {
             builder.ToTable("species");
 
-            builder.HasKey(b => b.Id);
+            builder.HasKey(s => s.Id);
 
-            builder.Property(b => b.Id)
+            builder.Property(s => s.Id)
                 .HasConversion(
-                    b => b.Value,
-                    v => SpeciesId.Create(v))
+                    id => id.Value,
+                    value => SpeciesId.Create(value))
                 .IsRequired();
 
             builder.Property(s => s.Name)
@@ -25,7 +25,8 @@ namespace PetFam.Infrastructure.Configurations
 
             builder.HasMany(s => s.Breeds)
                 .WithOne()
-                .IsRequired();
+                .HasForeignKey("species_id")
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

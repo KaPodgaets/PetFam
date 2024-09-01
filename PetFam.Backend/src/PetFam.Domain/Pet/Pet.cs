@@ -9,10 +9,14 @@ namespace PetFam.Domain.Pet
         {
         }
 
-        private Pet(PetId petId, string nickName, Address address) : base(petId)
+        private Pet(PetId petId,
+            string nickName,
+            Address address,
+            BreedInfo breed) : base(petId)
         {
             NickName = nickName;
             Address = address;
+            Breed = breed;
         }
 
         public string NickName { get; private set; } = string.Empty;
@@ -31,11 +35,12 @@ namespace PetFam.Domain.Pet
         public AccountInfo? AccountInfo { get; private set; }
         public DateTime CreateDate { get; private set; }
         public Gallery? Gallery { get; private set; }
-        public BreedInfo? Breed { get; private set; }
+        public BreedInfo Breed { get; private set; }
 
         public static Result<Pet> Create(PetId petId,
             string nickName,
-            Address address)
+            Address address,
+            BreedInfo breed)
         {
             if (petId.Value == Guid.Empty)
                 return "Can't create Pet model with Empty id";
@@ -46,7 +51,10 @@ namespace PetFam.Domain.Pet
             if (nickName.Length > Constants.MAX_LOW_TEXT_LENGTH)
                 return $"Pet's nickname could not be longer that {Constants.MAX_LOW_TEXT_LENGTH} symbols";
 
-            return new Pet(petId, nickName, address);
+            if (breed == null)
+                return "Pet's breed can not be empty";
+
+            return new Pet(petId, nickName, address, breed);
         }
     }
 }
