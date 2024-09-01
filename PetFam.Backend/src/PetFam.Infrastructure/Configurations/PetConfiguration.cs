@@ -55,6 +55,17 @@ namespace PetFam.Infrastructure.Configurations
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
             });
 
+            builder.OwnsOne(p => p.SpeciesAndBreed, sbb =>
+            {
+                sbb.ToJson();
+
+                sbb.Property(ai => ai.SpeciesId)
+                    .IsRequired();
+
+                sbb.Property(ai => ai.BreedId)
+                    .IsRequired();
+            });
+
             builder.ComplexProperty(p => p.Address, ab =>
             {
                 ab.Property(ai => ai.Country)
