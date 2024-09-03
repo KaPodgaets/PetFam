@@ -60,6 +60,9 @@ namespace PetFam.Infrastructure.Configurations
                 sbb.ToJson();
 
                 sbb.Property(ai => ai.SpeciesId)
+                    .HasConversion(
+                    id => id.Value,
+                    value => SpeciesId.Create(value))
                     .IsRequired();
 
                 sbb.Property(ai => ai.BreedId)

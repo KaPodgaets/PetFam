@@ -289,7 +289,7 @@ namespace PetFam.Infrastructure.Migrations
                             b1.Navigation("Value");
                         });
 
-                    b.OwnsOne("PetFam.Domain.Pet.SpeciesAndBreed", "SpeciesAndBreed", b1 =>
+                    b.OwnsOne("PetFam.Domain.Pet.SpeciesBreed", "SpeciesAndBreed", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid")
