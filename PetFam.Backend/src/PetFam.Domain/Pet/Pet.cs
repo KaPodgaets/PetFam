@@ -9,19 +9,22 @@ namespace PetFam.Domain.Pet
         {
         }
 
-        private Pet(PetId petId, string nickName, Address address) : base(petId)
+        private Pet(PetId petId,
+            string nickName,
+            Address address,
+            SpeciesAndBreed speciesAndBreed) : base(petId)
         {
             NickName = nickName;
             Address = address;
+            SpeciesAndBreed = speciesAndBreed;
         }
 
         public string NickName { get; private set; } = string.Empty;
-        public string Species { get; private set; } = string.Empty;
+        public SpeciesAndBreed SpeciesAndBreed { get; private set; }
         public string GeneralInfo { get; private set; } = string.Empty;
-        public string Breed { get; private set; } = string.Empty;
         public string Color { get; private set; } = string.Empty;
         public string HealthInfo { get; private set; } = string.Empty;
-        public Address Address { get; private set; }
+        public Address Address { get; private set; } = null!;
         public double Weight { get; private set; }
         public double Height { get; private set; }
         public string PhoneNumber { get; private set; } = string.Empty;
@@ -35,7 +38,8 @@ namespace PetFam.Domain.Pet
 
         public static Result<Pet> Create(PetId petId,
             string nickName,
-            Address address)
+            Address address,
+            SpeciesAndBreed speciesAndBreed)
         {
             if (petId.Value == Guid.Empty)
                 return "Can't create Pet model with Empty id";
@@ -46,7 +50,7 @@ namespace PetFam.Domain.Pet
             if (nickName.Length > Constants.MAX_LOW_TEXT_LENGTH)
                 return $"Pet's nickname could not be longer that {Constants.MAX_LOW_TEXT_LENGTH} symbols";
 
-            return new Pet(petId, nickName, address);
+            return new Pet(petId, nickName, address, speciesAndBreed);
         }
     }
 }

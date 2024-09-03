@@ -13,7 +13,7 @@ namespace PetFam.Domain.Volunteer
             Value = value.ToList();
         }
 
-        public IReadOnlyList<Requisite> Value { get; }
+        public IReadOnlyList<Requisite> Value { get; } = null!;
 
         public static Result<RequisitesDetails> Create(IEnumerable<Requisite> value)
         {

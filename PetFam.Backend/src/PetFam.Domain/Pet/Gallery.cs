@@ -14,7 +14,7 @@ namespace PetFam.Domain.Pet
             Value = value.ToList();
         }
 
-        public IReadOnlyList<PetPhoto> Value { get; }
+        public IReadOnlyList<PetPhoto> Value { get; } = null!;
         public int ImagesCount => Value.Count;
 
         public static Result<Gallery> Create(IEnumerable<PetPhoto> petPhotos)
