@@ -73,21 +73,26 @@ namespace PetFam.Infrastructure.Configurations
             {
                 ab.Property(ai => ai.Country)
                     .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("country");
 
                 ab.Property(ai => ai.City)
                     .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("city");
 
                 ab.Property(ai => ai.Street)
                     .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("street");
 
-                ab.Property(ai => ai.Building);
+                ab.Property(ai => ai.Building)
+                    .HasColumnName("building");
 
                 ab.Property(ai => ai.Litteral)
                     .IsRequired()
-                    .HasMaxLength(Constants.ONE_CHAR_LIMIT);
+                    .HasMaxLength(Constants.ONE_CHAR_LIMIT)
+                    .HasColumnName("letteral");
             });
 
         }
