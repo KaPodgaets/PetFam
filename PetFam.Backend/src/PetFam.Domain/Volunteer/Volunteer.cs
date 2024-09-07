@@ -10,9 +10,11 @@ namespace PetFam.Domain.Volunteer
         private Volunteer(VolunteerId id) : base(id)
         {
         }
-        public Volunteer(VolunteerId id,
+        private Volunteer(VolunteerId id,
             FullName fullName,
-            string email)
+            string email,
+            SocialMediaDetails? socialMediaDetails,
+            RequisitesDetails? requisitesDetails)
             : base(id)
         {
             FullName = fullName;
@@ -31,5 +33,21 @@ namespace PetFam.Domain.Volunteer
             _pets.Count(x => x.Status == PetStatus.LookingForHome);
         public int PetsOnTreatment =>
             _pets.Count(x => x.Status == PetStatus.OnTreatment);
+
+        public static Result<Volunteer> Create(
+            VolunteerId id,
+            FullName fullName,
+            string email,
+            SocialMediaDetails? socialMediaDetails,
+            RequisitesDetails? requisitesDetails)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return "email can not me empty";
+
+            if (id.Value == Guid.Empty)
+                return "Id can not me empty";
+
+            return new Volunteer(id, fullName, email, socialMediaDetails, requisitesDetails);
+        }
     }
 }

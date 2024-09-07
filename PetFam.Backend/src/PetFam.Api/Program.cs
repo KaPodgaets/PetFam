@@ -1,5 +1,8 @@
 
+using PetFam.Application.Volunteers;
+using PetFam.Application.Volunteers.Create;
 using PetFam.Infrastructure;
+using PetFam.Infrastructure.Repositories;
 
 namespace PetFam.Api
 {
@@ -17,6 +20,9 @@ namespace PetFam.Api
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<ApplicationDbContext>();
+
+            builder.Services.AddScoped<ICreateVolunteerService, CreateVolunteerService>();
+            builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();
 
             var app = builder.Build();
 
