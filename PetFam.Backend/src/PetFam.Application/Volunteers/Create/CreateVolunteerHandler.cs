@@ -3,11 +3,11 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.Volunteers.Create
 {
-    public class CreateVolunteerService : ICreateVolunteerService
+    public class CreateVolunteerHandler : ICreateVolunteerHandler
     {
         private readonly IVolunteerRepository _repository;
 
-        public CreateVolunteerService(IVolunteerRepository repository)
+        public CreateVolunteerHandler(IVolunteerRepository repository)
         {
             _repository = repository;
         }
@@ -24,20 +24,7 @@ namespace PetFam.Application.Volunteers.Create
                 return Result<Guid>.Failure(fullNameCreationResult.ErrorMessage);
             }
 
-
-            var socialMediaLinks = new List<SocialMediaLink>();
-            if (request.SocialMediaLinks != null && request.SocialMediaLinks.Count != 0)
-            {
-                foreach (var linkDto in request.SocialMediaLinks)
-                {
-                    var createSocialMediaLinkResult = SocialMediaLink.Create(linkDto.name, linkDto.link);
-
-                    if (createSocialMediaLinkResult.IsSuccess)
-                    {
-                        socialMediaLinks.Add(createSocialMediaLinkResult.Value);
-                    }
-                }
-            }
+            List<SocialMediaLink> socialMediaLinks = MapSocialMediaLinkModel(request);
 
             var createSocialMediaDetailsResult = SocialMediaDetails.Create(socialMediaLinks);
 
@@ -46,22 +33,7 @@ namespace PetFam.Application.Volunteers.Create
                 return Result<Guid>.Failure(createSocialMediaDetailsResult.ErrorMessage);
             }
 
-            var requisites = new List<Requisite>();
-            if (request.Requisites != null && request.Requisites.Count != 0)
-            {
-                foreach (var requisiteDto in request.Requisites)
-                {
-                    var createRequisiteModelResult = Requisite.Create(
-                        requisiteDto.Name,
-                        requisiteDto.AccountNumber,
-                        requisiteDto.PaymentInstruction);
-
-                    if (createRequisiteModelResult.IsSuccess)
-                    {
-                        requisites.Add(createRequisiteModelResult.Value);
-                    }
-                }
-            }
+            List<Requisite> requisites = MapRequisiteModel(request);
 
             var createRequisiteDetailsResult = RequisitesDetails.Create(requisites);
 
@@ -83,6 +55,26 @@ namespace PetFam.Application.Volunteers.Create
             var creationResult = await _repository.Add(volunteerCreationResult.Value, cancellationToken);
 
             return creationResult;
+        }
+
+        private static List<Requisite> MapRequisiteModel(CreateVolunteerRequest request)
+        {
+            return request.Requisites?
+                            .Select(requisiteDto => Requisite.Create(requisiteDto.Name,
+                                requisiteDto.AccountNumber,
+                                requisiteDto.PaymentInstruction))
+                            .Where(createResult => createResult.IsSuccess)
+                            .Select(createResult => createResult.Value)
+                            .ToList() ?? [];
+        }
+
+        private static List<SocialMediaLink> MapSocialMediaLinkModel(CreateVolunteerRequest request)
+        {
+            return request.SocialMediaLinks?
+                            .Select(linkDto => SocialMediaLink.Create(linkDto.name, linkDto.link))
+                            .Where(createResult => createResult.IsSuccess)
+                            .Select(createResult => createResult.Value)
+                            .ToList() ?? [];
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace PetFam.Application.Volunteers.Create
 {
-    public interface ICreateVolunteerService
+    public interface ICreateVolunteerHandler
     {
         Task<Result<Guid>> Execute(CreateVolunteerRequest request, CancellationToken cancellationToken);
     }

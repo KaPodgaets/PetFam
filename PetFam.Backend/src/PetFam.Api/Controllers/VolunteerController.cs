@@ -9,7 +9,7 @@ namespace PetFam.Api.Controllers
     {
         [HttpPost]
         public async Task<IActionResult> Create(
-            [FromServices] ICreateVolunteerService service,
+            [FromServices] ICreateVolunteerHandler service,
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {

@@ -3,6 +3,7 @@
     public record CreateVolunteerRequest(
         FullNameDto FullNameDto,
         string Email,
-        List<SocialMediaLinkDto>? SocialMediaLinks,
-        List<RequisiteDto>? Requisites);
+        IEnumerable<SocialMediaLinkDto>? SocialMediaLinks,
+        IEnumerable<RequisiteDto>? Requisites);
+
 }

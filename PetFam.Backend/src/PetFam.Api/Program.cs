@@ -21,7 +21,7 @@ namespace PetFam.Api
 
             builder.Services.AddScoped<ApplicationDbContext>();
 
-            builder.Services.AddScoped<ICreateVolunteerService, CreateVolunteerService>();
+            builder.Services.AddScoped<ICreateVolunteerHandler, CreateVolunteerHandler>();
             builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();
 
             var app = builder.Build();
