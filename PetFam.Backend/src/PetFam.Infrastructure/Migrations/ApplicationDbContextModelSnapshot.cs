@@ -119,31 +119,31 @@ namespace PetFam.Infrastructure.Migrations
 
                             b1.Property<int?>("Building")
                                 .HasColumnType("integer")
-                                .HasColumnName("address_building");
+                                .HasColumnName("building");
 
                             b1.Property<string>("City")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
-                                .HasColumnName("address_city");
+                                .HasColumnName("city");
 
                             b1.Property<string>("Country")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
-                                .HasColumnName("address_country");
+                                .HasColumnName("country");
 
                             b1.Property<string>("Litteral")
                                 .IsRequired()
                                 .HasMaxLength(1)
                                 .HasColumnType("character varying(1)")
-                                .HasColumnName("address_litteral");
+                                .HasColumnName("letteral");
 
                             b1.Property<string>("Street")
                                 .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
-                                .HasColumnName("address_street");
+                                .HasColumnName("street");
                         });
 
                     b.HasKey("Id")
@@ -289,7 +289,7 @@ namespace PetFam.Infrastructure.Migrations
                             b1.Navigation("Value");
                         });
 
-                    b.OwnsOne("PetFam.Domain.Pet.SpeciesAndBreed", "SpeciesAndBreed", b1 =>
+                    b.OwnsOne("PetFam.Domain.Pet.SpeciesBreed", "SpeciesAndBreed", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid")

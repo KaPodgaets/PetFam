@@ -12,7 +12,7 @@ namespace PetFam.Domain.Pet
         private Pet(PetId petId,
             string nickName,
             Address address,
-            SpeciesAndBreed speciesAndBreed) : base(petId)
+            SpeciesBreed speciesAndBreed) : base(petId)
         {
             NickName = nickName;
             Address = address;
@@ -20,7 +20,7 @@ namespace PetFam.Domain.Pet
         }
 
         public string NickName { get; private set; } = string.Empty;
-        public SpeciesAndBreed SpeciesAndBreed { get; private set; }
+        public SpeciesBreed SpeciesAndBreed { get; private set; }
         public string GeneralInfo { get; private set; } = string.Empty;
         public string Color { get; private set; } = string.Empty;
         public string HealthInfo { get; private set; } = string.Empty;
@@ -39,7 +39,7 @@ namespace PetFam.Domain.Pet
         public static Result<Pet> Create(PetId petId,
             string nickName,
             Address address,
-            SpeciesAndBreed speciesAndBreed)
+            SpeciesBreed speciesAndBreed)
         {
             if (petId.Value == Guid.Empty)
                 return "Can't create Pet model with Empty id";
