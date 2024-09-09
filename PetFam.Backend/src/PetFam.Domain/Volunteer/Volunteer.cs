@@ -12,7 +12,7 @@ namespace PetFam.Domain.Volunteer
         }
         private Volunteer(VolunteerId id,
             FullName fullName,
-            string email,
+            Email email,
             SocialMediaDetails? socialMediaDetails,
             RequisitesDetails? requisitesDetails)
             : base(id)
@@ -21,7 +21,7 @@ namespace PetFam.Domain.Volunteer
             Email = email;
         }
         public FullName FullName { get; private set; } = null!;
-        public string Email { get; private set; } = string.Empty;
+        public Email Email { get; private set; }
         public string GeneralInformation { get; private set; } = string.Empty;
         public int AgesOfExpirience { get; private set; }
         public SocialMediaDetails? SocialMediaDetails { get; private set; }
@@ -37,11 +37,11 @@ namespace PetFam.Domain.Volunteer
         public static Result<Volunteer> Create(
             VolunteerId id,
             FullName fullName,
-            string email,
+            Email email,
             SocialMediaDetails? socialMediaDetails,
             RequisitesDetails? requisitesDetails)
         {
-            if (string.IsNullOrWhiteSpace(email))
+            if (string.IsNullOrWhiteSpace(email.Value))
                 return Errors.General.ValueIsInvalid("email");
 
             if (id.Value == Guid.Empty)

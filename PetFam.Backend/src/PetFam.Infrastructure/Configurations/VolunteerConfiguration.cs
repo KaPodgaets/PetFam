@@ -18,9 +18,13 @@ namespace PetFam.Infrastructure.Configurations
                     id => id.Value,
                     value => VolunteerId.Create(value));
 
-            builder.Property(p => p.Email)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            builder.ComplexProperty(v => v.Email, veb =>
+            {
+                veb.Property(e => e.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_EMAIL_LENGTH)
+                    .HasColumnName("email");
+            });
 
             builder.Property(p => p.GeneralInformation)
                 .IsRequired()
