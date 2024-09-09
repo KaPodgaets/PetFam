@@ -1,4 +1,5 @@
 ﻿using PetFam.Domain.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Pet
 {
@@ -15,7 +16,7 @@ namespace PetFam.Domain.Pet
         public static Result<PetPhoto> Create(string filePath, bool isMain)
         {
             if (string.IsNullOrEmpty(filePath))
-                return "FilePath can not be empty or null";
+                return Errors.General.ValueIsInvalid(nameof(FilePath));
 
             return new PetPhoto(filePath, isMain);
         }

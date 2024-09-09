@@ -36,11 +36,11 @@ namespace PetFam.Domain.Pet
             string? litteral)
         {
             if (string.IsNullOrWhiteSpace(country))
-                return "Country can not be empty";
+                return Errors.General.ValueIsInvalid(nameof(Country));
             if (string.IsNullOrWhiteSpace(city))
-                return "City can not be empty";
+                return Errors.General.ValueIsInvalid(nameof(City));
             if (string.IsNullOrWhiteSpace(street))
-                return "Street can not be empty";
+                return Errors.General.ValueIsInvalid(nameof(Street));
 
             return new Address(country, city, street, building, litteral);
         }

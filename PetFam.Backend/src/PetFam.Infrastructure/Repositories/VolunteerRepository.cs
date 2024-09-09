@@ -21,9 +21,9 @@ namespace PetFam.Infrastructure.Repositories
 
                 await _dbContext.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return $"{ex.Message}";
+                return Errors.General.Failure();
             }
 
             return model.Id.Value;
@@ -38,7 +38,7 @@ namespace PetFam.Infrastructure.Repositories
 
             if (model == null)
             {
-                return $"There is not volunteer with id {id.Value}";
+                return Errors.General.NotFound(id.Value);
             }
 
             return model;

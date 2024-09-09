@@ -1,4 +1,5 @@
 ﻿using PetFam.Domain.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Pet
 {
@@ -42,13 +43,13 @@ namespace PetFam.Domain.Pet
             SpeciesBreed speciesAndBreed)
         {
             if (petId.Value == Guid.Empty)
-                return "Can't create Pet model with Empty id";
+                return Errors.General.ValueIsInvalid(nameof(PetId));
 
             if (string.IsNullOrWhiteSpace(nickName))
-                return "Pet's nickname could not be empty";
+                return Errors.General.ValueIsInvalid(nameof(NickName));
 
             if (nickName.Length > Constants.MAX_LOW_TEXT_LENGTH)
-                return $"Pet's nickname could not be longer that {Constants.MAX_LOW_TEXT_LENGTH} symbols";
+                return Errors.General.ValueIsInvalid(nameof(NickName));
 
             return new Pet(petId, nickName, address, speciesAndBreed);
         }

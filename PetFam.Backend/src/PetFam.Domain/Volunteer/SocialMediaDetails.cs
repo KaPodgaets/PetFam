@@ -1,4 +1,5 @@
 ﻿using PetFam.Domain.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Volunteer
 {
@@ -20,7 +21,7 @@ namespace PetFam.Domain.Volunteer
         public static Result<SocialMediaDetails> Create(IEnumerable<SocialMediaLink> value)
         {
             if (value.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
-                return $"In social media should be at least {Constants.MIN_ELEMENTS_IN_ARRAY} link";
+                return Errors.General.ValueIsRequired(nameof(SocialMediaDetails));
 
             return new SocialMediaDetails(value);
         }

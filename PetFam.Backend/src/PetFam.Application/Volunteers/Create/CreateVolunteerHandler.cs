@@ -21,7 +21,7 @@ namespace PetFam.Application.Volunteers.Create
 
             if (fullNameCreationResult.IsFailure)
             {
-                return Result<Guid>.Failure(fullNameCreationResult.ErrorMessage);
+                return Result<Guid>.Failure(fullNameCreationResult.Error);
             }
 
             List<SocialMediaLink> socialMediaLinks = MapSocialMediaLinkModel(request);
@@ -30,7 +30,7 @@ namespace PetFam.Application.Volunteers.Create
 
             if (createSocialMediaDetailsResult.IsFailure)
             {
-                return Result<Guid>.Failure(createSocialMediaDetailsResult.ErrorMessage);
+                return Result<Guid>.Failure(createSocialMediaDetailsResult.Error);
             }
 
             List<Requisite> requisites = MapRequisiteModel(request);
@@ -39,7 +39,7 @@ namespace PetFam.Application.Volunteers.Create
 
             if (createRequisiteDetailsResult.IsFailure)
             {
-                return Result<Guid>.Failure(createRequisiteDetailsResult.ErrorMessage);
+                return Result<Guid>.Failure(createRequisiteDetailsResult.Error);
             }
 
             var volunteerCreationResult = Volunteer.Create(
@@ -50,7 +50,7 @@ namespace PetFam.Application.Volunteers.Create
                 createRequisiteDetailsResult.Value);
 
             if (volunteerCreationResult.IsFailure)
-                return Result<Guid>.Failure(volunteerCreationResult.ErrorMessage);
+                return Result<Guid>.Failure(volunteerCreationResult.Error);
 
             var creationResult = await _repository.Add(volunteerCreationResult.Value, cancellationToken);
 

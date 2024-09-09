@@ -42,10 +42,10 @@ namespace PetFam.Domain.Volunteer
             RequisitesDetails? requisitesDetails)
         {
             if (string.IsNullOrWhiteSpace(email))
-                return "email can not me empty";
+                return Errors.General.ValueIsInvalid("email");
 
             if (id.Value == Guid.Empty)
-                return "Id can not me empty";
+                return Errors.General.ValueIsInvalid(nameof(VolunteerId));
 
             return new Volunteer(id, fullName, email, socialMediaDetails, requisitesDetails);
         }
