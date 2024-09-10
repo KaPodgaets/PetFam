@@ -1,4 +1,5 @@
 ﻿using PetFam.Domain.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Pet
 {
@@ -20,7 +21,7 @@ namespace PetFam.Domain.Pet
         public static Result<Gallery> Create(IEnumerable<PetPhoto> petPhotos)
         {
             if (petPhotos.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
-                return "There is no photos in gallery";
+                return Errors.General.ValueIsRequired(nameof(Gallery));
 
             return new Gallery(petPhotos);
         }

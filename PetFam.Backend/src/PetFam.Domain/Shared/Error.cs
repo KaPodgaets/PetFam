@@ -13,6 +13,9 @@
         public string Message { get; } = string.Empty;
         public ErrorType Type { get; }
 
+        public static readonly Error None =
+            new(string.Empty, string.Empty, ErrorType.None);
+
         public static Error Validation(string code, string message)
         {
             return new Error(code, message, ErrorType.Validation);

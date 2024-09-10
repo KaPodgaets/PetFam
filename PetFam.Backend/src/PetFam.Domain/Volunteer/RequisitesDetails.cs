@@ -1,5 +1,6 @@
 ﻿using PetFam.Domain.Pet;
 using PetFam.Domain.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Volunteer
 {
@@ -18,7 +19,7 @@ namespace PetFam.Domain.Volunteer
         public static Result<RequisitesDetails> Create(IEnumerable<Requisite> value)
         {
             if (value.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
-                return $"In requisites should be at least {Constants.MIN_ELEMENTS_IN_ARRAY} requisite";
+                return Errors.General.ValueIsRequired(nameof(RequisitesDetails));
 
             return new RequisitesDetails(value);
         }

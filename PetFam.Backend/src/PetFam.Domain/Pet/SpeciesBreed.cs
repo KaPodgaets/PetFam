@@ -1,4 +1,5 @@
 ﻿using PetFam.Domain.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Pet
 {
@@ -15,10 +16,10 @@ namespace PetFam.Domain.Pet
         public static Result<SpeciesBreed> Create(SpeciesId speciesId, Guid breedId)
         {
             if (speciesId.Value == Guid.Empty)
-                return "Id of species can not be empty";
+                return Errors.General.ValueIsInvalid(nameof(SpeciesId));
 
             if (breedId == Guid.Empty)
-                return "Id of breed can not be empty";
+                return Errors.General.ValueIsInvalid(nameof(BreedId));
 
             return new SpeciesBreed(speciesId, breedId);
         }

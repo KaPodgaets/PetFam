@@ -1,4 +1,5 @@
 ﻿using PetFam.Domain.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Volunteer
 {
@@ -20,11 +21,11 @@ namespace PetFam.Domain.Volunteer
             string paymentInstruction)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return "Name cannot be empty or null.";
+                return Errors.General.ValueIsInvalid(nameof(Name));
             if (string.IsNullOrWhiteSpace(accountNumber))
-                return "Account Number cannot be empty or null.";
+                return Errors.General.ValueIsInvalid(nameof(AccountNumber));
             if (string.IsNullOrWhiteSpace(paymentInstruction))
-                return "Payment Instruction cannot be empty or null.";
+                return Errors.General.ValueIsInvalid(nameof(PaymentInstruction));
 
             return new Requisite(name, accountNumber, paymentInstruction);
         }

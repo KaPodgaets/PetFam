@@ -21,6 +21,11 @@
                 var label = name ?? "value";
                 return Error.Validation("value.is.invalid", $"{label} is required.");
             }
+
+            public static Error Failure()
+            {
+                return Error.Failure("internal.failure", "unknown server error");
+            }
         }
     }
 }

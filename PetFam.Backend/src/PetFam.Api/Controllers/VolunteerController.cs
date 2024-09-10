@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetFam.Api.Extensions;
 using PetFam.Application.Volunteers.Create;
 
 namespace PetFam.Api.Controllers
@@ -8,7 +9,7 @@ namespace PetFam.Api.Controllers
     public class VolunteerController : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> Create(
+        public async Task<ActionResult<Guid>> Create(
             [FromServices] ICreateVolunteerHandler service,
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
@@ -16,9 +17,7 @@ namespace PetFam.Api.Controllers
             var result = await service.Execute(request, cancellationToken);
 
             if (result.IsFailure)
-            {
-                BadRequest(result.ErrorMessage);
-            }
+                return result.Error.ToResponse();
 
             return Ok(result.Value);
         }

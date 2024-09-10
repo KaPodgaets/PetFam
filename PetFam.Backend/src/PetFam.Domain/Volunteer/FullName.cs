@@ -1,5 +1,6 @@
 ﻿using PetFam.Domain.Shared;
 using System.Runtime.InteropServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Volunteer
 {
@@ -27,9 +28,9 @@ namespace PetFam.Domain.Volunteer
             string? patronymic)
         {
             if (string.IsNullOrWhiteSpace(firstName))
-                return "First name cannot be empty.";
+                return Errors.General.ValueIsInvalid(nameof(FirstName));
             if (string.IsNullOrWhiteSpace(lastName))
-                return "Last name cannot be empty.";
+                return Errors.General.ValueIsInvalid(nameof(LastName));
 
             return new FullName(firstName, lastName, patronymic);
         }

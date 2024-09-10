@@ -1,4 +1,5 @@
 ﻿using PetFam.Domain.Shared;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Volunteer
 {
@@ -16,9 +17,9 @@ namespace PetFam.Domain.Volunteer
         public static Result<SocialMediaLink> Create(string name, string link)
         {
             if (string.IsNullOrEmpty(name))
-                return "Name of social media can not be empty";
+                return Errors.General.ValueIsInvalid(nameof(Name));
             if (string.IsNullOrEmpty(link))
-                return "Link to social media can not be empty";
+                return Errors.General.ValueIsInvalid(nameof(Link));
 
             return new SocialMediaLink(name, link);
         }
