@@ -18,9 +18,6 @@ namespace PetFam.Application
 
             services.AddInfrastructure().AddApplication();
 
-            services.AddScoped<ICreateVolunteerHandler, CreateVolunteerHandler>();
-
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PetFam.Application.Volunteers;
 using PetFam.Application.Volunteers.Create;
 
 namespace PetFam.Application
@@ -9,7 +8,7 @@ namespace PetFam.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
 
-            services.AddScoped<CreateVolunteerHandler>();
+            services.AddScoped<ICreateVolunteerHandler, CreateVolunteerHandler>();
 
             return services;
         }
