@@ -42,10 +42,26 @@ namespace PetFam.Application.Volunteers.Create
                 return Result<Guid>.Failure(createRequisiteDetailsResult.Error);
             }
 
+            var createEmailResult = Email.Create(request.Email);
+
+            if (createEmailResult.IsFailure)
+            {
+                return Result<Guid>.Failure(createEmailResult.Error);
+            }
+
+            var existingVoluntreeByEmailResult = await _repository.GetByEmail(createEmailResult.Value);
+
+            if (existingVoluntreeByEmailResult.IsSuccess)
+            {
+                return Result<Guid>.Failure(
+                    Errors.General.ValueIsInvalid(
+                        createEmailResult.Value.Value));
+            }
+
             var volunteerCreationResult = Volunteer.Create(
                 VolunteerId.NewId(),
                 fullNameCreationResult.Value,
-                request.Email,
+                createEmailResult.Value,
                 createSocialMediaDetailsResult.Value,
                 createRequisiteDetailsResult.Value);
 

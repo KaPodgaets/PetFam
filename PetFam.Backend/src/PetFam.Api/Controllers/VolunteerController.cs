@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetFam.Api.Extensions;
+using PetFam.Application.Extensions;
 using PetFam.Application.Volunteers.Create;
 
-namespace PetFam.Api.Controllers
+namespace PetFam.Application.Controllers
 {
     [ApiController]
     [Route("[controller]")]
