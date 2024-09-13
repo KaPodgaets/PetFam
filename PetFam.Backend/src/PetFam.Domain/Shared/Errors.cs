@@ -33,5 +33,12 @@
                 return Error.Failure("internal.failure", "unknown server error");
             }
         }
+        public static class Volunteer
+        {
+            public static Error AlreadyExist(string? email = null)
+            {
+                return Error.Validation("volunteer.already.exist", $"volunteer with email: {email} already exist");
+            }
+        }
     }
 }

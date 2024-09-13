@@ -54,7 +54,7 @@ namespace PetFam.Application.Volunteers.Create
             if (existingVoluntreeByEmailResult.IsSuccess)
             {
                 return Result<Guid>.Failure(
-                    Errors.General.ValueIsInvalid(
+                    Errors.Volunteer.AlreadyExist(
                         createEmailResult.Value.Value));
             }
 
