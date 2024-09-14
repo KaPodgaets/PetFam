@@ -17,7 +17,9 @@ namespace PetFam.Application.Extensions
                 _ => StatusCodes.Status500InternalServerError
             };
 
-            var envelope = Envelope.Error(error);
+            var responseError = new ResponseError(error.Code, error.Message, null);
+
+            var envelope = Envelope.Error([responseError]);
 
             return new ObjectResult(envelope)
             {
@@ -41,7 +43,9 @@ namespace PetFam.Application.Extensions
                 _ => StatusCodes.Status500InternalServerError
             };
 
-            var envelope = Envelope.Error(result.Error);
+            var responseError = new ResponseError(result.Error.Code, result.Error.Message, null);
+
+            var envelope = Envelope.Error([responseError]);
 
             return new ObjectResult(envelope)
             {
