@@ -16,6 +16,12 @@
                 return Error.Validation("record.not.found", $"record not found {forId}");
             }
 
+            public static Error NotFound(string? email = null)
+            {
+                var forEmail = email == null ? "" : $" for Id {email}";
+                return Error.Validation("record.not.found", $"record not found {forEmail}");
+            }
+
             public static Error ValueIsRequired(string? name = null)
             {
                 var label = name ?? "value";
@@ -25,6 +31,13 @@
             public static Error Failure()
             {
                 return Error.Failure("internal.failure", "unknown server error");
+            }
+        }
+        public static class Volunteer
+        {
+            public static Error AlreadyExist(string? email = null)
+            {
+                return Error.Validation("volunteer.already.exist", $"volunteer with email: {email} already exist");
             }
         }
     }

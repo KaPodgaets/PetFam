@@ -43,5 +43,20 @@ namespace PetFam.Infrastructure.Repositories
 
             return model;
         }
+
+        public async Task<Result<Volunteer>> GetByEmail(Email email)
+        {
+            var model = await _dbContext.Volunteers
+                .Include(m => m.Pets)
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+
+            if (model == null)
+            {
+                return Errors.General.NotFound(email.Value);
+            }
+
+            return model;
+        }
     }
 }

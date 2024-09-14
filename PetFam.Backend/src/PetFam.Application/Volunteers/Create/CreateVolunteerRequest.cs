@@ -5,5 +5,4 @@
         string Email,
         IEnumerable<SocialMediaLinkDto>? SocialMediaLinks,
         IEnumerable<RequisiteDto>? Requisites);
-
 }
