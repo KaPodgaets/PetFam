@@ -29,11 +29,11 @@ namespace PetFam.Infrastructure.Repositories
             return model.Id.Value;
         }
 
-        public async Task<Result<Volunteer>> GetById(VolunteerId id)
+        public async Task<Result<Volunteer>> GetById(VolunteerId id, CancellationToken cancellationToken = default)
         {
             var model = await _dbContext.Volunteers
                 .Include(m => m.Pets)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
 
             if (model == null)
@@ -44,11 +44,11 @@ namespace PetFam.Infrastructure.Repositories
             return model;
         }
 
-        public async Task<Result<Volunteer>> GetByEmail(Email email)
+        public async Task<Result<Volunteer>> GetByEmail(Email email, CancellationToken cancellationToken = default)
         {
             var model = await _dbContext.Volunteers
                 .Include(m => m.Pets)
-                .FirstOrDefaultAsync(x => x.Email == email);
+                .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
 
 
             if (model == null)

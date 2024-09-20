@@ -1,4 +1,5 @@
-﻿using PetFam.Domain.Shared;
+﻿using Microsoft.Extensions.Logging;
+using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.Volunteers.Create
@@ -6,10 +7,14 @@ namespace PetFam.Application.Volunteers.Create
     public class CreateVolunteerHandler : ICreateVolunteerHandler
     {
         private readonly IVolunteerRepository _repository;
+        private readonly ILogger _logger;
 
-        public CreateVolunteerHandler(IVolunteerRepository repository)
+        public CreateVolunteerHandler(
+            IVolunteerRepository repository,
+            ILogger<CreateVolunteerHandler> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
         public async Task<Result<Guid>> Execute(CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
@@ -69,6 +74,11 @@ namespace PetFam.Application.Volunteers.Create
                 return Result<Guid>.Failure(volunteerCreationResult.Error);
 
             var creationResult = await _repository.Add(volunteerCreationResult.Value, cancellationToken);
+
+            _logger.LogInformation(
+                "Created volunteer with {email} with id {id}",
+                createEmailResult.Value,
+                creationResult.Value);
 
             return creationResult;
         }

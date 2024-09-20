@@ -1,16 +1,22 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PetFam.Api.Controllers;
 using PetFam.Api.Response;
 using PetFam.Application.Extensions;
 using PetFam.Application.Volunteers.Create;
 using PetFam.Domain.Shared;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace PetFam.Application.Controllers
 {
     public class VolunteerController : ApplicationController
     {
+        public VolunteerController(ILogger<VolunteerController> logger)
+            : base(logger)
+        {
+        }
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
             [FromServices] ICreateVolunteerHandler service,
@@ -18,6 +24,8 @@ namespace PetFam.Application.Controllers
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {
+            _logger.LogInformation("Create volunteer request");
+
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
@@ -30,6 +38,11 @@ namespace PetFam.Application.Controllers
                     select new ResponseError(error.Code, error.Message, validationError.PropertyName);
 
                 var envelope = Envelope.Error(errors);
+                
+                _logger.LogInformation(
+                    "Validation error occured while creating. Errors: {errors}",
+                    envelope.Errors);
+                
                 return BadRequest(envelope);
             }
 
