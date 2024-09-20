@@ -28,7 +28,8 @@ namespace PetFam.Application
 
             var app = builder.Build();
 
-            app.UseHttpLogging
+            app.UseSerilogRequestLogging();
+
             app.UseExceptionCustomHandler();
 
             // Configure the HTTP request pipeline.
