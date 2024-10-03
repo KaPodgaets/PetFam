@@ -18,7 +18,6 @@ namespace PetFam.Application.Volunteers.Create
 
             RuleForEach(c => c.SocialMediaLinks)
                 .MustBeValueObject(x => SocialMediaLink.Create(x.name, x.link));
-
         }
     }
 }

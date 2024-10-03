@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -28,10 +27,10 @@ namespace PetFam.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    general_information = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     ages_of_expirience = table.Column<int>(type: "integer", nullable: false),
+                    email = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
                     FullName = table.Column<string>(type: "jsonb", nullable: false),
+                    GeneralInformation1 = table.Column<string>(type: "jsonb", nullable: true),
                     Requisites = table.Column<string>(type: "jsonb", nullable: true),
                     SocialMediaDetails = table.Column<string>(type: "jsonb", nullable: true)
                 },

@@ -1,13 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PetFam.Api.Controllers;
 using PetFam.Api.Response;
 using PetFam.Application.Extensions;
 using PetFam.Application.Volunteers.Create;
+using PetFam.Application.Volunteers.UpdateName;
 using PetFam.Domain.Shared;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
 namespace PetFam.Application.Controllers
 {
@@ -38,11 +36,47 @@ namespace PetFam.Application.Controllers
                     select new ResponseError(error.Code, error.Message, validationError.PropertyName);
 
                 var envelope = Envelope.Error(errors);
-                
+
                 _logger.LogInformation(
                     "Validation error occured while creating. Errors: {errors}",
                     envelope.Errors);
-                
+
+                return BadRequest(envelope);
+            }
+
+            var result = await service.Execute(request, cancellationToken);
+
+            return result.ToResponse();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Guid>> UpdateName(
+            [FromServices] IVolunteerUpdateNameHandler service,
+            [FromServices] IValidator<VolunteerUpdateNameRequest> validator,
+            [FromBody] VolunteerUpdateNameRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation(
+                "Try to update name for volunteer with {id}",
+                request.Id);
+
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                var validationErrors = validationResult.Errors;
+
+                var errors =
+                    from validationError in validationErrors
+                    let error = Error.Validation(validationError.ErrorCode, validationError.ErrorMessage)
+                    select new ResponseError(error.Code, error.Message, validationError.PropertyName);
+
+                var envelope = Envelope.Error(errors);
+
+                _logger.LogInformation(
+                    "Validation error occured while updating. Errors: {errors}",
+                    envelope.Errors);
+
                 return BadRequest(envelope);
             }
 

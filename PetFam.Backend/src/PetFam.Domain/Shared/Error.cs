@@ -2,6 +2,7 @@
 {
     public record Error
     {
+        public const string SEPARATOR = "||";
         private Error(string code, string message, ErrorType type)
         {
             Code = code;
@@ -33,6 +34,11 @@
         public static Error Conflict(string code, string message)
         {
             return new Error(code, message, ErrorType.Conflict);
+        }
+
+        public string Serialize()
+        {
+            return string.Join(SEPARATOR, Code, Message, Type);
         }
 
     }

@@ -24,7 +24,7 @@ dotnet ef database update -s .\PetFam.Api -p .\PetFam.Infrastructure
 dotnet ef database update 0 -s .\PetFam.Api -p .\PetFam.Infrastructure
 ```
 
-#### Rempve migration
+#### Remove migration
 
 ```
 dotnet ef migrations remove -s .\PetFam.Api -p .\PetFam.Infrastructure
