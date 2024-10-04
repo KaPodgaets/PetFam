@@ -44,21 +44,24 @@ namespace PetFam.Application.Controllers
                 return BadRequest(envelope);
             }
 
-            var result = await handler.Execute(request, cancellationToken);
+            var result = await handler.Handle(request, cancellationToken);
 
             return result.ToResponse();
         }
 
         [HttpPut("{id:guid}/main-info")]
         public async Task<ActionResult<Guid>> UpdateMainInfo(
+            [FromRoute] Guid id,
             [FromServices] IVolunteerUpdateMainInfoHandler handler,
-            [FromServices] IValidator<VolunteerUpdateMainInfoRequest> validator,
-            [FromBody] VolunteerUpdateMainInfoRequest request,
+            [FromServices] IValidator<UpdateMainInfoRequest> validator,
+            [FromBody] UpdateMainInfoDto dto,
             CancellationToken cancellationToken = default)
         {
             _logger.LogInformation(
                 "Try to update name for volunteer with {id}",
-                request.Id);
+                id);
+
+            var request = new UpdateMainInfoRequest(id, dto);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -80,7 +83,7 @@ namespace PetFam.Application.Controllers
                 return BadRequest(envelope);
             }
 
-            var result = await handler.Execute(request, cancellationToken);
+            var result = await handler.Handle(request, cancellationToken);
 
             return result.ToResponse();
         }

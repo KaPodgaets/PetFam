@@ -52,7 +52,7 @@ namespace PetFam.Domain.Volunteer
             return new Volunteer(id, fullName, email, socialMediaDetails, requisitesDetails);
         }
 
-        public void UpdateName(FullName fullName)
+        public void UpdateMainInfo(FullName fullName)
         {
             FullName = fullName;
         }

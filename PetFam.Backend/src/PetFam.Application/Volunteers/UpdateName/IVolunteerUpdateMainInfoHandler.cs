@@ -4,6 +4,6 @@ namespace PetFam.Application.Volunteers.UpdateName
 {
     public interface IVolunteerUpdateMainInfoHandler
     {
-        Task<Result<Guid>> Execute(VolunteerUpdateMainInfoRequest request, CancellationToken cancellationToken = default);
+        Task<Result<Guid>> Handle(UpdateMainInfoRequest request, CancellationToken cancellationToken = default);
     }
 }

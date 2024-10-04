@@ -17,19 +17,15 @@ namespace PetFam.Application.Volunteers.UpdateName
             _logger = logger;
         }
 
-        public async Task<Result<Guid>> Execute(
-            VolunteerUpdateMainInfoRequest request,
+        public async Task<Result<Guid>> Handle(
+            UpdateMainInfoRequest request,
             CancellationToken cancellationToken = default)
         {
-            var fullNameCreationResult = FullName.Create(
-                request.FullNameDto.FirstName,
-                request.FullNameDto.LastName,
-                request.FullNameDto.Patronimycs);
-
-            if (fullNameCreationResult.IsFailure)
-            {
-                return Result<Guid>.Failure(fullNameCreationResult.Error);
-            }
+            var fullName = FullName.Create(
+                request.Dto.FullNameDto.FirstName,
+                request.Dto.FullNameDto.LastName,
+                request.Dto.FullNameDto.Patronimycs)
+                .Value;
 
             var volunteerId = VolunteerId.Create(request.Id);
             var existingVoluntreeByIdResult = await _repository.GetById(volunteerId, cancellationToken);
@@ -42,7 +38,7 @@ namespace PetFam.Application.Volunteers.UpdateName
             }
 
             var volunteer = existingVoluntreeByIdResult.Value;
-            volunteer.UpdateName(fullNameCreationResult.Value);
+            volunteer.UpdateMainInfo(fullName);
 
             var updateResult = await _repository.Update(volunteer);
             if (updateResult.IsFailure)

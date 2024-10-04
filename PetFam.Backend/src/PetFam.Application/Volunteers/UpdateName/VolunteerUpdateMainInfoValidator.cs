@@ -5,11 +5,11 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.Volunteers.UpdateName
 {
-    public class VolunteerUpdateMainInfoValidator : AbstractValidator<VolunteerUpdateMainInfoRequest>
+    public class VolunteerUpdateMainInfoValidator : AbstractValidator<UpdateMainInfoRequest>
     {
         public VolunteerUpdateMainInfoValidator()
         {
-            RuleFor(v => v.FullNameDto).MustBeValueObject(x =>
+            RuleFor(v => v.Dto.FullNameDto).MustBeValueObject(x =>
                 FullName.Create(x.FirstName, x.LastName, x.Patronimycs));
 
             RuleFor(v => v.Id).NotEmpty()
