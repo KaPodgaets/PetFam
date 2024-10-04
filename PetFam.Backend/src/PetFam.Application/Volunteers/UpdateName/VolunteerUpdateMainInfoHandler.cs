@@ -4,21 +4,21 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.Volunteers.UpdateName
 {
-    public class VolunteerUpdateNameHandler : IVolunteerUpdateNameHandler
+    public class VolunteerUpdateMainInfoHandler : IVolunteerUpdateMainInfoHandler
     {
         private readonly IVolunteerRepository _repository;
         private readonly ILogger _logger;
 
-        public VolunteerUpdateNameHandler(
+        public VolunteerUpdateMainInfoHandler(
             IVolunteerRepository repository,
-            ILogger<VolunteerUpdateNameHandler> logger)
+            ILogger<VolunteerUpdateMainInfoHandler> logger)
         {
             _repository = repository;
             _logger = logger;
         }
 
         public async Task<Result<Guid>> Execute(
-            VolunteerUpdateNameRequest request,
+            VolunteerUpdateMainInfoRequest request,
             CancellationToken cancellationToken = default)
         {
             var fullNameCreationResult = FullName.Create(

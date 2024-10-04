@@ -12,7 +12,7 @@ namespace PetFam.Application
         {
 
             services.AddScoped<ICreateVolunteerHandler, CreateVolunteerHandler>();
-            services.AddScoped<IVolunteerUpdateNameHandler, VolunteerUpdateNameHandler>();
+            services.AddScoped<IVolunteerUpdateMainInfoHandler, VolunteerUpdateMainInfoHandler>();
             services.AddValidatorsFromAssembly(typeof(CustomValidators).Assembly);
 
             return services;

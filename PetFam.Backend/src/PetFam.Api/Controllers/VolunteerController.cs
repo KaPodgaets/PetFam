@@ -17,7 +17,7 @@ namespace PetFam.Application.Controllers
         }
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
-            [FromServices] ICreateVolunteerHandler service,
+            [FromServices] ICreateVolunteerHandler handler,
             [FromServices] IValidator<CreateVolunteerRequest> validator,
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
@@ -44,16 +44,16 @@ namespace PetFam.Application.Controllers
                 return BadRequest(envelope);
             }
 
-            var result = await service.Execute(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Guid>> UpdateName(
-            [FromServices] IVolunteerUpdateNameHandler service,
-            [FromServices] IValidator<VolunteerUpdateNameRequest> validator,
-            [FromBody] VolunteerUpdateNameRequest request,
+        [HttpPut("{id:guid}/main-info")]
+        public async Task<ActionResult<Guid>> UpdateMainInfo(
+            [FromServices] IVolunteerUpdateMainInfoHandler handler,
+            [FromServices] IValidator<VolunteerUpdateMainInfoRequest> validator,
+            [FromBody] VolunteerUpdateMainInfoRequest request,
             CancellationToken cancellationToken = default)
         {
             _logger.LogInformation(
@@ -80,7 +80,7 @@ namespace PetFam.Application.Controllers
                 return BadRequest(envelope);
             }
 
-            var result = await service.Execute(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }

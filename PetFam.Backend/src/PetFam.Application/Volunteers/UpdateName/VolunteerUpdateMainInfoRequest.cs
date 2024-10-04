@@ -1,6 +1,6 @@
 ﻿namespace PetFam.Application.Volunteers.UpdateName
 {
-    public record VolunteerUpdateNameRequest(
+    public record VolunteerUpdateMainInfoRequest(
         Guid Id,
         FullNameDto FullNameDto);
 }
