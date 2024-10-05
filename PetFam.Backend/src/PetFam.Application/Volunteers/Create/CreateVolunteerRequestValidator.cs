@@ -17,7 +17,7 @@ namespace PetFam.Application.Volunteers.Create
                 .MustBeValueObject(x => Requisite.Create(x.Name, x.AccountNumber, x.PaymentInstruction));
 
             RuleForEach(c => c.SocialMediaLinks)
-                .MustBeValueObject(x => SocialMediaLink.Create(x.name, x.link));
+                .MustBeValueObject(x => SocialMediaLink.Create(x.Name, x.Link));
         }
     }
 }
