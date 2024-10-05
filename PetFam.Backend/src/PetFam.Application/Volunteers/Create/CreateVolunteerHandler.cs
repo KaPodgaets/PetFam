@@ -54,7 +54,9 @@ namespace PetFam.Application.Volunteers.Create
                 return Result<Guid>.Failure(createEmailResult.Error);
             }
 
-            var existingVoluntreeByEmailResult = await _repository.GetByEmail(createEmailResult.Value);
+            var existingVoluntreeByEmailResult = await _repository.GetByEmail(
+                createEmailResult.Value,
+                cancellationToken);
 
             if (existingVoluntreeByEmailResult.IsSuccess)
             {

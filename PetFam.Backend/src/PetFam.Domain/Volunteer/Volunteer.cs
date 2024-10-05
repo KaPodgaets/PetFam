@@ -52,9 +52,28 @@ namespace PetFam.Domain.Volunteer
             return new Volunteer(id, fullName, email, socialMediaDetails, requisitesDetails);
         }
 
-        public void UpdateMainInfo(FullName fullName)
+        public void UpdateMainInfo(
+            FullName fullName,
+            Email email,
+            int ageOfExpirience,
+            GeneralInformation generalInformation)
         {
             FullName = fullName;
+            Email = email;
+            AgesOfExpirience = ageOfExpirience;
+            GeneralInformation1 = generalInformation;
+        }
+
+        public void UpdateSocialMedia(
+            SocialMediaDetails socialMediaDetails)
+        {
+            SocialMediaDetails = socialMediaDetails;
+        }
+
+        public void UpdateRequisite(
+            RequisitesDetails requisites)
+        {
+            Requisites = requisites;
         }
     }
 }

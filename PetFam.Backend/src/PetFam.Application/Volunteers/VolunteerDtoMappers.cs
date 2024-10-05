@@ -17,13 +17,35 @@ namespace PetFam.Application.Volunteers
                             .ToList() ?? [];
         }
 
-        public static List<SocialMediaLink> MapSocialMediaLinkModel(CreateVolunteerRequest request)
+        public static List<Requisite> MapRequisiteModel(IEnumerable<RequisiteDto>? requisites)
         {
-            return request.SocialMediaLinks?
-                            .Select(linkDto => SocialMediaLink.Create(linkDto.name, linkDto.link))
+            return requisites?
+                            .Select(requisiteDto => Requisite.Create(requisiteDto.Name,
+                                requisiteDto.AccountNumber,
+                                requisiteDto.PaymentInstruction))
                             .Where(createResult => createResult.IsSuccess)
                             .Select(createResult => createResult.Value)
                             .ToList() ?? [];
         }
+
+        public static List<SocialMediaLink> MapSocialMediaLinkModel(CreateVolunteerRequest request)
+        {
+            return request.SocialMediaLinks?
+                            .Select(linkDto => SocialMediaLink.Create(linkDto.Name, linkDto.Link))
+                            .Where(createResult => createResult.IsSuccess)
+                            .Select(createResult => createResult.Value)
+                            .ToList() ?? [];
+        }
+
+        public static List<SocialMediaLink> MapSocialMediaLinkModel(IEnumerable<SocialMediaLinkDto>? links)
+        {
+            return links?
+                .Select(linkDto => SocialMediaLink.Create(linkDto.Name, linkDto.Link))
+                .Where(createResult => createResult.IsSuccess)
+                .Select(createResult => createResult.Value)
+                .ToList() ?? [];
+        }
+
+
     }
 }

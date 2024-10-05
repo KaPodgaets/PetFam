@@ -2,16 +2,16 @@
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Application.Volunteers.UpdateName
+namespace PetFam.Application.Volunteers.UpdateMainInfo
 {
-    public class VolunteerUpdateMainInfoHandler : IVolunteerUpdateMainInfoHandler
+    public class UpdateMainInfoHandler : IUpdateMainInfoHandler
     {
         private readonly IVolunteerRepository _repository;
         private readonly ILogger _logger;
 
-        public VolunteerUpdateMainInfoHandler(
+        public UpdateMainInfoHandler(
             IVolunteerRepository repository,
-            ILogger<VolunteerUpdateMainInfoHandler> logger)
+            ILogger<UpdateMainInfoHandler> logger)
         {
             _repository = repository;
             _logger = logger;
@@ -27,6 +27,13 @@ namespace PetFam.Application.Volunteers.UpdateName
                 request.Dto.FullNameDto.Patronimycs)
                 .Value;
 
+            var email = Email.Create(request.Dto.Email).Value;
+
+            var generalInformation = GeneralInformation.Create(
+                request.Dto.GeneralInformationDto.BioEducation,
+                request.Dto.GeneralInformationDto.ShortDescription)
+                .Value;
+
             var volunteerId = VolunteerId.Create(request.Id);
             var existingVoluntreeByIdResult = await _repository.GetById(volunteerId, cancellationToken);
 
@@ -38,9 +45,9 @@ namespace PetFam.Application.Volunteers.UpdateName
             }
 
             var volunteer = existingVoluntreeByIdResult.Value;
-            volunteer.UpdateMainInfo(fullName);
+            volunteer.UpdateMainInfo(fullName, email, request.Dto.AgeOfExpirience, generalInformation);
 
-            var updateResult = await _repository.Update(volunteer);
+            var updateResult = await _repository.Update(volunteer, cancellationToken);
             if (updateResult.IsFailure)
             {
                 return Result<Guid>.Failure(

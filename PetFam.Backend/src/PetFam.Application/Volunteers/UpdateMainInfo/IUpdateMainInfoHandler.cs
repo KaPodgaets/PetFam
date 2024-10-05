@@ -1,8 +1,8 @@
 ﻿using PetFam.Domain.Shared;
 
-namespace PetFam.Application.Volunteers.UpdateName
+namespace PetFam.Application.Volunteers.UpdateMainInfo
 {
-    public interface IVolunteerUpdateMainInfoHandler
+    public interface IUpdateMainInfoHandler
     {
         Task<Result<Guid>> Handle(UpdateMainInfoRequest request, CancellationToken cancellationToken = default);
     }

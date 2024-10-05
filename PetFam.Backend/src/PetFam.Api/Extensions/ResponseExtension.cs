@@ -2,7 +2,7 @@
 using PetFam.Api.Response;
 using PetFam.Domain.Shared;
 
-namespace PetFam.Application.Extensions
+namespace PetFam.Api.Extensions
 {
     public static class ResponseExtension
     {

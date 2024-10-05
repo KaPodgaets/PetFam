@@ -2,7 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Application.Validation;
 using PetFam.Application.Volunteers.Create;
-using PetFam.Application.Volunteers.UpdateName;
+using PetFam.Application.Volunteers.UpdateMainInfo;
+using PetFam.Application.Volunteers.UpdateRequisites;
+using PetFam.Application.Volunteers.UpdateSocialMedia;
 
 namespace PetFam.Application
 {
@@ -12,7 +14,9 @@ namespace PetFam.Application
         {
 
             services.AddScoped<ICreateVolunteerHandler, CreateVolunteerHandler>();
-            services.AddScoped<IVolunteerUpdateMainInfoHandler, VolunteerUpdateMainInfoHandler>();
+            services.AddScoped<IUpdateMainInfoHandler, UpdateMainInfoHandler>();
+            services.AddScoped<IUpdateRequisitesHandler, UpdateRequisitesHandler>();
+            services.AddScoped<IUpdateSocialMediaHandler, UpdateSocialMediaHandler>();
             services.AddValidatorsFromAssembly(typeof(CustomValidators).Assembly);
 
             return services;
