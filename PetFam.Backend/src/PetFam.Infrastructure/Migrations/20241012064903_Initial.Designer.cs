@@ -13,7 +13,7 @@ using PetFam.Infrastructure;
 namespace PetFam.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240921084708_Initial")]
+    [Migration("20241012064903_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -185,6 +185,10 @@ namespace PetFam.Infrastructure.Migrations
                     b.Property<int>("AgesOfExpirience")
                         .HasColumnType("integer")
                         .HasColumnName("ages_of_expirience");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.ComplexProperty<Dictionary<string, object>>("Email", "PetFam.Domain.Volunteer.Volunteer.Email#Email", b1 =>
                         {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Extensions;
 using PetFam.Api.Response;
 using PetFam.Application.Volunteers.Create;
+using PetFam.Application.Volunteers.Delete;
 using PetFam.Application.Volunteers.UpdateMainInfo;
 using PetFam.Application.Volunteers.UpdateRequisites;
 using PetFam.Application.Volunteers.UpdateSocialMedia;
@@ -142,6 +143,44 @@ namespace PetFam.Api.Controllers
                 id);
 
             var request = new UpdateSocialMediaRequest(id, dto);
+
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                var validationErrors = validationResult.Errors;
+
+                var errors =
+                    from validationError in validationErrors
+                    let error = Error.Validation(validationError.ErrorCode, validationError.ErrorMessage)
+                    select new ResponseError(error.Code, error.Message, validationError.PropertyName);
+
+                var envelope = Envelope.Error(errors);
+
+                _logger.LogInformation(
+                    "Validation error occured while updating. Errors: {errors}",
+                    envelope.Errors);
+
+                return BadRequest(envelope);
+            }
+
+            var result = await handler.Handle(request, cancellationToken);
+
+            return result.ToResponse();
+        }
+
+        [HttpDelete("{id:guid}/delete")]
+        public async Task<ActionResult<Guid>> Delete(
+            [FromRoute] Guid id,
+            [FromServices] IDeleteHandler handler,
+            [FromServices] IValidator<DeleteRequest> validator,
+            CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation(
+                "Try to delete volunteer with {id}",
+                id);
+
+            var request = new DeleteRequest(id);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 

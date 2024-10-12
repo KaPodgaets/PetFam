@@ -183,6 +183,10 @@ namespace PetFam.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("ages_of_expirience");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.ComplexProperty<Dictionary<string, object>>("Email", "PetFam.Domain.Volunteer.Volunteer.Email#Email", b1 =>
                         {
                             b1.IsRequired();

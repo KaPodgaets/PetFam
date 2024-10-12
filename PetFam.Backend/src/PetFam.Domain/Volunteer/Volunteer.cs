@@ -29,6 +29,7 @@ namespace PetFam.Domain.Volunteer
         public SocialMediaDetails? SocialMediaDetails { get; private set; }
         public RequisitesDetails? Requisites { get; private set; }
         public IReadOnlyList<Pet.Pet> Pets => _pets;
+        public bool IsDeleted { get; private set; }
         public int PetsFoundedHomeCount =>
             _pets.Count(x => x.Status == PetStatus.Adopted);
         public int PetsLookingForHomeCount =>
@@ -74,6 +75,15 @@ namespace PetFam.Domain.Volunteer
             RequisitesDetails requisites)
         {
             Requisites = requisites;
+        }
+
+        public void Delete()
+        {
+            IsDeleted = true;
+        }
+        public void Restore()
+        {
+            IsDeleted = false;
         }
     }
 }
