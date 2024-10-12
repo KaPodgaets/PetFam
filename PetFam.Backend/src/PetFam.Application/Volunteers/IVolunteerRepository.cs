@@ -9,5 +9,6 @@ namespace PetFam.Application.Volunteers
         Task<Result<Volunteer>> GetById(VolunteerId id, CancellationToken cancellationToken = default);
         Task<Result<Volunteer>> GetByEmail(Email email, CancellationToken cancellationToken = default);
         Task<Result<Guid>> Update(Volunteer volunteer, CancellationToken cancellationToken = default);
+        Task<Result<Guid>> Delete(Volunteer volunteer, CancellationToken cancellationToken = default);
     }
 }

@@ -32,9 +32,8 @@ namespace PetFam.Application.Volunteers.Delete
             }
 
             var volunteer = existingVoluntreeByIdResult.Value;
-            volunteer.Delete();
 
-            var updateResult = await _repository.Update(volunteer, cancellationToken);
+            var updateResult = await _repository.Delete(volunteer, cancellationToken);
             if (updateResult.IsFailure)
             {
                 return Result<Guid>.Failure(

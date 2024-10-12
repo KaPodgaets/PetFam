@@ -1,11 +1,11 @@
 ﻿using PetFam.Domain.Shared;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Pet
 {
 
-    public class Pet : Entity<PetId>
+    public class Pet : Entity<PetId>, ISoftDeletable
     {
+        private bool _isDeleted = false;
         private Pet(PetId id) : base(id)
         {
         }
@@ -52,6 +52,16 @@ namespace PetFam.Domain.Pet
                 return Errors.General.ValueIsInvalid(nameof(NickName));
 
             return new Pet(petId, nickName, address, speciesAndBreed);
+        }
+
+        public void Delete()
+        {
+            _isDeleted = true;
+        }
+
+        public void Restore()
+        {
+            _isDeleted = false;
         }
     }
 }

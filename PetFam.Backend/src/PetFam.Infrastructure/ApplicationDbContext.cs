@@ -3,10 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFam.Domain.Pet;
 using PetFam.Domain.Volunteer;
+using PetFam.Infrastructure.Interceptors;
 
 namespace PetFam.Infrastructure
 {
-    public class ApplicationDbContext(IConfiguration configuration) : DbContext
+    public class ApplicationDbContext(
+        IConfiguration configuration,
+        SoftDeleteInterceptor softDeleteInterceptor) : DbContext
     {
         private const string DATABASE = "Database";
 
@@ -17,7 +20,10 @@ namespace PetFam.Infrastructure
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE));
             optionsBuilder.UseSnakeCaseNamingConvention();
+            optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
+
+            optionsBuilder.AddInterceptors(softDeleteInterceptor);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

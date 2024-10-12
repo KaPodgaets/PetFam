@@ -3,10 +3,10 @@ using PetFam.Domain.Shared;
 
 namespace PetFam.Domain.Volunteer
 {
-    public class Volunteer : Entity<VolunteerId>
+    public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     {
         private readonly List<Pet.Pet> _pets = [];
-
+        private bool _isDeleted = false;
         private Volunteer(VolunteerId id) : base(id)
         {
         }
@@ -29,7 +29,6 @@ namespace PetFam.Domain.Volunteer
         public SocialMediaDetails? SocialMediaDetails { get; private set; }
         public RequisitesDetails? Requisites { get; private set; }
         public IReadOnlyList<Pet.Pet> Pets => _pets;
-        public bool IsDeleted { get; private set; }
         public int PetsFoundedHomeCount =>
             _pets.Count(x => x.Status == PetStatus.Adopted);
         public int PetsLookingForHomeCount =>
@@ -79,11 +78,11 @@ namespace PetFam.Domain.Volunteer
 
         public void Delete()
         {
-            IsDeleted = true;
+            _isDeleted = true;
         }
         public void Restore()
         {
-            IsDeleted = false;
+            _isDeleted = false;
         }
     }
 }

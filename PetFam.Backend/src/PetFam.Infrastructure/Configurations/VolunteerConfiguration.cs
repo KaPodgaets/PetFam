@@ -28,7 +28,8 @@ namespace PetFam.Infrastructure.Configurations
 
             builder.HasMany(v => v.Pets)
                 .WithOne()
-                .HasForeignKey("volunteer_id");
+                .HasForeignKey("volunteer_id")
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.OwnsOne(p => p.Requisites, rb =>
             {
@@ -93,6 +94,10 @@ namespace PetFam.Infrastructure.Configurations
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_LONG_TEXT_LENGTH);
             });
+
+            builder.Property<bool>("_isDeleted")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("is_deleted");
         }
     }
 }
