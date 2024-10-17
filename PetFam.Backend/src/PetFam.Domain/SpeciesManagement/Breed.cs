@@ -1,6 +1,6 @@
 ﻿using PetFam.Domain.Shared;
 
-namespace PetFam.Domain.Pet
+namespace PetFam.Domain.SpeciesManagement
 {
     public class Breed : Entity<BreedId>
     {

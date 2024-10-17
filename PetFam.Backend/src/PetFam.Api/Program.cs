@@ -26,7 +26,7 @@ namespace PetFam.Api
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddInfrastructure().AddApplication();
+            services.AddInfrastructure(builder.Configuration).AddApplication();
 
             var app = builder.Build();
 
