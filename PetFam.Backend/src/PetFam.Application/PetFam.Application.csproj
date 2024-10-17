@@ -15,4 +15,9 @@
     <ProjectReference Include="..\PetFam.Domain\PetFam.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PetManagement\" />
+    <Folder Include="VolunteerManagement\PetManagement\AddPhoto\" />
+  </ItemGroup>
+
 </Project>

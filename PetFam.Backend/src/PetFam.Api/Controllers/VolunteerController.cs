@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Extensions;
 using PetFam.Api.Response;
-using PetFam.Application.Volunteers.Create;
-using PetFam.Application.Volunteers.Delete;
-using PetFam.Application.Volunteers.UpdateMainInfo;
-using PetFam.Application.Volunteers.UpdateRequisites;
-using PetFam.Application.Volunteers.UpdateSocialMedia;
+using PetFam.Application.VolunteerManagement.Create;
+using PetFam.Application.VolunteerManagement.Delete;
+using PetFam.Application.VolunteerManagement.UpdateMainInfo;
+using PetFam.Application.VolunteerManagement.UpdateRequisites;
+using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
 using PetFam.Domain.Shared;
 
 namespace PetFam.Api.Controllers
