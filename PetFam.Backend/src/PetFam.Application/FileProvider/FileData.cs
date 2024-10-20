@@ -2,6 +2,7 @@
 {
     public record FileData(
         Stream Stream,
-        string BucketName,
-        string ObjectName);
+        FileMetedata FileMetadata);
+
+    public record FileMetedata(string BucketName, string ObjectName);
 }

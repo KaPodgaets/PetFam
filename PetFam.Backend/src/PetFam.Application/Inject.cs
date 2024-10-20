@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetFam.Application.FileManagement.Delete;
+using PetFam.Application.FileManagement.GetLink;
 using PetFam.Application.FileManagement.Upload;
 using PetFam.Application.Validation;
 using PetFam.Application.VolunteerManagement.Create;
@@ -22,6 +24,8 @@ namespace PetFam.Application
             services.AddScoped<IDeleteHandler, DeleteHandler>();
 
             services.AddScoped<IUploadFileHandler, UploadFileHandler>();
+            services.AddScoped<GetFileLinkHandler>();
+            services.AddScoped<DeleteFileHandler>();
 
             // test file IO operations service
 
