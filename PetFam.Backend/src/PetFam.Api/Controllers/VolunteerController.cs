@@ -22,8 +22,6 @@ namespace PetFam.Api.Controllers
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation("Create volunteer request");
-
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
@@ -44,10 +42,6 @@ namespace PetFam.Api.Controllers
             [FromBody] UpdateMainInfoDto dto,
             CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation(
-                "Try to update name for volunteer with {id}",
-                id);
-
             var request = new UpdateMainInfoRequest(id, dto);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -70,10 +64,6 @@ namespace PetFam.Api.Controllers
             [FromBody] UpdateRequisitesDto dto,
             CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation(
-                "Try to update name for volunteer with {id}",
-                id);
-
             var request = new UpdateRequisitesRequest(id, dto);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -96,10 +86,6 @@ namespace PetFam.Api.Controllers
             [FromBody] UpdateSocialMediaDto dto,
             CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation(
-                "Try to update name for volunteer with {id}",
-                id);
-
             var request = new UpdateSocialMediaRequest(id, dto);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
