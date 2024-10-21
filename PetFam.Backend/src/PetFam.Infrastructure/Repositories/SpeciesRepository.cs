@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PetFam.Application.SpeciesManagement;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
-using PetFam.Domain.Volunteer;
 
 namespace PetFam.Infrastructure.Repositories
 {
-    public class SpeciesRepository
+    public class SpeciesRepository : ISpeciesRepository
     {
         private readonly ApplicationDbContext _dbContext;
         public SpeciesRepository(ApplicationDbContext dbContext)
@@ -39,6 +39,21 @@ namespace PetFam.Infrastructure.Repositories
             if (model == null)
             {
                 return Errors.General.NotFound(id.Value);
+            }
+
+            return model;
+        }
+
+        public async Task<Result<Species>> GetByName(string name, CancellationToken cancellationToken = default)
+        {
+            var model = await _dbContext.Species
+                .Include(m => m.Breeds)
+                .FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
+
+
+            if (model == null)
+            {
+                return Errors.General.NotFound(name);
             }
 
             return model;

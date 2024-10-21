@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using PetFam.Application.FileProvider;
+using PetFam.Application.SpeciesManagement;
 using PetFam.Application.VolunteerManagement;
 using PetFam.Infrastructure.Interceptors;
 using PetFam.Infrastructure.Options;
@@ -20,6 +21,7 @@ namespace PetFam.Infrastructure
             services.AddSingleton<SoftDeleteInterceptor>();
 
             services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+            services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 
             services.AddMinio(configuration);
             services.AddScoped<IFileProvider, MinioProvider>();

@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="PetManagement\" />
     <Folder Include="VolunteerManagement\PetManagement\AddPhoto\" />
   </ItemGroup>
 
