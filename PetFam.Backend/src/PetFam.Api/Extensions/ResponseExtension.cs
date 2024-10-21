@@ -24,7 +24,7 @@ namespace PetFam.Api.Extensions
             };
         }
 
-        public static ActionResult ToResponse(this Error error)
+        public static ActionResult ToResponse(this Result result)
         {
             if (result.IsSuccess)
             {
