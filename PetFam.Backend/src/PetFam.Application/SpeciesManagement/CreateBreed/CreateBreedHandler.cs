@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using PetFam.Application.SpeciesManagement.Delete;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 

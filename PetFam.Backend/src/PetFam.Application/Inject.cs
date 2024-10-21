@@ -4,6 +4,7 @@ using PetFam.Application.FileManagement.Delete;
 using PetFam.Application.FileManagement.GetLink;
 using PetFam.Application.FileManagement.Upload;
 using PetFam.Application.SpeciesManagement.Create;
+using PetFam.Application.SpeciesManagement.CreateBreed;
 using PetFam.Application.SpeciesManagement.Delete;
 using PetFam.Application.Validation;
 using PetFam.Application.VolunteerManagement.Create;
@@ -27,6 +28,7 @@ namespace PetFam.Application
 
             services.AddScoped<CreateSpeciesHandler>();
             services.AddScoped<DeleteSpeciesHandler>();
+            services.AddScoped<CreateBreedHandler>();
 
             services.AddScoped<IUploadFileHandler, UploadFileHandler>();
             services.AddScoped<GetFileLinkHandler>();

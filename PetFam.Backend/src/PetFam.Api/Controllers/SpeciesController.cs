@@ -72,9 +72,9 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPost("{id:guid}/breed")]
+        [HttpPost("{speciesId:guid}/breed")]
         public async Task<ActionResult<Guid>> AddBreed(
-            [FromServices] DeleteSpeciesHandler handler,
+            [FromServices] CreateBreedHandler handler,
             [FromServices] IValidator<CreateBreedRequest> validator,
             [FromRoute] Guid speciesId,
             [FromBody] string breedName,
