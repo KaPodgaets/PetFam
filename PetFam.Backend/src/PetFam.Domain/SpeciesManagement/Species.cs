@@ -29,6 +29,18 @@ namespace PetFam.Domain.SpeciesManagement
             return new Species(id, name);
         }
 
+        public Result<Guid> AddBreed(Breed breed)
+        {
+            var alreadyExist = _breeds.Any(x => x.Name == breed.Name);
+            if(alreadyExist)
+            {
+                return Errors.General.ValueIsInvalid(breed.Name);
+            }
+
+            _breeds.Add(breed);
+            return breed.Id.Value;
+        }
+
         public void Delete()
         {
             _isDeleted = true;
