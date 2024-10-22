@@ -58,5 +58,12 @@ namespace PetFam.Infrastructure.Repositories
 
             return model;
         }
+
+        public async Task<Result<Guid>> Update(Volunteer volunteer, CancellationToken cancellationToken = default)
+        {
+            _dbContext.Volunteers.Attach(volunteer);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return volunteer.Id.Value;
+        }
     }
 }

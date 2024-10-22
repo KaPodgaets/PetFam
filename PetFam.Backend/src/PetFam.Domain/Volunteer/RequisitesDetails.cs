@@ -1,6 +1,4 @@
-﻿using PetFam.Domain.Pet;
-using PetFam.Domain.Shared;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using PetFam.Domain.Shared;
 
 namespace PetFam.Domain.Volunteer
 {

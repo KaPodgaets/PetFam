@@ -26,10 +26,6 @@ namespace PetFam.Infrastructure.Configurations
                     .HasColumnName("email");
             });
 
-            builder.Property(p => p.GeneralInformation)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LONG_TEXT_LENGTH);
-
             builder.HasMany(v => v.Pets)
                 .WithOne()
                 .HasForeignKey("volunteer_id");
@@ -83,6 +79,19 @@ namespace PetFam.Infrastructure.Configurations
 
                 fnb.Property(p => p.LastName)
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            });
+
+            builder.OwnsOne(p => p.GeneralInformation1, gib =>
+            {
+                gib.ToJson();
+
+                gib.Property(p => p.BioEducation)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LONG_TEXT_LENGTH);
+
+                gib.Property(p => p.ShortDescription)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LONG_TEXT_LENGTH);
             });
         }
     }

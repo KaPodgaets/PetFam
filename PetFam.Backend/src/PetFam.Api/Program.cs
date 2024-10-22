@@ -1,7 +1,8 @@
 using PetFam.Api.Middlewares;
+using PetFam.Application;
 using Serilog;
 
-namespace PetFam.Application
+namespace PetFam.Api
 {
     public class Program
     {

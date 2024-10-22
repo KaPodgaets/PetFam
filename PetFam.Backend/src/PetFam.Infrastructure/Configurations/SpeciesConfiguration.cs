@@ -23,8 +23,8 @@ namespace PetFam.Infrastructure.Configurations
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
 
             builder.HasMany(s => s.Breeds)
-            .WithOne()
-            .HasForeignKey("species_id");
+                .WithOne()
+                .HasForeignKey("species_id");
         }
     }
 }

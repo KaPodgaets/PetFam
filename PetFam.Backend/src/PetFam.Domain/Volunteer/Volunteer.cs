@@ -19,10 +19,12 @@ namespace PetFam.Domain.Volunteer
         {
             FullName = fullName;
             Email = email;
+            SocialMediaDetails = socialMediaDetails;
+            Requisites = requisitesDetails;
         }
         public FullName FullName { get; private set; } = null!;
         public Email Email { get; private set; }
-        public string GeneralInformation { get; private set; } = string.Empty;
+        public GeneralInformation? GeneralInformation1 { get; private set; }
         public int AgesOfExpirience { get; private set; }
         public SocialMediaDetails? SocialMediaDetails { get; private set; }
         public RequisitesDetails? Requisites { get; private set; }
@@ -48,6 +50,30 @@ namespace PetFam.Domain.Volunteer
                 return Errors.General.ValueIsInvalid(nameof(VolunteerId));
 
             return new Volunteer(id, fullName, email, socialMediaDetails, requisitesDetails);
+        }
+
+        public void UpdateMainInfo(
+            FullName fullName,
+            Email email,
+            int ageOfExpirience,
+            GeneralInformation generalInformation)
+        {
+            FullName = fullName;
+            Email = email;
+            AgesOfExpirience = ageOfExpirience;
+            GeneralInformation1 = generalInformation;
+        }
+
+        public void UpdateSocialMedia(
+            SocialMediaDetails socialMediaDetails)
+        {
+            SocialMediaDetails = socialMediaDetails;
+        }
+
+        public void UpdateRequisite(
+            RequisitesDetails requisites)
+        {
+            Requisites = requisites;
         }
     }
 }

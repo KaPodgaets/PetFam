@@ -183,17 +183,16 @@ namespace PetFam.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("ages_of_expirience");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("email");
+                    b.ComplexProperty<Dictionary<string, object>>("Email", "PetFam.Domain.Volunteer.Volunteer.Email#Email", b1 =>
+                        {
+                            b1.IsRequired();
 
-                    b.Property<string>("GeneralInformation")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("general_information");
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(250)
+                                .HasColumnType("character varying(250)")
+                                .HasColumnName("email");
+                        });
 
                     b.HasKey("Id")
                         .HasName("pk_volunteers");
@@ -355,6 +354,33 @@ namespace PetFam.Infrastructure.Migrations
                                 .HasConstraintName("fk_volunteers_volunteers_id");
                         });
 
+                    b.OwnsOne("PetFam.Domain.Volunteer.GeneralInformation", "GeneralInformation1", b1 =>
+                        {
+                            b1.Property<Guid>("VolunteerId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("BioEducation")
+                                .IsRequired()
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)");
+
+                            b1.Property<string>("ShortDescription")
+                                .IsRequired()
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)");
+
+                            b1.HasKey("VolunteerId");
+
+                            b1.ToTable("volunteers");
+
+                            b1.ToJson("GeneralInformation1");
+
+                            b1.WithOwner()
+                                .HasForeignKey("VolunteerId")
+                                .HasConstraintName("fk_volunteers_volunteers_id");
+                        });
+
                     b.OwnsOne("PetFam.Domain.Volunteer.RequisitesDetails", "Requisites", b1 =>
                         {
                             b1.Property<Guid>("VolunteerId")
@@ -458,6 +484,8 @@ namespace PetFam.Infrastructure.Migrations
 
                     b.Navigation("FullName")
                         .IsRequired();
+
+                    b.Navigation("GeneralInformation1");
 
                     b.Navigation("Requisites");
 

@@ -2,7 +2,7 @@
 using PetFam.Infrastructure;
 using PetFam.Infrastructure.Repositories;
 
-namespace PetFam.Application
+namespace PetFam.Api
 {
     public static class Inject
     {

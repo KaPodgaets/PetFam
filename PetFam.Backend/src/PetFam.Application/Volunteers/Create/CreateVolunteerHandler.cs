@@ -16,7 +16,7 @@ namespace PetFam.Application.Volunteers.Create
             _repository = repository;
             _logger = logger;
         }
-        public async Task<Result<Guid>> Execute(CreateVolunteerRequest request,
+        public async Task<Result<Guid>> Handle(CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {
             var fullNameCreationResult = FullName.Create(
@@ -29,7 +29,7 @@ namespace PetFam.Application.Volunteers.Create
                 return Result<Guid>.Failure(fullNameCreationResult.Error);
             }
 
-            List<SocialMediaLink> socialMediaLinks = MapSocialMediaLinkModel(request);
+            List<SocialMediaLink> socialMediaLinks = VolunteerDtoMappers.MapSocialMediaLinkModel(request);
 
             var createSocialMediaDetailsResult = SocialMediaDetails.Create(socialMediaLinks);
 
@@ -38,7 +38,7 @@ namespace PetFam.Application.Volunteers.Create
                 return Result<Guid>.Failure(createSocialMediaDetailsResult.Error);
             }
 
-            List<Requisite> requisites = MapRequisiteModel(request);
+            List<Requisite> requisites = VolunteerDtoMappers.MapRequisiteModel(request);
 
             var createRequisiteDetailsResult = RequisitesDetails.Create(requisites);
 
@@ -54,7 +54,9 @@ namespace PetFam.Application.Volunteers.Create
                 return Result<Guid>.Failure(createEmailResult.Error);
             }
 
-            var existingVoluntreeByEmailResult = await _repository.GetByEmail(createEmailResult.Value);
+            var existingVoluntreeByEmailResult = await _repository.GetByEmail(
+                createEmailResult.Value,
+                cancellationToken);
 
             if (existingVoluntreeByEmailResult.IsSuccess)
             {
@@ -81,26 +83,6 @@ namespace PetFam.Application.Volunteers.Create
                 creationResult.Value);
 
             return creationResult;
-        }
-
-        private static List<Requisite> MapRequisiteModel(CreateVolunteerRequest request)
-        {
-            return request.Requisites?
-                            .Select(requisiteDto => Requisite.Create(requisiteDto.Name,
-                                requisiteDto.AccountNumber,
-                                requisiteDto.PaymentInstruction))
-                            .Where(createResult => createResult.IsSuccess)
-                            .Select(createResult => createResult.Value)
-                            .ToList() ?? [];
-        }
-
-        private static List<SocialMediaLink> MapSocialMediaLinkModel(CreateVolunteerRequest request)
-        {
-            return request.SocialMediaLinks?
-                            .Select(linkDto => SocialMediaLink.Create(linkDto.name, linkDto.link))
-                            .Where(createResult => createResult.IsSuccess)
-                            .Select(createResult => createResult.Value)
-                            .ToList() ?? [];
         }
     }
 }
