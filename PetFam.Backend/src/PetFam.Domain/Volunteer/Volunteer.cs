@@ -84,5 +84,10 @@ namespace PetFam.Domain.Volunteer
         {
             _isDeleted = false;
         }
+
+        public void AddPet(Pet.Pet pet)
+        {
+            _pets.Add(pet);
+        }
     }
 }
