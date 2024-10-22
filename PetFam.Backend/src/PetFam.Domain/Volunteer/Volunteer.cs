@@ -1,5 +1,5 @@
-﻿using PetFam.Domain.Pet;
-using PetFam.Domain.Shared;
+﻿using PetFam.Domain.Shared;
+using PetFam.Domain.Volunteer.Pet;
 
 namespace PetFam.Domain.Volunteer
 {
