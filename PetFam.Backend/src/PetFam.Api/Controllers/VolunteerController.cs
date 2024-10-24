@@ -4,6 +4,7 @@ using PetFam.Api.Extensions;
 using PetFam.Api.Response;
 using PetFam.Application.VolunteerManagement.Create;
 using PetFam.Application.VolunteerManagement.Delete;
+using PetFam.Application.VolunteerManagement.PetManagement.Create;
 using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
@@ -134,6 +135,28 @@ namespace PetFam.Api.Controllers
                     envelope.Errors);
 
                 return BadRequest(envelope);
+            }
+
+            var result = await handler.Handle(request, cancellationToken);
+
+            return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/add-pet")]
+        public async Task<ActionResult<Guid>> AddNewPet(
+            [FromRoute] Guid id,
+            [FromServices] CreatePetHandler handler,
+            [FromServices] IValidator<CreatePetRequest> validator,
+            [FromBody] CreatePetDto dto,
+            CancellationToken cancellationToken = default)
+        {
+            var request = new CreatePetRequest(id, dto);
+
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToResponse();
             }
 
             var result = await handler.Handle(request, cancellationToken);
