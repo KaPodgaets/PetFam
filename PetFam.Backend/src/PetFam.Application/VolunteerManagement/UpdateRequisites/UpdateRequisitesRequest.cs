@@ -1,4 +1,6 @@
-﻿namespace PetFam.Application.VolunteerManagement.UpdateRequisites
+﻿using PetFam.Application.VolunteerManagement.ValueObjects;
+
+namespace PetFam.Application.VolunteerManagement.UpdateRequisites
 {
     public record UpdateRequisitesRequest(
         Guid Id,

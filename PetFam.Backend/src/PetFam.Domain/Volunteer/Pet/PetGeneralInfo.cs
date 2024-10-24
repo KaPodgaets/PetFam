@@ -1,4 +1,6 @@
-﻿namespace PetFam.Domain.Volunteer.Pet
+﻿using PetFam.Domain.Shared;
+
+namespace PetFam.Domain.Volunteer.Pet
 {
     public record PetGeneralInfo
     {
@@ -7,8 +9,7 @@
             string color,
             double weight,
             double height,
-            string phoneNumber
-            )
+            string phoneNumber)
         {
             Comment = comment;
             Color = color;
@@ -23,7 +24,7 @@
         public double Height { get; set; } 
         public string PhoneNumber { get; set; }
 
-        public static PetGeneralInfo Create(
+        public static Result<PetGeneralInfo> Create(
             string comment,
             string color,
             double weight,
