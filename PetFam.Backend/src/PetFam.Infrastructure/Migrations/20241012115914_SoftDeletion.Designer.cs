@@ -13,8 +13,8 @@ using PetFam.Infrastructure;
 namespace PetFam.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240921084708_Initial")]
-    partial class Initial
+    [Migration("20241012115914_SoftDeletion")]
+    partial class SoftDeletion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,6 +112,10 @@ namespace PetFam.Infrastructure.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("weight");
 
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
                         .HasColumnName("volunteer_id");
@@ -186,6 +190,10 @@ namespace PetFam.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("ages_of_expirience");
 
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.ComplexProperty<Dictionary<string, object>>("Email", "PetFam.Domain.Volunteer.Volunteer.Email#Email", b1 =>
                         {
                             b1.IsRequired();
@@ -216,6 +224,7 @@ namespace PetFam.Infrastructure.Migrations
                     b.HasOne("PetFam.Domain.Volunteer.Volunteer", null)
                         .WithMany("Pets")
                         .HasForeignKey("volunteer_id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
                     b.OwnsOne("PetFam.Domain.Pet.AccountInfo", "AccountInfo", b1 =>

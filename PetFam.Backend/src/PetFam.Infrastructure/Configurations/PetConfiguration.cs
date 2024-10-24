@@ -95,6 +95,10 @@ namespace PetFam.Infrastructure.Configurations
                     .HasColumnName("letteral");
             });
 
+            builder.Property<bool>("_isDeleted")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("is_deleted");
+
         }
     }
 }
