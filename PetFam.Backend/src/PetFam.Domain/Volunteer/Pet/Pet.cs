@@ -3,20 +3,6 @@ using PetFam.Domain.SpeciesManagement;
 
 namespace PetFam.Domain.Volunteer.Pet
 {
-    public record PetGeneralInfo(
-        string Comment,
-        string Color,
-        double Weight,
-        double Height,
-        Address Address,
-        string PhoneNumber,
-        AccountInfo AccountInfo);
-
-    public record PetHealthInfo(
-        string Comment,
-        bool IsCastrated,
-        DateTime BirthDate,
-        bool IsVaccinated);
 
     public class Pet : Entity<PetId>, ISoftDeletable
     {
@@ -31,6 +17,8 @@ namespace PetFam.Domain.Volunteer.Pet
             PetStatus status,
             PetGeneralInfo generalInfo,
             PetHealthInfo healthInfo,
+            Address address,
+            AccountInfo accountInfo,
             DateTime createDate
             ) : base(petId)
         {
@@ -39,6 +27,8 @@ namespace PetFam.Domain.Volunteer.Pet
             Status = status;
             GeneralInfo = generalInfo;
             HealthInfo = healthInfo;
+            Address = address;
+            AccountInfo = accountInfo;
             CreateDate = createDate;
         }
 
@@ -47,6 +37,8 @@ namespace PetFam.Domain.Volunteer.Pet
         public PetStatus Status { get; private set; }
         public PetGeneralInfo GeneralInfo { get; private set; }
         public PetHealthInfo HealthInfo { get; private set; }
+        public Address Address { get; private set; }
+        public AccountInfo AccountInfo { get; private set; }
         public DateTime CreateDate { get; private set; }
         public Gallery? Gallery { get; private set; }
 
@@ -56,6 +48,8 @@ namespace PetFam.Domain.Volunteer.Pet
             PetStatus status,
             PetGeneralInfo generalInfo,
             PetHealthInfo healthInfo,
+            Address address,
+            AccountInfo accountInfo,
             DateTime createDate
             )
         {
@@ -74,6 +68,8 @@ namespace PetFam.Domain.Volunteer.Pet
             status,
             generalInfo,
             healthInfo,
+            address,
+            accountInfo,
             createDate);
         }
 

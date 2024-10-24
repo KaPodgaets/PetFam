@@ -24,10 +24,6 @@ namespace PetFam.Infrastructure.Configurations
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
 
-            builder.Property(p => p.GeneralInfo)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LONG_TEXT_LENGTH);
-
             builder.OwnsOne(p => p.Gallery, gb =>
             {
                 gb.ToJson();
@@ -41,19 +37,6 @@ namespace PetFam.Infrastructure.Configurations
                     photoBuilder.Property(p => p.IsMain)
                         .IsRequired();
                 });
-            });
-
-            builder.OwnsOne(p => p.AccountInfo, aib =>
-            {
-                aib.ToJson();
-
-                aib.Property(ai => ai.BankName)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-                aib.Property(ai => ai.Number)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
             });
 
             builder.OwnsOne(p => p.SpeciesAndBreed, sbb =>
@@ -70,12 +53,14 @@ namespace PetFam.Infrastructure.Configurations
                     .IsRequired();
             });
 
-            builder.ComplexProperty(p => p.Address, ab =>
+            builder.OwnsOne(gi => gi.Address, ab =>
             {
+                ab.ToJson();
+
                 ab.Property(ai => ai.Country)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("country");
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                .HasColumnName("country");
 
                 ab.Property(ai => ai.City)
                     .IsRequired()
@@ -96,10 +81,41 @@ namespace PetFam.Infrastructure.Configurations
                     .HasColumnName("letteral");
             });
 
+            builder.OwnsOne(p => p.AccountInfo, aib =>
+            {
+                aib.ToJson();
+
+                aib.Property(ai => ai.BankName)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+
+                aib.Property(ai => ai.Number)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            });
+
+            builder.OwnsOne(p => p.GeneralInfo, gi =>
+            {
+                gi.ToJson();
+
+                gi.Property(p => p.Comment).HasColumnName("general_info_comment");
+                gi.Property(p => p.Color).HasColumnName("color");
+                gi.Property(p => p.PhoneNumber).HasColumnName("phone_number");
+                gi.Property(p => p.Height).HasColumnName("height");
+                gi.Property(p => p.Weight).HasColumnName("weight");
+            });
+
+            builder.ComplexProperty(p => p.HealthInfo, hib =>
+            {
+                hib.Property(a => a.IsCastrated).HasColumnName("is_castrated");
+                hib.Property(a => a.IsVaccinated).HasColumnName("is_vaccinated");
+                hib.Property(a => a.BirthDate).HasColumnName("birthdate");
+                hib.Property(a => a.Comment).HasColumnName("health_info_comment");
+            });
+
             builder.Property<bool>("_isDeleted")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("is_deleted");
-
         }
     }
 }
