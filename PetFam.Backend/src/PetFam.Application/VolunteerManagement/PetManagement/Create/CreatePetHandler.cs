@@ -68,11 +68,12 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
 
             var healthInfoDto = request.CreatePetDto.PetHealthInfoDto;
 
-            var healthInfo = new PetHealthInfo(
+            var healthInfo = PetHealthInfo.Create(
                 healthInfoDto.Comment, 
                 healthInfoDto.IsCastrated, 
-                healthInfoDto.BirthDate, 
-                healthInfoDto.IsVaccinated);
+                healthInfoDto.BirthDate.ToUniversalTime(), 
+                healthInfoDto.IsVaccinated)
+                    .Value;
 
             var addressDto = request.CreatePetDto.AddressDto;
 
@@ -102,7 +103,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
                 healthInfo,
                 address,
                 accountInfo,
-                DateTime.Now);
+                DateTime.Now.ToUniversalTime());
 
             if (createPetResult.IsFailure)
                 return Result<Guid>.Failure(createPetResult.Error);
@@ -124,7 +125,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
                 createPetResult.Value.Id.Value);
 
             
-            return (Result<Guid>)Result.Success();
+            return createPetResult.Value.Id.Value;
         }
     }
 }

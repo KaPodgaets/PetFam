@@ -21,7 +21,7 @@ namespace PetFam.Domain.Volunteer.Pet
         public DateTime BirthDate { get; set; }
         public bool IsVaccinated { get; set; }
 
-        public static Result<object> Create(
+        public static Result<PetHealthInfo> Create(
             string comment,
             bool isCastrated,
             DateTime birthDate,
