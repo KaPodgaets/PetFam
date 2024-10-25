@@ -22,6 +22,7 @@ namespace PetFam.Api.Controllers
             [FromServices] IUploadFileHandler uploadFileHandler,
             CancellationToken cancellationToken = default)
         {
+
             await using var stream = file.OpenReadStream();
 
             var fileName = Guid.NewGuid().ToString();

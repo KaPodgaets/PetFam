@@ -1,5 +1,4 @@
 ﻿using PetFam.Domain.Shared;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PetFam.Domain.Volunteer.Pet
 {
@@ -25,6 +24,5 @@ namespace PetFam.Domain.Volunteer.Pet
 
             return new Gallery(petPhotos);
         }
-
     }
 }

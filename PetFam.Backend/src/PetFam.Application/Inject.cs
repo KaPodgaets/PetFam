@@ -9,6 +9,7 @@ using PetFam.Application.SpeciesManagement.Delete;
 using PetFam.Application.Validation;
 using PetFam.Application.VolunteerManagement.Create;
 using PetFam.Application.VolunteerManagement.Delete;
+using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
 using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.UpdateRequisites;
@@ -36,6 +37,8 @@ namespace PetFam.Application
             services.AddScoped<DeleteFileHandler>();
 
             services.AddScoped<CreatePetHandler>();
+
+            services.AddScoped<PetAddPhotosHandler>();
 
             // test file IO operations service
 

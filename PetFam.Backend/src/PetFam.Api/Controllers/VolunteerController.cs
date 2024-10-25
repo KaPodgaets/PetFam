@@ -1,14 +1,18 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using PetFam.Api.Contracts;
 using PetFam.Api.Extensions;
 using PetFam.Api.Response;
+using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Create;
 using PetFam.Application.VolunteerManagement.Delete;
+using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
 using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
 using PetFam.Domain.Shared;
+using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
 {
@@ -162,6 +166,49 @@ namespace PetFam.Api.Controllers
             var result = await handler.Handle(request, cancellationToken);
 
             return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/add-photos/{petId:guid}")]
+        public async Task<ActionResult<string>> AddNewPet(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromServices] PetAddPhotosHandler handler,
+            [FromServices] IValidator<PetAddPhotosCommand> validator,
+            [FromForm] IFormFileCollection formFiles,
+            CancellationToken cancellationToken = default)
+        {
+            var filesData = new List<FileData>();
+            try
+            {
+                foreach (var item in formFiles)
+                {
+                    var stream = item.OpenReadStream();
+
+                    var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, Guid.NewGuid().ToString());
+                    var fileData = new FileData(stream, fileMetadata);
+
+                    filesData.Add(fileData);
+                }
+
+                var command = new PetAddPhotosCommand(id, petId, filesData);
+
+                var validationResult = await validator.ValidateAsync(command, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    return validationResult.ToResponse();
+                }
+
+                var result = await handler.Execute(command, cancellationToken);
+
+                return result.ToResponse();
+            } finally
+            {
+                foreach( var file in filesData)
+                {
+                    file.Stream.Dispose();
+                }
+            }
         }
     }
 }

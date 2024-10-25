@@ -40,7 +40,7 @@ namespace PetFam.Domain.Volunteer.Pet
         public Address Address { get; private set; }
         public AccountInfo AccountInfo { get; private set; }
         public DateTime CreateDate { get; private set; }
-        public Gallery? Gallery { get; private set; }
+        public Gallery Gallery { get; private set; }
 
         public static Result<Pet> Create(PetId petId,
             string nickName,
@@ -71,6 +71,29 @@ namespace PetFam.Domain.Volunteer.Pet
             address,
             accountInfo,
             createDate);
+        }
+
+        public Result AddPhotos(List<PetPhoto> photos)
+        {
+            List<PetPhoto> existingPhotos = [];
+
+            if (Gallery != null)
+            {
+                existingPhotos = new(Gallery.Value);
+            }
+            
+            existingPhotos.AddRange(photos);
+
+            var newGalleryResult = Gallery.Create(existingPhotos);
+
+            if (newGalleryResult.IsFailure)
+            {
+                return newGalleryResult.Error;
+            }
+
+            Gallery = newGalleryResult.Value;
+
+            return Result.Success();
         }
 
         public void Delete()
