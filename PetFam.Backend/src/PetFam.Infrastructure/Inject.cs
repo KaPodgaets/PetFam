@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Minio;
-using PetFam.Application.FileProvider;
-using PetFam.Application.VolunteerManagement;
-using PetFam.Infrastructure.Interceptors;
-using PetFam.Infrastructure.Options;
-using PetFam.Infrastructure.Providers;
+using PetFam.Application.Volunteers;
 using PetFam.Infrastructure.Repositories;
 
 namespace PetFam.Infrastructure
@@ -17,7 +12,6 @@ namespace PetFam.Infrastructure
             IConfiguration configuration)
         {
             services.AddScoped<ApplicationDbContext>();
-            services.AddSingleton<SoftDeleteInterceptor>();
 
             services.AddScoped<IVolunteerRepository, VolunteerRepository>();
 
