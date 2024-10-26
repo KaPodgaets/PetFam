@@ -205,8 +205,8 @@ namespace PetFam.Api.Controllers
                 var result = await handler.Execute(command, cancellationToken);
 
                 return result.ToResponse();
-            } finally
-            {
+            } finally {
+
                 foreach( var file in filesData)
                 {
                     file.Stream.Dispose();
