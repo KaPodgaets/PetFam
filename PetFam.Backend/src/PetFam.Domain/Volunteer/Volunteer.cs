@@ -78,10 +78,18 @@ namespace PetFam.Domain.Volunteer
 
         public void Delete()
         {
+            foreach(var pet in _pets) 
+            {
+                pet.Delete(); 
+            }
             _isDeleted = true;
         }
         public void Restore()
         {
+            foreach (var pet in _pets)
+            {
+                pet.Restore();
+            }
             _isDeleted = false;
         }
     }
