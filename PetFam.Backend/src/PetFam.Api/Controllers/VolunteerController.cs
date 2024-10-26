@@ -182,9 +182,10 @@ namespace PetFam.Api.Controllers
             {
                 foreach (var item in formFiles)
                 {
-                    var stream = item.OpenReadStream();
+                    var extention = Path.GetExtension(item.FileName);
+                    var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, Guid.NewGuid().ToString() + "." + extention);
 
-                    var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, Guid.NewGuid().ToString());
+                    var stream = item.OpenReadStream();
                     var fileData = new FileData(stream, fileMetadata);
 
                     filesData.Add(fileData);
