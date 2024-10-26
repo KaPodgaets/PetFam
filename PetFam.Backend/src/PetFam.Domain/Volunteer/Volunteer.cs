@@ -3,10 +3,10 @@ using PetFam.Domain.Shared;
 
 namespace PetFam.Domain.Volunteer
 {
-    public class Volunteer : Entity<VolunteerId>
+    public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     {
         private readonly List<Pet.Pet> _pets = [];
-
+        private bool _isDeleted = false;
         private Volunteer(VolunteerId id) : base(id)
         {
         }
@@ -74,6 +74,23 @@ namespace PetFam.Domain.Volunteer
             RequisitesDetails requisites)
         {
             Requisites = requisites;
+        }
+
+        public void Delete()
+        {
+            foreach(var pet in _pets) 
+            {
+                pet.Delete(); 
+            }
+            _isDeleted = true;
+        }
+        public void Restore()
+        {
+            foreach (var pet in _pets)
+            {
+                pet.Restore();
+            }
+            _isDeleted = false;
         }
     }
 }

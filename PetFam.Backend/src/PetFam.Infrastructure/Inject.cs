@@ -1,8 +1,8 @@
-﻿using PetFam.Application.Volunteers;
-using PetFam.Infrastructure;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PetFam.Application.Volunteers;
 using PetFam.Infrastructure.Repositories;
 
-namespace PetFam.Api
+namespace PetFam.Infrastructure
 {
     public static class Inject
     {

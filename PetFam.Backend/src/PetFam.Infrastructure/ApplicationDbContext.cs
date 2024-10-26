@@ -6,7 +6,8 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Infrastructure
 {
-    public class ApplicationDbContext(IConfiguration configuration) : DbContext
+    public class ApplicationDbContext(
+        IConfiguration configuration) : DbContext
     {
         private const string DATABASE = "Database";
 
@@ -17,6 +18,7 @@ namespace PetFam.Infrastructure
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE));
             optionsBuilder.UseSnakeCaseNamingConvention();
+            optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
         }
 
