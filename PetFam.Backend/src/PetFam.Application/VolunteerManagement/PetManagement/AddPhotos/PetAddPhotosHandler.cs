@@ -43,18 +43,15 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
             }
 
             // upload files
-            foreach (var fileData in command.FilesData)
-            {
-                var uploadResult = await _fileProvider.UploadFile(fileData);
+            var uploadResult = await _fileProvider.UploadFiles(command.Content, cancellationToken);
 
-                if (uploadResult.IsFailure)
-                {
-                    return uploadResult.Error;
-                }
+            if (uploadResult.IsFailure)
+            {
+                return uploadResult.Error;
             }
 
             var galleryItems = new List<PetPhoto>();
-            foreach(var fileData in command.FilesData)
+            foreach(var fileData in command.Content.FilesData)
             {
                 var createPetPhotoResult = PetPhoto.Create(fileData.FileMetadata.ObjectName, false);
                 if (createPetPhotoResult.IsFailure)

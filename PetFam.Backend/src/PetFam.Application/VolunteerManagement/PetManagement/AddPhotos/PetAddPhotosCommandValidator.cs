@@ -6,7 +6,8 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
     {
         public PetAddPhotosCommandValidator()
         {
-            
+            RuleFor(x => x.VolunteerId).NotEmpty();
+            RuleFor(x => x.PetId).NotEmpty();
         }
     }
 }

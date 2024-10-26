@@ -8,6 +8,7 @@ namespace PetFam.Infrastructure.Providers
 {
     public class MinioProvider : IFileProvider
     {
+        private const int _MAX_THREADS = 5;
         private readonly IMinioClient _minioClient;
         private readonly ILogger<MinioProvider> _logger;
 
@@ -53,34 +54,62 @@ namespace PetFam.Infrastructure.Providers
 
         }
 
-        public async Task<Result<string>> UploadFile(
-            FileData fileContent,
+        public async Task<Result> UploadFiles(
+            Content content,
             CancellationToken cancellationToken = default)
         {
+            var semaphoreSlim = new SemaphoreSlim(_MAX_THREADS);
+
             try
             {
-                var bucketExists = await IsBucketExistAsync(fileContent.FileMetadata.BucketName, cancellationToken);
+                var bucketExists = await IsBucketExistAsync(content.BucketName, cancellationToken);
 
                 if (bucketExists.IsFailure)
                 {
                     return Error.Failure("minio.bucket.not.exist", "This bucket does not exist in minio");
                 }
 
-                var putObjectArgs = new PutObjectArgs()
-                    .WithBucket(fileContent.FileMetadata.BucketName)
-                    .WithStreamData(fileContent.Stream)
-                    .WithObjectSize(fileContent.Stream.Length)
-                    .WithObject(fileContent.FileMetadata.ObjectName.ToString());
+                List<Task> tasks = [];
 
-                var result = await _minioClient.PutObjectAsync(putObjectArgs, cancellationToken);
+                foreach (var file in content.FilesData)
+                {
+                    
+                    var task = Task.Run(async () =>
+                    {
+                        try
+                        {
+                            await semaphoreSlim.WaitAsync(cancellationToken);
 
-                return result.ObjectName;
+                            var putObjectArgs = new PutObjectArgs()
+                                .WithBucket(content.BucketName)
+                                .WithStreamData(file.Stream)
+                                .WithObjectSize(file.Stream.Length)
+                                .WithObject(file.FileMetadata.ObjectName);
+
+                            var task = _minioClient.PutObjectAsync(putObjectArgs, cancellationToken);
+                        }
+                        finally
+                        {
+                            semaphoreSlim.Release();
+                        }
+                    }, cancellationToken);
+
+                    tasks.Add(task);
+                }
+
+                await Task.WhenAll(tasks);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fail to upload file in minio");
                 return Error.Failure("file.upload", "Fail to upload file in minio");
             }
+            finally
+            {
+                semaphoreSlim.Dispose();
+            }
+
+            return Result.Success();
         }
 
         public async Task<Result<string>> GetDownloadLink(

@@ -183,7 +183,7 @@ namespace PetFam.Api.Controllers
                 foreach (var item in formFiles)
                 {
                     var extention = Path.GetExtension(item.FileName);
-                    var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, Guid.NewGuid().ToString() + "." + extention);
+                    var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, Guid.NewGuid().ToString() + extention);
 
                     var stream = item.OpenReadStream();
                     var fileData = new FileData(stream, fileMetadata);
@@ -191,7 +191,9 @@ namespace PetFam.Api.Controllers
                     filesData.Add(fileData);
                 }
 
-                var command = new PetAddPhotosCommand(id, petId, filesData);
+                var content = new Content(filesData, MinioOptions.PHOTO_BUCKET);
+
+                var command = new PetAddPhotosCommand(id, petId, content);
 
                 var validationResult = await validator.ValidateAsync(command, cancellationToken);
 

@@ -17,11 +17,10 @@ namespace PetFam.Application.FileManagement.Upload
             _fileProvider = fileProvider;
             _logger = logger;
         }
-        public async Task<Result<string>> Handle(UploadFileRequest request,
+        public async Task<Result> Handle(UploadFileRequest request,
             CancellationToken cancellationToken = default)
         {
-
-            var result = await _fileProvider.UploadFile(request.fileData);
+            var result = await _fileProvider.UploadFiles(request.Content, cancellationToken);
 
             return result;
         }
