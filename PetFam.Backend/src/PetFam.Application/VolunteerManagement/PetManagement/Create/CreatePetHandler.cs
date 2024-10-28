@@ -103,8 +103,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
                 healthInfo,
                 address,
                 accountInfo,
-                DateTime.Now.ToUniversalTime(),
-                volunteer.Pets.Count);
+                DateTime.Now.ToUniversalTime());
 
             if (createPetResult.IsFailure)
                 return Result<Guid>.Failure(createPetResult.Error);
