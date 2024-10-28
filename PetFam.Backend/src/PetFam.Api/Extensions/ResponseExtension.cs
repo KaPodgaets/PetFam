@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Response;
 using PetFam.Domain.Shared;
 
@@ -6,6 +7,23 @@ namespace PetFam.Api.Extensions
 {
     public static class ResponseExtension
     {
+        public static ActionResult ToResponse(this ValidationResult result) 
+        {
+            var validationErrors = result.Errors;
+
+            var errors =
+                    from validationError in validationErrors
+                    let error = Error.Validation(validationError.ErrorCode, validationError.ErrorMessage)
+                    select new ResponseError(error.Code, error.Message, validationError.PropertyName);
+
+            var envelope = Envelope.Error(errors);
+
+            return new ObjectResult(envelope)
+            {
+                StatusCode = StatusCodes.Status400BadRequest
+            };
+        }
+
         public static ActionResult ToResponse(this Result result)
         {
             if (result.IsSuccess)

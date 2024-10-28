@@ -4,7 +4,6 @@ using Minio;
 using PetFam.Application.FileProvider;
 using PetFam.Application.SpeciesManagement;
 using PetFam.Application.VolunteerManagement;
-using PetFam.Infrastructure.Interceptors;
 using PetFam.Infrastructure.Options;
 using PetFam.Infrastructure.Providers;
 using PetFam.Infrastructure.Repositories;
@@ -18,7 +17,6 @@ namespace PetFam.Infrastructure
             IConfiguration configuration)
         {
             services.AddScoped<ApplicationDbContext>();
-            services.AddSingleton<SoftDeleteInterceptor>();
 
             services.AddScoped<IVolunteerRepository, VolunteerRepository>();
             services.AddScoped<ISpeciesRepository, SpeciesRepository>();
