@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetFam.Domain.Pet;
+using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer;
 
 namespace PetFam.Infrastructure
