@@ -64,8 +64,8 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPut("{id:guid}/requisits")]
-        public async Task<ActionResult<Guid>> UpdateRequisits(
+        [HttpPut("{id:guid}/requisites")]
+        public async Task<ActionResult<Guid>> UpdateRequisites(
             [FromRoute] Guid id,
             [FromServices] IUpdateRequisitesHandler handler,
             [FromServices] IValidator<UpdateRequisitesRequest> validator,
@@ -182,8 +182,8 @@ namespace PetFam.Api.Controllers
             {
                 foreach (var item in formFiles)
                 {
-                    var extention = Path.GetExtension(item.FileName);
-                    var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, Guid.NewGuid().ToString() + extention);
+                    var extension = Path.GetExtension(item.FileName);
+                    var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, Guid.NewGuid().ToString() + extension);
 
                     var stream = item.OpenReadStream();
                     var fileData = new FileData(stream, fileMetadata);
@@ -209,7 +209,7 @@ namespace PetFam.Api.Controllers
 
                 foreach( var file in filesData)
                 {
-                    file.Stream.Dispose();
+                    await file.Stream.DisposeAsync();
                 }
             }
         }
