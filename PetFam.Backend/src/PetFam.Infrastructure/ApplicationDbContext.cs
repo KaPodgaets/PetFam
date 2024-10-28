@@ -3,13 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer;
-using PetFam.Infrastructure.Interceptors;
 
 namespace PetFam.Infrastructure
 {
     public class ApplicationDbContext(
-        IConfiguration configuration,
-        SoftDeleteInterceptor softDeleteInterceptor) : DbContext
+        IConfiguration configuration) : DbContext
     {
         private const string DATABASE = "Database";
 
@@ -22,8 +20,6 @@ namespace PetFam.Infrastructure
             optionsBuilder.UseSnakeCaseNamingConvention();
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
-
-            optionsBuilder.AddInterceptors(softDeleteInterceptor);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

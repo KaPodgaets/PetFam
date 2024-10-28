@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Contracts;
 using PetFam.Api.Extensions;
-using PetFam.Api.Response;
-using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Create;
 using PetFam.Application.VolunteerManagement.Delete;
 using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
@@ -11,8 +9,6 @@ using PetFam.Application.VolunteerManagement.PetManagement.Create;
 using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
-using PetFam.Domain.Shared;
-using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
 {
@@ -125,20 +121,7 @@ namespace PetFam.Api.Controllers
 
             if (!validationResult.IsValid)
             {
-                var validationErrors = validationResult.Errors;
-
-                var errors =
-                    from validationError in validationErrors
-                    let error = Error.Validation(validationError.ErrorCode, validationError.ErrorMessage)
-                    select new ResponseError(error.Code, error.Message, validationError.PropertyName);
-
-                var envelope = Envelope.Error(errors);
-
-                _logger.LogInformation(
-                    "Validation error occured while updating. Errors: {errors}",
-                    envelope.Errors);
-
-                return BadRequest(envelope);
+                return validationResult.ToResponse();
             }
 
             var result = await handler.Handle(request, cancellationToken);
