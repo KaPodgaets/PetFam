@@ -75,16 +75,15 @@ namespace PetFam.Domain.Volunteer.Pet
 
         public Result AddPhotos(List<PetPhoto> photos)
         {
-            List<PetPhoto> existingPhotos = [];
+            List<PetPhoto> newPhotos = [..photos];
 
-            if (Gallery != null)
+            foreach(var photo in Gallery.Value)
             {
-                existingPhotos = new(Gallery.Value);
+                var existingPhoto = PetPhoto.Create(photo.FilePath, false).Value;
+                newPhotos.Add(existingPhoto);
             }
-            
-            existingPhotos.AddRange(photos);
 
-            var newGalleryResult = Gallery.Create(existingPhotos);
+            var newGalleryResult = Gallery.Create(newPhotos);
 
             if (newGalleryResult.IsFailure)
             {
