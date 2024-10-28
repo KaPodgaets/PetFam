@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Contracts;
 using PetFam.Api.Extensions;
+using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Create;
 using PetFam.Application.VolunteerManagement.Delete;
 using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
@@ -9,6 +10,7 @@ using PetFam.Application.VolunteerManagement.PetManagement.Create;
 using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
+using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
 {
