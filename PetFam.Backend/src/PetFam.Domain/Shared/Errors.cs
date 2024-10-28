@@ -10,6 +10,12 @@
                 return Error.Validation("value.is.invalid", $"{label} is invalid.");
             }
 
+            public static Error ValueIsNotUnique(string? name = null)
+            {
+                var label = name ?? "value";
+                return Error.Conflict("value.not.unique", $"{label} is not unique");
+            }
+
             public static Error NotFound(Guid? id = null)
             {
                 var forId = id == null ? "" : $" for Id {id}";
@@ -31,6 +37,11 @@
             public static Error Failure()
             {
                 return Error.Failure("internal.failure", "unknown server error");
+            }
+
+            public static Error DeletionEntityWithRelation()
+            {
+                return Error.Conflict("can't.delete.entity", "can not delete entity with relation");
             }
         }
         public static class Volunteer
