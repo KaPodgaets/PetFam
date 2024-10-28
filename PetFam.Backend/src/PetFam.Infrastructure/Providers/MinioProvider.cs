@@ -113,12 +113,12 @@ namespace PetFam.Infrastructure.Providers
         }
 
         public async Task<Result<string>> GetDownloadLink(
-            FileMetedata fileMetedata,
+            FileMetedata fileMetadata,
             CancellationToken cancellationToken = default)
         {
             try
             {
-                var bucketExists = await IsBucketExistAsync(fileMetedata.BucketName, cancellationToken);
+                var bucketExists = await IsBucketExistAsync(fileMetadata.BucketName, cancellationToken);
 
                 if (bucketExists.IsFailure)
                 {
@@ -126,8 +126,8 @@ namespace PetFam.Infrastructure.Providers
                 }
 
                 var statObjectArgs = new StatObjectArgs()
-                                       .WithBucket(fileMetedata.BucketName)
-                                       .WithObject(fileMetedata.ObjectName.ToString());
+                                       .WithBucket(fileMetadata.BucketName)
+                                       .WithObject(fileMetadata.ObjectName.ToString());
 
                 var objectStat = await _minioClient.StatObjectAsync(statObjectArgs, cancellationToken);
 
@@ -138,8 +138,8 @@ namespace PetFam.Infrastructure.Providers
                 }
 
                 var presignedGetObjectArgs = new PresignedGetObjectArgs()
-                    .WithBucket(fileMetedata.BucketName)
-                    .WithObject(fileMetedata.ObjectName.ToString())
+                    .WithBucket(fileMetadata.BucketName)
+                    .WithObject(fileMetadata.ObjectName.ToString())
                     .WithExpiry(60 * 60 * 24);
 
                 var result = await _minioClient.PresignedGetObjectAsync(presignedGetObjectArgs);
