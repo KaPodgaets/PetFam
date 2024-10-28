@@ -1,5 +1,6 @@
 ﻿using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
+using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.SpeciesManagement
 {
