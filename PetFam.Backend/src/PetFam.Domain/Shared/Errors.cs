@@ -38,6 +38,11 @@
             {
                 return Error.Failure("internal.failure", "unknown server error");
             }
+
+            public static Error DeletionEntityWithRelation()
+            {
+                return Error.Conflict("can't.delete.entity", "can not delete entity with relation");
+            }
         }
         public static class Volunteer
         {

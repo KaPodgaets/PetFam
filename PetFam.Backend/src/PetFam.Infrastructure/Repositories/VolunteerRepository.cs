@@ -72,5 +72,14 @@ namespace PetFam.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync(cancellationToken);
             return volunteer.Id.Value;
         }
+
+        public async Task<Result<List<Volunteer>>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            var models = await _dbContext.Volunteers
+                .Include(m => m.Pets)
+                .ToListAsync(cancellationToken);
+
+            return models;
+        }
     }
 }

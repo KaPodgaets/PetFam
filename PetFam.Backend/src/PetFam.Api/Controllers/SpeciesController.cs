@@ -26,16 +26,7 @@ namespace PetFam.Api.Controllers
 
             if (!validationResult.IsValid)
             {
-                var validationErrors = validationResult.Errors;
-
-                var errors =
-                    from validationError in validationErrors
-                    let error = Error.Validation(validationError.ErrorCode, validationError.ErrorMessage)
-                    select new ResponseError(error.Code, error.Message, validationError.PropertyName);
-
-                var envelope = Envelope.Error(errors);
-
-                return BadRequest(envelope);
+                return validationResult.ToResponse();
             }
 
             var result = await handler.Handle(request, cancellationToken);
@@ -55,16 +46,7 @@ namespace PetFam.Api.Controllers
 
             if (!validationResult.IsValid)
             {
-                var validationErrors = validationResult.Errors;
-
-                var errors =
-                    from validationError in validationErrors
-                    let error = Error.Validation(validationError.ErrorCode, validationError.ErrorMessage)
-                    select new ResponseError(error.Code, error.Message, validationError.PropertyName);
-
-                var envelope = Envelope.Error(errors);
-
-                return BadRequest(envelope);
+                return validationResult.ToResponse();
             }
 
             var result = await handler.Handle(request, cancellationToken);
@@ -86,16 +68,7 @@ namespace PetFam.Api.Controllers
 
             if (!validationResult.IsValid)
             {
-                var validationErrors = validationResult.Errors;
-
-                var errors =
-                    from validationError in validationErrors
-                    let error = Error.Validation(validationError.ErrorCode, validationError.ErrorMessage)
-                    select new ResponseError(error.Code, error.Message, validationError.PropertyName);
-
-                var envelope = Envelope.Error(errors);
-
-                return BadRequest(envelope);
+                return validationResult.ToResponse();
             }
 
             var result = await handler.Handle(request, cancellationToken);
