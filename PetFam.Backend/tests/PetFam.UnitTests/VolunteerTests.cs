@@ -80,7 +80,7 @@ namespace PetFam.UnitTests
             var petToCheck = volunteer.Pets.FirstOrDefault(p => p.Id == petToCheckPositionId);
 
             petToMove?.Order.Should().Be(newPosition);
-            petToCheck?.Order.Should().Be(newPosition-1);
+            petToCheck?.Order.Should().Be(newPosition - 1);
 
             volunteer.Pets.Should().HaveCount(petsAmount);
 
@@ -131,7 +131,7 @@ namespace PetFam.UnitTests
             const int petsAmount = 10;
 
             const int petPositionToMove = 3;
-            const int newPosition = petsAmount-1;
+            const int newPosition = petsAmount - 1;
 
             var volunteer = VolunteerHelper.CreateDummyVolunteer();
 

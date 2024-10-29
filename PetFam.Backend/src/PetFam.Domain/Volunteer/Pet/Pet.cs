@@ -82,26 +82,35 @@ namespace PetFam.Domain.Volunteer.Pet
 
         public Result AddPhotos(List<PetPhoto> photos)
         {
+            if (photos == null || photos.Count == 0)
+            {
+                return Errors.General.ValueIsRequired("Photos not provided");
+            }
+
             List<PetPhoto> newPhotos = [..photos];
 
-            if(Gallery is not null)
+            if (Gallery == null)
             {
-                foreach (var photo in Gallery.Value)
+                var createResult = Gallery.Create(photos);
+                if (createResult.IsFailure)
                 {
-                    var existingPhoto = PetPhoto.Create(photo.FilePath, false).Value;
-                    newPhotos.Add(existingPhoto);
+                    return createResult.Error;
                 }
-            }
-            
-            var newGalleryResult = Gallery.Create(newPhotos);
 
-            if (newGalleryResult.IsFailure)
+                Gallery = createResult.Value;
+                return Result.Success();
+            }
+
+            var updatedPhotos = Gallery.Value.ToList();
+            updatedPhotos.AddRange(photos);
+
+            var updateGalleryResult = Gallery.Create(updatedPhotos);
+            if (updateGalleryResult.IsFailure)
             {
-                return newGalleryResult.Error;
+                return updateGalleryResult.Error;
             }
 
-            Gallery = newGalleryResult.Value;
-
+            Gallery = updateGalleryResult.Value;
             return Result.Success();
         }
 

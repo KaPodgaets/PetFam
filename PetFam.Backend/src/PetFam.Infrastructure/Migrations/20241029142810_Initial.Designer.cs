@@ -13,7 +13,7 @@ using PetFam.Infrastructure;
 namespace PetFam.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241024101239_Initial")]
+    [Migration("20241029142810_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -92,6 +92,10 @@ namespace PetFam.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("nick_name");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer")
+                        .HasColumnName("order");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer")
@@ -370,7 +374,8 @@ namespace PetFam.Infrastructure.Migrations
                     b.Navigation("Address")
                         .IsRequired();
 
-                    b.Navigation("Gallery");
+                    b.Navigation("Gallery")
+                        .IsRequired();
 
                     b.Navigation("GeneralInfo")
                         .IsRequired();
