@@ -124,7 +124,7 @@ namespace PetFam.Domain.Volunteer.Pet
             _isDeleted = false;
         }
 
-        public void ChangeOrderNumber(int orderNumber)
+        internal void ChangeOrderNumber(int orderNumber)
         {
             Order = orderNumber;
         }
