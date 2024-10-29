@@ -1,4 +1,6 @@
-﻿namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
+﻿using PetFam.Application.VolunteerManagement.ValueObjects;
+
+namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
 {
     public record UpdateMainInfoRequest(
         Guid Id,

@@ -36,6 +36,8 @@ namespace PetFam.Application.SpeciesManagement.CreateBreed
             if (addBreedResult.IsFailure)
                 return Result<Guid>.Failure(addBreedResult.Error);
 
+            await _repository.Update(species, cancellationToken);
+
             _logger.LogInformation(
                 "Add breed with {breedName} and {breedId} to species with id {speciesId}",
                 request.Name,

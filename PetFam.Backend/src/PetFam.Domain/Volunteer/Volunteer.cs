@@ -1,5 +1,5 @@
-﻿using PetFam.Domain.Pet;
-using PetFam.Domain.Shared;
+﻿using PetFam.Domain.Shared;
+using PetFam.Domain.Volunteer.Pet;
 
 namespace PetFam.Domain.Volunteer
 {
@@ -91,6 +91,11 @@ namespace PetFam.Domain.Volunteer
                 pet.Restore();
             }
             _isDeleted = false;
+        }
+
+        public void AddPet(Pet.Pet pet)
+        {
+            _pets.Add(pet);
         }
     }
 }

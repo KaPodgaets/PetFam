@@ -1,4 +1,5 @@
 ﻿using PetFam.Application.VolunteerManagement.Create;
+using PetFam.Application.VolunteerManagement.ValueObjects;
 using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement

@@ -22,10 +22,10 @@
                 return Error.Validation("record.not.found", $"record not found {forId}");
             }
 
-            public static Error NotFound(string? email = null)
+            public static Error NotFound(string? name = null)
             {
-                var forEmail = email == null ? "" : $" for Id {email}";
-                return Error.Validation("record.not.found", $"record not found {forEmail}");
+                var forName = name == null ? "" : $" for Id {name}";
+                return Error.Validation("record.not.found", $"record not found {forName}");
             }
 
             public static Error ValueIsRequired(string? name = null)
