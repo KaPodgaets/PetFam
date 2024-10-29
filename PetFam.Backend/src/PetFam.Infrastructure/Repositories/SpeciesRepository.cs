@@ -2,6 +2,7 @@
 using PetFam.Application.SpeciesManagement;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
+using System.Xml.Linq;
 
 namespace PetFam.Infrastructure.Repositories
 {
@@ -71,6 +72,27 @@ namespace PetFam.Infrastructure.Repositories
             _dbContext.Species.Remove(species);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return species.Id.Value;
+        }
+
+        public Result<bool> CheckSpeciesExists(string name, CancellationToken cancellationToken = default)
+        {
+             return _dbContext.Species.Any(x => x.Name == name);
+        }
+
+        public async Task<Result<bool>> CheckBreedExists(string speciesName, string breedName, CancellationToken cancellationToken = default)
+        {
+            var model = await _dbContext.Species
+                .Include(m => m.Breeds)
+                .FirstOrDefaultAsync(x => x.Name == speciesName, cancellationToken);
+
+            if (model == null)
+            {
+                return false;
+            }
+
+            List<Breed> breeds = (List<Breed>)model.Breeds;
+
+            return breeds.Any(x => x.Name == breedName);
         }
     }
 }

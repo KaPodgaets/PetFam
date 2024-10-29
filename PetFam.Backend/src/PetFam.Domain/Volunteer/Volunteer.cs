@@ -1,5 +1,5 @@
-﻿using PetFam.Domain.Pet;
-using PetFam.Domain.Shared;
+﻿using PetFam.Domain.Shared;
+using PetFam.Domain.Volunteer.Pet;
 
 namespace PetFam.Domain.Volunteer
 {
@@ -91,6 +91,59 @@ namespace PetFam.Domain.Volunteer
                 pet.Restore();
             }
             _isDeleted = false;
+        }
+
+        public void AddPet(Pet.Pet pet)
+        {
+            pet.ChangeOrderNumber(_pets.Count);
+            _pets.Add(pet);
+        }
+
+        public void SortPets()
+        {
+            int orderNumber = 1;
+            foreach(var pet in _pets)
+            {
+                pet.ChangeOrderNumber(orderNumber);
+                orderNumber++;
+            }
+        }
+
+        public Result ChangePetOrder(Pet.Pet pet, int newOrderNumber)
+        {
+            if (newOrderNumber == pet.Order)
+                return Result.Success();
+
+            var increment = pet.Order < newOrderNumber ? -1 : 1;
+            var start = int.Min(newOrderNumber, pet.Order);
+            var end = int.Max(newOrderNumber, pet.Order);
+
+            foreach(var petFromList in _pets)
+            {
+                if (petFromList.Order >= start && petFromList.Order <= end)
+                {
+                    if (petFromList.Id.Value == pet.Id.Value)
+                    {
+                        pet.ChangeOrderNumber(newOrderNumber);
+                    }
+                    else
+                    {
+                        petFromList.ChangeOrderNumber(petFromList.Order + increment);
+                    }
+                }
+            }
+
+            return Result.Success();
+        }
+
+        public Result SetPetFirstInOrder(Pet.Pet pet)
+        {
+            return ChangePetOrder(pet, 0);
+        }
+
+        public Result SetPetLastInOrder(Pet.Pet pet)
+        {
+            return ChangePetOrder(pet, _pets.Count - 1);
         }
     }
 }

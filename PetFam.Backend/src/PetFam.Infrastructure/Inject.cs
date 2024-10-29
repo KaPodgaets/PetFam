@@ -27,7 +27,7 @@ namespace PetFam.Infrastructure
             return services;
         }
 
-        private static IServiceCollection AddMinio(
+        private static void AddMinio(
             this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMinio(options =>
@@ -39,8 +39,6 @@ namespace PetFam.Infrastructure
                 options.WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey);
                 options.WithSSL(minioOptions.WithSsl);
             });
-
-            return services;
         }
     }
 }

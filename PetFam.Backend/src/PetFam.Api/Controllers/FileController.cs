@@ -22,6 +22,7 @@ namespace PetFam.Api.Controllers
             [FromServices] IUploadFileHandler uploadFileHandler,
             CancellationToken cancellationToken = default)
         {
+
             await using var stream = file.OpenReadStream();
 
             var fileName = Guid.NewGuid().ToString();
@@ -29,7 +30,10 @@ namespace PetFam.Api.Controllers
                 stream,
                 new FileMetedata(MinioOptions.PHOTO_BUCKET, fileName));
 
-            var request = new UploadFileRequest(fileData);
+            List<FileData> files = [fileData];
+            var content = new Content(files, MinioOptions.PHOTO_BUCKET);
+
+            var request = new UploadFileRequest(content);
 
             var result = await uploadFileHandler.Handle(request, cancellationToken);
 

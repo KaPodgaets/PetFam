@@ -8,6 +8,7 @@ namespace PetFam.Infrastructure.Providers
 {
     public class MinioProvider : IFileProvider
     {
+        private const int MAX_THREADS = 5;
         private readonly IMinioClient _minioClient;
         private readonly ILogger<MinioProvider> _logger;
 
@@ -53,43 +54,57 @@ namespace PetFam.Infrastructure.Providers
 
         }
 
-        public async Task<Result<string>> UploadFile(
-            FileData fileContent,
+        public async Task<Result> UploadFiles(
+            Content content,
             CancellationToken cancellationToken = default)
         {
             try
             {
-                var bucketExists = await IsBucketExistAsync(fileContent.FileMetadata.BucketName, cancellationToken);
+                var bucketExists = await IsBucketExistAsync(content.BucketName, cancellationToken);
 
-                if (bucketExists.IsFailure)
+                if (bucketExists.Value == false)
                 {
-                    return Error.Failure("minio.bucket.not.exist", "This bucket does not exist in minio");
+                    var createBucketResult = await CreateBucket(content.BucketName, cancellationToken);
+                    if (createBucketResult.IsFailure)
+                    {
+                        return Error.Failure("minio.bucket.not.exist", "Can not create bucket");
+                    }
                 }
+                
+                var options = new ParallelOptions
+                        {
+                            MaxDegreeOfParallelism = MAX_THREADS, // Limit the number of parallel tasks
+                            CancellationToken = cancellationToken // Propagate cancellation tokens
+                        };
 
-                var putObjectArgs = new PutObjectArgs()
-                    .WithBucket(fileContent.FileMetadata.BucketName)
-                    .WithStreamData(fileContent.Stream)
-                    .WithObjectSize(fileContent.Stream.Length)
-                    .WithObject(fileContent.FileMetadata.ObjectName.ToString());
+                await Parallel.ForEachAsync(content.FilesData, options, async (file, ct) =>
+                {
+                    var putObjectArgs = new PutObjectArgs()
+                        .WithBucket(content.BucketName)
+                        .WithStreamData(file.Stream)
+                        .WithObjectSize(file.Stream.Length)
+                        .WithObject(file.FileMetadata.ObjectName);
 
-                var result = await _minioClient.PutObjectAsync(putObjectArgs, cancellationToken);
-
-                return result.ObjectName;
+                    // Perform the upload
+                    await _minioClient.PutObjectAsync(putObjectArgs, ct);
+                });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fail to upload file in minio");
                 return Error.Failure("file.upload", "Fail to upload file in minio");
             }
+
+            return Result.Success();
         }
 
         public async Task<Result<string>> GetDownloadLink(
-            FileMetedata fileMetedata,
+            FileMetedata fileMetadata,
             CancellationToken cancellationToken = default)
         {
             try
             {
-                var bucketExists = await IsBucketExistAsync(fileMetedata.BucketName, cancellationToken);
+                var bucketExists = await IsBucketExistAsync(fileMetadata.BucketName, cancellationToken);
 
                 if (bucketExists.IsFailure)
                 {
@@ -97,8 +112,8 @@ namespace PetFam.Infrastructure.Providers
                 }
 
                 var statObjectArgs = new StatObjectArgs()
-                                       .WithBucket(fileMetedata.BucketName)
-                                       .WithObject(fileMetedata.ObjectName.ToString());
+                                       .WithBucket(fileMetadata.BucketName)
+                                       .WithObject(fileMetadata.ObjectName.ToString());
 
                 var objectStat = await _minioClient.StatObjectAsync(statObjectArgs, cancellationToken);
 
@@ -109,8 +124,8 @@ namespace PetFam.Infrastructure.Providers
                 }
 
                 var presignedGetObjectArgs = new PresignedGetObjectArgs()
-                    .WithBucket(fileMetedata.BucketName)
-                    .WithObject(fileMetedata.ObjectName.ToString())
+                    .WithBucket(fileMetadata.BucketName)
+                    .WithObject(fileMetadata.ObjectName.ToString())
                     .WithExpiry(60 * 60 * 24);
 
                 var result = await _minioClient.PresignedGetObjectAsync(presignedGetObjectArgs);
@@ -140,7 +155,7 @@ namespace PetFam.Infrastructure.Providers
 
                 var removeObjectArgs = new RemoveObjectArgs()
                     .WithBucket(fileMetedata.BucketName)
-                    .WithObject(fileMetedata.ObjectName.ToString());
+                    .WithObject(fileMetedata.ObjectName);
 
                 await _minioClient.RemoveObjectAsync(removeObjectArgs, cancellationToken);
 

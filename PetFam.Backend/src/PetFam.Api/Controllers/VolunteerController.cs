@@ -1,11 +1,17 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using PetFam.Api.Contracts;
 using PetFam.Api.Extensions;
+using PetFam.Api.Processors;
+using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Create;
 using PetFam.Application.VolunteerManagement.Delete;
+using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
+using PetFam.Application.VolunteerManagement.PetManagement.Create;
 using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
+using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
 {
@@ -57,8 +63,8 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPut("{id:guid}/requisits")]
-        public async Task<ActionResult<Guid>> UpdateRequisits(
+        [HttpPut("{id:guid}/requisites")]
+        public async Task<ActionResult<Guid>> UpdateRequisites(
             [FromRoute] Guid id,
             [FromServices] IUpdateRequisitesHandler handler,
             [FromServices] IValidator<UpdateRequisitesRequest> validator,
@@ -122,6 +128,55 @@ namespace PetFam.Api.Controllers
             }
 
             var result = await handler.Handle(request, cancellationToken);
+
+            return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/add-pet")]
+        public async Task<ActionResult<Guid>> AddNewPet(
+            [FromRoute] Guid id,
+            [FromServices] CreatePetHandler handler,
+            [FromServices] IValidator<CreatePetRequest> validator,
+            [FromBody] CreatePetDto dto,
+            CancellationToken cancellationToken = default)
+        {
+            var request = new CreatePetRequest(id, dto);
+
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToResponse();
+            }
+
+            var result = await handler.Handle(request, cancellationToken);
+
+            return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/add-photos/{petId:guid}")]
+        public async Task<ActionResult<string>> AddPetPhotos(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromServices] PetAddPhotosHandler handler,
+            [FromServices] IValidator<PetAddPhotosCommand> validator,
+            [FromForm] IFormFileCollection formFiles,
+            CancellationToken cancellationToken = default)
+        {
+            
+            await using var fileProcessor = new FormFileProcessor();
+            var filesData = fileProcessor.Process(formFiles);
+            var content = new Content(filesData, MinioOptions.PHOTO_BUCKET);
+
+            var command = new PetAddPhotosCommand(id, petId, content);
+
+            var validationResult = await validator.ValidateAsync(command, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToResponse();
+            }
+
+            var result = await handler.Execute(command, cancellationToken);
 
             return result.ToResponse();
         }

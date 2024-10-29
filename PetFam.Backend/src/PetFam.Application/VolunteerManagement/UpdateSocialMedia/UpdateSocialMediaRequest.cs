@@ -1,4 +1,6 @@
-﻿namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
+﻿using PetFam.Application.VolunteerManagement.ValueObjects;
+
+namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
 {
     public record UpdateSocialMediaRequest(
         Guid Id,

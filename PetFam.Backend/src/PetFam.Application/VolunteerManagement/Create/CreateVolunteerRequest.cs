@@ -1,4 +1,6 @@
-﻿namespace PetFam.Application.VolunteerManagement.Create
+﻿using PetFam.Application.VolunteerManagement.ValueObjects;
+
+namespace PetFam.Application.VolunteerManagement.Create
 {
     public record CreateVolunteerRequest(
         FullNameDto FullNameDto,

@@ -1,15 +1,10 @@
 ﻿using PetFam.Domain.Shared;
 
-namespace PetFam.Domain.Pet
+namespace PetFam.Domain.Volunteer.Pet
 {
     public record Address
     {
-        private Address()
-        {
-
-        }
-
-        private Address(string country,
+        public Address(string country,
             string city,
             string street,
             int? building,
@@ -44,6 +39,5 @@ namespace PetFam.Domain.Pet
 
             return new Address(country, city, street, building, litteral);
         }
-
     }
 }
