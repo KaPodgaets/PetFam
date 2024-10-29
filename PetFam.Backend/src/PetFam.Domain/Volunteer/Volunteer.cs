@@ -135,5 +135,15 @@ namespace PetFam.Domain.Volunteer
 
             return Result.Success();
         }
+
+        public Result SetPetFirstInOrder(Pet.Pet pet)
+        {
+            return ChangePetOrder(pet, 0);
+        }
+
+        public Result SetPetLastInOrder(Pet.Pet pet)
+        {
+            return ChangePetOrder(pet, _pets.Count - 1);
+        }
     }
 }
