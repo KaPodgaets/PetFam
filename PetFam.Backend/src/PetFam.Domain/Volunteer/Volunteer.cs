@@ -120,7 +120,7 @@ namespace PetFam.Domain.Volunteer
 
             foreach(var petFromList in _pets)
             {
-                if (petFromList.Order >= end && petFromList.Order <= start)
+                if (petFromList.Order >= start && petFromList.Order <= end)
                 {
                     if (petFromList.Id.Value == pet.Id.Value)
                     {
