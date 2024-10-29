@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Contracts;
 using PetFam.Api.Extensions;
+using PetFam.Api.Processors;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Create;
 using PetFam.Application.VolunteerManagement.Delete;
@@ -154,7 +155,7 @@ namespace PetFam.Api.Controllers
         }
 
         [HttpPut("{id:guid}/add-photos/{petId:guid}")]
-        public async Task<ActionResult<string>> AddNewPet(
+        public async Task<ActionResult<string>> AddPetPhotos(
             [FromRoute] Guid id,
             [FromRoute] Guid petId,
             [FromServices] PetAddPhotosHandler handler,
@@ -162,41 +163,22 @@ namespace PetFam.Api.Controllers
             [FromForm] IFormFileCollection formFiles,
             CancellationToken cancellationToken = default)
         {
-            var filesData = new List<FileData>();
-            try
+            
+            await using var fileProcessor = new FormFileProcessor();
+            var filesData = fileProcessor.Process(formFiles);
+            var content = new Content(filesData, MinioOptions.PHOTO_BUCKET);
+
+            var command = new PetAddPhotosCommand(id, petId, content);
+
+            var validationResult = await validator.ValidateAsync(command, cancellationToken);
+            if (!validationResult.IsValid)
             {
-                foreach (var item in formFiles)
-                {
-                    var extention = Path.GetExtension(item.FileName);
-                    var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, Guid.NewGuid().ToString() + extention);
-
-                    var stream = item.OpenReadStream();
-                    var fileData = new FileData(stream, fileMetadata);
-
-                    filesData.Add(fileData);
-                }
-
-                var content = new Content(filesData, MinioOptions.PHOTO_BUCKET);
-
-                var command = new PetAddPhotosCommand(id, petId, content);
-
-                var validationResult = await validator.ValidateAsync(command, cancellationToken);
-
-                if (!validationResult.IsValid)
-                {
-                    return validationResult.ToResponse();
-                }
-
-                var result = await handler.Execute(command, cancellationToken);
-
-                return result.ToResponse();
-            } finally {
-
-                foreach( var file in filesData)
-                {
-                    file.Stream.Dispose();
-                }
+                return validationResult.ToResponse();
             }
+
+            var result = await handler.Execute(command, cancellationToken);
+
+            return result.ToResponse();
         }
     }
 }
