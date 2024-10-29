@@ -89,6 +89,75 @@ namespace PetFam.UnitTests
             orders.Should().OnlyHaveUniqueItems();
         }
 
-        
+        [Fact]
+        public void SetPetFirstInOrder_MakeOrderNumberFirst()
+        {
+            // Arrange
+            const int petPositionToMove = 3;
+            const int newPosition = 0;
+            const int petsAmount = 10;
+
+            var volunteer = VolunteerHelper.CreateDummyVolunteer();
+
+            for (int i = 0; i < petsAmount; i++)
+            {
+                volunteer.AddPet(VolunteerHelper.CreateDummyPet());
+            }
+
+            var petToMoveId = volunteer.Pets[petPositionToMove].Id;
+            var petToCheckPositionId = volunteer.Pets[newPosition].Id;
+
+            // Act
+            volunteer.SetPetFirstInOrder(volunteer.Pets[petPositionToMove]);
+
+            // Assert
+            var petToMove = volunteer.Pets.FirstOrDefault(p => p.Id == petToMoveId);
+            var petToCheck = volunteer.Pets.FirstOrDefault(p => p.Id == petToCheckPositionId);
+
+            petToMove?.Order.Should().Be(newPosition);
+            petToCheck?.Order.Should().Be(newPosition + 1);
+
+            volunteer.Pets.Should().HaveCount(petsAmount);
+
+            var orders = volunteer.Pets.Select(p => p.Order).ToList();
+
+            orders.Should().OnlyHaveUniqueItems();
+        }
+
+        [Fact]
+        public void SetPetLastInOrder_MakeOrderNumberLast()
+        {
+            // Arrange
+            const int petsAmount = 10;
+
+            const int petPositionToMove = 3;
+            const int newPosition = petsAmount-1;
+
+            var volunteer = VolunteerHelper.CreateDummyVolunteer();
+
+            for (int i = 0; i < petsAmount; i++)
+            {
+                volunteer.AddPet(VolunteerHelper.CreateDummyPet());
+            }
+
+            var petToMoveId = volunteer.Pets[petPositionToMove].Id;
+            var petToCheckPositionId = volunteer.Pets[newPosition].Id;
+
+            // Act
+            volunteer.SetPetLastInOrder(volunteer.Pets[petPositionToMove]);
+
+            // Assert
+            var petToMove = volunteer.Pets.FirstOrDefault(p => p.Id == petToMoveId);
+            var petToCheck = volunteer.Pets.FirstOrDefault(p => p.Id == petToCheckPositionId);
+
+            petToMove?.Order.Should().Be(newPosition);
+            petToCheck?.Order.Should().Be(newPosition - 1);
+
+            volunteer.Pets.Should().HaveCount(petsAmount);
+
+            var orders = volunteer.Pets.Select(p => p.Order).ToList();
+
+            orders.Should().OnlyHaveUniqueItems();
+        }
     }
 }
