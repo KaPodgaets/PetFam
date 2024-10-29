@@ -21,6 +21,7 @@ namespace PetFam.Api
             {
                 o.CombineLogs = true;
             });
+            
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();

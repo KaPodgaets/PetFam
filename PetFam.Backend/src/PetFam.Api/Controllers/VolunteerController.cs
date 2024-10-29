@@ -63,8 +63,8 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPut("{id:guid}/requisits")]
-        public async Task<ActionResult<Guid>> UpdateRequisits(
+        [HttpPut("{id:guid}/requisites")]
+        public async Task<ActionResult<Guid>> UpdateRequisites(
             [FromRoute] Guid id,
             [FromServices] IUpdateRequisitesHandler handler,
             [FromServices] IValidator<UpdateRequisitesRequest> validator,

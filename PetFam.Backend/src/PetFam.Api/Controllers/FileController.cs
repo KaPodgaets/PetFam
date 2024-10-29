@@ -30,8 +30,7 @@ namespace PetFam.Api.Controllers
                 stream,
                 new FileMetedata(MinioOptions.PHOTO_BUCKET, fileName));
 
-            List<FileData> files = [];
-            files.Add(fileData);
+            List<FileData> files = [fileData];
             var content = new Content(files, MinioOptions.PHOTO_BUCKET);
 
             var request = new UploadFileRequest(content);

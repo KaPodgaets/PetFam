@@ -19,7 +19,8 @@ namespace PetFam.Domain.Volunteer.Pet
             PetHealthInfo healthInfo,
             Address address,
             AccountInfo accountInfo,
-            DateTime createDate
+            DateTime createDate,
+            int order
             ) : base(petId)
         {
             NickName = nickName;
@@ -30,6 +31,7 @@ namespace PetFam.Domain.Volunteer.Pet
             Address = address;
             AccountInfo = accountInfo;
             CreateDate = createDate;
+            Order = order;
         }
 
         public string NickName { get; private set; } = string.Empty;
@@ -41,6 +43,7 @@ namespace PetFam.Domain.Volunteer.Pet
         public AccountInfo AccountInfo { get; private set; }
         public DateTime CreateDate { get; private set; }
         public Gallery Gallery { get; private set; }
+        public int Order { get;private set; }
 
         public static Result<Pet> Create(PetId petId,
             string nickName,
@@ -50,8 +53,8 @@ namespace PetFam.Domain.Volunteer.Pet
             PetHealthInfo healthInfo,
             Address address,
             AccountInfo accountInfo,
-            DateTime createDate
-            )
+            DateTime createDate,
+            int order)
         {
             if (petId.Value == Guid.Empty)
                 return Errors.General.ValueIsInvalid(nameof(PetId));
@@ -62,6 +65,9 @@ namespace PetFam.Domain.Volunteer.Pet
             if (nickName.Length > Constants.MAX_LOW_TEXT_LENGTH)
                 return Errors.General.ValueIsInvalid(nameof(NickName));
 
+            if(order < 0)
+                return Errors.General.ValueIsInvalid(nameof(Order));
+
             return new Pet(petId,
             nickName,
             speciesAndBreed,
@@ -70,7 +76,8 @@ namespace PetFam.Domain.Volunteer.Pet
             healthInfo,
             address,
             accountInfo,
-            createDate);
+            createDate,
+            order);
         }
 
         public Result AddPhotos(List<PetPhoto> photos)
@@ -106,6 +113,11 @@ namespace PetFam.Domain.Volunteer.Pet
         public void Restore()
         {
             _isDeleted = false;
+        }
+
+        public void ChangeOrderNumber(int orderNumber)
+        {
+            Order = orderNumber;
         }
     }
 }
