@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
 using PetFam.Domain.Shared;
@@ -13,22 +14,26 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
         private readonly IFileProvider _fileProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
+        private readonly IFilesCleanerMessageQueue _queue;
 
         public PetAddPhotosHandler(
             IVolunteerRepository repository,
             IFileProvider fileProvider,
             IUnitOfWork unitOfWork,
-            ILogger<PetAddPhotosHandler> logger)
+            ILogger<PetAddPhotosHandler> logger,
+            IFilesCleanerMessageQueue queue)
         {
             _repository = repository;
             _fileProvider = fileProvider;
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _queue = queue;
         }
 
         public async Task<Result<string>> Execute(PetAddPhotosCommand command, CancellationToken cancellationToken = default)
         {
             var transaction = await _unitOfWork.BeginTransaction(cancellationToken);
+
             try
             {
                 // create VOs
@@ -85,6 +90,10 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
                 _logger.LogError(ex, "Failed add Photos with error");
 
                 transaction.Rollback();
+
+                var filesPath = command.Content.FilesData.Select(x => x.FileMetadata.ObjectName).ToArray();
+
+                await _queue.WriteAsync(filesPath, cancellationToken);
 
                 return Error.Failure("upload.photo.error", "Can not add photos to pet");
             }
