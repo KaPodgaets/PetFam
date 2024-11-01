@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
+using PetFam.Application;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.SpeciesManagement;
@@ -31,6 +32,8 @@ namespace PetFam.Infrastructure
             services.AddHostedService<FilesCleanerService>();
 
             services.AddSingleton<IFilesCleanerMessageQueue, FilesCleanerMessageQueue>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
