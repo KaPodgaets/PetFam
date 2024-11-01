@@ -31,29 +31,29 @@ namespace PetFam.Infrastructure.BackgroundServices
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("FilesSynchronizerService started to work");
-                //await using var scope = _serviceProvider.CreateAsyncScope();
+                await using var scope = _serviceProvider.CreateAsyncScope();
 
-                //var fileProvider = scope.ServiceProvider.GetRequiredService<IFileProvider>();
+                var fileProvider = scope.ServiceProvider.GetRequiredService<IFileProvider>();
 
-                //var photoFilePathsResult = await fileProvider.GetFiles(MinioOptions.PHOTO_BUCKET);
-                //var photoFilePaths = photoFilePathsResult.Value;
+                var photoFilePathsResult = await fileProvider.GetFiles(MinioOptions.PHOTO_BUCKET);
+                var photoFilePaths = photoFilePathsResult.Value;
 
-                //var volunteerRepository = scope.ServiceProvider.GetRequiredService<IVolunteerRepository>();
+                var volunteerRepository = scope.ServiceProvider.GetRequiredService<IVolunteerRepository>();
 
-                //var volunteersResult = await volunteerRepository.GetAllAsync(stoppingToken);
-                //var volunteers = volunteersResult.Value;
-                //var photoPaths = volunteers
-                //    .SelectMany(v => v.Pets)
-                //    .Select(p => p.Gallery)
-                //    .SelectMany(g => g.Value)
-                //    .Select(ph => ph.FilePath)
-                //    .ToList();
+                var volunteersResult = await volunteerRepository.GetAllAsync(stoppingToken);
+                var volunteers = volunteersResult.Value;
+                var photoPaths = volunteers
+                    .SelectMany(v => v.Pets)
+                    .Select(p => p.Gallery)
+                    .SelectMany(g => g.Value)
+                    .Select(ph => ph.FilePath)
+                    .ToList();
 
-                //var result = photoFilePaths.Except(photoPaths).ToList();
+                var result = photoFilePaths.Except(photoPaths).ToList();
 
-                //// pass result into message queue
-                //await _queue.WriteAsync(result.ToArray(), stoppingToken);
-                
+                // pass result into message queue
+                await _queue.WriteAsync(result.ToArray(), stoppingToken);
+
                 _logger.LogInformation("FilesSynchronizerService ended to work");
 
                 await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
