@@ -20,7 +20,8 @@ namespace PetFam.Domain.Volunteer.Pet
             Address address,
             AccountInfo accountInfo,
             DateTime createDate,
-            int order
+            int order,
+            Gallery gallery
             ) : base(petId)
         {
             NickName = nickName;
@@ -32,6 +33,7 @@ namespace PetFam.Domain.Volunteer.Pet
             AccountInfo = accountInfo;
             CreateDate = createDate;
             Order = order;
+            Gallery = gallery;
         }
 
         public string NickName { get; private set; } = string.Empty;
@@ -65,19 +67,21 @@ namespace PetFam.Domain.Volunteer.Pet
             if (nickName.Length > Constants.MAX_LOW_TEXT_LENGTH)
                 return Errors.General.ValueIsInvalid(nameof(NickName));
 
-            if(order < 0)
+            if (order < 0)
                 return Errors.General.ValueIsInvalid(nameof(Order));
 
             return new Pet(petId,
-            nickName,
-            speciesAndBreed,
-            status,
-            generalInfo,
-            healthInfo,
-            address,
-            accountInfo,
-            createDate,
-            order);
+                nickName,
+                speciesAndBreed,
+                status,
+                generalInfo,
+                healthInfo,
+                address,
+                accountInfo,
+                createDate,
+                order,
+                Gallery.CreateEmpty()
+            );
         }
 
         public Result AddPhotos(List<PetPhoto> photos)

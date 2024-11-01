@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using PetFam.Application.FileManagement;
 using PetFam.Application.FileManagement.Delete;
 using PetFam.Application.FileManagement.GetLink;
 using PetFam.Application.FileManagement.Upload;
@@ -14,6 +16,7 @@ using PetFam.Application.VolunteerManagement.PetManagement.Create;
 using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
+using System.Threading;
 
 namespace PetFam.Application
 {
@@ -21,7 +24,6 @@ namespace PetFam.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-
             services.AddScoped<ICreateVolunteerHandler, CreateVolunteerHandler>();
             services.AddScoped<IUpdateMainInfoHandler, UpdateMainInfoHandler>();
             services.AddScoped<IUpdateRequisitesHandler, UpdateRequisitesHandler>();
@@ -39,8 +41,6 @@ namespace PetFam.Application
             services.AddScoped<CreatePetHandler>();
 
             services.AddScoped<PetAddPhotosHandler>();
-
-            // test file IO operations service
 
             services.AddValidatorsFromAssembly(typeof(CustomValidators).Assembly);
 

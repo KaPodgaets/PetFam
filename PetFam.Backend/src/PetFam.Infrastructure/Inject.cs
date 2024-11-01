@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
+using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.SpeciesManagement;
 using PetFam.Application.VolunteerManagement;
+using PetFam.Infrastructure.BackgroundServices;
+using PetFam.Infrastructure.MessageQueues;
 using PetFam.Infrastructure.Options;
 using PetFam.Infrastructure.Providers;
 using PetFam.Infrastructure.Repositories;
@@ -23,6 +26,11 @@ namespace PetFam.Infrastructure
 
             services.AddMinio(configuration);
             services.AddScoped<IFileProvider, MinioProvider>();
+
+            services.AddHostedService<FilesSynchronizerService>();
+            services.AddHostedService<FilesCleanerService>();
+
+            services.AddSingleton<IFilesCleanerMessageQueue, FilesCleanerMessageQueue>();
 
             return services;
         }
