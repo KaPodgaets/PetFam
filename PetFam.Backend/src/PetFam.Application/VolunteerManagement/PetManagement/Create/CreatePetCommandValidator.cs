@@ -4,9 +4,9 @@ using PetFam.Domain.Volunteer.Pet;
 
 namespace PetFam.Application.VolunteerManagement.PetManagement.Create
 {
-    public class CreatePetRequestValidator: AbstractValidator<CreatePetRequest>
+    public class CreatePetCommandValidator: AbstractValidator<CreatePetCommand>
     {
-        public CreatePetRequestValidator()
+        public CreatePetCommandValidator()
         {
             RuleFor(x => x.VolunteerId).NotEmpty();
             RuleFor(x => x.CreatePetDto.NickName).NotEmpty();

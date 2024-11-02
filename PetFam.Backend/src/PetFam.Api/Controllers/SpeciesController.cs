@@ -18,8 +18,8 @@ namespace PetFam.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateSpecies(
             [FromServices] CreateSpeciesHandler handler,
-            [FromServices] IValidator<CreateSpeciesRequest> validator,
-            [FromBody] CreateSpeciesRequest request,
+            [FromServices] IValidator<CreateSpeciesCommand> validator,
+            [FromBody] CreateSpeciesCommand request,
             CancellationToken cancellationToken = default)
         {
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -29,7 +29,7 @@ namespace PetFam.Api.Controllers
                 return validationResult.ToResponse();
             }
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
@@ -37,11 +37,11 @@ namespace PetFam.Api.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteSpecies(
             [FromServices] DeleteSpeciesHandler handler,
-            [FromServices] IValidator<DeleteSpeciesRequest> validator,
+            [FromServices] IValidator<DeleteSpeciesCommand> validator,
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default)
         {
-            var request = new DeleteSpeciesRequest(id);
+            var request = new DeleteSpeciesCommand(id);
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
@@ -49,7 +49,7 @@ namespace PetFam.Api.Controllers
                 return validationResult.ToResponse();
             }
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
@@ -57,12 +57,12 @@ namespace PetFam.Api.Controllers
         [HttpPost("{speciesId:guid}/breed")]
         public async Task<ActionResult<Guid>> AddBreed(
             [FromServices] CreateBreedHandler handler,
-            [FromServices] IValidator<CreateBreedRequest> validator,
+            [FromServices] IValidator<CreateBreedCommand> validator,
             [FromRoute] Guid speciesId,
             [FromBody] string breedName,
             CancellationToken cancellationToken = default)
         {
-            var request = new CreateBreedRequest(speciesId, breedName);
+            var request = new CreateBreedCommand(speciesId, breedName);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -71,7 +71,7 @@ namespace PetFam.Api.Controllers
                 return validationResult.ToResponse();
             }
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }

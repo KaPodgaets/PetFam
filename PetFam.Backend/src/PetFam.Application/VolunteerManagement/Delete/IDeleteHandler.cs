@@ -4,6 +4,6 @@ namespace PetFam.Application.VolunteerManagement.Delete
 {
     public interface IDeleteHandler
     {
-        Task<Result<Guid>> Handle(DeleteRequest request, CancellationToken cancellationToken = default);
+        Task<Result<Guid>> Execute(DeleteCommand request, CancellationToken cancellationToken = default);
     }
 }

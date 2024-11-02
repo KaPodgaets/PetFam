@@ -20,7 +20,7 @@ namespace PetFam.Application.SpeciesManagement.Delete
             _volunteerRepository = volunteerRepository;
             _logger = logger;
         }
-        public async Task<Result<Guid>> Handle(DeleteSpeciesRequest request,
+        public async Task<Result<Guid>> Execute(DeleteSpeciesCommand request,
             CancellationToken cancellationToken = default)
         {
             var existSpeciesResult = await _repository.GetById(SpeciesId.Create(request.Id), cancellationToken);

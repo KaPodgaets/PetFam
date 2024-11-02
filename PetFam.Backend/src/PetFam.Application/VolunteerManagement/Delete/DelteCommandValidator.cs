@@ -2,9 +2,9 @@
 
 namespace PetFam.Application.VolunteerManagement.Delete
 {
-    public class DelteRequestValidator : AbstractValidator<DeleteRequest>
+    public class DelteCommandValidator : AbstractValidator<DeleteCommand>
     {
-        public DelteRequestValidator()
+        public DelteCommandValidator()
         {
             RuleFor(v => v.Id).NotEmpty();
         }

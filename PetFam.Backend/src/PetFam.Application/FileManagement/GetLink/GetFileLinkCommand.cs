@@ -2,5 +2,5 @@
 
 namespace PetFam.Application.FileManagement.GetLink
 {
-    public record GetFileLinkRequest(FileMetedata FileMetadata);
+    public record GetFileLinkCommand(FileMetedata FileMetadata);
 }

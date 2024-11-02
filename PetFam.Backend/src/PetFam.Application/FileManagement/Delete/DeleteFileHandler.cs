@@ -17,7 +17,7 @@ namespace PetFam.Application.FileManagement.Delete
             _fileProvider = fileProvider;
             _logger = logger;
         }
-        public async Task<Result> Handle(DeleteFileRequest request,
+        public async Task<Result> Execute(DeleteFileCommand request,
             CancellationToken cancellationToken = default)
         {
             var result = await _fileProvider.DeleteFile(request.FileMetadata, cancellationToken);

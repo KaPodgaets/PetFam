@@ -22,7 +22,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
             _speciesRepository = speciesRepository;
             _logger = logger;
         }
-        public async Task<Result<Guid>> Handle(CreatePetRequest request,
+        public async Task<Result<Guid>> Execute(CreatePetCommand request,
             CancellationToken cancellationToken = default)
         {
             // get volunteer by id

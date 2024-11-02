@@ -4,9 +4,9 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
 {
-    public class UpdateSocialMediaValidator : AbstractValidator<UpdateSocialMediaRequest>
+    public class UpdateSocialMediaCommandValidator : AbstractValidator<UpdateSocialMediaCommand>
     {
-        public UpdateSocialMediaValidator()
+        public UpdateSocialMediaCommandValidator()
         {
             RuleFor(v => v.Id).NotEmpty();
 

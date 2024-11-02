@@ -25,8 +25,8 @@ namespace PetFam.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
             [FromServices] ICreateVolunteerHandler handler,
-            [FromServices] IValidator<CreateVolunteerRequest> validator,
-            [FromBody] CreateVolunteerRequest request,
+            [FromServices] IValidator<CreateVolunteerCommand> validator,
+            [FromBody] CreateVolunteerCommand request,
             CancellationToken cancellationToken = default)
         {
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -36,7 +36,7 @@ namespace PetFam.Api.Controllers
                 return validationResult.ToResponse();
             }
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
@@ -45,11 +45,11 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> UpdateMainInfo(
             [FromRoute] Guid id,
             [FromServices] IUpdateMainInfoHandler handler,
-            [FromServices] IValidator<UpdateMainInfoRequest> validator,
+            [FromServices] IValidator<UpdateMainInfoCommand> validator,
             [FromBody] UpdateMainInfoDto dto,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateMainInfoRequest(id, dto);
+            var request = new UpdateMainInfoCommand(id, dto);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -58,7 +58,7 @@ namespace PetFam.Api.Controllers
                 return validationResult.ToResponse();
             }
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
@@ -67,11 +67,11 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> UpdateRequisites(
             [FromRoute] Guid id,
             [FromServices] IUpdateRequisitesHandler handler,
-            [FromServices] IValidator<UpdateRequisitesRequest> validator,
+            [FromServices] IValidator<UpdateRequisitesCommand> validator,
             [FromBody] UpdateRequisitesDto dto,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateRequisitesRequest(id, dto);
+            var request = new UpdateRequisitesCommand(id, dto);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -80,7 +80,7 @@ namespace PetFam.Api.Controllers
                 return validationResult.ToResponse();
             }
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
@@ -89,11 +89,11 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> UpdateSocialMedia(
             [FromRoute] Guid id,
             [FromServices] IUpdateSocialMediaHandler handler,
-            [FromServices] IValidator<UpdateSocialMediaRequest> validator,
+            [FromServices] IValidator<UpdateSocialMediaCommand> validator,
             [FromBody] UpdateSocialMediaDto dto,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateSocialMediaRequest(id, dto);
+            var request = new UpdateSocialMediaCommand(id, dto);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -102,7 +102,7 @@ namespace PetFam.Api.Controllers
                 return validationResult.ToResponse();
             }
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
@@ -111,14 +111,14 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> Delete(
             [FromRoute] Guid id,
             [FromServices] IDeleteHandler handler,
-            [FromServices] IValidator<DeleteRequest> validator,
+            [FromServices] IValidator<DeleteCommand> validator,
             CancellationToken cancellationToken = default)
         {
             _logger.LogInformation(
                 "Try to delete volunteer with {id}",
                 id);
 
-            var request = new DeleteRequest(id);
+            var request = new DeleteCommand(id);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -127,7 +127,7 @@ namespace PetFam.Api.Controllers
                 return validationResult.ToResponse();
             }
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
@@ -136,11 +136,11 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> AddNewPet(
             [FromRoute] Guid id,
             [FromServices] CreatePetHandler handler,
-            [FromServices] IValidator<CreatePetRequest> validator,
+            [FromServices] IValidator<CreatePetCommand> validator,
             [FromBody] CreatePetDto dto,
             CancellationToken cancellationToken = default)
         {
-            var request = new CreatePetRequest(id, dto);
+            var request = new CreatePetCommand(id, dto);
 
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -149,7 +149,7 @@ namespace PetFam.Api.Controllers
                 return validationResult.ToResponse();
             }
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }

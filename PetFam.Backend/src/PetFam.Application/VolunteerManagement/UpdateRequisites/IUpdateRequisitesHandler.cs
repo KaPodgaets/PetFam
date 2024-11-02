@@ -4,6 +4,6 @@ namespace PetFam.Application.VolunteerManagement.UpdateRequisites
 {
     public interface IUpdateRequisitesHandler
     {
-        Task<Result<Guid>> Handle(UpdateRequisitesRequest request, CancellationToken cancellationToken = default);
+        Task<Result<Guid>> Execute(UpdateRequisitesCommand request, CancellationToken cancellationToken = default);
     }
 }

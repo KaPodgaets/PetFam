@@ -18,8 +18,8 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
             _logger = logger;
         }
 
-        public async Task<Result<Guid>> Handle(
-            UpdateSocialMediaRequest request,
+        public async Task<Result<Guid>> Execute(
+            UpdateSocialMediaCommand request,
             CancellationToken cancellationToken = default)
         {
             List<SocialMediaLink> links = VolunteerDtoMappers.MapSocialMediaLinkModel(request.Dto.SocialMediaLinks);

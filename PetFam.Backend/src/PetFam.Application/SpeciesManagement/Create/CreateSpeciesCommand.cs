@@ -1,4 +1,4 @@
 ﻿namespace PetFam.Application.SpeciesManagement.Create
 {
-    public record CreateSpeciesRequest(string Name);
+    public record CreateSpeciesCommand(string Name);
 }

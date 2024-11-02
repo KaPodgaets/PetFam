@@ -16,7 +16,7 @@ namespace PetFam.Application.VolunteerManagement.Create
             _repository = repository;
             _logger = logger;
         }
-        public async Task<Result<Guid>> Handle(CreateVolunteerRequest request,
+        public async Task<Result<Guid>> Execute(CreateVolunteerCommand request,
             CancellationToken cancellationToken = default)
         {
             var fullNameCreationResult = FullName.Create(

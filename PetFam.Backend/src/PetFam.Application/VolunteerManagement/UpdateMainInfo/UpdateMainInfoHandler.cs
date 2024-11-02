@@ -17,8 +17,8 @@ namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
             _logger = logger;
         }
 
-        public async Task<Result<Guid>> Handle(
-            UpdateMainInfoRequest request,
+        public async Task<Result<Guid>> Execute(
+            UpdateMainInfoCommand request,
             CancellationToken cancellationToken = default)
         {
             var fullName = FullName.Create(

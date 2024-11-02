@@ -17,8 +17,8 @@ namespace PetFam.Application.VolunteerManagement.Delete
             _logger = logger;
         }
 
-        public async Task<Result<Guid>> Handle(
-            DeleteRequest request,
+        public async Task<Result<Guid>> Execute(
+            DeleteCommand request,
             CancellationToken cancellationToken = default)
         {
             var volunteerId = VolunteerId.Create(request.Id);

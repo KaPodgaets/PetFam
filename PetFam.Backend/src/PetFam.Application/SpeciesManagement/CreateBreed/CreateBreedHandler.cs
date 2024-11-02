@@ -16,7 +16,7 @@ namespace PetFam.Application.SpeciesManagement.CreateBreed
             _repository = repository;
             _logger = logger;
         }
-        public async Task<Result<Guid>> Handle(CreateBreedRequest request,
+        public async Task<Result<Guid>> Execute(CreateBreedCommand request,
             CancellationToken cancellationToken = default)
         {
             var existSpeciesResult = await _repository.GetById(SpeciesId.Create(request.SpeciesId), cancellationToken);

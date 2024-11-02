@@ -16,7 +16,7 @@ namespace PetFam.Application.SpeciesManagement.Create
             _repository = repository;
             _logger = logger;
         }
-        public async Task<Result<Guid>> Handle(CreateSpeciesRequest request,
+        public async Task<Result<Guid>> Execute(CreateSpeciesCommand request,
             CancellationToken cancellationToken = default)
         {
             var existingSpeciesByNameResult = await _repository.GetByName(

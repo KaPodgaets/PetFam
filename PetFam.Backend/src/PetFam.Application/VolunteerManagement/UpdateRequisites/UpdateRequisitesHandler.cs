@@ -18,8 +18,8 @@ namespace PetFam.Application.VolunteerManagement.UpdateRequisites
             _logger = logger;
         }
 
-        public async Task<Result<Guid>> Handle(
-            UpdateRequisitesRequest request,
+        public async Task<Result<Guid>> Execute(
+            UpdateRequisitesCommand request,
             CancellationToken cancellationToken = default)
         {
             List<Requisite> requisites = VolunteerDtoMappers.MapRequisiteModel(request.Dto.Requisites);

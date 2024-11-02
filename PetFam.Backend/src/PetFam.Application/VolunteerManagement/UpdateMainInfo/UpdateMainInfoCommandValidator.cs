@@ -5,9 +5,9 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
 {
-    public class UpdateMainInfoValidator : AbstractValidator<UpdateMainInfoRequest>
+    public class UpdateMainInfoCommandValidator : AbstractValidator<UpdateMainInfoCommand>
     {
-        public UpdateMainInfoValidator()
+        public UpdateMainInfoCommandValidator()
         {
             RuleFor(v => v.Id).NotEmpty();
 

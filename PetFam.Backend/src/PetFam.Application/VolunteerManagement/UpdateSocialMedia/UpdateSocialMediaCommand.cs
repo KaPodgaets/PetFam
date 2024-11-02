@@ -2,7 +2,7 @@
 
 namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
 {
-    public record UpdateSocialMediaRequest(
+    public record UpdateSocialMediaCommand(
         Guid Id,
         UpdateSocialMediaDto Dto);
 

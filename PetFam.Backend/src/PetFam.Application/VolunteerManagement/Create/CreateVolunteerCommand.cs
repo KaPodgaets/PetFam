@@ -2,7 +2,7 @@
 
 namespace PetFam.Application.VolunteerManagement.Create
 {
-    public record CreateVolunteerRequest(
+    public record CreateVolunteerCommand(
         FullNameDto FullNameDto,
         string Email,
         IEnumerable<SocialMediaLinkDto>? SocialMediaLinks,

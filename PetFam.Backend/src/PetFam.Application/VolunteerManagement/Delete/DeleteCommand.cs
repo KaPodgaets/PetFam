@@ -1,4 +1,4 @@
 ﻿namespace PetFam.Application.VolunteerManagement.Delete
 {
-    public record DeleteRequest(Guid Id);
+    public record DeleteCommand(Guid Id);
 }

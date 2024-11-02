@@ -7,7 +7,7 @@ namespace PetFam.Application.VolunteerManagement
     public static class VolunteerDtoMappers
     {
 
-        public static List<Requisite> MapRequisiteModel(CreateVolunteerRequest request)
+        public static List<Requisite> MapRequisiteModel(CreateVolunteerCommand request)
         {
             return request.Requisites?
                             .Select(requisiteDto => Requisite.Create(requisiteDto.Name,
@@ -29,7 +29,7 @@ namespace PetFam.Application.VolunteerManagement
                             .ToList() ?? [];
         }
 
-        public static List<SocialMediaLink> MapSocialMediaLinkModel(CreateVolunteerRequest request)
+        public static List<SocialMediaLink> MapSocialMediaLinkModel(CreateVolunteerCommand request)
         {
             return request.SocialMediaLinks?
                             .Select(linkDto => SocialMediaLink.Create(linkDto.Name, linkDto.Link))

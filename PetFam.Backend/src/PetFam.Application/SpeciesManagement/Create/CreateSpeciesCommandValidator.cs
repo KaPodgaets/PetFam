@@ -2,9 +2,9 @@
 
 namespace PetFam.Application.SpeciesManagement.Create
 {
-    public class CreateSpeciesRequestValidator : AbstractValidator<CreateSpeciesRequest>
+    public class CreateSpeciesCommandValidator : AbstractValidator<CreateSpeciesCommand>
     {
-        public CreateSpeciesRequestValidator()
+        public CreateSpeciesCommandValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
         }

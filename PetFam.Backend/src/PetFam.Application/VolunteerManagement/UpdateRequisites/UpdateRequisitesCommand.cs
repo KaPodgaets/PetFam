@@ -2,7 +2,7 @@
 
 namespace PetFam.Application.VolunteerManagement.UpdateRequisites
 {
-    public record UpdateRequisitesRequest(
+    public record UpdateRequisitesCommand(
         Guid Id,
         UpdateRequisitesDto Dto);
 
