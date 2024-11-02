@@ -21,7 +21,6 @@ namespace PetFam.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-
             services.AddScoped<ICreateVolunteerHandler, CreateVolunteerHandler>();
             services.AddScoped<IUpdateMainInfoHandler, UpdateMainInfoHandler>();
             services.AddScoped<IUpdateRequisitesHandler, UpdateRequisitesHandler>();
@@ -39,8 +38,6 @@ namespace PetFam.Application
             services.AddScoped<CreatePetHandler>();
 
             services.AddScoped<PetAddPhotosHandler>();
-
-            // test file IO operations service
 
             services.AddValidatorsFromAssembly(typeof(CustomValidators).Assembly);
 

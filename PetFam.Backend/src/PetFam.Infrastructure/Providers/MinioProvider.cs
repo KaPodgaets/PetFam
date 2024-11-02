@@ -18,6 +18,35 @@ namespace PetFam.Infrastructure.Providers
             _logger = logger;
         }
 
+        public async Task<Result<List<string>>> GetFiles(string bucketName)
+        {
+            var listObjectsArg = new ListObjectsArgs()
+                .WithBucket(bucketName)
+                .WithRecursive(true);
+
+            var objects = _minioClient.ListObjectsAsync(listObjectsArg);
+            var tcs = new TaskCompletionSource<bool>();
+
+            List<string> paths = [];
+
+            using var subscription = objects.Subscribe(
+                item => paths.Add(item.Key),
+                ex => 
+                    {
+                        _logger.LogError(ex, "Failed to list files");
+                        tcs.SetResult(true);
+                    },
+                () =>
+                    {
+                        _logger.LogInformation("Successfully listed files");
+                        tcs.SetResult(true);
+                    }
+                );
+
+            await tcs.Task;
+            return paths;
+        }
+
         private async Task<Result<bool>> IsBucketExistAsync(string bucketName, CancellationToken cancellationToken = default)
         {
             try
@@ -167,5 +196,7 @@ namespace PetFam.Infrastructure.Providers
                 return Error.Failure("file.delete", "Fail to delete file in minio");
             }
         }
+
+        
     }
 }

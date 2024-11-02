@@ -69,6 +69,7 @@ namespace PetFam.Infrastructure.Migrations
                     nick_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
                     create_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    order = table.Column<int>(type: "integer", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     birthdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -77,7 +78,7 @@ namespace PetFam.Infrastructure.Migrations
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
                     AccountInfo = table.Column<string>(type: "jsonb", nullable: false),
                     Address = table.Column<string>(type: "jsonb", nullable: false),
-                    Gallery = table.Column<string>(type: "jsonb", nullable: true),
+                    Gallery = table.Column<string>(type: "jsonb", nullable: false),
                     GeneralInfo = table.Column<string>(type: "jsonb", nullable: false),
                     SpeciesAndBreed = table.Column<string>(type: "jsonb", nullable: false)
                 },

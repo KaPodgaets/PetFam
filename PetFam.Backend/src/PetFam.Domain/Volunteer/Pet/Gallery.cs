@@ -4,17 +4,17 @@ namespace PetFam.Domain.Volunteer.Pet
 {
     public record Gallery
     {
+        private readonly List<PetPhoto> _value = [];
         private Gallery()
         {
-
         }
 
         private Gallery(IEnumerable<PetPhoto> value)
         {
-            Value = value.ToList();
+            _value = value.ToList();
         }
 
-        public IReadOnlyList<PetPhoto> Value { get; } = null!;
+        public IReadOnlyList<PetPhoto> Value => _value;
         public int ImagesCount => Value.Count;
 
         public static Result<Gallery> Create(IEnumerable<PetPhoto> petPhotos)
@@ -23,6 +23,10 @@ namespace PetFam.Domain.Volunteer.Pet
                 return Errors.General.ValueIsRequired(nameof(Gallery));
 
             return new Gallery(petPhotos);
+        }
+        public static Gallery CreateEmpty()
+        {
+            return new Gallery();
         }
     }
 }

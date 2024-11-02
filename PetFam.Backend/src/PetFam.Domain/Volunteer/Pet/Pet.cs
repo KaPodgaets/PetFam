@@ -20,7 +20,8 @@ namespace PetFam.Domain.Volunteer.Pet
             Address address,
             AccountInfo accountInfo,
             DateTime createDate,
-            int order
+            int order,
+            Gallery gallery
             ) : base(petId)
         {
             NickName = nickName;
@@ -32,6 +33,7 @@ namespace PetFam.Domain.Volunteer.Pet
             AccountInfo = accountInfo;
             CreateDate = createDate;
             Order = order;
+            Gallery = gallery;
         }
 
         public string NickName { get; private set; } = string.Empty;
@@ -65,43 +67,54 @@ namespace PetFam.Domain.Volunteer.Pet
             if (nickName.Length > Constants.MAX_LOW_TEXT_LENGTH)
                 return Errors.General.ValueIsInvalid(nameof(NickName));
 
-            if(order < 0)
+            if (order < 0)
                 return Errors.General.ValueIsInvalid(nameof(Order));
 
             return new Pet(petId,
-            nickName,
-            speciesAndBreed,
-            status,
-            generalInfo,
-            healthInfo,
-            address,
-            accountInfo,
-            createDate,
-            order);
+                nickName,
+                speciesAndBreed,
+                status,
+                generalInfo,
+                healthInfo,
+                address,
+                accountInfo,
+                createDate,
+                order,
+                Gallery.CreateEmpty()
+            );
         }
 
         public Result AddPhotos(List<PetPhoto> photos)
         {
+            if (photos == null || photos.Count == 0)
+            {
+                return Errors.General.ValueIsRequired("Photos not provided");
+            }
+
             List<PetPhoto> newPhotos = [..photos];
 
-            if(Gallery is not null)
+            if (Gallery == null)
             {
-                foreach (var photo in Gallery.Value)
+                var createResult = Gallery.Create(photos);
+                if (createResult.IsFailure)
                 {
-                    var existingPhoto = PetPhoto.Create(photo.FilePath, false).Value;
-                    newPhotos.Add(existingPhoto);
+                    return createResult.Error;
                 }
-            }
-            
-            var newGalleryResult = Gallery.Create(newPhotos);
 
-            if (newGalleryResult.IsFailure)
+                Gallery = createResult.Value;
+                return Result.Success();
+            }
+
+            var updatedPhotos = Gallery.Value.ToList();
+            updatedPhotos.AddRange(photos);
+
+            var updateGalleryResult = Gallery.Create(updatedPhotos);
+            if (updateGalleryResult.IsFailure)
             {
-                return newGalleryResult.Error;
+                return updateGalleryResult.Error;
             }
 
-            Gallery = newGalleryResult.Value;
-
+            Gallery = updateGalleryResult.Value;
             return Result.Success();
         }
 
@@ -115,7 +128,7 @@ namespace PetFam.Domain.Volunteer.Pet
             _isDeleted = false;
         }
 
-        public void ChangeOrderNumber(int orderNumber)
+        internal void ChangeOrderNumber(int orderNumber)
         {
             Order = orderNumber;
         }

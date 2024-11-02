@@ -90,6 +90,10 @@ namespace PetFam.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("nick_name");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("integer")
+                        .HasColumnName("order");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
@@ -367,7 +371,8 @@ namespace PetFam.Infrastructure.Migrations
                     b.Navigation("Address")
                         .IsRequired();
 
-                    b.Navigation("Gallery");
+                    b.Navigation("Gallery")
+                        .IsRequired();
 
                     b.Navigation("GeneralInfo")
                         .IsRequired();

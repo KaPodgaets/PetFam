@@ -5,7 +5,7 @@ namespace PetFam.Domain.Volunteer
 {
     public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     {
-        private readonly List<Pet.Pet> _pets = [];
+        private List<Pet.Pet> _pets = [];
         private bool _isDeleted = false;
         private Volunteer(VolunteerId id) : base(id)
         {

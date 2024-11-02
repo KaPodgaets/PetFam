@@ -4,6 +4,7 @@ namespace PetFam.Application.FileProvider
 {
     public interface IFileProvider
     {
+        Task<Result<List<string>>> GetFiles(string bucketName);
         Task<Result> UploadFiles(
             Content content,
             CancellationToken cancellationToken = default);

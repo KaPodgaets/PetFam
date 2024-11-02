@@ -132,7 +132,7 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPut("{id:guid}/add-pet")]
+        [HttpPost("{id:guid}/add-pet")]
         public async Task<ActionResult<Guid>> AddNewPet(
             [FromRoute] Guid id,
             [FromServices] CreatePetHandler handler,
@@ -154,7 +154,7 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPut("{id:guid}/add-photos/{petId:guid}")]
+        [HttpPost("{id:guid}/add-photos/{petId:guid}")]
         public async Task<ActionResult<string>> AddPetPhotos(
             [FromRoute] Guid id,
             [FromRoute] Guid petId,

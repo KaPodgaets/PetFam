@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
 using PetFam.Domain.Shared;
@@ -11,76 +12,94 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
     {
         private readonly IVolunteerRepository _repository;
         private readonly IFileProvider _fileProvider;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
+        private readonly IFilesCleanerMessageQueue _queue;
 
         public PetAddPhotosHandler(
             IVolunteerRepository repository,
             IFileProvider fileProvider,
-            ILogger<CreatePetHandler> logger)
+            IUnitOfWork unitOfWork,
+            ILogger<PetAddPhotosHandler> logger,
+            IFilesCleanerMessageQueue queue)
         {
             _repository = repository;
             _fileProvider = fileProvider;
+            _unitOfWork = unitOfWork;
             _logger = logger;
+            _queue = queue;
         }
 
         public async Task<Result<string>> Execute(PetAddPhotosCommand command, CancellationToken cancellationToken = default)
         {
-            // create VOs
-            var volunteerId = VolunteerId.Create(command.VolunteerId);
-            var getVolunteerResult = await _repository.GetById(volunteerId, cancellationToken);
+            var transaction = await _unitOfWork.BeginTransaction(cancellationToken);
 
-            if (getVolunteerResult.IsFailure)
+            try
             {
-                return getVolunteerResult.Error;
-            }
+                // create VOs
+                var volunteerId = VolunteerId.Create(command.VolunteerId);
+                var getVolunteerResult = await _repository.GetById(volunteerId, cancellationToken);
 
-            var volunteer = getVolunteerResult.Value;
-            var pet = volunteer.Pets.FirstOrDefault(x => x.Id.Value == command.PetId);
-
-            if(pet == null)
-            {
-                return Errors.General.NotFound($"pet with Id {command.PetId} not founded");
-            }
-
-            // upload files
-            var uploadResult = await _fileProvider.UploadFiles(command.Content, cancellationToken);
-
-            if (uploadResult.IsFailure)
-            {
-                return uploadResult.Error;
-            }
-
-            var galleryItems = new List<PetPhoto>();
-            foreach(var fileData in command.Content.FilesData)
-            {
-                var createPetPhotoResult = PetPhoto.Create(fileData.FileMetadata.ObjectName, false);
-                if (createPetPhotoResult.IsFailure)
+                if (getVolunteerResult.IsFailure)
                 {
-                    return createPetPhotoResult.Error;
+                    return getVolunteerResult.Error;
                 }
 
-                galleryItems.Add(createPetPhotoResult.Value);
+                var volunteer = getVolunteerResult.Value;
+                var pet = volunteer.Pets.FirstOrDefault(x => x.Id.Value == command.PetId);
+
+                if (pet == null)
+                {
+                    return Errors.General.NotFound($"pet with Id {command.PetId} not founded");
+                }
+
+                var galleryItems = new List<PetPhoto>();
+
+                foreach (var fileData in command.Content.FilesData)
+                {
+                    var createPetPhotoResult = PetPhoto.Create(fileData.FileMetadata.ObjectName, false);
+                    if (createPetPhotoResult.IsFailure)
+                    {
+                        return createPetPhotoResult.Error;
+                    }
+
+                    galleryItems.Add(createPetPhotoResult.Value);
+                }
+
+                var result = pet.AddPhotos(galleryItems);
+
+                if (result.IsFailure)
+                {
+                    return result.Error;
+                    //delete uploaded files in minio in case of failure
+                }
+
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+
+                // upload files
+                var uploadResult = await _fileProvider.UploadFiles(command.Content, cancellationToken);
+
+                if (uploadResult.IsFailure)
+                    return uploadResult.Error;
+
+                transaction.Commit();
             }
-
-            var result = pet.AddPhotos(galleryItems);
-
-            if (result.IsFailure)
+            catch (Exception ex)
             {
-                return result.Error;
-                //delete uploaded files in minio in case of failure
-            }
+                _logger.LogError(ex, "Failed add Photos with error");
 
-            var updateResult = await _repository.Update(volunteer);
+                transaction.Rollback();
 
-            if (updateResult.IsFailure)
-            {
-                return updateResult.Error;
+                var filesPath = command.Content.FilesData.Select(x => x.FileMetadata.ObjectName).ToArray();
+
+                await _queue.WriteAsync(filesPath, cancellationToken);
+
+                return Error.Failure("upload.photo.error", "Can not add photos to pet");
             }
             
             
-            return "executed";
+            return "photos uploaded";
         }
-
-
     }
 }
