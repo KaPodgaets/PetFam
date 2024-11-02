@@ -15,10 +15,10 @@ namespace PetFam.Domain.SpeciesManagement
         public static Result<SpeciesBreed> Create(SpeciesId speciesId, Guid breedId)
         {
             if (speciesId.Value == Guid.Empty)
-                return Errors.General.ValueIsInvalid(nameof(SpeciesId));
+                return Errors.General.ValueIsInvalid(nameof(SpeciesId)).ToErrorList();
 
             if (breedId == Guid.Empty)
-                return Errors.General.ValueIsInvalid(nameof(BreedId));
+                return Errors.General.ValueIsInvalid(nameof(BreedId)).ToErrorList();
 
             return new SpeciesBreed(speciesId, breedId);
         }

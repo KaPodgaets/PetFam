@@ -17,7 +17,7 @@ namespace PetFam.Domain.Volunteer
         public static Result<RequisitesDetails> Create(IEnumerable<Requisite> value)
         {
             if (value.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
-                return Errors.General.ValueIsRequired(nameof(RequisitesDetails));
+                return Errors.General.ValueIsRequired(nameof(RequisitesDetails)).ToErrorList();
 
             return new RequisitesDetails(value);
         }

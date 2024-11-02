@@ -1,9 +1,8 @@
 ﻿using PetFam.Application.VolunteerManagement.ValueObjects;
 
-namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
+namespace PetFam.Api.Requests.Volunteer
 {
-    public record UpdateMainInfoCommand(
-        Guid Id,
+    public record UpdateMainInfoRequest(
         FullNameDto FullNameDto,
         int AgeOfExpirience,
         string Email,

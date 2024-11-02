@@ -2,37 +2,37 @@
 {
     public class Result
     {
-        private readonly Error? _error;
-        protected Result(bool isSuccess, Error? error)
+        private readonly ErrorList? _errors;
+        protected Result(bool isSuccess, ErrorList? errors)
         {
-            if (isSuccess && error != Error.None)
+            if (isSuccess && errors != null)
                 throw new InvalidOperationException();
 
-            if (!isSuccess && error == Error.None)
+            if (!isSuccess && errors == null)
                 throw new InvalidOperationException();
 
-            _error = error;
+            _errors = errors;
             IsSuccess = isSuccess;
         }
 
-        public Error Error
+        public ErrorList Errors
             => IsFailure
-            ? _error ?? throw new InvalidOperationException("Error is null but operation was failed")
+            ? _errors ?? throw new InvalidOperationException("Error is null but operation was failed")
             : throw new InvalidOperationException("The error of a successful result cannot be accessed");
         public bool IsSuccess { get; set; }
         public bool IsFailure => !IsSuccess;
 
-        public static Result Success() => new(true, Error.None);
-        public static Result Failure(Error error) => new(false, error);
-        public static implicit operator Result(Error error) => new(false, error);
+        public static Result Success() => new(true, null);
+        public static Result Failure(ErrorList errors) => new(false, errors);
+        public static implicit operator Result(ErrorList errors) => new(false, errors);
     }
 
     public class Result<TValue> : Result
     {
         private readonly TValue? _value;
 
-        public Result(TValue? value, bool isSuccess, Error? error)
-            : base(isSuccess, error)
+        public Result(TValue? value, bool isSuccess, ErrorList? errors)
+            : base(isSuccess, errors)
         {
             _value = value;
         }
@@ -42,15 +42,15 @@
             : throw new InvalidOperationException("The value of a failure result cannot be accessed");
 
         public static Result<TValue> Success(TValue value)
-            => new(value, true, Error.None);
+            => new(value, true, null);
 
-        public new static Result<TValue> Failure(Error error)
-            => new(default!, false, error);
+        public new static Result<TValue> Failure(ErrorList errors)
+            => new(default!, false, errors);
 
         public static implicit operator Result<TValue>(TValue value)
-            => new(value, true, Error.None);
+            => new(value, true, null);
 
-        public static implicit operator Result<TValue>(Error error)
-            => new(default!, false, error);
+        public static implicit operator Result<TValue>(ErrorList errors)
+            => new(default!, false, errors);
     }
 }

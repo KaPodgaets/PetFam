@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using PetFam.Api.Contracts;
 using PetFam.Api.Extensions;
 using PetFam.Api.Processors;
+using PetFam.Api.Requests.Volunteer;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Create;
 using PetFam.Application.VolunteerManagement.Delete;
@@ -45,20 +45,17 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> UpdateMainInfo(
             [FromRoute] Guid id,
             [FromServices] IUpdateMainInfoHandler handler,
-            [FromServices] IValidator<UpdateMainInfoCommand> validator,
-            [FromBody] UpdateMainInfoDto dto,
+            [FromBody] UpdateMainInfoRequest request,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateMainInfoCommand(id, dto);
+            var command = new UpdateMainInfoCommand(
+                id, 
+                request.FullNameDto, 
+                request.AgeOfExpirience, 
+                request.Email, 
+                request.GeneralInformationDto);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (!validationResult.IsValid)
-            {
-                return validationResult.ToResponse();
-            }
-
-            var result = await handler.Execute(request, cancellationToken);
+            var result = await handler.Execute(command, cancellationToken);
 
             return result.ToResponse();
         }

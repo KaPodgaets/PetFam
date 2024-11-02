@@ -20,7 +20,7 @@ namespace PetFam.Domain.Volunteer.Pet
         public static Result<Gallery> Create(IEnumerable<PetPhoto> petPhotos)
         {
             if (petPhotos.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
-                return Errors.General.ValueIsRequired(nameof(Gallery));
+                return Errors.General.ValueIsRequired(nameof(Gallery)).ToErrorList();
 
             return new Gallery(petPhotos);
         }

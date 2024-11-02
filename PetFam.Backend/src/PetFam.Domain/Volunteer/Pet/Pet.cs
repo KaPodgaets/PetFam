@@ -59,16 +59,16 @@ namespace PetFam.Domain.Volunteer.Pet
             int order)
         {
             if (petId.Value == Guid.Empty)
-                return Errors.General.ValueIsInvalid(nameof(PetId));
+                return Errors.General.ValueIsInvalid(nameof(PetId)).ToErrorList();
 
             if (string.IsNullOrWhiteSpace(nickName))
-                return Errors.General.ValueIsInvalid(nameof(NickName));
+                return Errors.General.ValueIsInvalid(nameof(NickName)).ToErrorList();
 
             if (nickName.Length > Constants.MAX_LOW_TEXT_LENGTH)
-                return Errors.General.ValueIsInvalid(nameof(NickName));
+                return Errors.General.ValueIsInvalid(nameof(NickName)).ToErrorList();
 
             if (order < 0)
-                return Errors.General.ValueIsInvalid(nameof(Order));
+                return Errors.General.ValueIsInvalid(nameof(Order)).ToErrorList();
 
             return new Pet(petId,
                 nickName,
@@ -88,7 +88,7 @@ namespace PetFam.Domain.Volunteer.Pet
         {
             if (photos == null || photos.Count == 0)
             {
-                return Errors.General.ValueIsRequired("Photos not provided");
+                return Errors.General.ValueIsRequired("Photos not provided").ToErrorList();
             }
 
             List<PetPhoto> newPhotos = [..photos];
@@ -98,7 +98,7 @@ namespace PetFam.Domain.Volunteer.Pet
                 var createResult = Gallery.Create(photos);
                 if (createResult.IsFailure)
                 {
-                    return createResult.Error;
+                    return createResult.Errors;
                 }
 
                 Gallery = createResult.Value;
@@ -111,7 +111,7 @@ namespace PetFam.Domain.Volunteer.Pet
             var updateGalleryResult = Gallery.Create(updatedPhotos);
             if (updateGalleryResult.IsFailure)
             {
-                return updateGalleryResult.Error;
+                return updateGalleryResult.Errors;
             }
 
             Gallery = updateGalleryResult.Value;

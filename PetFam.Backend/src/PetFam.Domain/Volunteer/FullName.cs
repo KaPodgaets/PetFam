@@ -26,9 +26,9 @@ namespace PetFam.Domain.Volunteer
             string? patronymic)
         {
             if (string.IsNullOrWhiteSpace(firstName))
-                return Errors.General.ValueIsInvalid(nameof(FirstName));
+                return Errors.General.ValueIsInvalid(nameof(FirstName)).ToErrorList();
             if (string.IsNullOrWhiteSpace(lastName))
-                return Errors.General.ValueIsInvalid(nameof(LastName));
+                return Errors.General.ValueIsInvalid(nameof(LastName)).ToErrorList();
 
             return new FullName(firstName, lastName, patronymic);
         }

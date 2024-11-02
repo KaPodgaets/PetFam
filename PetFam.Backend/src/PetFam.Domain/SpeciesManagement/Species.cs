@@ -21,10 +21,10 @@ namespace PetFam.Domain.SpeciesManagement
         public static Result<Species> Create(SpeciesId id, string name)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return Errors.General.ValueIsInvalid("name");
+                return Errors.General.ValueIsInvalid("name").ToErrorList();
 
             if (id.Value == Guid.Empty)
-                return Errors.General.ValueIsInvalid(nameof(VolunteerId));
+                return Errors.General.ValueIsInvalid(nameof(VolunteerId)).ToErrorList();
 
             return new Species(id, name);
         }
@@ -34,7 +34,7 @@ namespace PetFam.Domain.SpeciesManagement
             var alreadyExist = _breeds.Any(x => x.Name == breed.Name);
             if(alreadyExist)
             {
-                return Errors.General.ValueIsInvalid(breed.Name);
+                return Errors.General.ValueIsInvalid(breed.Name).ToErrorList();
             }
 
             _breeds.Add(breed);

@@ -17,7 +17,7 @@ namespace PetFam.Domain.SpeciesManagement
         public static Result<Breed> Create(BreedId id, string name)
         {
             if(string.IsNullOrEmpty(name))
-                return Errors.General.ValueIsRequired(nameof(name));
+                return Errors.General.ValueIsRequired(nameof(name)).ToErrorList();
 
             return new Breed(id, name);
         }

@@ -13,10 +13,11 @@ namespace PetFam.Api.Extensions
 
             var errors =
                     from validationError in validationErrors
-                    let error = Error.Validation(validationError.ErrorCode, validationError.ErrorMessage)
-                    select new ResponseError(error.Code, error.Message, validationError.PropertyName);
+                    select Error.Validation(validationError.ErrorCode, validationError.ErrorMessage);
 
-            var envelope = Envelope.Error(errors);
+            var errorList = new ErrorList(errors);
+
+            var envelope = Envelope.Error(errorList);
 
             return new ObjectResult(envelope)
             {
@@ -26,23 +27,20 @@ namespace PetFam.Api.Extensions
 
         public static ActionResult ToResponse(this Result result)
         {
-            if (result.IsSuccess)
+            if (result.IsSuccess || result.Errors is null)
             {
-                return new OkObjectResult(Envelope.Ok());
+                return new OkObjectResult(Envelope.Ok(result));
             }
 
-            var statusCode = result.Error.Type switch
-            {
-                ErrorType.Validation => StatusCodes.Status400BadRequest,
-                ErrorType.NotFound => StatusCodes.Status404NotFound,
-                ErrorType.Conflict => StatusCodes.Status409Conflict,
-                ErrorType.Failure => StatusCodes.Status500InternalServerError,
-                _ => StatusCodes.Status500InternalServerError
-            };
+            var distictErrorTypes = result.Errors.Select(e => e.Type)
+                .Distinct()
+                .ToList();
 
-            var responseError = new ResponseError(result.Error.Code, result.Error.Message, null);
+            var statusCode = distictErrorTypes.Count > 1
+                ? StatusCodes.Status500InternalServerError
+                : GetStatusCodeForErrorType(distictErrorTypes.First());
 
-            var envelope = Envelope.Error([responseError]);
+            var envelope = Envelope.Error(result.Errors);
 
             return new ObjectResult(envelope)
             {
@@ -52,12 +50,29 @@ namespace PetFam.Api.Extensions
 
         public static ActionResult<T> ToResponse<T>(this Result<T> result)
         {
-            if (result.IsSuccess)
+            if (result.IsSuccess || result.Errors is null)
             {
                 return new OkObjectResult(Envelope.Ok(result.Value));
             }
 
-            var statusCode = result.Error.Type switch
+            var distictErrorTypes = result.Errors.Select(e => e.Type)
+                .Distinct()
+                .ToList();
+
+            var statusCode = distictErrorTypes.Count > 1
+                ? StatusCodes.Status500InternalServerError
+                : GetStatusCodeForErrorType(distictErrorTypes.First());
+
+            var envelope = Envelope.Error(result.Errors);
+
+            return new ObjectResult(envelope)
+            {
+                StatusCode = statusCode,
+            };
+        }
+
+        private static int GetStatusCodeForErrorType(ErrorType errorType) =>
+            errorType switch
             {
                 ErrorType.Validation => StatusCodes.Status400BadRequest,
                 ErrorType.NotFound => StatusCodes.Status404NotFound,
@@ -65,15 +80,5 @@ namespace PetFam.Api.Extensions
                 ErrorType.Failure => StatusCodes.Status500InternalServerError,
                 _ => StatusCodes.Status500InternalServerError
             };
-
-            var responseError = new ResponseError(result.Error.Code, result.Error.Message, null);
-
-            var envelope = Envelope.Error([responseError]);
-
-            return new ObjectResult(envelope)
-            {
-                StatusCode = statusCode,
-            };
-        }
     }
 }

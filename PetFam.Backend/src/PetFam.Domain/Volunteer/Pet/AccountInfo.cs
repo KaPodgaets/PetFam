@@ -17,10 +17,10 @@ namespace PetFam.Domain.Volunteer.Pet
             string bankName)
         {
             if (string.IsNullOrWhiteSpace(number))
-                return Errors.General.ValueIsInvalid(nameof(Number));
+                return Errors.General.ValueIsInvalid(nameof(Number)).ToErrorList(); ;
 
             if (string.IsNullOrWhiteSpace(bankName))
-                return Errors.General.ValueIsInvalid(nameof(BankName));
+                return Errors.General.ValueIsInvalid(nameof(BankName)).ToErrorList(); ;
 
             return new AccountInfo(number, bankName);
         }

@@ -15,7 +15,7 @@ namespace PetFam.Domain.Volunteer.Pet
         public static Result<PetPhoto> Create(string filePath, bool isMain)
         {
             if (string.IsNullOrEmpty(filePath))
-                return Errors.General.ValueIsInvalid(nameof(FilePath));
+                return Errors.General.ValueIsInvalid(nameof(FilePath)).ToErrorList();
 
             return new PetPhoto(filePath, isMain);
         }
