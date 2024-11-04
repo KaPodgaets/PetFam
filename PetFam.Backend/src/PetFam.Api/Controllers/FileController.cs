@@ -33,9 +33,9 @@ namespace PetFam.Api.Controllers
             List<FileData> files = [fileData];
             var content = new Content(files, MinioOptions.PHOTO_BUCKET);
 
-            var request = new UploadFileRequest(content);
+            var request = new UploadFileCommand(content);
 
-            var result = await uploadFileHandler.Handle(request, cancellationToken);
+            var result = await uploadFileHandler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
@@ -48,9 +48,9 @@ namespace PetFam.Api.Controllers
         {
             var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, id.ToString());
 
-            var request = new GetFileLinkRequest(fileMetadata);
+            var request = new GetFileLinkCommand(fileMetadata);
 
-            var result = await getFileLinkHandler.Handle(request, cancellationToken);
+            var result = await getFileLinkHandler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }
@@ -63,9 +63,9 @@ namespace PetFam.Api.Controllers
         {
             var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, id.ToString());
 
-            var request = new DeleteFileRequest(fileMetadata);
+            var request = new DeleteFileCommand(fileMetadata);
 
-            var result = await deleteFileHandler.Handle(request, cancellationToken);
+            var result = await deleteFileHandler.Execute(request, cancellationToken);
 
             return result.ToResponse();
         }

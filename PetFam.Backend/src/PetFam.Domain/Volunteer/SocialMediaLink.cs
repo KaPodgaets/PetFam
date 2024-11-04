@@ -16,9 +16,9 @@ namespace PetFam.Domain.Volunteer
         public static Result<SocialMediaLink> Create(string name, string link)
         {
             if (string.IsNullOrEmpty(name))
-                return Errors.General.ValueIsInvalid(nameof(Name));
+                return Errors.General.ValueIsInvalid(nameof(Name)).ToErrorList();
             if (string.IsNullOrEmpty(link))
-                return Errors.General.ValueIsInvalid(nameof(Link));
+                return Errors.General.ValueIsInvalid(nameof(Link)).ToErrorList();
 
             return new SocialMediaLink(name, link);
         }

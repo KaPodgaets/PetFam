@@ -2,9 +2,9 @@
 
 namespace PetFam.Application.SpeciesManagement.CreateBreed
 {
-    public class CreateBreedRequestValidator: AbstractValidator<CreateBreedRequest>
+    public class CreateBreedCommandValidator: AbstractValidator<CreateBreedCommand>
     {
-        public CreateBreedRequestValidator()
+        public CreateBreedCommandValidator()
         {
             RuleFor(x => x.SpeciesId).NotEmpty();
             RuleFor(x => x.Name).NotEmpty();

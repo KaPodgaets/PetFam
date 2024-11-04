@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFam.Application.Extensions;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 
@@ -7,42 +9,50 @@ namespace PetFam.Application.SpeciesManagement.CreateBreed
     public class CreateBreedHandler
     {
         private readonly ISpeciesRepository _repository;
+        private readonly IValidator<CreateBreedCommand> _validator;
         private readonly ILogger _logger;
 
         public CreateBreedHandler(
             ISpeciesRepository repository,
-            ILogger<CreateBreedHandler> logger)
+            ILogger<CreateBreedHandler> logger,
+            IValidator<CreateBreedCommand> validator)
         {
             _repository = repository;
             _logger = logger;
+            _validator = validator;
         }
-        public async Task<Result<Guid>> Handle(CreateBreedRequest request,
+        public async Task<Result<Guid>> Execute(CreateBreedCommand command,
             CancellationToken cancellationToken = default)
         {
-            var existSpeciesResult = await _repository.GetById(SpeciesId.Create(request.SpeciesId), cancellationToken);
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
+            if (validationResult.IsValid == false)
+                return validationResult.ToErrorList();
+
+            var existSpeciesResult = await _repository.GetById(SpeciesId.Create(command.SpeciesId), cancellationToken);
 
             if (existSpeciesResult.IsFailure)
-                return Result<Guid>.Failure(existSpeciesResult.Error);
+                return Result<Guid>.Failure(existSpeciesResult.Errors);
 
             var species = existSpeciesResult.Value;
 
-            var createBreedResult = Breed.Create(BreedId.NewId(), request.Name);
+            var createBreedResult = Breed.Create(BreedId.NewId(), command.Name);
 
             if (createBreedResult.IsFailure)
-                return Result<Guid>.Failure(createBreedResult.Error);
+                return Result<Guid>.Failure(createBreedResult.Errors);
 
             var addBreedResult = species.AddBreed(createBreedResult.Value);
 
             if (addBreedResult.IsFailure)
-                return Result<Guid>.Failure(addBreedResult.Error);
+                return Result<Guid>.Failure(addBreedResult.Errors);
 
             await _repository.Update(species, cancellationToken);
 
             _logger.LogInformation(
                 "Add breed with {breedName} and {breedId} to species with id {speciesId}",
-                request.Name,
+                command.Name,
                 createBreedResult.Value.Id.Value,
-                request.SpeciesId);
+                command.SpeciesId);
 
             return addBreedResult;
         }

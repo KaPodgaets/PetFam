@@ -2,10 +2,8 @@
 
 namespace PetFam.Application.VolunteerManagement.PetManagement.Create
 {
-    public record CreatePetRequest(
+    public record CreatePetCommand(
         Guid VolunteerId,
-        CreatePetDto CreatePetDto);
-    public record CreatePetDto(
         string NickName,
         string SpeciesName,
         string BreedName,

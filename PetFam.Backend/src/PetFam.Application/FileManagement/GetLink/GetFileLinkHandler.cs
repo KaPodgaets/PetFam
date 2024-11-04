@@ -17,7 +17,7 @@ namespace PetFam.Application.FileManagement.GetLink
             _fileProvider = fileProvider;
             _logger = logger;
         }
-        public async Task<Result<string>> Handle(GetFileLinkRequest request,
+        public async Task<Result<string>> Execute(GetFileLinkCommand request,
             CancellationToken cancellationToken = default)
         {
 

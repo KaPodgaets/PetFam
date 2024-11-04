@@ -2,9 +2,9 @@
 
 namespace PetFam.Application.SpeciesManagement.Delete
 {
-    public class DeleteSpeciesRequestValidator : AbstractValidator<DeleteSpeciesRequest>
+    public class DeleteSpeciesCommandValidator : AbstractValidator<DeleteSpeciesCommand>
     {
-        public DeleteSpeciesRequestValidator()
+        public DeleteSpeciesCommandValidator()
         {
             RuleFor(x => x.Id).NotEmpty();
         }

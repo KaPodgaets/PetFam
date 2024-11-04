@@ -1,8 +1,7 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using PetFam.Api.Contracts;
+﻿using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Extensions;
 using PetFam.Api.Processors;
+using PetFam.Api.Requests.Volunteer;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Create;
 using PetFam.Application.VolunteerManagement.Delete;
@@ -25,18 +24,10 @@ namespace PetFam.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
             [FromServices] ICreateVolunteerHandler handler,
-            [FromServices] IValidator<CreateVolunteerRequest> validator,
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (!validationResult.IsValid)
-            {
-                return validationResult.ToResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(request.ToCommand(), cancellationToken);
 
             return result.ToResponse();
         }
@@ -45,20 +36,12 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> UpdateMainInfo(
             [FromRoute] Guid id,
             [FromServices] IUpdateMainInfoHandler handler,
-            [FromServices] IValidator<UpdateMainInfoRequest> validator,
-            [FromBody] UpdateMainInfoDto dto,
+            [FromBody] UpdateMainInfoRequest request,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateMainInfoRequest(id, dto);
+            var command = request.ToCommand(id);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (!validationResult.IsValid)
-            {
-                return validationResult.ToResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -67,20 +50,12 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> UpdateRequisites(
             [FromRoute] Guid id,
             [FromServices] IUpdateRequisitesHandler handler,
-            [FromServices] IValidator<UpdateRequisitesRequest> validator,
-            [FromBody] UpdateRequisitesDto dto,
+            [FromBody] UpdateRequisitesRequest request,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateRequisitesRequest(id, dto);
+            var command = new UpdateRequisitesCommand(id, request.Requisites);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (!validationResult.IsValid)
-            {
-                return validationResult.ToResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -89,20 +64,12 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> UpdateSocialMedia(
             [FromRoute] Guid id,
             [FromServices] IUpdateSocialMediaHandler handler,
-            [FromServices] IValidator<UpdateSocialMediaRequest> validator,
-            [FromBody] UpdateSocialMediaDto dto,
+            [FromBody] UpdateSocialMediaRequest request,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateSocialMediaRequest(id, dto);
+            var command = new UpdateSocialMediaCommand(id, request.SocialMediaLinks);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (!validationResult.IsValid)
-            {
-                return validationResult.ToResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -111,23 +78,11 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> Delete(
             [FromRoute] Guid id,
             [FromServices] IDeleteHandler handler,
-            [FromServices] IValidator<DeleteRequest> validator,
             CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation(
-                "Try to delete volunteer with {id}",
-                id);
+            var command = new DeleteCommand(id);
 
-            var request = new DeleteRequest(id);
-
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (!validationResult.IsValid)
-            {
-                return validationResult.ToResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -136,20 +91,12 @@ namespace PetFam.Api.Controllers
         public async Task<ActionResult<Guid>> AddNewPet(
             [FromRoute] Guid id,
             [FromServices] CreatePetHandler handler,
-            [FromServices] IValidator<CreatePetRequest> validator,
-            [FromBody] CreatePetDto dto,
+            [FromBody] CreatePetRequest request,
             CancellationToken cancellationToken = default)
         {
-            var request = new CreatePetRequest(id, dto);
+            var command = request.ToCommand(id);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (!validationResult.IsValid)
-            {
-                return validationResult.ToResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Execute(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -159,7 +106,6 @@ namespace PetFam.Api.Controllers
             [FromRoute] Guid id,
             [FromRoute] Guid petId,
             [FromServices] PetAddPhotosHandler handler,
-            [FromServices] IValidator<PetAddPhotosCommand> validator,
             [FromForm] IFormFileCollection formFiles,
             CancellationToken cancellationToken = default)
         {
@@ -169,12 +115,6 @@ namespace PetFam.Api.Controllers
             var content = new Content(filesData, MinioOptions.PHOTO_BUCKET);
 
             var command = new PetAddPhotosCommand(id, petId, content);
-
-            var validationResult = await validator.ValidateAsync(command, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                return validationResult.ToResponse();
-            }
 
             var result = await handler.Execute(command, cancellationToken);
 

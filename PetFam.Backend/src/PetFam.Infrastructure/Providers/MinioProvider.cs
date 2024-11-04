@@ -60,7 +60,7 @@ namespace PetFam.Infrastructure.Providers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Request to not existing bucket");
-                return Error.Failure("bucket.not.exists", "Request to not existing bucket");
+                return Error.Failure("bucket.not.exists", "Request to not existing bucket").ToErrorList();
             }
         }
 
@@ -77,7 +77,7 @@ namespace PetFam.Infrastructure.Providers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fail to create new bucket");
-                return Error.Failure("bucket.create", "Fail to create new bucket");
+                return Error.Failure("bucket.create", "Fail to create new bucket").ToErrorList();
             }
 
 
@@ -96,7 +96,7 @@ namespace PetFam.Infrastructure.Providers
                     var createBucketResult = await CreateBucket(content.BucketName, cancellationToken);
                     if (createBucketResult.IsFailure)
                     {
-                        return Error.Failure("minio.bucket.not.exist", "Can not create bucket");
+                        return Error.Failure("minio.bucket.not.exist", "Can not create bucket").ToErrorList();
                     }
                 }
                 
@@ -121,7 +121,7 @@ namespace PetFam.Infrastructure.Providers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fail to upload file in minio");
-                return Error.Failure("file.upload", "Fail to upload file in minio");
+                return Error.Failure("file.upload", "Fail to upload file in minio").ToErrorList();
             }
 
             return Result.Success();
@@ -137,7 +137,7 @@ namespace PetFam.Infrastructure.Providers
 
                 if (bucketExists.IsFailure)
                 {
-                    return Error.Failure("minio.bucket.not.exist", "This bucket does not exist in minio");
+                    return Error.Failure("minio.bucket.not.exist", "This bucket does not exist in minio").ToErrorList();
                 }
 
                 var statObjectArgs = new StatObjectArgs()
@@ -149,7 +149,7 @@ namespace PetFam.Infrastructure.Providers
                 if (objectStat.Size == 0)
                 {
                     _logger.LogError("Fail to get file in minio");
-                    return Error.Failure("minio.file.not.exist", "This file does not exist in minio");
+                    return Error.Failure("minio.file.not.exist", "This file does not exist in minio").ToErrorList();
                 }
 
                 var presignedGetObjectArgs = new PresignedGetObjectArgs()
@@ -164,7 +164,7 @@ namespace PetFam.Infrastructure.Providers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fail to upload file in minio");
-                return Error.Failure("file.get.link", "Fail to gey link to file in minio");
+                return Error.Failure("file.get.link", "Fail to gey link to file in minio").ToErrorList();
             }
         }
 
@@ -179,7 +179,7 @@ namespace PetFam.Infrastructure.Providers
 
                 if (bucketExists.IsFailure)
                 {
-                    return Error.Failure("minio.bucket.not.exist", "This bucket does not exist in minio");
+                    return Error.Failure("minio.bucket.not.exist", "This bucket does not exist in minio").ToErrorList();
                 }
 
                 var removeObjectArgs = new RemoveObjectArgs()
@@ -193,7 +193,7 @@ namespace PetFam.Infrastructure.Providers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Fail to delete file in minio");
-                return Error.Failure("file.delete", "Fail to delete file in minio");
+                return Error.Failure("file.delete", "Fail to delete file in minio").ToErrorList();
             }
         }
 

@@ -2,5 +2,5 @@
 
 namespace PetFam.Application.FileManagement.Upload
 {
-    public record UploadFileRequest(Content Content);
+    public record UploadFileCommand(Content Content);
 }

@@ -31,11 +31,11 @@ namespace PetFam.Domain.Volunteer.Pet
             string? litteral)
         {
             if (string.IsNullOrWhiteSpace(country))
-                return Errors.General.ValueIsInvalid(nameof(Country));
+                return Errors.General.ValueIsInvalid(nameof(Country)).ToErrorList(); ;
             if (string.IsNullOrWhiteSpace(city))
-                return Errors.General.ValueIsInvalid(nameof(City));
+                return Errors.General.ValueIsInvalid(nameof(City)).ToErrorList(); ;
             if (string.IsNullOrWhiteSpace(street))
-                return Errors.General.ValueIsInvalid(nameof(Street));
+                return Errors.General.ValueIsInvalid(nameof(Street)).ToErrorList(); ;
 
             return new Address(country, city, street, building, litteral);
         }

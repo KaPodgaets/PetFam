@@ -20,11 +20,11 @@ namespace PetFam.Domain.Volunteer
             string paymentInstruction)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return Errors.General.ValueIsInvalid(nameof(Name));
+                return Errors.General.ValueIsInvalid(nameof(Name)).ToErrorList();
             if (string.IsNullOrWhiteSpace(accountNumber))
-                return Errors.General.ValueIsInvalid(nameof(AccountNumber));
+                return Errors.General.ValueIsInvalid(nameof(AccountNumber)).ToErrorList();
             if (string.IsNullOrWhiteSpace(paymentInstruction))
-                return Errors.General.ValueIsInvalid(nameof(PaymentInstruction));
+                return Errors.General.ValueIsInvalid(nameof(PaymentInstruction)).ToErrorList();
 
             return new Requisite(name, accountNumber, paymentInstruction);
         }

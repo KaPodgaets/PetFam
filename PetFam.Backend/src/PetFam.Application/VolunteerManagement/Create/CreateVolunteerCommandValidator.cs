@@ -4,9 +4,9 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Create
 {
-    public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteerRequest>
+    public class CreateVolunteerCommandValidator : AbstractValidator<CreateVolunteerCommand>
     {
-        public CreateVolunteerRequestValidator()
+        public CreateVolunteerCommandValidator()
         {
             RuleFor(c => c.FullNameDto).MustBeValueObject(x =>
                 FullName.Create(x.FirstName, x.LastName, x.Patronimycs));

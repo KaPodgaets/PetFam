@@ -20,7 +20,7 @@ namespace PetFam.Domain.Volunteer
         public static Result<SocialMediaDetails> Create(IEnumerable<SocialMediaLink> value)
         {
             if (value.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
-                return Errors.General.ValueIsRequired(nameof(SocialMediaDetails));
+                return Errors.General.ValueIsRequired(nameof(SocialMediaDetails)).ToErrorList();
 
             return new SocialMediaDetails(value);
         }

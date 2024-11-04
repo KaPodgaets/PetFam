@@ -17,9 +17,11 @@ namespace PetFam.Application.Validation
                 if (result.IsSuccess)
                     return;
 
-                var failure = new ValidationFailure(context.PropertyName, result.Error.Message)
+                var x = result.Errors.First();
+
+                var failure = new ValidationFailure(context.PropertyName, x.Message)
                 {
-                    ErrorCode = result.Error.Code // Setting the error code
+                    ErrorCode = x.Code // Setting the error code
                 };
 
                 context.AddFailure(failure);

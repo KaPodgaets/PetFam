@@ -24,7 +24,7 @@ namespace PetFam.Infrastructure.Repositories
             }
             catch (Exception)
             {
-                return Errors.General.Failure();
+                return Errors.General.Failure().ToErrorList();
             }
 
             return model.Id.Value;
@@ -39,7 +39,7 @@ namespace PetFam.Infrastructure.Repositories
 
             if (model == null)
             {
-                return Errors.General.NotFound(id.Value);
+                return Errors.General.NotFound(id.Value).ToErrorList();
             }
 
             return model;
@@ -54,7 +54,7 @@ namespace PetFam.Infrastructure.Repositories
 
             if (model == null)
             {
-                return Errors.General.NotFound(name);
+                return Errors.General.NotFound(name).ToErrorList();
             }
 
             return model;

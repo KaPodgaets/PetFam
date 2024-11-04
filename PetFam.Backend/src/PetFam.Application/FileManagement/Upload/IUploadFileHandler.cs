@@ -4,7 +4,7 @@ namespace PetFam.Application.FileManagement.Upload
 {
     public interface IUploadFileHandler
     {
-        Task<Result> Handle(UploadFileRequest request,
+        Task<Result> Execute(UploadFileCommand request,
             CancellationToken cancellationToken = default);
     }
 }

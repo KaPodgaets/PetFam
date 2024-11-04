@@ -4,6 +4,6 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
 {
     public interface IUpdateSocialMediaHandler
     {
-        Task<Result<Guid>> Handle(UpdateSocialMediaRequest request, CancellationToken cancellationToken = default);
+        Task<Result<Guid>> Execute(UpdateSocialMediaCommand request, CancellationToken cancellationToken = default);
     }
 }

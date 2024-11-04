@@ -1,4 +1,5 @@
 ﻿using PetFam.Api.Response;
+using PetFam.Domain.Shared;
 using System.Net;
 
 namespace PetFam.Api.Middlewares
@@ -26,8 +27,8 @@ namespace PetFam.Api.Middlewares
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                var responseError = new ResponseError("server.internal", ex.Message, null);
-                var envelope = Envelope.Error([responseError]);
+                var responseError = Error.Failure("server.internal", ex.Message).ToErrorList();
+                var envelope = Envelope.Error(responseError);
 
                 await context.Response.WriteAsJsonAsync(envelope);
             }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFam.Application.Extensions;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
@@ -13,6 +15,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
         private readonly IVolunteerRepository _repository;
         private readonly IFileProvider _fileProvider;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<PetAddPhotosCommand> _validator;
         private readonly ILogger _logger;
         private readonly IFilesCleanerMessageQueue _queue;
 
@@ -21,17 +24,24 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
             IFileProvider fileProvider,
             IUnitOfWork unitOfWork,
             ILogger<PetAddPhotosHandler> logger,
-            IFilesCleanerMessageQueue queue)
+            IFilesCleanerMessageQueue queue,
+            IValidator<PetAddPhotosCommand> validator)
         {
             _repository = repository;
             _fileProvider = fileProvider;
             _unitOfWork = unitOfWork;
             _logger = logger;
             _queue = queue;
+            _validator = validator;
         }
 
         public async Task<Result<string>> Execute(PetAddPhotosCommand command, CancellationToken cancellationToken = default)
         {
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
+            if (validationResult.IsValid == false)
+                return validationResult.ToErrorList();
+
             var transaction = await _unitOfWork.BeginTransaction(cancellationToken);
 
             try
@@ -42,7 +52,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 
                 if (getVolunteerResult.IsFailure)
                 {
-                    return getVolunteerResult.Error;
+                    return getVolunteerResult.Errors;
                 }
 
                 var volunteer = getVolunteerResult.Value;
@@ -50,7 +60,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 
                 if (pet == null)
                 {
-                    return Errors.General.NotFound($"pet with Id {command.PetId} not founded");
+                    return Errors.General.NotFound($"pet with Id {command.PetId} not founded").ToErrorList();
                 }
 
                 var galleryItems = new List<PetPhoto>();
@@ -60,7 +70,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
                     var createPetPhotoResult = PetPhoto.Create(fileData.FileMetadata.ObjectName, false);
                     if (createPetPhotoResult.IsFailure)
                     {
-                        return createPetPhotoResult.Error;
+                        return createPetPhotoResult.Errors;
                     }
 
                     galleryItems.Add(createPetPhotoResult.Value);
@@ -70,7 +80,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 
                 if (result.IsFailure)
                 {
-                    return result.Error;
+                    return result.Errors;
                     //delete uploaded files in minio in case of failure
                 }
 
@@ -81,7 +91,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
                 var uploadResult = await _fileProvider.UploadFiles(command.Content, cancellationToken);
 
                 if (uploadResult.IsFailure)
-                    return uploadResult.Error;
+                    return uploadResult.Errors;
 
                 transaction.Commit();
             }
@@ -95,7 +105,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 
                 await _queue.WriteAsync(filesPath, cancellationToken);
 
-                return Error.Failure("upload.photo.error", "Can not add photos to pet");
+                return Error.Failure("upload.photo.error", "Can not add photos to pet").ToErrorList();
             }
             
             

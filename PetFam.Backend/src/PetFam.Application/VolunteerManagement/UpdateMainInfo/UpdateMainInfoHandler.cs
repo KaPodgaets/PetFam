@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFam.Application.Extensions;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
@@ -7,52 +9,53 @@ namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
     public class UpdateMainInfoHandler : IUpdateMainInfoHandler
     {
         private readonly IVolunteerRepository _repository;
+        private readonly IValidator<UpdateMainInfoCommand> _validator;
         private readonly ILogger _logger;
 
         public UpdateMainInfoHandler(
             IVolunteerRepository repository,
-            ILogger<UpdateMainInfoHandler> logger)
+            ILogger<UpdateMainInfoHandler> logger,
+            IValidator<UpdateMainInfoCommand> validator)
         {
             _repository = repository;
             _logger = logger;
+            _validator = validator;
         }
 
-        public async Task<Result<Guid>> Handle(
-            UpdateMainInfoRequest request,
+        public async Task<Result<Guid>> Execute(
+            UpdateMainInfoCommand command,
             CancellationToken cancellationToken = default)
         {
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
+            if (validationResult.IsValid == false)
+                return validationResult.ToErrorList();
+
             var fullName = FullName.Create(
-                request.Dto.FullNameDto.FirstName,
-                request.Dto.FullNameDto.LastName,
-                request.Dto.FullNameDto.Patronimycs)
+                command.FullNameDto.FirstName,
+                command.FullNameDto.LastName,
+                command.FullNameDto.Patronimycs)
                 .Value;
 
-            var email = Email.Create(request.Dto.Email).Value;
+            var email = Email.Create(command.Email).Value;
 
             var generalInformation = GeneralInformation.Create(
-                request.Dto.GeneralInformationDto.BioEducation,
-                request.Dto.GeneralInformationDto.ShortDescription)
+                command.GeneralInformationDto.BioEducation,
+                command.GeneralInformationDto.ShortDescription)
                 .Value;
 
-            var volunteerId = VolunteerId.Create(request.Id);
-            var existingVoluntreeByIdResult = await _repository.GetById(volunteerId, cancellationToken);
+            var volunteerId = VolunteerId.Create(command.Id);
+            var existingVolunteerByIdResult = await _repository.GetById(volunteerId, cancellationToken);
 
-            if (existingVoluntreeByIdResult.IsFailure)
-            {
-                return Result<Guid>.Failure(
-                    Errors.General.NotFound(
-                        request.Id));
-            }
+            if (existingVolunteerByIdResult.IsFailure)
+                return existingVolunteerByIdResult.Errors;
 
-            var volunteer = existingVoluntreeByIdResult.Value;
-            volunteer.UpdateMainInfo(fullName, email, request.Dto.AgeOfExpirience, generalInformation);
+            var volunteer = existingVolunteerByIdResult.Value;
+            volunteer.UpdateMainInfo(fullName, email, command.AgeOfExperience, generalInformation);
 
             var updateResult = await _repository.Update(volunteer, cancellationToken);
             if (updateResult.IsFailure)
-            {
-                return Result<Guid>.Failure(
-                    Errors.General.Failure());
-            }
+                return updateResult.Errors;
 
             _logger.LogInformation(
                 "Name for volunteer with {id} was updated",

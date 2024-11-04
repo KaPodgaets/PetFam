@@ -5,25 +5,25 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
 {
-    public class UpdateMainInfoValidator : AbstractValidator<UpdateMainInfoRequest>
+    public class UpdateMainInfoCommandValidator : AbstractValidator<UpdateMainInfoCommand>
     {
-        public UpdateMainInfoValidator()
+        public UpdateMainInfoCommandValidator()
         {
             RuleFor(v => v.Id).NotEmpty();
 
-            RuleFor(v => v.Dto.FullNameDto).MustBeValueObject(x =>
+            RuleFor(v => v.FullNameDto).MustBeValueObject(x =>
                 FullName.Create(x.FirstName, x.LastName, x.Patronimycs));
 
             RuleFor(v => v.Id).NotEmpty()
                 .WithError(Errors.General.ValueIsRequired());
 
-            RuleFor(v => v.Dto.GeneralInformationDto).MustBeValueObject(x =>
+            RuleFor(v => v.GeneralInformationDto).MustBeValueObject(x =>
                 GeneralInformation.Create(x.BioEducation, x.ShortDescription));
 
-            RuleFor(v => v.Dto.Email).MustBeValueObject(x =>
+            RuleFor(v => v.Email).MustBeValueObject(x =>
                 Email.Create(x));
 
-            RuleFor(v => v.Dto.AgeOfExpirience).GreaterThanOrEqualTo(0);
+            RuleFor(v => v.AgeOfExperience).GreaterThanOrEqualTo(0);
         }
     }
 }
