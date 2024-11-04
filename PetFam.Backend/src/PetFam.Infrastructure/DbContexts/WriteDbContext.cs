@@ -4,19 +4,17 @@ using Microsoft.Extensions.Logging;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Infrastructure
+namespace PetFam.Infrastructure.DbContexts
 {
-    public class ApplicationDbContext(
+    public class WriteDbContext(
         IConfiguration configuration) : DbContext
     {
-        private const string DATABASE = "Database";
-
         public DbSet<Volunteer> Volunteers { get; set; }
         public DbSet<Species> Species { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE));
+            optionsBuilder.UseNpgsql(configuration.GetConnectionString(InfrastructureOptions.DATABASE));
             optionsBuilder.UseSnakeCaseNamingConvention();
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
@@ -24,7 +22,9 @@ namespace PetFam.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(
+                typeof(WriteDbContext).Assembly,
+                type => type.FullName?.Contains("Configurations.Write") ?? false);
         }
 
         private ILoggerFactory CreateLoggerFactory() =>

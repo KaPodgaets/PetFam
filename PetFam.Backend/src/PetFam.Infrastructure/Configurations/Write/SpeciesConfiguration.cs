@@ -1,26 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 
-namespace PetFam.Infrastructure.Configurations
+namespace PetFam.Infrastructure.Configurations.Write
 {
-    public class BreedConfiguration : IEntityTypeConfiguration<Breed>
+    public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
     {
-        public void Configure(EntityTypeBuilder<Breed> builder)
+        public void Configure(EntityTypeBuilder<Species> builder)
         {
-            builder.ToTable("breed");
+            builder.ToTable("species");
 
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
                 .HasConversion(
                     id => id.Value,
-                    value => BreedId.Create(value));
+                    value => SpeciesId.Create(value));
 
             builder.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+
+            builder.HasMany(s => s.Breeds)
+                .WithOne()
+                .HasForeignKey("species_id");
 
             builder.Property<bool>("_isDeleted")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)

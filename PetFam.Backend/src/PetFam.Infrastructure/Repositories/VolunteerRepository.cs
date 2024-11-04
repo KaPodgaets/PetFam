@@ -2,13 +2,14 @@
 using PetFam.Application.VolunteerManagement;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
+using PetFam.Infrastructure.DbContexts;
 
 namespace PetFam.Infrastructure.Repositories
 {
     public class VolunteerRepository : IVolunteerRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-        public VolunteerRepository(ApplicationDbContext dbContext)
+        private readonly WriteDbContext _dbContext;
+        public VolunteerRepository(WriteDbContext dbContext)
         {
             _dbContext = dbContext;
         }

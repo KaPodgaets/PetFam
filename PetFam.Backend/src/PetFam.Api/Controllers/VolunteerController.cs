@@ -10,8 +10,6 @@ using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
-using PetFam.Application.VolunteerManagement.UpdateRequisites;
-using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers

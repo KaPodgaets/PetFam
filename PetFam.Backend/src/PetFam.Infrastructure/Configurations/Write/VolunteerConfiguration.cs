@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Infrastructure.Configurations
+namespace PetFam.Infrastructure.Configurations.Write
 {
     public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
     {

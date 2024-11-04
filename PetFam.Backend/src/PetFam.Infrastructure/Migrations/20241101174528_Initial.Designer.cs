@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PetFam.Infrastructure;
+using PetFam.Infrastructure.DbContexts;
 
 #nullable disable
 
 namespace PetFam.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(WriteDbContext))]
     [Migration("20241101174528_Initial")]
     partial class Initial
     {

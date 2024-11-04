@@ -4,7 +4,7 @@ using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer.Pet;
 
-namespace PetFam.Infrastructure.Configurations
+namespace PetFam.Infrastructure.Configurations.Write
 {
     public class PetConfiguration : IEntityTypeConfiguration<Pet>
     {
