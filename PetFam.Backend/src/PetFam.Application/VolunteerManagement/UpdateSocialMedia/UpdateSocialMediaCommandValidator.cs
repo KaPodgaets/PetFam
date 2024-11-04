@@ -10,7 +10,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
         {
             RuleFor(v => v.Id).NotEmpty();
 
-            RuleForEach(v => v.Dto.SocialMediaLinks)
+            RuleForEach(v => v.SocialMediaLinks)
                 .MustBeValueObject(x => SocialMediaLink.Create(x.Name, x.Link));
         }
 

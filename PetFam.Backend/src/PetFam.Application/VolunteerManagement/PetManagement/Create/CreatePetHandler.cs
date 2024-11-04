@@ -47,24 +47,24 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
             var volunteer = getVolunteerResult.Value;
 
             // check breed and species exists
-            var getSpeciesResult = await _speciesRepository.GetByName(command.CreatePetDto.SpeciesName, cancellationToken);
+            var getSpeciesResult = await _speciesRepository.GetByName(command.SpeciesName, cancellationToken);
             if (getSpeciesResult.IsFailure)
             {
-                return Errors.General.NotFound(command.CreatePetDto.SpeciesName).ToErrorList();
+                return Errors.General.NotFound(command.SpeciesName).ToErrorList();
             }
             var species = getSpeciesResult.Value;
 
-            var breedId = getSpeciesResult.Value.Breeds.Where(x => x.Name == command.CreatePetDto.BreedName).Select(x => x.Id).FirstOrDefault();
+            var breedId = getSpeciesResult.Value.Breeds.Where(x => x.Name == command.BreedName).Select(x => x.Id).FirstOrDefault();
 
             if (breedId == null)
             {
-                return Errors.General.NotFound(command.CreatePetDto.BreedName).ToErrorList();
+                return Errors.General.NotFound(command.BreedName).ToErrorList();
             }
 
             var speciesBreed = SpeciesBreed.Create(getSpeciesResult.Value.Id, breedId.Value);
 
             // create pet values objects
-            var generalInfoDto = command.CreatePetDto.PetGeneralInfoDto;
+            var generalInfoDto = command.PetGeneralInfoDto;
 
             var generalInfo = PetGeneralInfo.Create(
                 generalInfoDto.Comment, 
@@ -74,7 +74,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
                 generalInfoDto.PhoneNumber)
                     .Value;
 
-            var healthInfoDto = command.CreatePetDto.PetHealthInfoDto;
+            var healthInfoDto = command.PetHealthInfoDto;
 
             var healthInfo = PetHealthInfo.Create(
                 healthInfoDto.Comment, 
@@ -83,7 +83,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
                 healthInfoDto.IsVaccinated)
                     .Value;
 
-            var addressDto = command.CreatePetDto.AddressDto;
+            var addressDto = command.AddressDto;
 
             var address = Address.Create(
                 addressDto.Country, 
@@ -93,7 +93,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
                 addressDto.Litteral)
                     .Value;
 
-            var accountInfoDto = command.CreatePetDto.AccountInfoDto;
+            var accountInfoDto = command.AccountInfoDto;
 
             var accountInfo = AccountInfo.Create(
                 accountInfoDto.Number,
@@ -104,7 +104,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
 
             var createPetResult = Pet.Create(
                 PetId.NewPetId(),
-                command.CreatePetDto.NickName,
+                command.NickName,
                 speciesBreed.Value,
                 PetStatus.LookingForHome,
                 generalInfo,

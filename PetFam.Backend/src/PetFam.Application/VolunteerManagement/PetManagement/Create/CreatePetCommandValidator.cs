@@ -9,11 +9,11 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
         public CreatePetCommandValidator()
         {
             RuleFor(x => x.VolunteerId).NotEmpty();
-            RuleFor(x => x.CreatePetDto.NickName).NotEmpty();
-            RuleFor(x => x.CreatePetDto.BreedName).NotEmpty();
-            RuleFor(x => x.CreatePetDto.SpeciesName).NotEmpty();
+            RuleFor(x => x.NickName).NotEmpty();
+            RuleFor(x => x.BreedName).NotEmpty();
+            RuleFor(x => x.SpeciesName).NotEmpty();
 
-            RuleFor(x => x.CreatePetDto.PetGeneralInfoDto)
+            RuleFor(x => x.PetGeneralInfoDto)
                 .MustBeValueObject(dto => PetGeneralInfo.Create(
                     dto.Comment,
                     dto.Color,
@@ -21,17 +21,17 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
                     dto.Height,
                     dto.PhoneNumber));
 
-            RuleFor(x => x.CreatePetDto.PetHealthInfoDto)
+            RuleFor(x => x.PetHealthInfoDto)
                 .MustBeValueObject(dto => PetHealthInfo.Create(
                     dto.Comment,
                     dto.IsCastrated,
                     dto.BirthDate,
                     dto.IsVaccinated));
 
-            RuleFor(x => x.CreatePetDto.AccountInfoDto)
+            RuleFor(x => x.AccountInfoDto)
                 .MustBeValueObject(dto => AccountInfo.Create(dto.Number, dto.BankName));
 
-            RuleFor(x => x.CreatePetDto.AddressDto)
+            RuleFor(x => x.AddressDto)
                 .MustBeValueObject(dto => Address.Create(dto.Country, dto.City, dto.Street, dto.Building, dto.Litteral));
         }
     }

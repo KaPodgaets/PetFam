@@ -10,7 +10,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateRequisites
         {
             RuleFor(v => v.Id).NotEmpty();
 
-            RuleForEach(v => v.Dto.Requisites)
+            RuleForEach(v => v.Requisites)
                 .MustBeValueObject(x => Requisite.Create(x.Name, x.AccountNumber, x.PaymentInstruction));
         }
     }

@@ -23,7 +23,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
             RuleFor(v => v.Email).MustBeValueObject(x =>
                 Email.Create(x));
 
-            RuleFor(v => v.AgeOfExpirience).GreaterThanOrEqualTo(0);
+            RuleFor(v => v.AgeOfExperience).GreaterThanOrEqualTo(0);
         }
     }
 }
