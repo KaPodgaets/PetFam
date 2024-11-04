@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFam.Application.Extensions;
 using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
@@ -8,33 +10,41 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
     public class UpdateSocialMediaHandler : IUpdateSocialMediaHandler
     {
         private readonly IVolunteerRepository _repository;
+        private readonly IValidator<UpdateSocialMediaCommand> _validator;
         private readonly ILogger _logger;
 
         public UpdateSocialMediaHandler(
             IVolunteerRepository repository,
-            ILogger<UpdateMainInfoHandler> logger)
+            ILogger<UpdateMainInfoHandler> logger,
+            IValidator<UpdateSocialMediaCommand> validator)
         {
             _repository = repository;
             _logger = logger;
+            _validator = validator;
         }
 
         public async Task<Result<Guid>> Execute(
-            UpdateSocialMediaCommand request,
+            UpdateSocialMediaCommand command,
             CancellationToken cancellationToken = default)
         {
-            List<SocialMediaLink> links = VolunteerDtoMappers.MapSocialMediaLinkModel(request.Dto.SocialMediaLinks);
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
+            if (validationResult.IsValid == false)
+                return validationResult.ToErrorList();
+
+            List<SocialMediaLink> links = VolunteerDtoMappers.MapSocialMediaLinkModel(command.SocialMediaLinks);
 
             var socialMediaDetails = SocialMediaDetails.Create(links).Value;
 
-            var volunteerId = VolunteerId.Create(request.Id);
-            var existingVoluntreeByIdResult = await _repository.GetById(volunteerId, cancellationToken);
+            var volunteerId = VolunteerId.Create(command.Id);
+            var existingVolunteerByIdResult = await _repository.GetById(volunteerId, cancellationToken);
 
-            if (existingVoluntreeByIdResult.IsFailure)
+            if (existingVolunteerByIdResult.IsFailure)
             {
-                return Errors.General.NotFound(request.Id).ToErrorList();
+                return Errors.General.NotFound(command.Id).ToErrorList();
             }
 
-            var volunteer = existingVoluntreeByIdResult.Value;
+            var volunteer = existingVolunteerByIdResult.Value;
             volunteer.UpdateSocialMedia(socialMediaDetails);
 
             var updateResult = await _repository.Update(volunteer, cancellationToken);

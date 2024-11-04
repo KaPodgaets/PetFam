@@ -51,7 +51,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
                 return existingVolunteerByIdResult.Errors;
 
             var volunteer = existingVolunteerByIdResult.Value;
-            volunteer.UpdateMainInfo(fullName, email, command.AgeOfExpirience, generalInformation);
+            volunteer.UpdateMainInfo(fullName, email, command.AgeOfExperience, generalInformation);
 
             var updateResult = await _repository.Update(volunteer, cancellationToken);
             if (updateResult.IsFailure)

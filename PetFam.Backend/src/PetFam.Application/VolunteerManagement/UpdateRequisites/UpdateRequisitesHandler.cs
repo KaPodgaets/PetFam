@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFam.Application.Extensions;
 using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
@@ -8,33 +10,41 @@ namespace PetFam.Application.VolunteerManagement.UpdateRequisites
     public class UpdateRequisitesHandler : IUpdateRequisitesHandler
     {
         private readonly IVolunteerRepository _repository;
+        private readonly IValidator<UpdateRequisitesCommand> _validator;
         private readonly ILogger _logger;
 
         public UpdateRequisitesHandler(
             IVolunteerRepository repository,
-            ILogger<UpdateMainInfoHandler> logger)
+            ILogger<UpdateMainInfoHandler> logger,
+            IValidator<UpdateRequisitesCommand> validator)
         {
             _repository = repository;
             _logger = logger;
+            _validator = validator;
         }
 
         public async Task<Result<Guid>> Execute(
-            UpdateRequisitesCommand request,
+            UpdateRequisitesCommand command,
             CancellationToken cancellationToken = default)
         {
-            List<Requisite> requisites = VolunteerDtoMappers.MapRequisiteModel(request.Dto.Requisites);
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
+            if (validationResult.IsValid == false)
+                return validationResult.ToErrorList();
+
+            List<Requisite> requisites = VolunteerDtoMappers.MapRequisiteModel(command.Requisites);
 
             var requisiteDetails = RequisitesDetails.Create(requisites).Value;
 
-            var volunteerId = VolunteerId.Create(request.Id);
-            var existingVoluntreeByIdResult = await _repository.GetById(volunteerId, cancellationToken);
+            var volunteerId = VolunteerId.Create(command.Id);
+            var existingVolunteerByIdResult = await _repository.GetById(volunteerId, cancellationToken);
 
-            if (existingVoluntreeByIdResult.IsFailure)
+            if (existingVolunteerByIdResult.IsFailure)
             {
-                return Errors.General.NotFound(request.Id).ToErrorList();
+                return Errors.General.NotFound(command.Id).ToErrorList();
             }
 
-            var volunteer = existingVoluntreeByIdResult.Value;
+            var volunteer = existingVolunteerByIdResult.Value;
             volunteer.UpdateRequisite(requisiteDetails);
 
             var updateResult = await _repository.Update(volunteer, cancellationToken);

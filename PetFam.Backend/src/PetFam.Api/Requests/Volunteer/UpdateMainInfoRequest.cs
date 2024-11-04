@@ -1,4 +1,5 @@
-﻿using PetFam.Application.VolunteerManagement.ValueObjects;
+﻿using PetFam.Application.VolunteerManagement.UpdateMainInfo;
+using PetFam.Application.VolunteerManagement.ValueObjects;
 
 namespace PetFam.Api.Requests.Volunteer
 {
@@ -6,5 +7,16 @@ namespace PetFam.Api.Requests.Volunteer
         FullNameDto FullNameDto,
         int AgeOfExpirience,
         string Email,
-        GeneralInformationDto GeneralInformationDto);
+        GeneralInformationDto GeneralInformationDto)
+    {
+        public UpdateMainInfoCommand ToCommand(Guid id)
+        {
+            return new UpdateMainInfoCommand(
+                id,
+                FullNameDto,
+                AgeOfExpirience,
+                Email,
+                GeneralInformationDto);
+        }
+    }
 }

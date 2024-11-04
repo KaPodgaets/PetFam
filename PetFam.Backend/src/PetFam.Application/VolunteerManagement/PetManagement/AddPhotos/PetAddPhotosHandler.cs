@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFam.Application.Extensions;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
@@ -13,6 +15,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
         private readonly IVolunteerRepository _repository;
         private readonly IFileProvider _fileProvider;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<PetAddPhotosCommand> _validator;
         private readonly ILogger _logger;
         private readonly IFilesCleanerMessageQueue _queue;
 
@@ -21,17 +24,24 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
             IFileProvider fileProvider,
             IUnitOfWork unitOfWork,
             ILogger<PetAddPhotosHandler> logger,
-            IFilesCleanerMessageQueue queue)
+            IFilesCleanerMessageQueue queue,
+            IValidator<PetAddPhotosCommand> validator)
         {
             _repository = repository;
             _fileProvider = fileProvider;
             _unitOfWork = unitOfWork;
             _logger = logger;
             _queue = queue;
+            _validator = validator;
         }
 
         public async Task<Result<string>> Execute(PetAddPhotosCommand command, CancellationToken cancellationToken = default)
         {
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
+            if (validationResult.IsValid == false)
+                return validationResult.ToErrorList();
+
             var transaction = await _unitOfWork.BeginTransaction(cancellationToken);
 
             try
