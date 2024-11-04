@@ -2,7 +2,7 @@
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Application.VolunteerManagement.Create
+namespace PetFam.Application.VolunteerManagement.Commands.Create
 {
     public class CreateVolunteerHandler : ICreateVolunteerHandler
     {

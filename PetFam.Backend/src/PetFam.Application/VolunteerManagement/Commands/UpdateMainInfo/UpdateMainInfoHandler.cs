@@ -1,22 +1,21 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
-using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Application.VolunteerManagement.UpdateRequisites
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
 {
-    public class UpdateRequisitesHandler : IUpdateRequisitesHandler
+    public class UpdateMainInfoHandler : IUpdateMainInfoHandler
     {
         private readonly IVolunteerRepository _repository;
-        private readonly IValidator<UpdateRequisitesCommand> _validator;
+        private readonly IValidator<UpdateMainInfoCommand> _validator;
         private readonly ILogger _logger;
 
-        public UpdateRequisitesHandler(
+        public UpdateMainInfoHandler(
             IVolunteerRepository repository,
             ILogger<UpdateMainInfoHandler> logger,
-            IValidator<UpdateRequisitesCommand> validator)
+            IValidator<UpdateMainInfoCommand> validator)
         {
             _repository = repository;
             _logger = logger;
@@ -24,7 +23,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateRequisites
         }
 
         public async Task<Result<Guid>> Execute(
-            UpdateRequisitesCommand command,
+            UpdateMainInfoCommand command,
             CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -32,29 +31,34 @@ namespace PetFam.Application.VolunteerManagement.UpdateRequisites
             if (validationResult.IsValid == false)
                 return validationResult.ToErrorList();
 
-            List<Requisite> requisites = VolunteerDtoMappers.MapRequisiteModel(command.Requisites);
+            var fullName = FullName.Create(
+                command.FullNameDto.FirstName,
+                command.FullNameDto.LastName,
+                command.FullNameDto.Patronimycs)
+                .Value;
 
-            var requisiteDetails = RequisitesDetails.Create(requisites).Value;
+            var email = Email.Create(command.Email).Value;
+
+            var generalInformation = GeneralInformation.Create(
+                command.GeneralInformationDto.BioEducation,
+                command.GeneralInformationDto.ShortDescription)
+                .Value;
 
             var volunteerId = VolunteerId.Create(command.Id);
             var existingVolunteerByIdResult = await _repository.GetById(volunteerId, cancellationToken);
 
             if (existingVolunteerByIdResult.IsFailure)
-            {
-                return Errors.General.NotFound(command.Id).ToErrorList();
-            }
+                return existingVolunteerByIdResult.Errors;
 
             var volunteer = existingVolunteerByIdResult.Value;
-            volunteer.UpdateRequisite(requisiteDetails);
+            volunteer.UpdateMainInfo(fullName, email, command.AgeOfExperience, generalInformation);
 
             var updateResult = await _repository.Update(volunteer, cancellationToken);
             if (updateResult.IsFailure)
-            {
-                return Errors.General.Failure().ToErrorList();
-            }
+                return updateResult.Errors;
 
             _logger.LogInformation(
-                "Requisites for volunteer with {id} were updated",
+                "Name for volunteer with {id} was updated",
                 volunteer.Id.Value);
 
             return updateResult;

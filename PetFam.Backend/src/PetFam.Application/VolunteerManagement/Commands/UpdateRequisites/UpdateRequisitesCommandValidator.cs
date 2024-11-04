@@ -2,7 +2,7 @@
 using PetFam.Application.Validation;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Application.VolunteerManagement.UpdateRequisites
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateRequisites
 {
     public class UpdateRequisitesCommandValidator : AbstractValidator<UpdateRequisitesCommand>
     {

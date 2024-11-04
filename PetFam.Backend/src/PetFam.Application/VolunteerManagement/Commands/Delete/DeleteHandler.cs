@@ -2,7 +2,7 @@
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Application.VolunteerManagement.Delete
+namespace PetFam.Application.VolunteerManagement.Commands.Delete
 {
     public class DeleteHandler : IDeleteHandler
     {

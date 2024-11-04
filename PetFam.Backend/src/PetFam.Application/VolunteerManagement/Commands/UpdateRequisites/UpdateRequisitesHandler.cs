@@ -1,22 +1,22 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
-using PetFam.Application.VolunteerManagement.UpdateMainInfo;
+using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateRequisites
 {
-    public class UpdateSocialMediaHandler : IUpdateSocialMediaHandler
+    public class UpdateRequisitesHandler : IUpdateRequisitesHandler
     {
         private readonly IVolunteerRepository _repository;
-        private readonly IValidator<UpdateSocialMediaCommand> _validator;
+        private readonly IValidator<UpdateRequisitesCommand> _validator;
         private readonly ILogger _logger;
 
-        public UpdateSocialMediaHandler(
+        public UpdateRequisitesHandler(
             IVolunteerRepository repository,
             ILogger<UpdateMainInfoHandler> logger,
-            IValidator<UpdateSocialMediaCommand> validator)
+            IValidator<UpdateRequisitesCommand> validator)
         {
             _repository = repository;
             _logger = logger;
@@ -24,7 +24,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
         }
 
         public async Task<Result<Guid>> Execute(
-            UpdateSocialMediaCommand command,
+            UpdateRequisitesCommand command,
             CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -32,9 +32,9 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
             if (validationResult.IsValid == false)
                 return validationResult.ToErrorList();
 
-            List<SocialMediaLink> links = VolunteerDtoMappers.MapSocialMediaLinkModel(command.SocialMediaLinks);
+            List<Requisite> requisites = VolunteerDtoMappers.MapRequisiteModel(command.Requisites);
 
-            var socialMediaDetails = SocialMediaDetails.Create(links).Value;
+            var requisiteDetails = RequisitesDetails.Create(requisites).Value;
 
             var volunteerId = VolunteerId.Create(command.Id);
             var existingVolunteerByIdResult = await _repository.GetById(volunteerId, cancellationToken);
@@ -45,7 +45,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
             }
 
             var volunteer = existingVolunteerByIdResult.Value;
-            volunteer.UpdateSocialMedia(socialMediaDetails);
+            volunteer.UpdateRequisite(requisiteDetails);
 
             var updateResult = await _repository.Update(volunteer, cancellationToken);
             if (updateResult.IsFailure)
@@ -54,7 +54,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
             }
 
             _logger.LogInformation(
-                "Social Media for volunteer with {id} was updated",
+                "Requisites for volunteer with {id} were updated",
                 volunteer.Id.Value);
 
             return updateResult;

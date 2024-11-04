@@ -2,7 +2,7 @@
 using PetFam.Application.Validation;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {
     public class UpdateSocialMediaCommandValidator : AbstractValidator<UpdateSocialMediaCommand>
     {

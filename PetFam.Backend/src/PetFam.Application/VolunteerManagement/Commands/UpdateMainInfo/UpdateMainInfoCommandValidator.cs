@@ -3,7 +3,7 @@ using PetFam.Application.Validation;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
 {
     public class UpdateMainInfoCommandValidator : AbstractValidator<UpdateMainInfoCommand>
     {

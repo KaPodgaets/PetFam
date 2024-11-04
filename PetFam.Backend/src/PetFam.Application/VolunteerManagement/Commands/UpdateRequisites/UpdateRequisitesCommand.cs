@@ -1,6 +1,6 @@
 ﻿using PetFam.Application.VolunteerManagement.ValueObjects;
 
-namespace PetFam.Application.VolunteerManagement.UpdateRequisites
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateRequisites
 {
     public record UpdateRequisitesCommand(
         Guid Id,

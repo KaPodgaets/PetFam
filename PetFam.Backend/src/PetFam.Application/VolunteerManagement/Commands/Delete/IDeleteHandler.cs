@@ -1,6 +1,6 @@
 ﻿using PetFam.Domain.Shared;
 
-namespace PetFam.Application.VolunteerManagement.Delete
+namespace PetFam.Application.VolunteerManagement.Commands.Delete
 {
     public interface IDeleteHandler
     {

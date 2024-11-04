@@ -10,6 +10,6 @@ namespace PetFam.Application.VolunteerManagement
         Task<Result<Volunteer>> GetByEmail(Email email, CancellationToken cancellationToken = default);
         Task<Result<Guid>> Update(Volunteer volunteer, CancellationToken cancellationToken = default);
         Task<Result<Guid>> Delete(Volunteer volunteer, CancellationToken cancellationToken = default);
-        Task<Result<List<Volunteer>>> GetAllAsync(CancellationToken cancellationToken = default);
+        Task<Result<IReadOnlyList<Volunteer>>> GetAllAsync(CancellationToken cancellationToken = default);
     }
 }

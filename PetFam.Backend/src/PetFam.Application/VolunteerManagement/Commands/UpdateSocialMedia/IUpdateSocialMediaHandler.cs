@@ -1,6 +1,6 @@
 ﻿using PetFam.Domain.Shared;
 
-namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {
     public interface IUpdateSocialMediaHandler
     {

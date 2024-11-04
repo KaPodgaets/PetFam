@@ -1,4 +1,4 @@
-﻿using PetFam.Application.VolunteerManagement.Create;
+﻿using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Application.VolunteerManagement.ValueObjects;
 
 namespace PetFam.Api.Requests.Volunteer

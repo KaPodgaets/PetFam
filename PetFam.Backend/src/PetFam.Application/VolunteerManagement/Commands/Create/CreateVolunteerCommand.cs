@@ -1,6 +1,6 @@
 ﻿using PetFam.Application.VolunteerManagement.ValueObjects;
 
-namespace PetFam.Application.VolunteerManagement.Create
+namespace PetFam.Application.VolunteerManagement.Commands.Create
 {
     public record CreateVolunteerCommand(
         FullNameDto FullNameDto,

@@ -1,6 +1,6 @@
 ﻿using PetFam.Domain.Shared;
 
-namespace PetFam.Application.VolunteerManagement.Create
+namespace PetFam.Application.VolunteerManagement.Commands.Create
 {
     public interface ICreateVolunteerHandler
     {

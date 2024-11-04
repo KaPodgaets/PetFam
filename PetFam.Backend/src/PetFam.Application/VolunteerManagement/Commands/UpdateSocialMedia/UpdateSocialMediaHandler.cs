@@ -1,21 +1,22 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
+using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
-namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {
-    public class UpdateMainInfoHandler : IUpdateMainInfoHandler
+    public class UpdateSocialMediaHandler : IUpdateSocialMediaHandler
     {
         private readonly IVolunteerRepository _repository;
-        private readonly IValidator<UpdateMainInfoCommand> _validator;
+        private readonly IValidator<UpdateSocialMediaCommand> _validator;
         private readonly ILogger _logger;
 
-        public UpdateMainInfoHandler(
+        public UpdateSocialMediaHandler(
             IVolunteerRepository repository,
             ILogger<UpdateMainInfoHandler> logger,
-            IValidator<UpdateMainInfoCommand> validator)
+            IValidator<UpdateSocialMediaCommand> validator)
         {
             _repository = repository;
             _logger = logger;
@@ -23,7 +24,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
         }
 
         public async Task<Result<Guid>> Execute(
-            UpdateMainInfoCommand command,
+            UpdateSocialMediaCommand command,
             CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -31,34 +32,29 @@ namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
             if (validationResult.IsValid == false)
                 return validationResult.ToErrorList();
 
-            var fullName = FullName.Create(
-                command.FullNameDto.FirstName,
-                command.FullNameDto.LastName,
-                command.FullNameDto.Patronimycs)
-                .Value;
+            List<SocialMediaLink> links = VolunteerDtoMappers.MapSocialMediaLinkModel(command.SocialMediaLinks);
 
-            var email = Email.Create(command.Email).Value;
-
-            var generalInformation = GeneralInformation.Create(
-                command.GeneralInformationDto.BioEducation,
-                command.GeneralInformationDto.ShortDescription)
-                .Value;
+            var socialMediaDetails = SocialMediaDetails.Create(links).Value;
 
             var volunteerId = VolunteerId.Create(command.Id);
             var existingVolunteerByIdResult = await _repository.GetById(volunteerId, cancellationToken);
 
             if (existingVolunteerByIdResult.IsFailure)
-                return existingVolunteerByIdResult.Errors;
+            {
+                return Errors.General.NotFound(command.Id).ToErrorList();
+            }
 
             var volunteer = existingVolunteerByIdResult.Value;
-            volunteer.UpdateMainInfo(fullName, email, command.AgeOfExperience, generalInformation);
+            volunteer.UpdateSocialMedia(socialMediaDetails);
 
             var updateResult = await _repository.Update(volunteer, cancellationToken);
             if (updateResult.IsFailure)
-                return updateResult.Errors;
+            {
+                return Errors.General.Failure().ToErrorList();
+            }
 
             _logger.LogInformation(
-                "Name for volunteer with {id} was updated",
+                "Social Media for volunteer with {id} was updated",
                 volunteer.Id.Value);
 
             return updateResult;

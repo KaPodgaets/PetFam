@@ -1,6 +1,6 @@
 ﻿using PetFam.Application.VolunteerManagement.ValueObjects;
 
-namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {
     public record UpdateSocialMediaCommand(
         Guid Id,

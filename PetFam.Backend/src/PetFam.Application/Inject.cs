@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using PetFam.Application.FileManagement;
 using PetFam.Application.FileManagement.Delete;
 using PetFam.Application.FileManagement.GetLink;
 using PetFam.Application.FileManagement.Upload;
@@ -7,13 +9,14 @@ using PetFam.Application.SpeciesManagement.Create;
 using PetFam.Application.SpeciesManagement.CreateBreed;
 using PetFam.Application.SpeciesManagement.Delete;
 using PetFam.Application.Validation;
-using PetFam.Application.VolunteerManagement.Create;
-using PetFam.Application.VolunteerManagement.Delete;
+using PetFam.Application.VolunteerManagement.Commands.Create;
+using PetFam.Application.VolunteerManagement.Commands.Delete;
+using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
+using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
+using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
-using PetFam.Application.VolunteerManagement.UpdateMainInfo;
-using PetFam.Application.VolunteerManagement.UpdateRequisites;
-using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
+using System.Threading;
 
 namespace PetFam.Application
 {

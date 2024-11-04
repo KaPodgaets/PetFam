@@ -1,6 +1,6 @@
 ﻿using PetFam.Domain.Shared;
 
-namespace PetFam.Application.VolunteerManagement.UpdateRequisites
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateRequisites
 {
     public interface IUpdateRequisitesHandler
     {

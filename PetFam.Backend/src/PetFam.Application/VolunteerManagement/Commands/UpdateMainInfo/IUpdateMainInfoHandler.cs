@@ -1,6 +1,6 @@
 ﻿using PetFam.Domain.Shared;
 
-namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
 {
     public interface IUpdateMainInfoHandler
     {

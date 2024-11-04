@@ -73,7 +73,7 @@ namespace PetFam.Infrastructure.Repositories
             return volunteer.Id.Value;
         }
 
-        public async Task<Result<List<Volunteer>>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<Result<IReadOnlyList<Volunteer>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var models = await _dbContext.Volunteers
                 .Include(m => m.Pets)

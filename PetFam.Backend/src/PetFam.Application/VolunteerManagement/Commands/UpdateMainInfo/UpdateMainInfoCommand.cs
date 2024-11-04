@@ -1,6 +1,6 @@
 ﻿using PetFam.Application.VolunteerManagement.ValueObjects;
 
-namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
+namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
 {
     public record UpdateMainInfoCommand(
         Guid Id,

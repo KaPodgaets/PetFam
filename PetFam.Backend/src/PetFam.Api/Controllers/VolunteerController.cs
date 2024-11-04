@@ -3,11 +3,13 @@ using PetFam.Api.Extensions;
 using PetFam.Api.Processors;
 using PetFam.Api.Requests.Volunteer;
 using PetFam.Application.FileProvider;
-using PetFam.Application.VolunteerManagement.Create;
-using PetFam.Application.VolunteerManagement.Delete;
+using PetFam.Application.VolunteerManagement.Commands.Create;
+using PetFam.Application.VolunteerManagement.Commands.Delete;
+using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
+using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
+using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
-using PetFam.Application.VolunteerManagement.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
 using PetFam.Infrastructure.Options;
@@ -19,6 +21,12 @@ namespace PetFam.Api.Controllers
         public VolunteerController(ILogger<VolunteerController> logger)
             : base(logger)
         {
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAllVolunteers()
+        {
+            return Ok();
         }
 
         [HttpPost]
