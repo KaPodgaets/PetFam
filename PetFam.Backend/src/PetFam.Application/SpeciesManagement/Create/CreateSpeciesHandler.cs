@@ -25,9 +25,7 @@ namespace PetFam.Application.SpeciesManagement.Create
 
             if (existingSpeciesByNameResult.IsSuccess)
             {
-                return Result<Guid>.Failure(
-                    Errors.Volunteer.AlreadyExist(
-                        request.Name));
+                return Errors.Volunteer.AlreadyExist(request.Name).ToErrorList();
             }
 
             var speciesCreateResult = Species.Create(
@@ -35,7 +33,7 @@ namespace PetFam.Application.SpeciesManagement.Create
                 request.Name);
 
             if (speciesCreateResult.IsFailure)
-                return Result<Guid>.Failure(speciesCreateResult.Error);
+                return Result<Guid>.Failure(speciesCreateResult.Errors);
 
             var addResult = await _repository.Add(speciesCreateResult.Value, cancellationToken);
 

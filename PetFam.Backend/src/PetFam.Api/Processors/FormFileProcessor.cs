@@ -1,7 +1,4 @@
-﻿
-using Minio.DataModel;
-using PetFam.Api.Contracts;
-using PetFam.Application.FileProvider;
+﻿using PetFam.Application.FileProvider;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Processors

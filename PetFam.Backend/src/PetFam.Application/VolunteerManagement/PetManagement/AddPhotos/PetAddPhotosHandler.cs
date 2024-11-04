@@ -42,7 +42,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 
                 if (getVolunteerResult.IsFailure)
                 {
-                    return getVolunteerResult.Error;
+                    return getVolunteerResult.Errors;
                 }
 
                 var volunteer = getVolunteerResult.Value;
@@ -50,7 +50,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 
                 if (pet == null)
                 {
-                    return Errors.General.NotFound($"pet with Id {command.PetId} not founded");
+                    return Errors.General.NotFound($"pet with Id {command.PetId} not founded").ToErrorList();
                 }
 
                 var galleryItems = new List<PetPhoto>();
@@ -60,7 +60,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
                     var createPetPhotoResult = PetPhoto.Create(fileData.FileMetadata.ObjectName, false);
                     if (createPetPhotoResult.IsFailure)
                     {
-                        return createPetPhotoResult.Error;
+                        return createPetPhotoResult.Errors;
                     }
 
                     galleryItems.Add(createPetPhotoResult.Value);
@@ -70,7 +70,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 
                 if (result.IsFailure)
                 {
-                    return result.Error;
+                    return result.Errors;
                     //delete uploaded files in minio in case of failure
                 }
 
@@ -81,7 +81,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
                 var uploadResult = await _fileProvider.UploadFiles(command.Content, cancellationToken);
 
                 if (uploadResult.IsFailure)
-                    return uploadResult.Error;
+                    return uploadResult.Errors;
 
                 transaction.Commit();
             }
@@ -95,7 +95,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 
                 await _queue.WriteAsync(filesPath, cancellationToken);
 
-                return Error.Failure("upload.photo.error", "Can not add photos to pet");
+                return Error.Failure("upload.photo.error", "Can not add photos to pet").ToErrorList();
             }
             
             

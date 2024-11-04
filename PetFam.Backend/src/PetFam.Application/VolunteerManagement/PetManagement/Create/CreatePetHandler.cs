@@ -33,7 +33,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
 
             if(getVolunteerResult.IsFailure)
             {
-                return Errors.General.NotFound(volunteerId.Value);
+                return Errors.General.NotFound(volunteerId.Value).ToErrorList();
             }
 
             var volunteer = getVolunteerResult.Value;
@@ -42,7 +42,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
             var getSpeciesResult = await _speciesRepository.GetByName(request.CreatePetDto.SpeciesName, cancellationToken);
             if (getSpeciesResult.IsFailure)
             {
-                return Errors.General.NotFound(request.CreatePetDto.SpeciesName);
+                return Errors.General.NotFound(request.CreatePetDto.SpeciesName).ToErrorList();
             }
             var species = getSpeciesResult.Value;
 
@@ -50,7 +50,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
 
             if (breedId == null)
             {
-                return Errors.General.NotFound(request.CreatePetDto.BreedName);
+                return Errors.General.NotFound(request.CreatePetDto.BreedName).ToErrorList();
             }
 
             var speciesBreed = SpeciesBreed.Create(getSpeciesResult.Value.Id, breedId.Value);
@@ -107,7 +107,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
                 volunteer.Pets.Count);
 
             if (createPetResult.IsFailure)
-                return Result<Guid>.Failure(createPetResult.Error);
+                return Result<Guid>.Failure(createPetResult.Errors);
 
             // add pet to volunteer
 
@@ -117,7 +117,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
 
             if(result.IsFailure)
             {
-                return Result<Guid>.Failure(result.Error);
+                return Result<Guid>.Failure(result.Errors);
             }
 
             _logger.LogInformation(

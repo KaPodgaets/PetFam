@@ -22,19 +22,19 @@ namespace PetFam.Application.SpeciesManagement.CreateBreed
             var existSpeciesResult = await _repository.GetById(SpeciesId.Create(request.SpeciesId), cancellationToken);
 
             if (existSpeciesResult.IsFailure)
-                return Result<Guid>.Failure(existSpeciesResult.Error);
+                return Result<Guid>.Failure(existSpeciesResult.Errors);
 
             var species = existSpeciesResult.Value;
 
             var createBreedResult = Breed.Create(BreedId.NewId(), request.Name);
 
             if (createBreedResult.IsFailure)
-                return Result<Guid>.Failure(createBreedResult.Error);
+                return Result<Guid>.Failure(createBreedResult.Errors);
 
             var addBreedResult = species.AddBreed(createBreedResult.Value);
 
             if (addBreedResult.IsFailure)
-                return Result<Guid>.Failure(addBreedResult.Error);
+                return Result<Guid>.Failure(addBreedResult.Errors);
 
             await _repository.Update(species, cancellationToken);
 

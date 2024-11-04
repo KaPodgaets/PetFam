@@ -11,19 +11,19 @@ namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
         {
             RuleFor(v => v.Id).NotEmpty();
 
-            RuleFor(v => v.Dto.FullNameDto).MustBeValueObject(x =>
+            RuleFor(v => v.FullNameDto).MustBeValueObject(x =>
                 FullName.Create(x.FirstName, x.LastName, x.Patronimycs));
 
             RuleFor(v => v.Id).NotEmpty()
                 .WithError(Errors.General.ValueIsRequired());
 
-            RuleFor(v => v.Dto.GeneralInformationDto).MustBeValueObject(x =>
+            RuleFor(v => v.GeneralInformationDto).MustBeValueObject(x =>
                 GeneralInformation.Create(x.BioEducation, x.ShortDescription));
 
-            RuleFor(v => v.Dto.Email).MustBeValueObject(x =>
+            RuleFor(v => v.Email).MustBeValueObject(x =>
                 Email.Create(x));
 
-            RuleFor(v => v.Dto.AgeOfExpirience).GreaterThanOrEqualTo(0);
+            RuleFor(v => v.AgeOfExpirience).GreaterThanOrEqualTo(0);
         }
     }
 }

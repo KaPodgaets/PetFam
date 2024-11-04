@@ -31,9 +31,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
 
             if (existingVoluntreeByIdResult.IsFailure)
             {
-                return Result<Guid>.Failure(
-                    Errors.General.NotFound(
-                        request.Id));
+                return Errors.General.NotFound(request.Id).ToErrorList();
             }
 
             var volunteer = existingVoluntreeByIdResult.Value;
@@ -42,8 +40,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateSocialMedia
             var updateResult = await _repository.Update(volunteer, cancellationToken);
             if (updateResult.IsFailure)
             {
-                return Result<Guid>.Failure(
-                    Errors.General.Failure());
+                return Errors.General.Failure().ToErrorList();
             }
 
             _logger.LogInformation(

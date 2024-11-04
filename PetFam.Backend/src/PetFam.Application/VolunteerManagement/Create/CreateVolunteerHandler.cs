@@ -26,7 +26,7 @@ namespace PetFam.Application.VolunteerManagement.Create
 
             if (fullNameCreationResult.IsFailure)
             {
-                return Result<Guid>.Failure(fullNameCreationResult.Error);
+                return Result<Guid>.Failure(fullNameCreationResult.Errors);
             }
 
             List<SocialMediaLink> socialMediaLinks = VolunteerDtoMappers.MapSocialMediaLinkModel(request);
@@ -35,7 +35,7 @@ namespace PetFam.Application.VolunteerManagement.Create
 
             if (createSocialMediaDetailsResult.IsFailure)
             {
-                return Result<Guid>.Failure(createSocialMediaDetailsResult.Error);
+                return Result<Guid>.Failure(createSocialMediaDetailsResult.Errors);
             }
 
             List<Requisite> requisites = VolunteerDtoMappers.MapRequisiteModel(request);
@@ -44,14 +44,14 @@ namespace PetFam.Application.VolunteerManagement.Create
 
             if (createRequisiteDetailsResult.IsFailure)
             {
-                return Result<Guid>.Failure(createRequisiteDetailsResult.Error);
+                return Result<Guid>.Failure(createRequisiteDetailsResult.Errors);
             }
 
             var createEmailResult = Email.Create(request.Email);
 
             if (createEmailResult.IsFailure)
             {
-                return Result<Guid>.Failure(createEmailResult.Error);
+                return Result<Guid>.Failure(createEmailResult.Errors);
             }
 
             var existingVoluntreeByEmailResult = await _repository.GetByEmail(
@@ -60,9 +60,7 @@ namespace PetFam.Application.VolunteerManagement.Create
 
             if (existingVoluntreeByEmailResult.IsSuccess)
             {
-                return Result<Guid>.Failure(
-                    Errors.Volunteer.AlreadyExist(
-                        createEmailResult.Value.Value));
+                return Errors.Volunteer.AlreadyExist(createEmailResult.Value.Value).ToErrorList();
             }
 
             var volunteerCreationResult = Volunteer.Create(
@@ -73,7 +71,7 @@ namespace PetFam.Application.VolunteerManagement.Create
                 createRequisiteDetailsResult.Value);
 
             if (volunteerCreationResult.IsFailure)
-                return Result<Guid>.Failure(volunteerCreationResult.Error);
+                return Result<Guid>.Failure(volunteerCreationResult.Errors);
 
             var creationResult = await _repository.Add(volunteerCreationResult.Value, cancellationToken);
 

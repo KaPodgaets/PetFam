@@ -26,24 +26,24 @@ namespace PetFam.Application.SpeciesManagement.Delete
             var existSpeciesResult = await _repository.GetById(SpeciesId.Create(request.Id), cancellationToken);
 
             if (existSpeciesResult.IsFailure)
-                return Result<Guid>.Failure(existSpeciesResult.Error);
+                return Result<Guid>.Failure(existSpeciesResult.Errors);
 
             var getVolunteersResult = await _volunteerRepository.GetAllAsync(cancellationToken);
             if (getVolunteersResult.IsFailure)
             {
-                return Errors.General.Failure();
+                return Errors.General.Failure().ToErrorList();
             }
             var allExistingSpecies = getVolunteersResult.Value.SelectMany(x => x.Pets.Select(p => p.SpeciesAndBreed.SpeciesId.Value));
 
             if(allExistingSpecies.Any(p => p == request.Id))
             {
-                return Errors.General.DeletionEntityWithRelation();
+                return Errors.General.DeletionEntityWithRelation().ToErrorList();
             }
 
             var deleteResult = await _repository.Delete(existSpeciesResult.Value, cancellationToken);
 
             if (deleteResult.IsFailure)
-                return Result<Guid>.Failure(deleteResult.Error);
+                return Result<Guid>.Failure(deleteResult.Errors);
 
             _logger.LogInformation(
                 "Delete species with {name} with id {id}",
