@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFam.Application.Extensions;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 
@@ -7,30 +9,38 @@ namespace PetFam.Application.SpeciesManagement.Create
     public class CreateSpeciesHandler
     {
         private readonly ISpeciesRepository _repository;
+        private readonly IValidator<CreateSpeciesCommand> _validator;
         private readonly ILogger _logger;
 
         public CreateSpeciesHandler(
             ISpeciesRepository repository,
-            ILogger<CreateSpeciesHandler> logger)
+            ILogger<CreateSpeciesHandler> logger,
+            IValidator<CreateSpeciesCommand> validator)
         {
             _repository = repository;
             _logger = logger;
+            _validator = validator;
         }
-        public async Task<Result<Guid>> Execute(CreateSpeciesCommand request,
+        public async Task<Result<Guid>> Execute(CreateSpeciesCommand command,
             CancellationToken cancellationToken = default)
         {
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
+            if (validationResult.IsValid == false)
+                return validationResult.ToErrorList();
+
             var existingSpeciesByNameResult = await _repository.GetByName(
-                request.Name,
+                command.Name,
                 cancellationToken);
 
             if (existingSpeciesByNameResult.IsSuccess)
             {
-                return Errors.Volunteer.AlreadyExist(request.Name).ToErrorList();
+                return Errors.Volunteer.AlreadyExist(command.Name).ToErrorList();
             }
 
             var speciesCreateResult = Species.Create(
                 SpeciesId.NewId(),
-                request.Name);
+                command.Name);
 
             if (speciesCreateResult.IsFailure)
                 return Result<Guid>.Failure(speciesCreateResult.Errors);
@@ -39,7 +49,7 @@ namespace PetFam.Application.SpeciesManagement.Create
 
             _logger.LogInformation(
                 "Created species with {name} with id {id}",
-                request.Name,
+                command.Name,
                 addResult.Value);
 
             return addResult;

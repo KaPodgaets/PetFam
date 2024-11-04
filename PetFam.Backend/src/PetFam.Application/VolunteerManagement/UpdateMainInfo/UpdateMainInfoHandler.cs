@@ -9,7 +9,7 @@ namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
     public class UpdateMainInfoHandler : IUpdateMainInfoHandler
     {
         private readonly IVolunteerRepository _repository;
-        IValidator<UpdateMainInfoCommand> _validator;
+        private readonly IValidator<UpdateMainInfoCommand> _validator;
         private readonly ILogger _logger;
 
         public UpdateMainInfoHandler(
@@ -45,12 +45,12 @@ namespace PetFam.Application.VolunteerManagement.UpdateMainInfo
                 .Value;
 
             var volunteerId = VolunteerId.Create(command.Id);
-            var existingVoluntreeByIdResult = await _repository.GetById(volunteerId, cancellationToken);
+            var existingVolunteerByIdResult = await _repository.GetById(volunteerId, cancellationToken);
 
-            if (existingVoluntreeByIdResult.IsFailure)
-                return existingVoluntreeByIdResult.Errors;
+            if (existingVolunteerByIdResult.IsFailure)
+                return existingVolunteerByIdResult.Errors;
 
-            var volunteer = existingVoluntreeByIdResult.Value;
+            var volunteer = existingVolunteerByIdResult.Value;
             volunteer.UpdateMainInfo(fullName, email, command.AgeOfExpirience, generalInformation);
 
             var updateResult = await _repository.Update(volunteer, cancellationToken);
