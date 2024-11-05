@@ -3,10 +3,10 @@ using PetFam.Application.Dtos;
 using PetFam.Application.Extensions;
 using PetFam.Application.Interfaces;
 
-namespace PetFam.Application.VolunteerManagement.Queries
+namespace PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers
 {
-    public class GetVolunteersWithPaginationHandler 
-        :IQueryHandler<PagedList<VolunteerDto>, GetVolunteersWithPaginationQuery>
+    public class GetVolunteersWithPaginationHandler
+        : IQueryHandler<PagedList<VolunteerDto>, GetVolunteersWithPaginationQuery>
     {
         private readonly IReadDbContext _dbContext;
         public GetVolunteersWithPaginationHandler(IReadDbContext dbContext)
@@ -18,12 +18,12 @@ namespace PetFam.Application.VolunteerManagement.Queries
             GetVolunteersWithPaginationQuery query,
             CancellationToken cancellationToken = default)
         {
-            var volunteerQuery = _dbContext.Volunteers;
+            var source = _dbContext.Volunteers.AsQueryable();
 
             // filtration
 
-            var pagedList = await volunteerQuery.ToPagedList(query.PageNumber, query.PageSize, cancellationToken);
-            
+            var pagedList = await source.ToPagedList(query.PageNumber, query.PageSize, cancellationToken);
+
             return pagedList;
         }
     }

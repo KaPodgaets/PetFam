@@ -10,7 +10,9 @@ namespace PetFam.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddCommands();
+            services
+                .AddCommands()
+                .AddQueries();
 
             services.AddScoped<IUploadFileHandler, UploadFileHandler>();
 
@@ -30,6 +32,11 @@ namespace PetFam.Application
                     .AsSelfWithInterfaces()
                     .WithScopedLifetime());
 
+            return services;
+        }
+
+        public static IServiceCollection AddQueries(this IServiceCollection services)
+        {
             services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
                 .AddClasses(classes => classes.AssignableTo(
                     typeof(IQueryHandler<,>)

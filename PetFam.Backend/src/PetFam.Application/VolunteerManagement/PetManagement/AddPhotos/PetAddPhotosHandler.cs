@@ -68,7 +68,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 
                 foreach (var fileData in command.Content.FilesData)
                 {
-                    var createPetPhotoResult = PetPhoto.Create(fileData.FileMetadata.ObjectName, false);
+                    var createPetPhotoResult = PetPhoto.Create(fileData.FileMetadata.ObjectName);
                     if (createPetPhotoResult.IsFailure)
                     {
                         return createPetPhotoResult.Errors;

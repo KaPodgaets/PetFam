@@ -1,4 +1,4 @@
-﻿using PetFam.Application.VolunteerManagement.Queries;
+﻿using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
 
 namespace PetFam.Api.Requests
 {

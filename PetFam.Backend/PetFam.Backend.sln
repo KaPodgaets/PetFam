@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.UnitTests", "tests\PetFam.UnitTests\PetFam.UnitTests.csproj", "{1B79119B-862B-4441-A3E4-2F2EE45B1217}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetFam.UnitTests", "tests\PetFam.UnitTests\PetFam.UnitTests.csproj", "{1B79119B-862B-4441-A3E4-2F2EE45B1217}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -21,7 +21,7 @@ namespace PetFam.Domain.Volunteer.Pet
             AccountInfo accountInfo,
             DateTime createDate,
             int order,
-            Gallery gallery
+            ValueObjectList<PetPhoto> photos
             ) : base(petId)
         {
             NickName = nickName;
@@ -33,7 +33,7 @@ namespace PetFam.Domain.Volunteer.Pet
             AccountInfo = accountInfo;
             CreateDate = createDate;
             Order = order;
-            Gallery = gallery;
+            Photos = photos;
         }
 
         public string NickName { get; private set; } = string.Empty;
@@ -44,7 +44,7 @@ namespace PetFam.Domain.Volunteer.Pet
         public Address Address { get; private set; }
         public AccountInfo AccountInfo { get; private set; }
         public DateTime CreateDate { get; private set; }
-        public Gallery Gallery { get; private set; }
+        public ValueObjectList<PetPhoto> Photos { get; private set; }
         public int Order { get;private set; }
 
         public static Result<Pet> Create(PetId petId,
@@ -80,7 +80,7 @@ namespace PetFam.Domain.Volunteer.Pet
                 accountInfo,
                 createDate,
                 order,
-                Gallery.CreateEmpty()
+                new ValueObjectList<PetPhoto>([])
             );
         }
 
@@ -91,30 +91,17 @@ namespace PetFam.Domain.Volunteer.Pet
                 return Errors.General.ValueIsRequired("Photos not provided").ToErrorList();
             }
 
-            List<PetPhoto> newPhotos = [..photos];
-
-            if (Gallery == null)
+            if (Photos == null)
             {
-                var createResult = Gallery.Create(photos);
-                if (createResult.IsFailure)
-                {
-                    return createResult.Errors;
-                }
-
-                Gallery = createResult.Value;
+                ValueObjectList<PetPhoto> newPhotos = new(photos);
+                Photos = newPhotos;
                 return Result.Success();
             }
 
-            var updatedPhotos = Gallery.Value.ToList();
+            var updatedPhotos = Photos.ToList();
             updatedPhotos.AddRange(photos);
 
-            var updateGalleryResult = Gallery.Create(updatedPhotos);
-            if (updateGalleryResult.IsFailure)
-            {
-                return updateGalleryResult.Errors;
-            }
-
-            Gallery = updateGalleryResult.Value;
+            Photos = new ValueObjectList<PetPhoto>(updatedPhotos);
             return Result.Success();
         }
 

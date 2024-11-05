@@ -3,7 +3,6 @@ using PetFam.Api.Extensions;
 using PetFam.Api.Processors;
 using PetFam.Api.Requests;
 using PetFam.Api.Requests.Volunteer;
-using PetFam.Application.Dtos;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
@@ -12,7 +11,8 @@ using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
-using PetFam.Application.VolunteerManagement.Queries;
+using PetFam.Application.VolunteerManagement.Queries.GetAllPets;
+using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
@@ -24,13 +24,25 @@ namespace PetFam.Api.Controllers
         {
         }
 
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult<VolunteerDto>> GetVolunteerById(
-            [FromRoute] Guid id,
-            [FromServices] handler,
+        [HttpGet("all-pets")]
+        public async Task<ActionResult> GetAllPetsWithPagination(
+            [FromQuery] GetPetsWithPaginationRequest request,
+            [FromServices] GetAllPetsWithPaginationHandler handler,
             CancellationToken cancellationToken = default)
         {
-            return
+            var query = request.ToQuery();
+
+            var pagedList = await handler.HandleAsync(query, cancellationToken);
+
+            return Ok(pagedList);
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult> GetVolunteerById(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken = default)
+        {
+            return Ok();
         }
 
 
