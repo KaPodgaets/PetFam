@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace PetFam.Application
+namespace PetFam.Application.Database
 {
     public interface IUnitOfWork
     {

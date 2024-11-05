@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
-using PetFam.Application;
+using PetFam.Application.Database;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.SpeciesManagement;
@@ -22,6 +22,7 @@ namespace PetFam.Infrastructure
             IConfiguration configuration)
         {
             services.AddScoped<WriteDbContext>();
+            services.AddScoped<IReadDbContext, ReadDbContext>();
 
             services.AddScoped<IVolunteerRepository, VolunteerRepository>();
             services.AddScoped<ISpeciesRepository, SpeciesRepository>();
