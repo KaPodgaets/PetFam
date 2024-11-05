@@ -8,7 +8,7 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateRequisites
 {
-    public class UpdateRequisitesHandler : IUpdateRequisitesHandler, ICommandHandler<Guid, UpdateRequisitesCommand>
+    public class UpdateRequisitesHandler : ICommandHandler<Guid, UpdateRequisitesCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly IValidator<UpdateRequisitesCommand> _validator;

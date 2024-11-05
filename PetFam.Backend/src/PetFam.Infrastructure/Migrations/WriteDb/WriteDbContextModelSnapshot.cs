@@ -184,6 +184,49 @@ namespace PetFam.Infrastructure.Migrations.WriteDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
 
+                    b.OwnsOne("PetFam.Domain.Shared.ValueObjectList<PetFam.Domain.Volunteer.Pet.PetPhoto>", "Photos", b1 =>
+                        {
+                            b1.Property<Guid>("PetId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.HasKey("PetId");
+
+                            b1.ToTable("pets");
+
+                            b1.ToJson("files");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PetId")
+                                .HasConstraintName("fk_pets_pets_id");
+
+                            b1.OwnsMany("PetFam.Domain.Volunteer.Pet.PetPhoto", "Values", b2 =>
+                                {
+                                    b2.Property<Guid>("ValueObjectListPetId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("integer");
+
+                                    b2.Property<string>("FilePath")
+                                        .IsRequired()
+                                        .HasMaxLength(100)
+                                        .HasColumnType("character varying(100)");
+
+                                    b2.HasKey("ValueObjectListPetId", "Id")
+                                        .HasName("pk_pets");
+
+                                    b2.ToTable("pets");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("ValueObjectListPetId")
+                                        .HasConstraintName("fk_pets_pets_value_object_list_pet_id");
+                                });
+
+                            b1.Navigation("Values");
+                        });
+
                     b.OwnsOne("PetFam.Domain.SpeciesManagement.SpeciesBreed", "SpeciesAndBreed", b1 =>
                         {
                             b1.Property<Guid>("PetId")
@@ -279,52 +322,6 @@ namespace PetFam.Infrastructure.Migrations.WriteDb
                                 .HasConstraintName("fk_pets_pets_id");
                         });
 
-                    b.OwnsOne("PetFam.Domain.Volunteer.Pet.Gallery", "Gallery", b1 =>
-                        {
-                            b1.Property<Guid>("PetId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.HasKey("PetId");
-
-                            b1.ToTable("pets");
-
-                            b1.ToJson("Gallery");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_id");
-
-                            b1.OwnsMany("PetFam.Domain.Volunteer.Pet.PetPhoto", "Value", b2 =>
-                                {
-                                    b2.Property<Guid>("GalleryPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("FilePath")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)");
-
-                                    b2.Property<bool>("IsMain")
-                                        .HasColumnType("boolean");
-
-                                    b2.HasKey("GalleryPetId", "Id")
-                                        .HasName("pk_pets");
-
-                                    b2.ToTable("pets");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("GalleryPetId")
-                                        .HasConstraintName("fk_pets_pets_gallery_pet_id");
-                                });
-
-                            b1.Navigation("Value");
-                        });
-
                     b.OwnsOne("PetFam.Domain.Volunteer.Pet.PetGeneralInfo", "GeneralInfo", b1 =>
                         {
                             b1.Property<Guid>("PetId")
@@ -371,10 +368,10 @@ namespace PetFam.Infrastructure.Migrations.WriteDb
                     b.Navigation("Address")
                         .IsRequired();
 
-                    b.Navigation("Gallery")
+                    b.Navigation("GeneralInfo")
                         .IsRequired();
 
-                    b.Navigation("GeneralInfo")
+                    b.Navigation("Photos")
                         .IsRequired();
 
                     b.Navigation("SpeciesAndBreed")

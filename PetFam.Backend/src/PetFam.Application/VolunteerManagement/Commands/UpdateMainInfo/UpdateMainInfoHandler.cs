@@ -7,7 +7,7 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
 {
-    public class UpdateMainInfoHandler : IUpdateMainInfoHandler, ICommandHandler<Guid, UpdateMainInfoCommand>
+    public class UpdateMainInfoHandler : ICommandHandler<Guid, UpdateMainInfoCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly IValidator<UpdateMainInfoCommand> _validator;

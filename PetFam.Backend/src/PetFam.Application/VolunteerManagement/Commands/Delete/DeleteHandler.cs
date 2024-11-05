@@ -5,7 +5,7 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.Delete
 {
-    public class DeleteHandler : IDeleteHandler, ICommandHandler<Guid, DeleteCommand>
+    public class DeleteHandler : ICommandHandler<Guid, DeleteCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly ILogger _logger;

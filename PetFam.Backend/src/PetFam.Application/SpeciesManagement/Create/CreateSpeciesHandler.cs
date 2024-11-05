@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
+using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 
 namespace PetFam.Application.SpeciesManagement.Create
 {
-    public class CreateSpeciesHandler
+    public class CreateSpeciesHandler:ICommandHandler<Guid,CreateSpeciesCommand>
     {
         private readonly ISpeciesRepository _repository;
         private readonly IValidator<CreateSpeciesCommand> _validator;
@@ -21,7 +22,7 @@ namespace PetFam.Application.SpeciesManagement.Create
             _logger = logger;
             _validator = validator;
         }
-        public async Task<Result<Guid>> Execute(CreateSpeciesCommand command,
+        public async Task<Result<Guid>> ExecuteAsync(CreateSpeciesCommand command,
             CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);

@@ -1,4 +1,6 @@
-﻿namespace PetFam.Application.SpeciesManagement.Delete
+﻿using PetFam.Application.Interfaces;
+
+namespace PetFam.Application.SpeciesManagement.Delete
 {
-    public record DeleteSpeciesCommand(Guid Id);
+    public record DeleteSpeciesCommand(Guid Id):ICommand;
 }

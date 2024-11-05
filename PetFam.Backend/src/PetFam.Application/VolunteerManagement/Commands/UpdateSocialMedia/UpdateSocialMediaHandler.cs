@@ -8,7 +8,7 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {
-    public class UpdateSocialMediaHandler : IUpdateSocialMediaHandler, ICommandHandler<Guid, UpdateSocialMediaCommand>
+    public class UpdateSocialMediaHandler : ICommandHandler<Guid, UpdateSocialMediaCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly IValidator<UpdateSocialMediaCommand> _validator;

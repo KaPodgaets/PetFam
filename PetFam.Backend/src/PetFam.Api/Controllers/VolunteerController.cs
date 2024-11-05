@@ -61,7 +61,7 @@ namespace PetFam.Api.Controllers
 
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
-            [FromServices] ICreateVolunteerHandler handler,
+            [FromServices] CreateVolunteerHandler handler,
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {
@@ -73,7 +73,7 @@ namespace PetFam.Api.Controllers
         [HttpPut("{id:guid}/main-info")]
         public async Task<ActionResult<Guid>> UpdateMainInfo(
             [FromRoute] Guid id,
-            [FromServices] IUpdateMainInfoHandler handler,
+            [FromServices] UpdateMainInfoHandler handler,
             [FromBody] UpdateMainInfoRequest request,
             CancellationToken cancellationToken = default)
         {
@@ -87,7 +87,7 @@ namespace PetFam.Api.Controllers
         [HttpPut("{id:guid}/requisites")]
         public async Task<ActionResult<Guid>> UpdateRequisites(
             [FromRoute] Guid id,
-            [FromServices] IUpdateRequisitesHandler handler,
+            [FromServices] UpdateRequisitesHandler handler,
             [FromBody] UpdateRequisitesRequest request,
             CancellationToken cancellationToken = default)
         {
@@ -101,7 +101,7 @@ namespace PetFam.Api.Controllers
         [HttpPut("{id:guid}/social-media")]
         public async Task<ActionResult<Guid>> UpdateSocialMedia(
             [FromRoute] Guid id,
-            [FromServices] IUpdateSocialMediaHandler handler,
+            [FromServices] UpdateSocialMediaHandler handler,
             [FromBody] UpdateSocialMediaRequest request,
             CancellationToken cancellationToken = default)
         {
@@ -115,7 +115,7 @@ namespace PetFam.Api.Controllers
         [HttpDelete("{id:guid}/delete")]
         public async Task<ActionResult<Guid>> Delete(
             [FromRoute] Guid id,
-            [FromServices] IDeleteHandler handler,
+            [FromServices] DeleteHandler handler,
             CancellationToken cancellationToken = default)
         {
             var command = new DeleteCommand(id);

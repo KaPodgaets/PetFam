@@ -24,19 +24,17 @@ namespace PetFam.Infrastructure.Configurations.Write
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
 
-            builder.OwnsOne(p => p.Gallery, gb =>
+            builder.OwnsOne(g => g.Photos, photoBuilder =>
             {
-                gb.ToJson();
+                photoBuilder.ToJson("files");
 
-                gb.OwnsMany(g => g.Value, photoBuilder =>
+                photoBuilder.OwnsMany(p => p.Values, vb =>
                 {
-                    photoBuilder.Property(p => p.FilePath)
+                    vb.Property(f => f.FilePath)
                         .IsRequired()
                         .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-                    photoBuilder.Property(p => p.IsMain)
-                        .IsRequired();
                 });
+                    
             });
 
             builder.OwnsOne(p => p.SpeciesAndBreed, sbb =>

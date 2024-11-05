@@ -5,7 +5,7 @@ using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.Create
 {
-    public class CreateVolunteerHandler : ICreateVolunteerHandler, ICommandHandler<Guid, CreateVolunteerCommand>
+    public class CreateVolunteerHandler : ICommandHandler<Guid, CreateVolunteerCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly ILogger _logger;
