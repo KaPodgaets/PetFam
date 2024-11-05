@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
+using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
 {
-    public class UpdateMainInfoHandler : IUpdateMainInfoHandler
+    public class UpdateMainInfoHandler : IUpdateMainInfoHandler, ICommandHandler<Guid, UpdateMainInfoCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly IValidator<UpdateMainInfoCommand> _validator;
@@ -22,7 +23,7 @@ namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
             _validator = validator;
         }
 
-        public async Task<Result<Guid>> Execute(
+        public async Task<Result<Guid>> ExecuteAsync(
             UpdateMainInfoCommand command,
             CancellationToken cancellationToken = default)
         {

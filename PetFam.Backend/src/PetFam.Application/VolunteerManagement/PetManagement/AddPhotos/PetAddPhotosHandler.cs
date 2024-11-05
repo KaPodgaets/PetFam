@@ -4,14 +4,14 @@ using PetFam.Application.Database;
 using PetFam.Application.Extensions;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
-using PetFam.Application.VolunteerManagement.PetManagement.Create;
+using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 using PetFam.Domain.Volunteer.Pet;
 
 namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
 {
-    public class PetAddPhotosHandler
+    public class PetAddPhotosHandler:ICommandHandler<string, PetAddPhotosCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly IFileProvider _fileProvider;
@@ -36,7 +36,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
             _validator = validator;
         }
 
-        public async Task<Result<string>> Execute(PetAddPhotosCommand command, CancellationToken cancellationToken = default)
+        public async Task<Result<string>> ExecuteAsync(PetAddPhotosCommand command, CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
 

@@ -5,7 +5,7 @@ namespace PetFam.Application.Database
 {
     public interface IReadDbContext
     {
-        public DbSet<VolunteerDto> Volunteers { get; }
-        //public DbSet<PetDto> Pets { get; }
+        public IQueryable<VolunteerDto> Volunteers { get; }
+        public IQueryable<PetDto> Pets { get; }
     }
 }

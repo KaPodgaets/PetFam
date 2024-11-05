@@ -1,4 +1,6 @@
-﻿namespace PetFam.Application.VolunteerManagement.Commands.Delete
+﻿using PetFam.Application.Interfaces;
+
+namespace PetFam.Application.VolunteerManagement.Commands.Delete
 {
-    public record DeleteCommand(Guid Id);
+    public record DeleteCommand(Guid Id) :ICommand;
 }

@@ -1,13 +1,12 @@
 ﻿using PetFam.Application.Database;
 using PetFam.Application.Dtos;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using System.Threading;
 using PetFam.Application.Extensions;
+using PetFam.Application.Interfaces;
 
 namespace PetFam.Application.VolunteerManagement.Queries
 {
-    public record GetVolunteersWithPaginationQuery(int PageNumber, int PageSize); 
-    public class GetVolunteersWithPaginationHandler
+    public class GetVolunteersWithPaginationHandler 
+        :IQueryHandler<PagedList<VolunteerDto>, GetVolunteersWithPaginationQuery>
     {
         private readonly IReadDbContext _dbContext;
         public GetVolunteersWithPaginationHandler(IReadDbContext dbContext)
@@ -15,11 +14,11 @@ namespace PetFam.Application.VolunteerManagement.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<PagedList<VolunteerDto>> Handle(
+        public async Task<PagedList<VolunteerDto>> HandleAsync(
             GetVolunteersWithPaginationQuery query,
             CancellationToken cancellationToken = default)
         {
-            var volunteerQuery = _dbContext.Volunteers.AsQueryable();
+            var volunteerQuery = _dbContext.Volunteers;
 
             // filtration
 

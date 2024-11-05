@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
+using PetFam.Application.Interfaces;
 using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {
-    public class UpdateSocialMediaHandler : IUpdateSocialMediaHandler
+    public class UpdateSocialMediaHandler : IUpdateSocialMediaHandler, ICommandHandler<Guid, UpdateSocialMediaCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly IValidator<UpdateSocialMediaCommand> _validator;
@@ -23,7 +24,7 @@ namespace PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia
             _validator = validator;
         }
 
-        public async Task<Result<Guid>> Execute(
+        public async Task<Result<Guid>> ExecuteAsync(
             UpdateSocialMediaCommand command,
             CancellationToken cancellationToken = default)
         {

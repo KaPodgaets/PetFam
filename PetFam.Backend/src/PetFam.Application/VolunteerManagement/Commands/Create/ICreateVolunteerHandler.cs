@@ -4,6 +4,6 @@ namespace PetFam.Application.VolunteerManagement.Commands.Create
 {
     public interface ICreateVolunteerHandler
     {
-        Task<Result<Guid>> Execute(CreateVolunteerCommand request, CancellationToken cancellationToken);
+        Task<Result<Guid>> ExecuteAsync(CreateVolunteerCommand request, CancellationToken cancellationToken);
     }
 }

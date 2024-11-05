@@ -1,4 +1,5 @@
-﻿using PetFam.Application.VolunteerManagement.ValueObjects;
+﻿using PetFam.Application.Interfaces;
+using PetFam.Application.VolunteerManagement.ValueObjects;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
 {
@@ -7,5 +8,5 @@ namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
         FullNameDto FullNameDto,
         int AgeOfExperience,
         string Email,
-        GeneralInformationDto GeneralInformationDto);
+        GeneralInformationDto GeneralInformationDto):ICommand;
 }

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
+using PetFam.Application.Interfaces;
 using PetFam.Application.SpeciesManagement;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
@@ -9,7 +10,7 @@ using PetFam.Domain.Volunteer.Pet;
 
 namespace PetFam.Application.VolunteerManagement.PetManagement.Create
 {
-    public class CreatePetHandler
+    public class CreatePetHandler:ICommandHandler<Guid, CreatePetCommand>
     {
         private readonly IVolunteerRepository _volunteerRepository;
         private readonly IValidator<CreatePetCommand> _validator;
@@ -27,7 +28,7 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.Create
             _logger = logger;
             _validator = validator;
         }
-        public async Task<Result<Guid>> Execute(CreatePetCommand command,
+        public async Task<Result<Guid>> ExecuteAsync(CreatePetCommand command,
             CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);

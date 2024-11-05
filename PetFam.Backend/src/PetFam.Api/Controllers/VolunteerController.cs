@@ -3,6 +3,7 @@ using PetFam.Api.Extensions;
 using PetFam.Api.Processors;
 using PetFam.Api.Requests;
 using PetFam.Api.Requests.Volunteer;
+using PetFam.Application.Dtos;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
@@ -23,7 +24,17 @@ namespace PetFam.Api.Controllers
         {
         }
 
-        [HttpGet]
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<VolunteerDto>> GetVolunteerById(
+            [FromRoute] Guid id,
+            [FromServices] handler,
+            CancellationToken cancellationToken = default)
+        {
+            return
+        }
+
+
+        [HttpGet("/all")]
         public async Task<ActionResult> GetAllVolunteers(
             [FromServices] GetVolunteersWithPaginationHandler handler,
             [FromQuery] GetVolunteersWithPaginationRequest request,
@@ -31,7 +42,7 @@ namespace PetFam.Api.Controllers
         {
             var query = request.ToQuery();
 
-            var pagedList = await handler.Handle(query, cancellationToken);
+            var pagedList = await handler.HandleAsync(query, cancellationToken);
             
             return Ok(pagedList);
         }
@@ -42,7 +53,7 @@ namespace PetFam.Api.Controllers
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {
-            var result = await handler.Execute(request.ToCommand(), cancellationToken);
+            var result = await handler.ExecuteAsync(request.ToCommand(), cancellationToken);
 
             return result.ToResponse();
         }
@@ -56,7 +67,7 @@ namespace PetFam.Api.Controllers
         {
             var command = request.ToCommand(id);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -70,7 +81,7 @@ namespace PetFam.Api.Controllers
         {
             var command = new UpdateRequisitesCommand(id, request.Requisites);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -84,7 +95,7 @@ namespace PetFam.Api.Controllers
         {
             var command = new UpdateSocialMediaCommand(id, request.SocialMediaLinks);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -97,7 +108,7 @@ namespace PetFam.Api.Controllers
         {
             var command = new DeleteCommand(id);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -111,7 +122,7 @@ namespace PetFam.Api.Controllers
         {
             var command = request.ToCommand(id);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -131,7 +142,7 @@ namespace PetFam.Api.Controllers
 
             var command = new PetAddPhotosCommand(id, petId, content);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }

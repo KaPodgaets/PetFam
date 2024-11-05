@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.Create
 {
-    public class CreateVolunteerHandler : ICreateVolunteerHandler
+    public class CreateVolunteerHandler : ICreateVolunteerHandler, ICommandHandler<Guid, CreateVolunteerCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly ILogger _logger;
@@ -16,20 +17,21 @@ namespace PetFam.Application.VolunteerManagement.Commands.Create
             _repository = repository;
             _logger = logger;
         }
-        public async Task<Result<Guid>> Execute(CreateVolunteerCommand request,
+        
+        public async Task<Result<Guid>> ExecuteAsync(CreateVolunteerCommand command,
             CancellationToken cancellationToken = default)
         {
             var fullNameCreationResult = FullName.Create(
-                request.FullNameDto.FirstName,
-                request.FullNameDto.LastName,
-                request.FullNameDto.Patronimycs);
+                command.FullNameDto.FirstName,
+                command.FullNameDto.LastName,
+                command.FullNameDto.Patronimycs);
 
             if (fullNameCreationResult.IsFailure)
             {
                 return Result<Guid>.Failure(fullNameCreationResult.Errors);
             }
 
-            List<SocialMediaLink> socialMediaLinks = VolunteerDtoMappers.MapSocialMediaLinkModel(request);
+            List<SocialMediaLink> socialMediaLinks = VolunteerDtoMappers.MapSocialMediaLinkModel(command);
 
             var createSocialMediaDetailsResult = SocialMediaDetails.Create(socialMediaLinks);
 
@@ -38,7 +40,7 @@ namespace PetFam.Application.VolunteerManagement.Commands.Create
                 return Result<Guid>.Failure(createSocialMediaDetailsResult.Errors);
             }
 
-            List<Requisite> requisites = VolunteerDtoMappers.MapRequisiteModel(request);
+            List<Requisite> requisites = VolunteerDtoMappers.MapRequisiteModel(command);
 
             var createRequisiteDetailsResult = RequisitesDetails.Create(requisites);
 
@@ -47,7 +49,7 @@ namespace PetFam.Application.VolunteerManagement.Commands.Create
                 return Result<Guid>.Failure(createRequisiteDetailsResult.Errors);
             }
 
-            var createEmailResult = Email.Create(request.Email);
+            var createEmailResult = Email.Create(command.Email);
 
             if (createEmailResult.IsFailure)
             {
@@ -82,5 +84,7 @@ namespace PetFam.Application.VolunteerManagement.Commands.Create
 
             return creationResult;
         }
+
+        
     }
 }

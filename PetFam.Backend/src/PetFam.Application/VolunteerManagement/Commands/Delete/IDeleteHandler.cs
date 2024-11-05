@@ -4,6 +4,6 @@ namespace PetFam.Application.VolunteerManagement.Commands.Delete
 {
     public interface IDeleteHandler
     {
-        Task<Result<Guid>> Execute(DeleteCommand request, CancellationToken cancellationToken = default);
+        Task<Result<Guid>> ExecuteAsync(DeleteCommand request, CancellationToken cancellationToken = default);
     }
 }

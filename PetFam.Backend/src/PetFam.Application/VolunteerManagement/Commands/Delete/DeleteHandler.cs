@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.Delete
 {
-    public class DeleteHandler : IDeleteHandler
+    public class DeleteHandler : IDeleteHandler, ICommandHandler<Guid, DeleteCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly ILogger _logger;
@@ -17,19 +18,19 @@ namespace PetFam.Application.VolunteerManagement.Commands.Delete
             _logger = logger;
         }
 
-        public async Task<Result<Guid>> Execute(
+        public async Task<Result<Guid>> ExecuteAsync(
             DeleteCommand request,
             CancellationToken cancellationToken = default)
         {
             var volunteerId = VolunteerId.Create(request.Id);
-            var existingVoluntreeByIdResult = await _repository.GetById(volunteerId, cancellationToken);
+            var existingVolunteerByIdResult = await _repository.GetById(volunteerId, cancellationToken);
 
-            if (existingVoluntreeByIdResult.IsFailure)
+            if (existingVolunteerByIdResult.IsFailure)
             {
                 return Errors.General.NotFound(request.Id).ToErrorList();
             }
 
-            var volunteer = existingVoluntreeByIdResult.Value;
+            var volunteer = existingVolunteerByIdResult.Value;
             volunteer.Delete();
 
             var updateResult = await _repository.Update(volunteer, cancellationToken);

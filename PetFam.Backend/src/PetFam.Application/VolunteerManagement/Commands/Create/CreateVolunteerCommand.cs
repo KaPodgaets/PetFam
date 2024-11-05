@@ -1,4 +1,5 @@
-﻿using PetFam.Application.VolunteerManagement.ValueObjects;
+﻿using PetFam.Application.Interfaces;
+using PetFam.Application.VolunteerManagement.ValueObjects;
 
 namespace PetFam.Application.VolunteerManagement.Commands.Create
 {
@@ -6,5 +7,5 @@ namespace PetFam.Application.VolunteerManagement.Commands.Create
         FullNameDto FullNameDto,
         string Email,
         IEnumerable<SocialMediaLinkDto>? SocialMediaLinks,
-        IEnumerable<RequisiteDto>? Requisites);
+        IEnumerable<RequisiteDto>? Requisites) :ICommand;
 }
