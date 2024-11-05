@@ -10,18 +10,18 @@ using PetFam.Infrastructure.DbContexts;
 
 #nullable disable
 
-namespace PetFam.Infrastructure.Migrations
+namespace PetFam.Infrastructure.Migrations.WriteDb
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20241101174528_Initial")]
-    partial class Initial
+    [Migration("20241105124300_ChangeVolunteerProperties")]
+    partial class ChangeVolunteerProperties
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -146,9 +146,9 @@ namespace PetFam.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<int>("AgesOfExpirience")
+                    b.Property<int>("AgesOfExperience")
                         .HasColumnType("integer")
-                        .HasColumnName("ages_of_expirience");
+                        .HasColumnName("ages_of_experience");
 
                     b.Property<bool>("_isDeleted")
                         .HasColumnType("boolean")
@@ -405,7 +405,8 @@ namespace PetFam.Infrastructure.Migrations
                                 .HasColumnName("full_name_last_name");
 
                             b1.Property<string>("Patronymic")
-                                .HasColumnType("text")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
                                 .HasColumnName("full_name_patronymic");
 
                             b1.HasKey("VolunteerId");

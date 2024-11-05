@@ -78,7 +78,7 @@ namespace PetFam.Infrastructure.Configurations.Write
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
 
-                fnb.Property(p => p.LastName)
+                fnb.Property(p => p.Patronymic)
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
             });
 

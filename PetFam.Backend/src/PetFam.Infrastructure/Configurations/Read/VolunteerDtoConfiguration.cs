@@ -11,10 +11,6 @@ namespace PetFam.Infrastructure.Configurations.Read
             builder.ToTable("volunteers");
 
             builder.HasKey(p => p.Id);
-
-            //builder.HasMany(v => v.Pets)
-            //    .WithOne()
-            //    .HasForeignKey(p => p.VolunteerId);
         }
     }
 }

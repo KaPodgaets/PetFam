@@ -10,18 +10,18 @@ using PetFam.Infrastructure.DbContexts;
 
 #nullable disable
 
-namespace PetFam.Infrastructure.Migrations
+namespace PetFam.Infrastructure.Migrations.WriteDb
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20241104145411_ChangeVolunteerPropertyExperience")]
-    partial class ChangeVolunteerPropertyExperience
+    [Migration("20241105122948_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

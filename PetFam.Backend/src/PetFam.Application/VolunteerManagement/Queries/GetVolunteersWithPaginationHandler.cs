@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PetFam.Application.Database;
+﻿using PetFam.Application.Database;
 using PetFam.Application.Dtos;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Threading;
+using PetFam.Application.Extensions;
 
 namespace PetFam.Application.VolunteerManagement.Queries
 {
-    public record GetVolunteersWithPaginationQuery(int PageNumber, int PageSize);
+    public record GetVolunteersWithPaginationQuery(int PageNumber, int PageSize); 
     public class GetVolunteersWithPaginationHandler
     {
         private readonly IReadDbContext _dbContext;
@@ -13,17 +15,17 @@ namespace PetFam.Application.VolunteerManagement.Queries
             _dbContext = dbContext;
         }
 
-        public async Task<IReadOnlyList<VolunteerDto>> Handle(
+        public async Task<PagedList<VolunteerDto>> Handle(
             GetVolunteersWithPaginationQuery query,
             CancellationToken cancellationToken = default)
         {
-            var offset = query.PageSize * (query.PageNumber - 1);
-            var volunteers = await _dbContext.Volunteers
-                .Skip(offset)
-                .Take(query.PageSize)
-                .ToListAsync(cancellationToken);
+            var volunteerQuery = _dbContext.Volunteers.AsQueryable();
 
-            return volunteers;
+            // filtration
+
+            var pagedList = await volunteerQuery.ToPagedList(query.PageNumber, query.PageSize, cancellationToken);
+            
+            return pagedList;
         }
     }
 }

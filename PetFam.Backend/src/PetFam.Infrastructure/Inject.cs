@@ -21,17 +21,12 @@ namespace PetFam.Infrastructure
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddScoped<WriteDbContext>();
-            services.AddScoped<IReadDbContext, ReadDbContext>();
+            services.AddDbContexts()
+                .AddRepositories()
+                .AddMinio(configuration)
+                .AddBackgroundServices();
 
-            services.AddScoped<IVolunteerRepository, VolunteerRepository>();
-            services.AddScoped<ISpeciesRepository, SpeciesRepository>();
-
-            services.AddMinio(configuration);
             services.AddScoped<IFileProvider, MinioProvider>();
-
-            services.AddHostedService<FilesSynchronizerService>();
-            services.AddHostedService<FilesCleanerService>();
 
             services.AddSingleton<IFilesCleanerMessageQueue, FilesCleanerMessageQueue>();
 
@@ -40,7 +35,7 @@ namespace PetFam.Infrastructure
             return services;
         }
 
-        private static void AddMinio(
+        private static IServiceCollection AddMinio(
             this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMinio(options =>
@@ -52,6 +47,35 @@ namespace PetFam.Infrastructure
                 options.WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey);
                 options.WithSSL(minioOptions.WithSsl);
             });
+
+            return services;
+        }
+
+        private static IServiceCollection AddDbContexts(
+            this IServiceCollection services)
+        {
+            services.AddScoped<WriteDbContext>();
+            services.AddScoped<IReadDbContext, ReadDbContext>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddRepositories(
+            this IServiceCollection services)
+        {
+            services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+            services.AddScoped<ISpeciesRepository, SpeciesRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddBackgroundServices(
+            this IServiceCollection services)
+        {
+            services.AddHostedService<FilesSynchronizerService>();
+            services.AddHostedService<FilesCleanerService>();
+
+            return services;
         }
     }
 }

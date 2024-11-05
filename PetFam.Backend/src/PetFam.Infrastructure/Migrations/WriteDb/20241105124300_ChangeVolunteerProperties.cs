@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace PetFam.Infrastructure.Migrations
+namespace PetFam.Infrastructure.Migrations.WriteDb
 {
     /// <inheritdoc />
-    public partial class ChangeVolunteerPropertyExperience : Migration
+    public partial class ChangeVolunteerProperties : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

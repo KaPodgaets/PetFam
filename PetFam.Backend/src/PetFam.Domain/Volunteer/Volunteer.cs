@@ -25,7 +25,7 @@ namespace PetFam.Domain.Volunteer
         public FullName FullName { get; private set; } = null!;
         public Email Email { get; private set; }
         public GeneralInformation? GeneralInformation1 { get; private set; }
-        public int AgesOfExpirience { get; private set; }
+        public int AgesOfExperience { get; private set; }
         public SocialMediaDetails? SocialMediaDetails { get; private set; }
         public RequisitesDetails? Requisites { get; private set; }
         public IReadOnlyList<Pet.Pet> Pets => _pets;
@@ -60,7 +60,7 @@ namespace PetFam.Domain.Volunteer
         {
             FullName = fullName;
             Email = email;
-            AgesOfExpirience = ageOfExpirience;
+            AgesOfExperience = ageOfExpirience;
             GeneralInformation1 = generalInformation;
         }
 

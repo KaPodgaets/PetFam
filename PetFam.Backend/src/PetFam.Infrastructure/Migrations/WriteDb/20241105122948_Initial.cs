@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PetFam.Infrastructure.Migrations
+namespace PetFam.Infrastructure.Migrations.WriteDb
 {
     /// <inheritdoc />
     public partial class Initial : Migration

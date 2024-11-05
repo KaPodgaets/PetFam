@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Extensions;
 using PetFam.Api.Processors;
+using PetFam.Api.Requests;
 using PetFam.Api.Requests.Volunteer;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Commands.Create;
@@ -10,6 +11,7 @@ using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
+using PetFam.Application.VolunteerManagement.Queries;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
@@ -22,9 +24,16 @@ namespace PetFam.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllVolunteers()
+        public async Task<ActionResult> GetAllVolunteers(
+            [FromServices] GetVolunteersWithPaginationHandler handler,
+            [FromQuery] GetVolunteersWithPaginationRequest request,
+            CancellationToken cancellationToken = default)
         {
-            return Ok();
+            var query = request.ToQuery();
+
+            var pagedList = await handler.Handle(query, cancellationToken);
+            
+            return Ok(pagedList);
         }
 
         [HttpPost]
