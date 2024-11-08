@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFam.Application.Dtos;
+using PetFam.Application.Dtos.ValueObjects;
+using PetFam.Domain.SpeciesManagement;
+using System.Text.Json;
 
 namespace PetFam.Infrastructure.Configurations.Read
 {
@@ -11,6 +14,23 @@ namespace PetFam.Infrastructure.Configurations.Read
             builder.ToTable("pets");
 
             builder.HasKey(p => p.Id);
+
+            builder.Property(p => p.Photos)
+                .HasConversion(
+                    photos => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+
+                    json => JsonSerializer.Deserialize<PetPhotoDto[]>(json, JsonSerializerOptions.Default)!);
+
+            builder.OwnsOne(p => p.SpeciesAndBreed, sbb =>
+            {
+                sbb.ToJson();
+
+                sbb.Property(ai => ai.SpeciesId)
+                    .IsRequired();
+
+                sbb.Property(ai => ai.BreedId)
+                    .IsRequired();
+            });
         }
     }
 }

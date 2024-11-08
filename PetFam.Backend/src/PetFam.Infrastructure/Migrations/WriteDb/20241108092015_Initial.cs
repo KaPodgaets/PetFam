@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PetFam.Infrastructure.Migrations.WriteDb
 {
     /// <inheritdoc />
-    public partial class ChangePhotos1 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,6 +69,7 @@ namespace PetFam.Infrastructure.Migrations.WriteDb
                     nick_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
                     create_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    photos = table.Column<string>(type: "text", nullable: false),
                     order = table.Column<int>(type: "integer", nullable: false),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
@@ -78,7 +79,6 @@ namespace PetFam.Infrastructure.Migrations.WriteDb
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
                     AccountInfo = table.Column<string>(type: "jsonb", nullable: false),
                     Address = table.Column<string>(type: "jsonb", nullable: false),
-                    files = table.Column<string>(type: "jsonb", nullable: false),
                     GeneralInfo = table.Column<string>(type: "jsonb", nullable: false),
                     SpeciesAndBreed = table.Column<string>(type: "jsonb", nullable: false)
                 },

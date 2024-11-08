@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetFam.Application.Dtos.ValueObjects;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer.Pet;
+using System.Text.Json;
 
 namespace PetFam.Infrastructure.Configurations.Write
 {
@@ -24,18 +27,22 @@ namespace PetFam.Infrastructure.Configurations.Write
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
 
-            builder.OwnsOne(g => g.Photos, photoBuilder =>
-            {
-                photoBuilder.ToJson("files");
+            builder.Property(p => p.Photos)
+                .HasConversion(
+                    photos => JsonSerializer.Serialize(
+                        photos.Select(photo => new PetPhotoDto(photo.FilePath)),
+                        JsonSerializerOptions.Default),
 
-                photoBuilder.OwnsMany(p => p.Values, vb =>
-                {
-                    vb.Property(f => f.FilePath)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                });
-                    
-            });
+                    json => JsonSerializer.Deserialize<List<PetPhotoDto>>(json, JsonSerializerOptions.Default)!
+                        .Select(dto =>
+                            PetPhoto.Create(dto.Filepath).Value)
+                        .ToList(),
+
+                    new ValueComparer<IReadOnlyList<PetPhoto>>(
+                        (c1, c2) => c1!.SequenceEqual(c2!),
+                        c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                        c => (IReadOnlyList<PetPhoto>)c.ToList()));
+
 
             builder.OwnsOne(p => p.SpeciesAndBreed, sbb =>
             {
