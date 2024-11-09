@@ -1,6 +1,4 @@
-﻿using PetFam.Application.VolunteerManagement.ValueObjects;
-
-namespace PetFam.Application.Dtos
+﻿namespace PetFam.Application.Dtos
 {
     public class VolunteerDto
     {
