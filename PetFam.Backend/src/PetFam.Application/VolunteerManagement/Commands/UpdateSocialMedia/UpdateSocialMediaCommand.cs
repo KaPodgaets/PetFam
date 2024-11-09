@@ -1,5 +1,5 @@
-﻿using PetFam.Application.Interfaces;
-using PetFam.Application.VolunteerManagement.ValueObjects;
+﻿using PetFam.Application.Dtos.ValueObjects;
+using PetFam.Application.Interfaces;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {

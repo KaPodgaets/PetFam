@@ -3,7 +3,7 @@ using PetFam.Application.Dtos;
 using PetFam.Application.Extensions;
 using PetFam.Application.Interfaces;
 
-namespace PetFam.Application.VolunteerManagement.Queries.GetAllPets
+namespace PetFam.Application.VolunteerManagement.Queries.GetPets
 {
     public class GetFilteredPetsWithPaginationHandler
         : IQueryHandler<PagedList<PetDto>, GetFilteredPetsWithPaginationQuery>
@@ -26,7 +26,7 @@ namespace PetFam.Application.VolunteerManagement.Queries.GetAllPets
                 .WhereIf(query.PositionTo is not null, p => p.Order <= query.PositionTo);
 
 
-            if(query.PositionFrom is not null)
+            if (query.PositionFrom is not null)
             {
                 petsQuerry = petsQuerry
                     .Where(p => p.Order >= query.PositionFrom).AsQueryable();

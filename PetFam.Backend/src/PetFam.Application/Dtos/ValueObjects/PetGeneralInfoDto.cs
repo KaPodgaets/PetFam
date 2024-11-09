@@ -1,4 +1,4 @@
-﻿namespace PetFam.Application.VolunteerManagement.ValueObjects
+﻿namespace PetFam.Application.Dtos.ValueObjects
 {
     public record PetGeneralInfoDto(string Comment,
             string Color,
