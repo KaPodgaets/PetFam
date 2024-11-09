@@ -2,6 +2,10 @@
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetAllPets
 {
-    public record GetPetsWithPaginationQuery
-        (int PageNumber, int PageSize) : IQuery;
+    public record GetFilteredPetsWithPaginationQuery(
+        Guid? SpeciesId,
+        int? PositionFrom,
+        int? PositionTo,
+        int Page,
+        int PageSize) : IQuery;
 }

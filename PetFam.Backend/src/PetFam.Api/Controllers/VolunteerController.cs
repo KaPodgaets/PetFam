@@ -24,10 +24,10 @@ namespace PetFam.Api.Controllers
         {
         }
 
-        [HttpGet("all-pets")]
-        public async Task<ActionResult> GetAllPetsWithPagination(
-            [FromQuery] GetPetsWithPaginationRequest request,
-            [FromServices] GetAllPetsWithPaginationHandler handler,
+        [HttpGet("pets-filtered")]
+        public async Task<ActionResult> GetFilteredPetsWithPagination(
+            [FromQuery] GetFilteredPetsWithPaginationRequest request,
+            [FromServices] GetFilteredPetsWithPaginationHandler handler,
             CancellationToken cancellationToken = default)
         {
             var query = request.ToQuery();

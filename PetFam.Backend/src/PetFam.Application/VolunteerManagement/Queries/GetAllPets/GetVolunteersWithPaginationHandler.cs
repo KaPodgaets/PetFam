@@ -5,24 +5,42 @@ using PetFam.Application.Interfaces;
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetAllPets
 {
-    public class GetAllPetsWithPaginationHandler
-        : IQueryHandler<PagedList<PetDto>, GetPetsWithPaginationQuery>
+    public class GetFilteredPetsWithPaginationHandler
+        : IQueryHandler<PagedList<PetDto>, GetFilteredPetsWithPaginationQuery>
     {
         private readonly IReadDbContext _dbContext;
-        public GetAllPetsWithPaginationHandler(IReadDbContext dbContext)
+        public GetFilteredPetsWithPaginationHandler(IReadDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         public async Task<PagedList<PetDto>> HandleAsync(
-            GetPetsWithPaginationQuery query,
+            GetFilteredPetsWithPaginationQuery query,
             CancellationToken cancellationToken = default)
         {
-            var source = _dbContext.Pets.AsQueryable();
+            var petsQuerry = _dbContext.Pets.AsQueryable();
 
-            // filtration
+            petsQuerry = petsQuerry.WhereIf(
+                query.SpeciesId is not null, p => p.SpeciesAndBreed.SpeciesId == query.SpeciesId)
+                .WhereIf(query.PositionFrom is not null, p => p.Order >= query.PositionFrom)
+                .WhereIf(query.PositionTo is not null, p => p.Order <= query.PositionTo);
 
-            var pagedList = await source.ToPagedList(query.PageNumber, query.PageSize, cancellationToken);
+
+            if(query.PositionFrom is not null)
+            {
+                petsQuerry = petsQuerry
+                    .Where(p => p.Order >= query.PositionFrom).AsQueryable();
+            }
+
+            if (query.PositionTo is not null)
+            {
+                petsQuerry = petsQuerry
+                    .Where(p => p.Order <= query.PositionTo).AsQueryable();
+            }
+
+            var pagedList = await petsQuerry
+                .OrderBy(p => p.Order)
+                .ToPagedList(query.Page, query.PageSize, cancellationToken);
 
             return pagedList;
         }
