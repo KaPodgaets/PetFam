@@ -1,5 +1,6 @@
 ﻿using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
+using System.Collections;
 
 namespace PetFam.Domain.Volunteer.Pet
 {
@@ -7,6 +8,7 @@ namespace PetFam.Domain.Volunteer.Pet
     public class Pet : Entity<PetId>, ISoftDeletable
     {
         private bool _isDeleted = false;
+        private List<PetPhoto> _photos = [];
         private Pet(PetId id) : base(id)
         {
         }
@@ -21,7 +23,7 @@ namespace PetFam.Domain.Volunteer.Pet
             AccountInfo accountInfo,
             DateTime createDate,
             int order,
-            Gallery gallery
+            List<PetPhoto> photos
             ) : base(petId)
         {
             NickName = nickName;
@@ -33,7 +35,7 @@ namespace PetFam.Domain.Volunteer.Pet
             AccountInfo = accountInfo;
             CreateDate = createDate;
             Order = order;
-            Gallery = gallery;
+            _photos = photos;
         }
 
         public string NickName { get; private set; } = string.Empty;
@@ -44,7 +46,7 @@ namespace PetFam.Domain.Volunteer.Pet
         public Address Address { get; private set; }
         public AccountInfo AccountInfo { get; private set; }
         public DateTime CreateDate { get; private set; }
-        public Gallery Gallery { get; private set; }
+        public IReadOnlyList<PetPhoto> Photos => _photos;
         public int Order { get;private set; }
 
         public static Result<Pet> Create(PetId petId,
@@ -80,41 +82,14 @@ namespace PetFam.Domain.Volunteer.Pet
                 accountInfo,
                 createDate,
                 order,
-                Gallery.CreateEmpty()
+                new ValueObjectList<PetPhoto>([])
             );
         }
 
-        public Result AddPhotos(List<PetPhoto> photos)
+        public Result AddPhotos(IEnumerable<PetPhoto> photos)
         {
-            if (photos == null || photos.Count == 0)
-            {
-                return Errors.General.ValueIsRequired("Photos not provided").ToErrorList();
-            }
+            _photos.AddRange(photos);
 
-            List<PetPhoto> newPhotos = [..photos];
-
-            if (Gallery == null)
-            {
-                var createResult = Gallery.Create(photos);
-                if (createResult.IsFailure)
-                {
-                    return createResult.Errors;
-                }
-
-                Gallery = createResult.Value;
-                return Result.Success();
-            }
-
-            var updatedPhotos = Gallery.Value.ToList();
-            updatedPhotos.AddRange(photos);
-
-            var updateGalleryResult = Gallery.Create(updatedPhotos);
-            if (updateGalleryResult.IsFailure)
-            {
-                return updateGalleryResult.Errors;
-            }
-
-            Gallery = updateGalleryResult.Value;
             return Result.Success();
         }
 

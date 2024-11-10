@@ -44,8 +44,7 @@ namespace PetFam.Infrastructure.BackgroundServices
                 var volunteers = volunteersResult.Value;
                 var photoPaths = volunteers
                     .SelectMany(v => v.Pets)
-                    .Select(p => p.Gallery)
-                    .SelectMany(g => g.Value)
+                    .SelectMany(p => p.Photos)
                     .Select(ph => ph.FilePath)
                     .ToList();
 

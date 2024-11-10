@@ -2,14 +2,15 @@
 using PetFam.Application.SpeciesManagement;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
+using PetFam.Infrastructure.DbContexts;
 using System.Xml.Linq;
 
 namespace PetFam.Infrastructure.Repositories
 {
     public class SpeciesRepository : ISpeciesRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-        public SpeciesRepository(ApplicationDbContext dbContext)
+        private readonly WriteDbContext _dbContext;
+        public SpeciesRepository(WriteDbContext dbContext)
         {
             _dbContext = dbContext;
         }

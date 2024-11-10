@@ -4,10 +4,11 @@ using PetFam.Application.VolunteerManagement;
 using PetFam.Application.Extensions;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
+using PetFam.Application.Interfaces;
 
 namespace PetFam.Application.SpeciesManagement.Delete
 {
-    public class DeleteSpeciesHandler
+    public class DeleteSpeciesHandler:ICommandHandler<Guid, DeleteSpeciesCommand>
     {
         private readonly ISpeciesRepository _repository;
         private readonly IVolunteerRepository _volunteerRepository;
@@ -25,7 +26,7 @@ namespace PetFam.Application.SpeciesManagement.Delete
             _logger = logger;
             _validator = validator;
         }
-        public async Task<Result<Guid>> Execute(DeleteSpeciesCommand command,
+        public async Task<Result<Guid>> ExecuteAsync(DeleteSpeciesCommand command,
             CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);

@@ -1,13 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using PetFam.Api.Extensions;
 using PetFam.Api.Middlewares;
 using PetFam.Application;
 using PetFam.Infrastructure;
+using PetFam.Infrastructure.DbContexts;
 using Serilog;
 
 namespace PetFam.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             var services = builder.Services;
@@ -40,6 +43,8 @@ namespace PetFam.Api
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                await app.ApplyMigration();
             }
 
             app.MapControllers();

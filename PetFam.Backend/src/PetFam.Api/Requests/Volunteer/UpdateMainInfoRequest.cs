@@ -1,5 +1,5 @@
-﻿using PetFam.Application.VolunteerManagement.UpdateMainInfo;
-using PetFam.Application.VolunteerManagement.ValueObjects;
+﻿using PetFam.Application.Dtos.ValueObjects;
+using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 
 namespace PetFam.Api.Requests.Volunteer
 {

@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Extensions;
 using PetFam.Api.Processors;
+using PetFam.Api.Requests;
 using PetFam.Api.Requests.Volunteer;
 using PetFam.Application.FileProvider;
-using PetFam.Application.VolunteerManagement.Create;
-using PetFam.Application.VolunteerManagement.Delete;
+using PetFam.Application.VolunteerManagement.Commands.Create;
+using PetFam.Application.VolunteerManagement.Commands.Delete;
+using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
+using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
+using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
-using PetFam.Application.VolunteerManagement.UpdateMainInfo;
-using PetFam.Application.VolunteerManagement.UpdateRequisites;
-using PetFam.Application.VolunteerManagement.UpdateSocialMedia;
+using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
+using PetFam.Application.VolunteerManagement.Queries.GetPets;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
@@ -21,13 +24,35 @@ namespace PetFam.Api.Controllers
         {
         }
 
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult> GetVolunteerById(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken = default)
+        {
+            return Ok();
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> GetAllVolunteers(
+            [FromServices] GetVolunteersWithPaginationHandler handler,
+            [FromQuery] GetVolunteersWithPaginationRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var query = request.ToQuery();
+
+            var pagedList = await handler.HandleAsync(query, cancellationToken);
+            
+            return Ok(pagedList);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
-            [FromServices] ICreateVolunteerHandler handler,
+            [FromServices] CreateVolunteerHandler handler,
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {
-            var result = await handler.Execute(request.ToCommand(), cancellationToken);
+            var result = await handler.ExecuteAsync(request.ToCommand(), cancellationToken);
 
             return result.ToResponse();
         }
@@ -35,13 +60,13 @@ namespace PetFam.Api.Controllers
         [HttpPut("{id:guid}/main-info")]
         public async Task<ActionResult<Guid>> UpdateMainInfo(
             [FromRoute] Guid id,
-            [FromServices] IUpdateMainInfoHandler handler,
+            [FromServices] UpdateMainInfoHandler handler,
             [FromBody] UpdateMainInfoRequest request,
             CancellationToken cancellationToken = default)
         {
             var command = request.ToCommand(id);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -49,13 +74,13 @@ namespace PetFam.Api.Controllers
         [HttpPut("{id:guid}/requisites")]
         public async Task<ActionResult<Guid>> UpdateRequisites(
             [FromRoute] Guid id,
-            [FromServices] IUpdateRequisitesHandler handler,
+            [FromServices] UpdateRequisitesHandler handler,
             [FromBody] UpdateRequisitesRequest request,
             CancellationToken cancellationToken = default)
         {
             var command = new UpdateRequisitesCommand(id, request.Requisites);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -63,13 +88,13 @@ namespace PetFam.Api.Controllers
         [HttpPut("{id:guid}/social-media")]
         public async Task<ActionResult<Guid>> UpdateSocialMedia(
             [FromRoute] Guid id,
-            [FromServices] IUpdateSocialMediaHandler handler,
+            [FromServices] UpdateSocialMediaHandler handler,
             [FromBody] UpdateSocialMediaRequest request,
             CancellationToken cancellationToken = default)
         {
             var command = new UpdateSocialMediaCommand(id, request.SocialMediaLinks);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -77,12 +102,12 @@ namespace PetFam.Api.Controllers
         [HttpDelete("{id:guid}/delete")]
         public async Task<ActionResult<Guid>> Delete(
             [FromRoute] Guid id,
-            [FromServices] IDeleteHandler handler,
+            [FromServices] DeleteHandler handler,
             CancellationToken cancellationToken = default)
         {
             var command = new DeleteCommand(id);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -96,7 +121,7 @@ namespace PetFam.Api.Controllers
         {
             var command = request.ToCommand(id);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -116,7 +141,7 @@ namespace PetFam.Api.Controllers
 
             var command = new PetAddPhotosCommand(id, petId, content);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }

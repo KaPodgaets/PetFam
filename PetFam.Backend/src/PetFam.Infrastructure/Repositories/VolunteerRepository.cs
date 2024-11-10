@@ -2,13 +2,14 @@
 using PetFam.Application.VolunteerManagement;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
+using PetFam.Infrastructure.DbContexts;
 
 namespace PetFam.Infrastructure.Repositories
 {
     public class VolunteerRepository : IVolunteerRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-        public VolunteerRepository(ApplicationDbContext dbContext)
+        private readonly WriteDbContext _dbContext;
+        public VolunteerRepository(WriteDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -73,7 +74,7 @@ namespace PetFam.Infrastructure.Repositories
             return volunteer.Id.Value;
         }
 
-        public async Task<Result<List<Volunteer>>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<Result<IReadOnlyList<Volunteer>>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var models = await _dbContext.Volunteers
                 .Include(m => m.Pets)

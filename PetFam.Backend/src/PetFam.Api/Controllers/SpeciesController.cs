@@ -20,7 +20,7 @@ namespace PetFam.Api.Controllers
             [FromBody] CreateSpeciesRequest request,
             CancellationToken cancellationToken = default)
         {
-            var result = await handler.Execute(request.ToCommand(), cancellationToken);
+            var result = await handler.ExecuteAsync(request.ToCommand(), cancellationToken);
 
             return result.ToResponse();
         }
@@ -33,7 +33,7 @@ namespace PetFam.Api.Controllers
         {
             var command = new DeleteSpeciesCommand(id);
 
-            var result = await handler.Execute(command, cancellationToken);
+            var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
         }
@@ -47,7 +47,7 @@ namespace PetFam.Api.Controllers
         {
             var request = new CreateBreedRequest(speciesId, breedName);
 
-            var result = await handler.Execute(request.ToCommand(), cancellationToken);
+            var result = await handler.ExecuteAsync(request.ToCommand(), cancellationToken);
 
             return result.ToResponse();
         }

@@ -1,4 +1,4 @@
-﻿using PetFam.Application.VolunteerManagement.ValueObjects;
+﻿using PetFam.Application.Dtos.ValueObjects;
 
 namespace PetFam.Api.Requests.Volunteer
 {
