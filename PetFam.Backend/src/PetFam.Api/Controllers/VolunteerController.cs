@@ -24,19 +24,6 @@ namespace PetFam.Api.Controllers
         {
         }
 
-        [HttpGet("pets-filtered")]
-        public async Task<ActionResult> GetFilteredPetsWithPagination(
-            [FromQuery] GetFilteredPetsWithPaginationRequest request,
-            [FromServices] GetFilteredPetsWithPaginationHandler handler,
-            CancellationToken cancellationToken = default)
-        {
-            var query = request.ToQuery();
-
-            var pagedList = await handler.HandleAsync(query, cancellationToken);
-
-            return Ok(pagedList);
-        }
-
         [HttpGet("{id:guid}")]
         public async Task<ActionResult> GetVolunteerById(
             [FromRoute] Guid id,
@@ -46,7 +33,7 @@ namespace PetFam.Api.Controllers
         }
 
 
-        [HttpGet("/all")]
+        [HttpGet]
         public async Task<ActionResult> GetAllVolunteers(
             [FromServices] GetVolunteersWithPaginationHandler handler,
             [FromQuery] GetVolunteersWithPaginationRequest request,
