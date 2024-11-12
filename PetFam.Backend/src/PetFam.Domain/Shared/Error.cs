@@ -2,7 +2,7 @@
 {
     public record Error
     {
-        public const string SEPARATOR = "||";
+        private const string SEPARATOR = "||";
         private Error(string code, string message, ErrorType type, string? invalidField = null)
         {
             Code = code;

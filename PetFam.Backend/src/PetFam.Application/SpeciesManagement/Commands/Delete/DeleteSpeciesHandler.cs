@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetFam.Application.Database;
 using PetFam.Application.Extensions;
 using PetFam.Application.Interfaces;
 using PetFam.Application.VolunteerManagement;
@@ -12,6 +14,7 @@ namespace PetFam.Application.SpeciesManagement.Commands.Delete
     {
         private readonly ISpeciesRepository _repository;
         private readonly IVolunteerRepository _volunteerRepository;
+        private readonly IReadDbContext _readDbContext;
         private readonly IValidator<DeleteSpeciesCommand> _validator;
         private readonly ILogger _logger;
 
@@ -19,12 +22,14 @@ namespace PetFam.Application.SpeciesManagement.Commands.Delete
             ISpeciesRepository repository,
             IVolunteerRepository volunteerRepository,
             ILogger<DeleteSpeciesHandler> logger,
-            IValidator<DeleteSpeciesCommand> validator)
+            IValidator<DeleteSpeciesCommand> validator,
+            IReadDbContext readDbContext)
         {
             _repository = repository;
             _volunteerRepository = volunteerRepository;
             _logger = logger;
             _validator = validator;
+            _readDbContext = readDbContext;
         }
         public async Task<Result<Guid>> ExecuteAsync(DeleteSpeciesCommand command,
             CancellationToken cancellationToken = default)
@@ -35,29 +40,29 @@ namespace PetFam.Application.SpeciesManagement.Commands.Delete
                 return validationResult.ToErrorList();
 
             var existSpeciesResult = await _repository.GetById(SpeciesId.Create(command.Id), cancellationToken);
-
+            
             if (existSpeciesResult.IsFailure)
                 return Result<Guid>.Failure(existSpeciesResult.Errors);
+            
+            var species = existSpeciesResult.Value;
+            
+            // check pets of this species exist wiht ReadDBContext
+            
+            var isPetsWithDelitingSpeciesExist = await _readDbContext.Pets
+                .AnyAsync(p => p.SpeciesAndBreed.SpeciesId == command.Id, cancellationToken);
+            
+            if(isPetsWithDelitingSpeciesExist)
+                return Errors.Species.CannotDeleteDueToRelatedRecords(command.Id).ToErrorList();
+            
+            species.Delete(); // breeds deleted also - cascade
 
-            var getVolunteersResult = await _volunteerRepository.GetAllAsync(cancellationToken);
-            if (getVolunteersResult.IsFailure)
-            {
-                return Errors.General.Failure().ToErrorList();
-            }
-            var allExistingSpecies = getVolunteersResult.Value.SelectMany(x => x.Pets.Select(p => p.SpeciesAndBreed.SpeciesId.Value));
-
-            if(allExistingSpecies.Any(p => p == command.Id))
-            {
-                return Errors.General.DeletionEntityWithRelation().ToErrorList();
-            }
-
-            var deleteResult = await _repository.Delete(existSpeciesResult.Value, cancellationToken);
+            var deleteResult = await _repository.Update(species, cancellationToken);
 
             if (deleteResult.IsFailure)
                 return Result<Guid>.Failure(deleteResult.Errors);
 
             _logger.LogInformation(
-                "Delete species with {name} with id {id}",
+                "Delete species with {name} with id {id} with all breeds",
                 existSpeciesResult.Value.Name,
                 existSpeciesResult.Value.Id.Value);
 

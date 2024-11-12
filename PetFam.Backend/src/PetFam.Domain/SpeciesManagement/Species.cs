@@ -41,9 +41,23 @@ namespace PetFam.Domain.SpeciesManagement
             return breed.Id.Value;
         }
 
+        public Result<Guid> DeleteBreed(Guid breedId)
+        {
+            var breed = _breeds.FirstOrDefault(b => b.Id.Value == breedId);
+            if (breed == null)
+                return Errors.General.NotFound(breedId).ToErrorList();
+            
+            breed.Delete();
+            return breedId;
+        }
+
         public void Delete()
         {
             _isDeleted = true;
+            foreach (var breed in _breeds)
+            {
+                breed.Delete();
+            }
         }
 
         public void Restore()

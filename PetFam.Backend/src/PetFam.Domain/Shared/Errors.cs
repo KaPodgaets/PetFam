@@ -58,6 +58,21 @@
             {
                 return Error.Validation("species.already.exist", $"species with name: {name} already exist");
             }
+            
+            public static Error CannotDeleteDueToRelatedRecords(Guid? id = null)
+            {
+                return Error.Conflict("species.relations.exist",
+                    $"species with id: {id} still has relations");
+            }
+        }
+
+        public static class Breed
+        {
+            public static Error CannotDeleteDueToRelatedRecords(Guid? id = null)
+            {
+                return Error.Conflict("breed.relations.exist",
+                    $"breed with id: {id} still has relations");
+            }
         }
     }
 }
