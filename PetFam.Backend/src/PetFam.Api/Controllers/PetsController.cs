@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using PetFam.Api.Requests;
+using PetFam.Api.Requests.Pets;
 using PetFam.Application.VolunteerManagement.Queries.GetPets;
 
 namespace PetFam.Api.Controllers

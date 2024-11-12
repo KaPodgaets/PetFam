@@ -2,7 +2,6 @@
 using PetFam.Application.Dtos;
 using PetFam.Application.Extensions;
 using PetFam.Application.Interfaces;
-using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using System.Linq.Expressions;
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetPets
@@ -20,7 +19,7 @@ namespace PetFam.Application.VolunteerManagement.Queries.GetPets
             GetFilteredPetsWithPaginationQuery query,
             CancellationToken cancellationToken = default)
         {
-            var petsQuerry = _dbContext.Pets.AsQueryable();
+            var petsQuery = _dbContext.Pets.AsQueryable();
 
             Expression<Func<PetDto, object>> keySelector = query.SortBy?.ToLower() switch
             {
@@ -28,14 +27,18 @@ namespace PetFam.Application.VolunteerManagement.Queries.GetPets
                 _ => (pet) => pet.Order
             };
 
+            petsQuery = query.SortDirection?.ToLower() == "desc"
+            ? petsQuery.OrderByDescending(keySelector)
+            : petsQuery.OrderBy(keySelector);
 
-            petsQuerry = petsQuerry.WhereIf(
+
+            petsQuery = petsQuery.WhereIf(
                 query.SpeciesId is not null, p => p.SpeciesAndBreed.SpeciesId == query.SpeciesId)
                 .WhereIf(query.PositionFrom is not null, p => p.Order >= query.PositionFrom)
                 .WhereIf(query.PositionTo is not null, p => p.Order <= query.PositionTo);
 
 
-            var pagedList = await petsQuerry
+            var pagedList = await petsQuery
                 .ToPagedList(query.Page, query.PageSize, cancellationToken);
 
             return pagedList;

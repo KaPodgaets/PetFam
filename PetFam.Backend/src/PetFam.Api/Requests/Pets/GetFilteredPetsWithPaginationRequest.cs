@@ -1,6 +1,6 @@
 ﻿using PetFam.Application.VolunteerManagement.Queries.GetPets;
 
-namespace PetFam.Api.Requests
+namespace PetFam.Api.Requests.Pets
 {
     public record GetFilteredPetsWithPaginationRequest(
         Guid? SpeciesId,

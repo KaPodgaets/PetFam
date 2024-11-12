@@ -1,6 +1,6 @@
 ﻿using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
 
-namespace PetFam.Api.Requests
+namespace PetFam.Api.Requests.Volunteer
 {
     public record GetVolunteersWithPaginationRequest(int Page, int PageSize)
     {
