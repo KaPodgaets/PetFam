@@ -11,7 +11,7 @@ namespace PetFam.Api.Controllers
         {
         }
 
-        [HttpGet("pets-filtered")]
+        [HttpGet]
         public async Task<ActionResult> GetFilteredPetsWithPagination(
             [FromQuery] GetFilteredPetsWithPaginationRequest request,
             [FromServices] GetFilteredPetsWithPaginationHandler handler,

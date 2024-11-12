@@ -10,7 +10,6 @@ using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
 using PetFam.Application.VolunteerManagement.PetManagement.Create;
-using PetFam.Application.VolunteerManagement.Queries.GetAllPets;
 using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
 using PetFam.Infrastructure.Options;
 
@@ -21,19 +20,6 @@ namespace PetFam.Api.Controllers
         public VolunteerController(ILogger<VolunteerController> logger)
             : base(logger)
         {
-        }
-
-        [HttpGet("all-pets")]
-        public async Task<ActionResult> GetAllPetsWithPagination(
-            [FromQuery] GetPetsWithPaginationRequest request,
-            [FromServices] GetAllPetsWithPaginationHandler handler,
-            CancellationToken cancellationToken = default)
-        {
-            var query = request.ToQuery();
-
-            var pagedList = await handler.HandleAsync(query, cancellationToken);
-
-            return Ok(pagedList);
         }
 
         [HttpGet("{id:guid}")]
