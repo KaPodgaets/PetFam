@@ -1,7 +1,7 @@
 ﻿using PetFam.Application.Dtos.ValueObjects;
 using PetFam.Application.Interfaces;
 
-namespace PetFam.Application.VolunteerManagement.PetManagement.CreatePet
+namespace PetFam.Application.VolunteerManagement.Commands.CreatePet
 {
     public record CreatePetCommand(
         Guid VolunteerId,

@@ -5,13 +5,13 @@ using PetFam.Api.Requests.Volunteer;
 using PetFam.Application;
 using PetFam.Application.Dtos;
 using PetFam.Application.FileProvider;
+using PetFam.Application.VolunteerManagement.Commands.AddPetPhotos;
 using PetFam.Application.VolunteerManagement.Commands.Create;
+using PetFam.Application.VolunteerManagement.Commands.CreatePet;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
 using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
-using PetFam.Application.VolunteerManagement.PetManagement.AddPetPhotos;
-using PetFam.Application.VolunteerManagement.PetManagement.CreatePet;
 using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
 using PetFam.Infrastructure.Options;
 

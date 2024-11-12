@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetFam.Application.Database;
 using PetFam.Application.Extensions;
 using PetFam.Application.Interfaces;
 using PetFam.Application.SpeciesManagement;
@@ -8,25 +10,28 @@ using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer;
 using PetFam.Domain.Volunteer.Pet;
 
-namespace PetFam.Application.VolunteerManagement.PetManagement.CreatePet
+namespace PetFam.Application.VolunteerManagement.Commands.CreatePet
 {
     public class CreatePetHandler:ICommandHandler<Guid, CreatePetCommand>
     {
         private readonly IVolunteerRepository _volunteerRepository;
         private readonly IValidator<CreatePetCommand> _validator;
         private readonly ISpeciesRepository _speciesRepository;
+        private readonly IReadDbContext _readDbContext;
         private readonly ILogger _logger;
 
         public CreatePetHandler(
             IVolunteerRepository repository,
             ISpeciesRepository speciesRepository,
             ILogger<CreatePetHandler> logger,
-            IValidator<CreatePetCommand> validator)
+            IValidator<CreatePetCommand> validator,
+            IReadDbContext readDbContext)
         {
             _volunteerRepository = repository;
             _speciesRepository = speciesRepository;
             _logger = logger;
             _validator = validator;
+            _readDbContext = readDbContext;
         }
         public async Task<Result<Guid>> ExecuteAsync(CreatePetCommand command,
             CancellationToken cancellationToken = default)
@@ -46,23 +51,23 @@ namespace PetFam.Application.VolunteerManagement.PetManagement.CreatePet
             }
 
             var volunteer = getVolunteerResult.Value;
-
-            // check breed and species exists
-            var getSpeciesResult = await _speciesRepository.GetByName(command.SpeciesName, cancellationToken);
-            if (getSpeciesResult.IsFailure)
-            {
+            
+            // check breed and species exists with ReadDbContext
+            var speciesDto = await _readDbContext.Species
+                .FirstOrDefaultAsync(s => s.Name == command.SpeciesName, cancellationToken);
+            
+            if(speciesDto is null)
                 return Errors.General.NotFound(command.SpeciesName).ToErrorList();
-            }
-            var species = getSpeciesResult.Value;
-
-            var breedId = getSpeciesResult.Value.Breeds.Where(x => x.Name == command.BreedName).Select(x => x.Id).FirstOrDefault();
-
-            if (breedId == null)
-            {
+            
+            var breedDto = await _readDbContext.Breeds
+                .FirstOrDefaultAsync(b => b.Name == command.BreedName, cancellationToken);
+            
+            if(breedDto is null)
                 return Errors.General.NotFound(command.BreedName).ToErrorList();
-            }
-
-            var speciesBreed = SpeciesBreed.Create(getSpeciesResult.Value.Id, breedId.Value);
+            
+            var speciesBreed = SpeciesBreed.Create(
+                SpeciesId.Create(speciesDto.Id),
+                BreedId.Create(breedDto.Id).Value);
 
             // create pet values objects
             var generalInfoDto = command.PetGeneralInfoDto;
