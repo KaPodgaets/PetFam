@@ -6,6 +6,8 @@ namespace PetFam.Api.Requests
         Guid? SpeciesId,
         int? PositionFrom,
         int? PositionTo,
+        string? SortBy,
+        string? SortDirection,
         int Page,
         int PageSize)
     {
@@ -15,6 +17,8 @@ namespace PetFam.Api.Requests
                 SpeciesId,
                 PositionFrom,
                 PositionTo,
+                SortBy,
+                SortDirection,
                 Page,
                 PageSize);
         }

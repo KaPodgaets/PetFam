@@ -96,7 +96,7 @@ namespace PetFam.Infrastructure.Migrations.WriteDb
 
                     b.Property<string>("Photos")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("jsonb")
                         .HasColumnName("photos");
 
                     b.Property<int>("Status")

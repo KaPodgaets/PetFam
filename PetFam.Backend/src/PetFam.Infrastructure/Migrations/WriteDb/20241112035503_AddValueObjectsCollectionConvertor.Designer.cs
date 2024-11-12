@@ -13,8 +13,8 @@ using PetFam.Infrastructure.DbContexts;
 namespace PetFam.Infrastructure.Migrations.WriteDb
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20241108092015_Initial")]
-    partial class Initial
+    [Migration("20241112035503_AddValueObjectsCollectionConvertor")]
+    partial class AddValueObjectsCollectionConvertor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,7 +99,7 @@ namespace PetFam.Infrastructure.Migrations.WriteDb
 
                     b.Property<string>("Photos")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("jsonb")
                         .HasColumnName("photos");
 
                     b.Property<int>("Status")

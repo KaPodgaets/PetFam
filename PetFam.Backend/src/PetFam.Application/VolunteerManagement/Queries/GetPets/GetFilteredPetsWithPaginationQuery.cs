@@ -6,6 +6,8 @@ namespace PetFam.Application.VolunteerManagement.Queries.GetPets
         Guid? SpeciesId,
         int? PositionFrom,
         int? PositionTo,
+        string? SortBy,
+        string? SortDirection,
         int Page,
         int PageSize) : IQuery;
 }

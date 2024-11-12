@@ -2,6 +2,8 @@
 using PetFam.Application.Dtos;
 using PetFam.Application.Extensions;
 using PetFam.Application.Interfaces;
+using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
+using System.Linq.Expressions;
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetPets
 {
@@ -20,26 +22,20 @@ namespace PetFam.Application.VolunteerManagement.Queries.GetPets
         {
             var petsQuerry = _dbContext.Pets.AsQueryable();
 
+            Expression<Func<PetDto, object>> keySelector = query.SortBy?.ToLower() switch
+            {
+                "nickname" => (pet) => pet.NickName,
+                _ => (pet) => pet.Order
+            };
+
+
             petsQuerry = petsQuerry.WhereIf(
                 query.SpeciesId is not null, p => p.SpeciesAndBreed.SpeciesId == query.SpeciesId)
                 .WhereIf(query.PositionFrom is not null, p => p.Order >= query.PositionFrom)
                 .WhereIf(query.PositionTo is not null, p => p.Order <= query.PositionTo);
 
 
-            if (query.PositionFrom is not null)
-            {
-                petsQuerry = petsQuerry
-                    .Where(p => p.Order >= query.PositionFrom).AsQueryable();
-            }
-
-            if (query.PositionTo is not null)
-            {
-                petsQuerry = petsQuerry
-                    .Where(p => p.Order <= query.PositionTo).AsQueryable();
-            }
-
             var pagedList = await petsQuerry
-                .OrderBy(p => p.Order)
                 .ToPagedList(query.Page, query.PageSize, cancellationToken);
 
             return pagedList;
