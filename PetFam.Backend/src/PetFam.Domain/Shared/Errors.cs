@@ -51,5 +51,13 @@
                 return Error.Validation("volunteer.already.exist", $"volunteer with email: {email} already exist");
             }
         }
+
+        public static class Species
+        {
+            public static Error AlreadyExist(string? name = null)
+            {
+                return Error.Validation("species.already.exist", $"species with name: {name} already exist");
+            }
+        }
     }
 }

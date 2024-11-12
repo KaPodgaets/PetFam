@@ -36,7 +36,7 @@ namespace PetFam.Application.SpeciesManagement.Create
 
             if (existingSpeciesByNameResult.IsSuccess)
             {
-                return Errors.Volunteer.AlreadyExist(command.Name).ToErrorList();
+                return Errors.Species.AlreadyExist(command.Name).ToErrorList();
             }
 
             var speciesCreateResult = Species.Create(
