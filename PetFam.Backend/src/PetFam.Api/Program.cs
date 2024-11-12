@@ -1,9 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using PetFam.Api.Extensions;
 using PetFam.Api.Middlewares;
 using PetFam.Application;
 using PetFam.Infrastructure;
-using PetFam.Infrastructure.DbContexts;
 using Serilog;
 
 namespace PetFam.Api
