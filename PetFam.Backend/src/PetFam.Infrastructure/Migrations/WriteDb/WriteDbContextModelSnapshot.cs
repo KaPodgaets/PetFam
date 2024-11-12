@@ -115,6 +115,10 @@ namespace PetFam.Infrastructure.Migrations.WriteDb
                         {
                             b1.IsRequired();
 
+                            b1.Property<int>("Age")
+                                .HasColumnType("integer")
+                                .HasColumnName("health_info_age");
+
                             b1.Property<DateTime>("BirthDate")
                                 .HasColumnType("timestamp with time zone")
                                 .HasColumnName("birthdate");
