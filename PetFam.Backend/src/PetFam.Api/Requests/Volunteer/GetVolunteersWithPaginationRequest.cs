@@ -2,11 +2,14 @@
 
 namespace PetFam.Api.Requests.Volunteer
 {
-    public record GetVolunteersWithPaginationRequest(int Page, int PageSize)
+    public record GetVolunteersWithPaginationRequest(
+        Guid? VolunteerId,
+        int Page,
+        int PageSize)
     {
         public GetVolunteersWithPaginationQuery ToQuery()
         {
-            return new GetVolunteersWithPaginationQuery(Page, PageSize);
+            return new GetVolunteersWithPaginationQuery(VolunteerId, Page, PageSize);
         }
     }
 }

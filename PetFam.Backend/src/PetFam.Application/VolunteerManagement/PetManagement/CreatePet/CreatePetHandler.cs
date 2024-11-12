@@ -8,7 +8,7 @@ using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer;
 using PetFam.Domain.Volunteer.Pet;
 
-namespace PetFam.Application.VolunteerManagement.PetManagement.Create
+namespace PetFam.Application.VolunteerManagement.PetManagement.CreatePet
 {
     public class CreatePetHandler:ICommandHandler<Guid, CreatePetCommand>
     {

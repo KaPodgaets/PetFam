@@ -2,5 +2,8 @@
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers
 {
-    public record GetVolunteersWithPaginationQuery(int PageNumber, int PageSize) : IQuery;
+    public record GetVolunteersWithPaginationQuery(
+        Guid? VolunteerId,
+        int PageNumber,
+        int PageSize) : IQuery;
 }

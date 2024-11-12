@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PetFam.Application.SpeciesManagement.Delete
+namespace PetFam.Application.SpeciesManagement.Commands.Delete
 {
     public class DeleteSpeciesCommandValidator : AbstractValidator<DeleteSpeciesCommand>
     {

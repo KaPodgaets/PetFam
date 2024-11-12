@@ -1,10 +1,12 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Extensions;
 using PetFam.Api.Requests.Species;
-using PetFam.Application.SpeciesManagement.Create;
-using PetFam.Application.SpeciesManagement.CreateBreed;
-using PetFam.Application.SpeciesManagement.Delete;
+using PetFam.Application;
+using PetFam.Application.Dtos;
+using PetFam.Application.SpeciesManagement.Commands.Create;
+using PetFam.Application.SpeciesManagement.Commands.CreateBreed;
+using PetFam.Application.SpeciesManagement.Commands.Delete;
+using PetFam.Application.SpeciesManagement.Queries.Get;
 
 namespace PetFam.Api.Controllers
 {
@@ -13,7 +15,19 @@ namespace PetFam.Api.Controllers
         public SpeciesController(ILogger<ApplicationController> logger) : base(logger)
         {
         }
-
+        
+        [HttpGet]
+        public async Task<ActionResult<PagedList<SpeciesDto>>> GetAllSpecies(
+            [FromQuery] GetSpeciesFilteredWithPaginationRequest request,
+            [FromServices] GetSpeciesFilteredWithPaginationHandler handler,
+            CancellationToken cancellationToken)
+        {
+            var query = request.ToQuery();
+            
+            var result = await handler.HandleAsync(query, cancellationToken);
+            return result.ToResponse();
+        }
+        
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateSpecies(
             [FromServices] CreateSpeciesHandler handler,

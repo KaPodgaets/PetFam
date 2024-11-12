@@ -20,7 +20,7 @@ namespace PetFam.Application
 
             return services;
         }
-        public static IServiceCollection AddCommands(this IServiceCollection services)
+        private static IServiceCollection AddCommands(this IServiceCollection services)
         {
             services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
                     .AddClasses(classes => classes.AssignableToAny(
@@ -35,7 +35,7 @@ namespace PetFam.Application
             return services;
         }
 
-        public static IServiceCollection AddQueries(this IServiceCollection services)
+        private static IServiceCollection AddQueries(this IServiceCollection services)
         {
             services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
                 .AddClasses(classes => classes.AssignableTo(

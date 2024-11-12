@@ -5,7 +5,7 @@ using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 
-namespace PetFam.Application.SpeciesManagement.CreateBreed
+namespace PetFam.Application.SpeciesManagement.Commands.CreateBreed
 {
     public class CreateBreedHandler:ICommandHandler<Guid, CreateBreedCommand>
     {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
+namespace PetFam.Application.VolunteerManagement.PetManagement.AddPetPhotos
 {
     public class PetAddPhotosCommandValidator : AbstractValidator<PetAddPhotosCommand>
     {

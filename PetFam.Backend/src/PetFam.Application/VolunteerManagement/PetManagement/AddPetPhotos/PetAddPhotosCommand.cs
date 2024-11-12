@@ -1,7 +1,7 @@
 ﻿using PetFam.Application.FileProvider;
 using PetFam.Application.Interfaces;
 
-namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
+namespace PetFam.Application.VolunteerManagement.PetManagement.AddPetPhotos
 {
     public record PetAddPhotosCommand(
         Guid VolunteerId,

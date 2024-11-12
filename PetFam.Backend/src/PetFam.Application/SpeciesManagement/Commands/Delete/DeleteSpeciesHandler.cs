@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFam.Application.VolunteerManagement;
 using PetFam.Application.Extensions;
+using PetFam.Application.Interfaces;
+using PetFam.Application.VolunteerManagement;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
-using PetFam.Application.Interfaces;
 
-namespace PetFam.Application.SpeciesManagement.Delete
+namespace PetFam.Application.SpeciesManagement.Commands.Delete
 {
     public class DeleteSpeciesHandler:ICommandHandler<Guid, DeleteSpeciesCommand>
     {

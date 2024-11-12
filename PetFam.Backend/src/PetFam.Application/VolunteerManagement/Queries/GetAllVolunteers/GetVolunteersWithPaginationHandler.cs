@@ -2,6 +2,7 @@
 using PetFam.Application.Dtos;
 using PetFam.Application.Extensions;
 using PetFam.Application.Interfaces;
+using PetFam.Domain.Shared;
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers
 {
@@ -14,15 +15,17 @@ namespace PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers
             _dbContext = dbContext;
         }
 
-        public async Task<PagedList<VolunteerDto>> HandleAsync(
+        public async Task<Result<PagedList<VolunteerDto>>> HandleAsync(
             GetVolunteersWithPaginationQuery query,
             CancellationToken cancellationToken = default)
         {
-            var source = _dbContext.Volunteers.AsQueryable();
+            var volunteersQuery = _dbContext.Volunteers.AsQueryable();
 
-            // filtration
+            volunteersQuery = volunteersQuery.WhereIf(
+                query.VolunteerId is not null, p => p.Id == query.VolunteerId);
 
-            var pagedList = await source.ToPagedList(query.PageNumber, query.PageSize, cancellationToken);
+            var pagedList = await volunteersQuery
+                .ToPagedList(query.PageNumber, query.PageSize, cancellationToken);
 
             return pagedList;
         }

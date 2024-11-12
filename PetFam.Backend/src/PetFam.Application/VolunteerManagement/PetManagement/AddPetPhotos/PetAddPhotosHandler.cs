@@ -9,7 +9,7 @@ using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 using PetFam.Domain.Volunteer.Pet;
 
-namespace PetFam.Application.VolunteerManagement.PetManagement.AddPhotos
+namespace PetFam.Application.VolunteerManagement.PetManagement.AddPetPhotos
 {
     public class PetAddPhotosHandler:ICommandHandler<string, PetAddPhotosCommand>
     {

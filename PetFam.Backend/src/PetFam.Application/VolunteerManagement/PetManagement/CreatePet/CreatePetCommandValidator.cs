@@ -2,7 +2,7 @@
 using PetFam.Application.Validation;
 using PetFam.Domain.Volunteer.Pet;
 
-namespace PetFam.Application.VolunteerManagement.PetManagement.Create
+namespace PetFam.Application.VolunteerManagement.PetManagement.CreatePet
 {
     public class CreatePetCommandValidator: AbstractValidator<CreatePetCommand>
     {

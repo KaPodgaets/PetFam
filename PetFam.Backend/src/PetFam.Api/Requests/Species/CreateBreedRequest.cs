@@ -1,4 +1,4 @@
-﻿using PetFam.Application.SpeciesManagement.CreateBreed;
+﻿using PetFam.Application.SpeciesManagement.Commands.CreateBreed;
 
 namespace PetFam.Api.Requests.Species
 {

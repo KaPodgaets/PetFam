@@ -3,6 +3,7 @@ using PetFam.Application.Dtos;
 using PetFam.Application.Extensions;
 using PetFam.Application.Interfaces;
 using System.Linq.Expressions;
+using PetFam.Domain.Shared;
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetPets
 {
@@ -15,7 +16,7 @@ namespace PetFam.Application.VolunteerManagement.Queries.GetPets
             _dbContext = dbContext;
         }
 
-        public async Task<PagedList<PetDto>> HandleAsync(
+        public async Task<Result<PagedList<PetDto>>> HandleAsync(
             GetFilteredPetsWithPaginationQuery query,
             CancellationToken cancellationToken = default)
         {

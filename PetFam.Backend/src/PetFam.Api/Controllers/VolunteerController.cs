@@ -2,14 +2,16 @@
 using PetFam.Api.Extensions;
 using PetFam.Api.Processors;
 using PetFam.Api.Requests.Volunteer;
+using PetFam.Application;
+using PetFam.Application.Dtos;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
 using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
-using PetFam.Application.VolunteerManagement.PetManagement.AddPhotos;
-using PetFam.Application.VolunteerManagement.PetManagement.Create;
+using PetFam.Application.VolunteerManagement.PetManagement.AddPetPhotos;
+using PetFam.Application.VolunteerManagement.PetManagement.CreatePet;
 using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
 using PetFam.Infrastructure.Options;
 
@@ -22,31 +24,22 @@ namespace PetFam.Api.Controllers
         {
         }
 
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult> GetVolunteerById(
-            [FromRoute] Guid id,
-            CancellationToken cancellationToken = default)
-        {
-            return Ok();
-        }
-
-
-        [HttpGet("/all")]
-        public async Task<ActionResult> GetAllVolunteers(
+        [HttpGet]
+        public async Task<ActionResult<PagedList<VolunteerDto>>> GetAllVolunteers(
             [FromServices] GetVolunteersWithPaginationHandler handler,
             [FromQuery] GetVolunteersWithPaginationRequest request,
             CancellationToken cancellationToken = default)
         {
             var query = request.ToQuery();
 
-            var pagedList = await handler.HandleAsync(query, cancellationToken);
+            var result = await handler.HandleAsync(query, cancellationToken);
             
-            return Ok(pagedList);
+            return result.ToResponse();
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
-            [FromServices] ICreateVolunteerHandler handler,
+            [FromServices] CreateVolunteerHandler handler,
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {

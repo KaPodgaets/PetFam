@@ -5,7 +5,7 @@ using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 
-namespace PetFam.Application.SpeciesManagement.Create
+namespace PetFam.Application.SpeciesManagement.Commands.Create
 {
     public class CreateSpeciesHandler:ICommandHandler<Guid,CreateSpeciesCommand>
     {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PetFam.Application.SpeciesManagement.Create
+namespace PetFam.Application.SpeciesManagement.Commands.Create
 {
     public class CreateSpeciesCommandValidator : AbstractValidator<CreateSpeciesCommand>
     {
