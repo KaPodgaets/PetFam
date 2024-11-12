@@ -1,4 +1,5 @@
 ﻿using PetFam.Domain.Shared;
+using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer.Pet;
 
 namespace PetFam.Domain.Volunteer
@@ -7,9 +8,11 @@ namespace PetFam.Domain.Volunteer
     {
         private List<Pet.Pet> _pets = [];
         private bool _isDeleted = false;
+
         private Volunteer(VolunteerId id) : base(id)
         {
         }
+
         private Volunteer(VolunteerId id,
             FullName fullName,
             Email email,
@@ -22,6 +25,7 @@ namespace PetFam.Domain.Volunteer
             SocialMediaDetails = socialMediaDetails;
             Requisites = requisitesDetails;
         }
+
         public FullName FullName { get; private set; } = null!;
         public Email Email { get; private set; }
         public GeneralInformation? GeneralInformation1 { get; private set; }
@@ -29,10 +33,13 @@ namespace PetFam.Domain.Volunteer
         public SocialMediaDetails? SocialMediaDetails { get; private set; }
         public RequisitesDetails? Requisites { get; private set; }
         public IReadOnlyList<Pet.Pet> Pets => _pets;
+
         public int PetsFoundedHomeCount =>
             _pets.Count(x => x.Status == PetStatus.Adopted);
+
         public int PetsLookingForHomeCount =>
             _pets.Count(x => x.Status == PetStatus.LookingForHome);
+
         public int PetsOnTreatment =>
             _pets.Count(x => x.Status == PetStatus.OnTreatment);
 
@@ -78,18 +85,21 @@ namespace PetFam.Domain.Volunteer
 
         public void Delete()
         {
-            foreach(var pet in _pets) 
+            foreach (var pet in _pets)
             {
-                pet.Delete(); 
+                pet.Delete();
             }
+
             _isDeleted = true;
         }
+
         public void Restore()
         {
             foreach (var pet in _pets)
             {
                 pet.Restore();
             }
+
             _isDeleted = false;
         }
 
@@ -102,7 +112,7 @@ namespace PetFam.Domain.Volunteer
         public void SortPets()
         {
             int orderNumber = 1;
-            foreach(var pet in _pets)
+            foreach (var pet in _pets)
             {
                 pet.ChangeOrderNumber(orderNumber);
                 orderNumber++;
@@ -118,7 +128,7 @@ namespace PetFam.Domain.Volunteer
             var start = int.Min(newOrderNumber, pet.Order);
             var end = int.Max(newOrderNumber, pet.Order);
 
-            foreach(var petFromList in _pets)
+            foreach (var petFromList in _pets)
             {
                 if (petFromList.Order >= start && petFromList.Order <= end)
                 {
@@ -145,5 +155,34 @@ namespace PetFam.Domain.Volunteer
         {
             return ChangePetOrder(pet, _pets.Count - 1);
         }
+
+        public Result UpdatePet(
+            PetId id,
+            string nickName,
+            SpeciesBreed speciesAndBreed,
+            PetStatus status,
+            PetGeneralInfo generalInfo,
+            PetHealthInfo healthInfo,
+            Address address,
+            AccountInfo accountInfo,
+            int order)
+        {
+            var pet = _pets.FirstOrDefault(x => x.Id == id);
+            if (pet is null)
+                return Errors.General.NotFound(nameof(PetId)).ToErrorList();
+            
+            pet.Update(
+                nickName,
+                speciesAndBreed,
+                status,
+                generalInfo,
+                healthInfo,
+                address,
+                accountInfo,
+                order);
+            
+            return Result.Success();
+        }
     }
 }
+

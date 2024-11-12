@@ -86,6 +86,26 @@ namespace PetFam.Domain.Volunteer.Pet
             );
         }
 
+        internal void Update(
+            string nickName,
+            SpeciesBreed speciesAndBreed,
+            PetStatus status,
+            PetGeneralInfo generalInfo,
+            PetHealthInfo healthInfo,
+            Address address,
+            AccountInfo accountInfo,
+            int order)
+        {
+            NickName = nickName; 
+            SpeciesAndBreed = speciesAndBreed;
+            Status = status;
+            GeneralInfo = generalInfo;
+            HealthInfo = healthInfo;
+            Address = address;
+            AccountInfo = accountInfo;
+            Order = order;
+        }
+
         public Result AddPhotos(IEnumerable<PetPhoto> photos)
         {
             _photos.AddRange(photos);

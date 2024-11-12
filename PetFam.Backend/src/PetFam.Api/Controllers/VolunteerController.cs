@@ -9,6 +9,7 @@ using PetFam.Application.VolunteerManagement.Commands.AddPetPhotos;
 using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Application.VolunteerManagement.Commands.CreatePet;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
+using PetFam.Application.VolunteerManagement.Commands.PetUpdate;
 using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
@@ -134,6 +135,21 @@ namespace PetFam.Api.Controllers
 
             var result = await handler.ExecuteAsync(command, cancellationToken);
 
+            return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/pet-update/{petId:guid}")]
+        public async Task<ActionResult<Guid>> UpdatePet(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromBody] PetUpdateRequest request,
+            [FromServices] PetUpdateHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(id, petId);
+            
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+            
             return result.ToResponse();
         }
     }
