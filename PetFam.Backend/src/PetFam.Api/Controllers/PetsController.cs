@@ -1,6 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using PetFam.Api.Requests;
+using PetFam.Api.Extensions;
+using PetFam.Api.Requests.Pets;
+using PetFam.Application;
+using PetFam.Application.Dtos;
 using PetFam.Application.VolunteerManagement.Queries.GetPets;
 
 namespace PetFam.Api.Controllers
@@ -11,17 +14,17 @@ namespace PetFam.Api.Controllers
         {
         }
 
-        [HttpGet("pets-filtered")]
-        public async Task<ActionResult> GetFilteredPetsWithPagination(
+        [HttpGet]
+        public async Task<ActionResult<PagedList<PetDto>>> GetFilteredPetsWithPagination(
             [FromQuery] GetFilteredPetsWithPaginationRequest request,
             [FromServices] GetFilteredPetsWithPaginationHandler handler,
             CancellationToken cancellationToken = default)
         {
             var query = request.ToQuery();
 
-            var pagedList = await handler.HandleAsync(query, cancellationToken);
+            var result = await handler.HandleAsync(query, cancellationToken);
 
-            return Ok(pagedList);
+            return result.ToResponse();
         }
     }
 }

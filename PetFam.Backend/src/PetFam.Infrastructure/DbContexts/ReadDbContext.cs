@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Database;
 using PetFam.Application.Dtos;
+using PetFam.Domain.SpeciesManagement;
 
 namespace PetFam.Infrastructure.DbContexts
 {
@@ -11,6 +12,8 @@ namespace PetFam.Infrastructure.DbContexts
     {
         public DbSet<VolunteerDto> Volunteers { get; set; }
         public DbSet<PetDto> Pets { get; set; }
+        public DbSet<SpeciesDto> Species { get; set; }
+        public DbSet<BreedDto> Breeds { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
