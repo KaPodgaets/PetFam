@@ -55,8 +55,8 @@ namespace PetFam.Api.Controllers
         
         [HttpDelete("{speciesId:guid}/breed/{breedId:guid}")]
         public async Task<ActionResult<Guid>> DeleteSpecies(
-            [FromQuery] Guid speciesId,
-            [FromQuery] Guid breedId,
+            Guid speciesId,
+            Guid breedId,
             [FromServices] DeleteBreedHandler handler,
             CancellationToken cancellationToken)
         {

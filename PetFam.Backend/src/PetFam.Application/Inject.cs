@@ -26,7 +26,7 @@ namespace PetFam.Application
                     .AddClasses(classes => classes.AssignableToAny(
                         [
                             typeof(ICommandHandler<,>),
-                        typeof(ICommandHandler<>)
+                            typeof(ICommandHandler<>)
                         ]
                     ))
                     .AsSelfWithInterfaces()

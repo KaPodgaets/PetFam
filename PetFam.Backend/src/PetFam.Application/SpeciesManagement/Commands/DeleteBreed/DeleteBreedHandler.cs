@@ -18,7 +18,7 @@ public class DeleteBreedHandler
     private readonly ILogger _logger;
 
     public DeleteBreedHandler(
-        ILogger logger,
+        ILogger<DeleteBreedHandler> logger,
         IValidator<DeleteBreedCommand> validator,
         ISpeciesRepository repository,
         IReadDbContext readDbContext)
