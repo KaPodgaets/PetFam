@@ -30,7 +30,8 @@ public class PetUpdateCommandValidator : AbstractValidator<PetUpdateCommand>
                 dto.Comment,
                 dto.IsCastrated,
                 dto.BirthDate,
-                dto.IsVaccinated));
+                dto.IsVaccinated,
+                dto.Age));
 
         RuleFor(x => x.Address)
             .MustBeValueObject(dto => Address.Create(

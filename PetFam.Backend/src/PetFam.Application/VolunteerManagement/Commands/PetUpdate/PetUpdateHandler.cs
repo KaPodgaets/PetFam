@@ -63,7 +63,8 @@ public class PetUpdateHandler
                 command.HealthInfo.Comment,
                 command.HealthInfo.IsCastrated,
                 command.HealthInfo.BirthDate,
-                command.HealthInfo.IsVaccinated)
+                command.HealthInfo.IsVaccinated,
+                command.HealthInfo.Age)
             .Value;
 
         var address = Address.Create(
