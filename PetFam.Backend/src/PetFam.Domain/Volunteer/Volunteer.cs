@@ -197,6 +197,11 @@ namespace PetFam.Domain.Volunteer
             
             return Result.Success();
         }
+
+        public void UpdatePetStatus(Pet.Pet pet, PetStatus status)
+        {
+            pet.ChangeStatus(status);
+        }
     }
 }
 

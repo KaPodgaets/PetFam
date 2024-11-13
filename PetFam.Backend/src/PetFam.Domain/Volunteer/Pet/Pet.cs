@@ -138,5 +138,10 @@ namespace PetFam.Domain.Volunteer.Pet
         {
             Order = orderNumber;
         }
+
+        internal void ChangeStatus(PetStatus status)
+        {
+            Status = status;
+        }
     }
 }

@@ -11,6 +11,7 @@ using PetFam.Application.VolunteerManagement.Commands.CreatePet;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
 using PetFam.Application.VolunteerManagement.Commands.DeletePet;
 using PetFam.Application.VolunteerManagement.Commands.DeletePetPhotos;
+using PetFam.Application.VolunteerManagement.Commands.PetStatusUpdate;
 using PetFam.Application.VolunteerManagement.Commands.PetUpdate;
 using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
@@ -180,6 +181,21 @@ namespace PetFam.Api.Controllers
 
             var result = await handler.ExecuteAsync(command, cancellationToken);
 
+            return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/pet-status-update/{petId:guid}")]
+        public async Task<ActionResult<Guid>> UpdatePetStatus(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromQuery] int newPetStatus,
+            [FromServices] PetStatusUpdateHandler handler,
+            CancellationToken cancellationToken)
+        {
+            var command = new PetStatusUpdateCommand(id, petId, newPetStatus);
+            
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+            
             return result.ToResponse();
         }
     }
