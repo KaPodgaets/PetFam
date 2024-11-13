@@ -1,9 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFam.Application.Database;
 using PetFam.Application.Extensions;
 using PetFam.Application.Interfaces;
-using PetFam.Application.SpeciesManagement.Commands.DeleteBreed;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer;
@@ -12,7 +10,7 @@ using PetFam.Domain.Volunteer.Pet;
 namespace PetFam.Application.VolunteerManagement.Commands.PetUpdate;
 
 public class PetUpdateHandler
-    :ICommandHandler<PetUpdateCommand>
+    :ICommandHandler<Guid, PetUpdateCommand>
 {
     private readonly IVolunteerRepository _repository;
     private readonly IValidator<PetUpdateCommand> _validator;
@@ -28,7 +26,7 @@ public class PetUpdateHandler
         _logger = logger;
     }
     
-    public async Task<Result> ExecuteAsync(
+    public async Task<Result<Guid>> ExecuteAsync(
         PetUpdateCommand command,
         CancellationToken cancellationToken = default)
     {
@@ -41,28 +39,67 @@ public class PetUpdateHandler
         var getVolunteerResult = await _repository
             .GetById(VolunteerId.Create(command.VolunteerId), cancellationToken);
         if (getVolunteerResult.IsFailure)
-            return getVolunteerResult;
+            return getVolunteerResult.Errors;
+        
         var volunteer = getVolunteerResult.Value;
         
         var petId = PetId.Create(command.PetId);
         
         var speciesId = SpeciesId.Create(command.SpeciesAndBreed.SpeciesId);
         var speciesBreed = SpeciesBreed.Create(
-            speciesId,
-            command.SpeciesAndBreed.BreedId)
-                .Value;
+                speciesId,
+                command.SpeciesAndBreed.BreedId)
+            .Value;
         
+        var generalInfo = PetGeneralInfo.Create(
+                command.GeneralInfo.Comment,
+                command.GeneralInfo.Color,
+                command.GeneralInfo.Weight,
+                command.GeneralInfo.Height,
+                command.GeneralInfo.PhoneNumber)
+            .Value;
+
+        var healthInfo = PetHealthInfo.Create(
+                command.HealthInfo.Comment,
+                command.HealthInfo.IsCastrated,
+                command.HealthInfo.BirthDate,
+                command.HealthInfo.IsVaccinated)
+            .Value;
+
+        var address = Address.Create(
+                command.Address.Country,
+                command.Address.City,
+                command.Address.Street,
+                command.Address.Building,
+                command.Address.Litteral)
+            .Value;
+
+        var accountInfo = AccountInfo.Create(
+                command.AccountInfo.Number,
+                command.AccountInfo.BankName)
+            .Value;
+
         var updateResult = volunteer.UpdatePet(
             petId,
             command.NickName,
-            command.SpeciesAndBreed,
-            )
-        // update via volunteer domain model
-
-        // save model through repository
-
-        // log information
+            speciesBreed,
+            (PetStatus)command.Status,
+            generalInfo,
+            healthInfo,
+            address,
+            accountInfo);
         
-        return Result.Success();
+        if(updateResult.IsFailure)
+            return updateResult.Errors;
+        
+        var saveResult = await _repository.Update(volunteer, cancellationToken);
+        if(saveResult.IsFailure)
+            return saveResult;
+        
+        // log information
+        _logger.LogInformation("pet {PetId} was updated",
+            command.PetId);
+
+        return command.PetId;
     }
 }

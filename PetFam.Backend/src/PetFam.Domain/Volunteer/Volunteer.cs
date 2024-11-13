@@ -164,8 +164,7 @@ namespace PetFam.Domain.Volunteer
             PetGeneralInfo generalInfo,
             PetHealthInfo healthInfo,
             Address address,
-            AccountInfo accountInfo,
-            int order)
+            AccountInfo accountInfo)
         {
             var pet = _pets.FirstOrDefault(x => x.Id == id);
             if (pet is null)
@@ -178,8 +177,7 @@ namespace PetFam.Domain.Volunteer
                 generalInfo,
                 healthInfo,
                 address,
-                accountInfo,
-                order);
+                accountInfo);
             
             return Result.Success();
         }

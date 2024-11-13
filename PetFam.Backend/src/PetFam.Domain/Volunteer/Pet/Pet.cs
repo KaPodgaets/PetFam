@@ -93,8 +93,7 @@ namespace PetFam.Domain.Volunteer.Pet
             PetGeneralInfo generalInfo,
             PetHealthInfo healthInfo,
             Address address,
-            AccountInfo accountInfo,
-            int order)
+            AccountInfo accountInfo)
         {
             NickName = nickName; 
             SpeciesAndBreed = speciesAndBreed;
@@ -103,7 +102,6 @@ namespace PetFam.Domain.Volunteer.Pet
             HealthInfo = healthInfo;
             Address = address;
             AccountInfo = accountInfo;
-            Order = order;
         }
 
         public Result AddPhotos(IEnumerable<PetPhoto> photos)

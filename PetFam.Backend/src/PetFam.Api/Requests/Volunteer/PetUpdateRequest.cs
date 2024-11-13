@@ -12,8 +12,7 @@ public record PetUpdateRequest(
     PetGeneralInfoDto GeneralInfo,
     PetHealthInfoDto HealthInfo,
     PetAddressDto Address,
-    AccountInfoDto AccountInfo,
-    int Order)
+    AccountInfoDto AccountInfo)
 {
     public PetUpdateCommand ToCommand(Guid volunteerId, Guid petId)
     {
@@ -26,8 +25,7 @@ public record PetUpdateRequest(
             GeneralInfo,
             HealthInfo,
             Address,
-            AccountInfo,
-            Order);
+            AccountInfo);
     }
     
 }

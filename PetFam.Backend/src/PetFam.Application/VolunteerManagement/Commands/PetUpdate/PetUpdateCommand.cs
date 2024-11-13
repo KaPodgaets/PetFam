@@ -12,5 +12,4 @@ public record PetUpdateCommand(
     PetGeneralInfoDto GeneralInfo,
     PetHealthInfoDto HealthInfo,
     PetAddressDto Address,
-    AccountInfoDto AccountInfo,
-    int Order):ICommand;
+    AccountInfoDto AccountInfo):ICommand;
