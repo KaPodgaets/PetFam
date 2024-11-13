@@ -109,6 +109,11 @@ namespace PetFam.Domain.Volunteer
             _pets.Add(pet);
         }
 
+        public void DeletePet(Pet.Pet pet)
+        {
+            pet.Delete();
+        }
+
         public void SortPets()
         {
             int orderNumber = 1;

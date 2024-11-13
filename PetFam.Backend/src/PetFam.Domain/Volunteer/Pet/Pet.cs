@@ -124,6 +124,9 @@ namespace PetFam.Domain.Volunteer.Pet
         public void Delete()
         {
             _isDeleted = true;
+            
+            if(_photos.Count > 0)
+                DeletePhotos(_photos);
         }
 
         public void Restore()

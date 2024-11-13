@@ -9,6 +9,7 @@ using PetFam.Application.VolunteerManagement.Commands.AddPetPhotos;
 using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Application.VolunteerManagement.Commands.CreatePet;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
+using PetFam.Application.VolunteerManagement.Commands.DeletePet;
 using PetFam.Application.VolunteerManagement.Commands.DeletePetPhotos;
 using PetFam.Application.VolunteerManagement.Commands.PetUpdate;
 using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
@@ -35,7 +36,7 @@ namespace PetFam.Api.Controllers
             var query = request.ToQuery();
 
             var result = await handler.HandleAsync(query, cancellationToken);
-            
+
             return result.ToResponse();
         }
 
@@ -119,6 +120,20 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
+        [HttpDelete("{id:guid}/delete-pet/{petId:guid}")]
+        public async Task<ActionResult<Guid>> DeletePet(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromServices] DeletePetHandler handler,
+            CancellationToken cancellationToken)
+        {
+            var command = new DeletePetCommand(id, petId);
+
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+
+            return result.ToResponse();
+        }
+
         [HttpPost("{id:guid}/add-photos/{petId:guid}")]
         public async Task<ActionResult<string>> AddPetPhotos(
             [FromRoute] Guid id,
@@ -127,7 +142,6 @@ namespace PetFam.Api.Controllers
             [FromForm] IFormFileCollection formFiles,
             CancellationToken cancellationToken = default)
         {
-            
             await using var fileProcessor = new FormFileProcessor();
             var filesData = fileProcessor.Process(formFiles);
             var content = new Content(filesData, MinioOptions.PHOTO_BUCKET);
@@ -138,7 +152,7 @@ namespace PetFam.Api.Controllers
 
             return result.ToResponse();
         }
-        
+
         [HttpDelete("{id:guid}/delete-photos/{petId:guid}")]
         public async Task<ActionResult<string[]>> AddPetPhotos(
             [FromRoute] Guid id,
@@ -163,9 +177,9 @@ namespace PetFam.Api.Controllers
             CancellationToken cancellationToken = default)
         {
             var command = request.ToCommand(id, petId);
-            
+
             var result = await handler.ExecuteAsync(command, cancellationToken);
-            
+
             return result.ToResponse();
         }
     }
