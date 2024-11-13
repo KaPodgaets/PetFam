@@ -4,6 +4,7 @@ using PetFam.Api.Extensions;
 using PetFam.Api.Requests.Pets;
 using PetFam.Application;
 using PetFam.Application.Dtos;
+using PetFam.Application.VolunteerManagement.Queries.GetPetById;
 using PetFam.Application.VolunteerManagement.Queries.GetPets;
 
 namespace PetFam.Api.Controllers
@@ -12,6 +13,19 @@ namespace PetFam.Api.Controllers
     {
         public PetsController(ILogger<ApplicationController> logger) : base(logger)
         {
+        }
+
+        [HttpGet("{petId:guid}")]
+        public async Task<ActionResult<PetDto>> GetPetById(
+            [FromRoute] Guid petId,
+            [FromServices] GetPetByIdHandler handler,
+            CancellationToken cancellation)
+        {
+            var command = new GetPetByIdQuery(petId);
+            
+            var result = await handler.HandleAsync(command, cancellation);
+            
+            return result.ToResponse();
         }
 
         [HttpGet]
