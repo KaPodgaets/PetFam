@@ -155,7 +155,18 @@ namespace PetFam.Domain.Volunteer
         {
             return ChangePetOrder(pet, _pets.Count - 1);
         }
-
+        /// <summary>
+        /// Update pet info expect Order in pet list and Photos
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="nickName"></param>
+        /// <param name="speciesAndBreed"></param>
+        /// <param name="status"></param>
+        /// <param name="generalInfo"></param>
+        /// <param name="healthInfo"></param>
+        /// <param name="address"></param>
+        /// <param name="accountInfo"></param>
+        /// <returns></returns>
         public Result UpdatePet(
             PetId id,
             string nickName,

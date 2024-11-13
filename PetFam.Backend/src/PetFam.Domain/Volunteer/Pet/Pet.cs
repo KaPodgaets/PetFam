@@ -111,6 +111,16 @@ namespace PetFam.Domain.Volunteer.Pet
             return Result.Success();
         }
 
+        public void DeletePhotos(IEnumerable<PetPhoto> photosToDelete)
+        {
+            photosToDelete = photosToDelete.ToList();
+
+            var pathsToDelete = new HashSet<string>(photosToDelete
+                .Select(p => p.FilePath));
+                
+            _photos.RemoveAll(p => pathsToDelete.Contains(p.FilePath));
+        }
+
         public void Delete()
         {
             _isDeleted = true;

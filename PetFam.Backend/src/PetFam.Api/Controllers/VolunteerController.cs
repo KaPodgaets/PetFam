@@ -9,6 +9,7 @@ using PetFam.Application.VolunteerManagement.Commands.AddPetPhotos;
 using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Application.VolunteerManagement.Commands.CreatePet;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
+using PetFam.Application.VolunteerManagement.Commands.DeletePetPhotos;
 using PetFam.Application.VolunteerManagement.Commands.PetUpdate;
 using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
@@ -132,6 +133,21 @@ namespace PetFam.Api.Controllers
             var content = new Content(filesData, MinioOptions.PHOTO_BUCKET);
 
             var command = new PetAddPhotosCommand(id, petId, content);
+
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+
+            return result.ToResponse();
+        }
+        
+        [HttpDelete("{id:guid}/delete-photos/{petId:guid}")]
+        public async Task<ActionResult<string[]>> AddPetPhotos(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromBody] string[] photos,
+            [FromServices] DeletePetPhotosHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new DeletePetPhotosCommand(id, petId, photos);
 
             var result = await handler.ExecuteAsync(command, cancellationToken);
 
