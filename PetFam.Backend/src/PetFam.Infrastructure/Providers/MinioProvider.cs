@@ -128,7 +128,7 @@ namespace PetFam.Infrastructure.Providers
         }
 
         public async Task<Result<string>> GetDownloadLink(
-            FileMetedata fileMetadata,
+            FileMetadata fileMetadata,
             CancellationToken cancellationToken = default)
         {
             try
@@ -170,12 +170,12 @@ namespace PetFam.Infrastructure.Providers
 
 
         public async Task<Result> DeleteFile(
-            FileMetedata fileMetedata,
+            FileMetadata fileMetadata,
             CancellationToken cancellationToken = default)
         {
             try
             {
-                var bucketExists = await IsBucketExistAsync(fileMetedata.BucketName, cancellationToken);
+                var bucketExists = await IsBucketExistAsync(fileMetadata.BucketName, cancellationToken);
 
                 if (bucketExists.IsFailure)
                 {
@@ -183,8 +183,8 @@ namespace PetFam.Infrastructure.Providers
                 }
 
                 var removeObjectArgs = new RemoveObjectArgs()
-                    .WithBucket(fileMetedata.BucketName)
-                    .WithObject(fileMetedata.ObjectName);
+                    .WithBucket(fileMetadata.BucketName)
+                    .WithObject(fileMetadata.ObjectName);
 
                 await _minioClient.RemoveObjectAsync(removeObjectArgs, cancellationToken);
 

@@ -27,18 +27,18 @@ namespace PetFam.Api.Extensions
 
         public static ActionResult ToResponse(this Result result)
         {
-            if (result.IsSuccess || result.Errors is null)
+            if (result.IsSuccess)
             {
                 return new OkObjectResult(Envelope.Ok(result));
             }
 
-            var distictErrorTypes = result.Errors.Select(e => e.Type)
+            var distinctErrorTypes = result.Errors.Select(e => e.Type)
                 .Distinct()
                 .ToList();
 
-            var statusCode = distictErrorTypes.Count > 1
+            var statusCode = distinctErrorTypes.Count > 1
                 ? StatusCodes.Status500InternalServerError
-                : GetStatusCodeForErrorType(distictErrorTypes.First());
+                : GetStatusCodeForErrorType(distinctErrorTypes.First());
 
             var envelope = Envelope.Error(result.Errors);
 
@@ -50,18 +50,18 @@ namespace PetFam.Api.Extensions
 
         public static ActionResult<T> ToResponse<T>(this Result<T> result)
         {
-            if (result.IsSuccess || result.Errors is null)
+            if (result.IsSuccess)
             {
                 return new OkObjectResult(Envelope.Ok(result.Value));
             }
 
-            var distictErrorTypes = result.Errors.Select(e => e.Type)
+            var distinctErrorTypes = result.Errors.Select(e => e.Type)
                 .Distinct()
                 .ToList();
 
-            var statusCode = distictErrorTypes.Count > 1
+            var statusCode = distinctErrorTypes.Count > 1
                 ? StatusCodes.Status500InternalServerError
-                : GetStatusCodeForErrorType(distictErrorTypes.First());
+                : GetStatusCodeForErrorType(distinctErrorTypes.First());
 
             var envelope = Envelope.Error(result.Errors);
 

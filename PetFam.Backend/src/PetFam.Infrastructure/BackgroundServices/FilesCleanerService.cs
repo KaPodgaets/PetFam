@@ -37,7 +37,7 @@ namespace PetFam.Infrastructure.BackgroundServices
 
                 foreach ( var path in paths)
                 {
-                    var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, path);
+                    var fileMetadata = new FileMetadata(MinioOptions.PHOTO_BUCKET, path);
                     var result = await fileProvider.DeleteFile(fileMetadata, stoppingToken);
 
                     if (result.IsFailure)

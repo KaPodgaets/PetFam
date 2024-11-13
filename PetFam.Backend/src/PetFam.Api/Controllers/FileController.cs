@@ -28,7 +28,7 @@ namespace PetFam.Api.Controllers
             var fileName = Guid.NewGuid().ToString();
             var fileData = new FileData(
                 stream,
-                new FileMetedata(MinioOptions.PHOTO_BUCKET, fileName));
+                new FileMetadata(MinioOptions.PHOTO_BUCKET, fileName));
 
             List<FileData> files = [fileData];
             var content = new Content(files, MinioOptions.PHOTO_BUCKET);
@@ -46,7 +46,7 @@ namespace PetFam.Api.Controllers
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default)
         {
-            var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, id.ToString());
+            var fileMetadata = new FileMetadata(MinioOptions.PHOTO_BUCKET, id.ToString());
 
             var request = new GetFileLinkCommand(fileMetadata);
 
@@ -61,7 +61,7 @@ namespace PetFam.Api.Controllers
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default)
         {
-            var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, id.ToString());
+            var fileMetadata = new FileMetadata(MinioOptions.PHOTO_BUCKET, id.ToString());
 
             var request = new DeleteFileCommand(fileMetadata);
 

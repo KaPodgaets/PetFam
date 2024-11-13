@@ -2,5 +2,5 @@
 
 namespace PetFam.Application.FileManagement.Delete
 {
-    public record DeleteFileCommand(FileMetedata FileMetadata);
+    public record DeleteFileCommand(FileMetadata FileMetadata);
 }

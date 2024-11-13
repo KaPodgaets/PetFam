@@ -9,7 +9,7 @@ namespace PetFam.Application.FileProvider
             Content content,
             CancellationToken cancellationToken = default);
         Task<Result> CreateBucket(string bucketName, CancellationToken cancellationToken = default);
-        Task<Result<string>> GetDownloadLink(FileMetedata fileMetedata, CancellationToken cancellationToken = default);
-        Task<Result> DeleteFile(FileMetedata fileMetedata, CancellationToken cancellationToken = default);
+        Task<Result<string>> GetDownloadLink(FileMetadata fileMetadata, CancellationToken cancellationToken = default);
+        Task<Result> DeleteFile(FileMetadata fileMetadata, CancellationToken cancellationToken = default);
     }
 }

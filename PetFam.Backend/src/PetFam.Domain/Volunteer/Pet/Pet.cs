@@ -103,11 +103,14 @@ namespace PetFam.Domain.Volunteer.Pet
             Address = address;
             AccountInfo = accountInfo;
         }
-
+        
         public Result AddPhotos(IEnumerable<PetPhoto> photos)
         {
             _photos.AddRange(photos);
-
+            
+            // keep main photo first 
+            _photos = _photos.OrderByDescending(p => p.IsMain).ToList();
+            
             return Result.Success();
         }
 
@@ -119,6 +122,33 @@ namespace PetFam.Domain.Volunteer.Pet
                 .Select(p => p.FilePath));
                 
             _photos.RemoveAll(p => pathsToDelete.Contains(p.FilePath));
+        }
+
+        internal Result ChangeMainPhoto(string path)
+        {
+            var oldPhoto = _photos.FirstOrDefault(p => p.FilePath == path);
+            if(oldPhoto is null)
+                return Errors.Pet.PhotoNotFound().ToErrorList();
+            
+            // change status of previous main photo id exist
+            var oldMainPhoto = _photos.FirstOrDefault(p => p.IsMain == true);
+            if (oldMainPhoto != null)
+            {
+                var oldMainPhotoWithNewProperty = PetPhoto.Create(oldMainPhoto.FilePath).Value;
+                _photos.Remove(oldMainPhoto);
+                _photos.Add(oldMainPhotoWithNewProperty);
+            }
+            
+            // set new main photo
+            _photos.Remove(oldPhoto);
+            
+            var mainPhoto = PetPhoto.Create(path, true).Value;
+            _photos.Add(mainPhoto);
+            
+            // keep main photo first
+            _photos = _photos.OrderByDescending(p => p.IsMain).ToList();
+            
+            return Result.Success();
         }
 
         public void Delete()

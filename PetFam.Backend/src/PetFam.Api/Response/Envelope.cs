@@ -16,7 +16,7 @@ namespace PetFam.Api.Response
         } 
 
         public static Envelope Ok(object? result = null) =>
-        new(result, null);
+            new(result, null);
 
         public static Envelope Error(ErrorList errors) =>
             new(null, errors);

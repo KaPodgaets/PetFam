@@ -116,7 +116,7 @@ namespace PetFam.Domain.Volunteer
 
         public void SortPets()
         {
-            int orderNumber = 1;
+            var orderNumber = 1;
             foreach (var pet in _pets)
             {
                 pet.ChangeOrderNumber(orderNumber);
@@ -201,6 +201,16 @@ namespace PetFam.Domain.Volunteer
         public void UpdatePetStatus(Pet.Pet pet, PetStatus status)
         {
             pet.ChangeStatus(status);
+        }
+
+        public Result ChangeMainPhoto(PetId petId, PetPhoto photo)
+        {
+            var pet = _pets.FirstOrDefault(x => x.Id == petId);
+            if (pet is null)
+                return Errors.General.NotFound(petId.Value.ToString()).ToErrorList();
+            
+            var result = pet.ChangeMainPhoto(photo.FilePath);
+            return result;
         }
     }
 }

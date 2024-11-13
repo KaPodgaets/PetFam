@@ -6,6 +6,7 @@ using PetFam.Application;
 using PetFam.Application.Dtos;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Commands.AddPetPhotos;
+using PetFam.Application.VolunteerManagement.Commands.ChangePetMainPhoto;
 using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Application.VolunteerManagement.Commands.CreatePet;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
@@ -197,6 +198,22 @@ namespace PetFam.Api.Controllers
             var result = await handler.ExecuteAsync(command, cancellationToken);
             
             return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/pet/{petId:guid}/set-main-photo")]
+        public async Task<ActionResult<string>> SetMainPhoto(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromQuery] string photoPath,
+            [FromServices] ChangePetMainPhotoHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new ChangePetMainPhotoCommand(id, petId, photoPath);
+            
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+            
+            var actionResult = result.ToResponse();
+            return actionResult;
         }
     }
 }

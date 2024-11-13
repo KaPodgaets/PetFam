@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Xml.Linq;
 using FluentValidation;
 using PetFam.Application.Validation;
 using PetFam.Domain.Volunteer.Pet;
@@ -11,11 +12,19 @@ public class DeletePetPhotosCommandValidator:AbstractValidator<DeletePetPhotosCo
     {
         RuleFor(x => x.Paths)
             .ForEach(path => path.NotEmpty());
-        RuleFor(x => x.Paths)
-            .ForEach(x => x.MustBeValueObject(PetPhoto.Create));
+        
+        RuleForEach(x => x.Paths)
+            .NotEmpty()
+            .Must(ValidPhotoPath)
+            .WithMessage("Invalid filename");
         
         RuleFor(x => x.PetId).NotEmpty();
         RuleFor(x => x.VolunteerId).NotEmpty();
-        
+    }
+    
+    private static bool ValidPhotoPath(string filePath)
+    {
+        var result = PetPhoto.Create(filePath); // Assuming 'isMain' is false or some default
+        return result.IsSuccess;
     }
 }
