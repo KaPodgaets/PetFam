@@ -26,7 +26,8 @@ namespace PetFam.Application.VolunteerManagement.Commands.CreatePet
                     dto.Comment,
                     dto.IsCastrated,
                     dto.BirthDate,
-                    dto.IsVaccinated));
+                    dto.IsVaccinated,
+                    dto.Age));
 
             RuleFor(x => x.AccountInfoDto)
                 .MustBeValueObject(dto => AccountInfo.Create(dto.Number, dto.BankName));

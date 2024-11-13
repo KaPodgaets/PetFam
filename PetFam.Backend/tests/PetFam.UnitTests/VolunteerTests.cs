@@ -11,7 +11,7 @@ namespace PetFam.UnitTests
         {
             return Volunteer.Create(
                 VolunteerId.NewId(),
-                FullName.Create("Kosta", "Jhonson", null).Value,
+                FullName.Create("Kosta", "Johnson", null).Value,
                 Email.Create("string@email.com").Value,
                 null,
                 null).Value;
@@ -27,7 +27,7 @@ namespace PetFam.UnitTests
                     Guid.NewGuid()).Value,
                 PetStatus.LookingForHome,
                 PetGeneralInfo.Create("string", "color", 1, 1, "978265").Value,
-                PetHealthInfo.Create("comment", false, DateTime.UtcNow, true).Value,
+                PetHealthInfo.Create("comment", false, DateTime.UtcNow, true, 1).Value,
                 Address.Create("country", "city", "street", null, null).Value,
                 AccountInfo.Create("number", "bankName").Value,
                 DateTime.UtcNow,

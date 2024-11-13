@@ -86,7 +86,8 @@ namespace PetFam.Application.VolunteerManagement.Commands.CreatePet
                 healthInfoDto.Comment, 
                 healthInfoDto.IsCastrated, 
                 healthInfoDto.BirthDate.ToUniversalTime(), 
-                healthInfoDto.IsVaccinated)
+                healthInfoDto.IsVaccinated,
+                healthInfoDto.Age)
                     .Value;
 
             var addressDto = command.AddressDto;

@@ -4,5 +4,6 @@
         string Comment,
         bool IsCastrated,
         DateTime BirthDate,
-        bool IsVaccinated);
+        bool IsVaccinated,
+        int Age);
 }
