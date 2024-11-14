@@ -1,6 +1,4 @@
-﻿using PetFam.Domain.Shared;
-
-namespace PetFam.Domain.Volunteer.Pet
+﻿namespace PetFam.Shared.ValueObjects.Pet
 {
     public record Gallery
     {
@@ -19,7 +17,7 @@ namespace PetFam.Domain.Volunteer.Pet
 
         public static Result<Gallery> Create(IEnumerable<PetPhoto> petPhotos)
         {
-            if (petPhotos.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
+            if (petPhotos.ToList().Count<Constants.MIN_ELEMENTS_IN_ARRAY)
                 return Errors.General.ValueIsRequired(nameof(Gallery)).ToErrorList();
 
             return new Gallery(petPhotos);

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Application.FileManagement.Upload;
 using PetFam.Application.Validation;
-using PetFam.Shared.Abstructions;
+using PetFam.Shared.Abstractions;
 
 namespace PetFam.Application
 {

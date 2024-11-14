@@ -3,8 +3,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
-using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
+using PetFam.Shared.Shared;
 
 namespace PetFam.Infrastructure.BackgroundServices
 {

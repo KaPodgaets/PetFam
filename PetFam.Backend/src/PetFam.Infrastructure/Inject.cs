@@ -6,13 +6,13 @@ using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.SpeciesManagement;
 using PetFam.Application.VolunteerManagement;
-using PetFam.Domain.Shared;
 using PetFam.Infrastructure.BackgroundServices;
 using PetFam.Infrastructure.DbContexts;
 using PetFam.Infrastructure.MessageQueues;
 using PetFam.Infrastructure.Options;
 using PetFam.Infrastructure.Providers;
 using PetFam.Infrastructure.Repositories;
+using PetFam.Shared.Shared;
 
 namespace PetFam.Infrastructure
 {

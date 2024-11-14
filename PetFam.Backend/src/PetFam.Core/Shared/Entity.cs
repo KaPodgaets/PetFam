@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace PetFam.Domain.Shared
+﻿namespace PetFam.Shared.Shared
 {
     public abstract class Entity<TId> where TId : notnull
     {

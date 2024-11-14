@@ -2,8 +2,8 @@ using PetFam.Application.Database;
 using System.Linq.Expressions;
 using PetFam.Application.Dtos;
 using PetFam.Application.Extensions;
-using PetFam.Domain.Shared;
-using PetFam.Shared.Abstructions;
+using PetFam.Shared.Abstractions;
+using PetFam.Shared.Shared;
 
 namespace PetFam.Application.SpeciesManagement.Queries.Get;
 

@@ -2,7 +2,7 @@
 using Minio;
 using Minio.DataModel.Args;
 using PetFam.Application.FileProvider;
-using PetFam.Domain.Shared;
+using PetFam.Shared.Shared;
 
 namespace PetFam.Infrastructure.Providers
 {

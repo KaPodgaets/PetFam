@@ -1,7 +1,6 @@
-﻿using PetFam.Domain.Shared;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace PetFam.Domain.Volunteer
+namespace PetFam.Shared.ValueObjects.Volunteer
 {
     public record Email
     {

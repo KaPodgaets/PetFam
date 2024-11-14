@@ -18,8 +18,8 @@ using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
-using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
+using PetFam.Shared.Shared;
 
 namespace PetFam.Api.Controllers
 {

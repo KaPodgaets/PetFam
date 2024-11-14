@@ -1,4 +1,4 @@
-using PetFam.Shared.Abstructions;
+using PetFam.Shared.Abstractions;
 
 namespace PetFam.Application.SpeciesManagement.Queries.GetBreeds;
 

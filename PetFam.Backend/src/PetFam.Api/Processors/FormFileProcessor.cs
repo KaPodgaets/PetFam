@@ -1,6 +1,6 @@
 ﻿using PetFam.Application.FileProvider;
-using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
+using PetFam.Shared.Shared;
 
 namespace PetFam.Api.Processors
 {

@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using PetFam.Api.Response;
-using PetFam.Domain.Shared;
+using PetFam.Shared.Shared;
 
 namespace PetFam.Api.Extensions
 {

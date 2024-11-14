@@ -1,4 +1,4 @@
-﻿namespace PetFam.Domain.Shared
+﻿namespace PetFam.Shared.Shared
 {
     public record Error
     {

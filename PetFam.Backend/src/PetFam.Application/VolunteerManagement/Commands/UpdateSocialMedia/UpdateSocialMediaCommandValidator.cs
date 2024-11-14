@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using PetFam.Application.Validation;
 using PetFam.Domain.Volunteer;
+using PetFam.Shared.ValueObjects.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {

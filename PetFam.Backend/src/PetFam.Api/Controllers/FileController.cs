@@ -5,8 +5,8 @@ using PetFam.Application.FileManagement.Delete;
 using PetFam.Application.FileManagement.GetLink;
 using PetFam.Application.FileManagement.Upload;
 using PetFam.Application.FileProvider;
-using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
+using PetFam.Shared.Shared;
 
 namespace PetFam.Api.Controllers
 {

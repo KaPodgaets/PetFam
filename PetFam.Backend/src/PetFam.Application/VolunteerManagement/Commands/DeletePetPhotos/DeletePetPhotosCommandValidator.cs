@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using FluentValidation;
 using PetFam.Application.Validation;
 using PetFam.Domain.Volunteer.Pet;
+using PetFam.Shared.ValueObjects.Pet;
 
 namespace PetFam.Application.VolunteerManagement.Commands.DeletePetPhotos;
 

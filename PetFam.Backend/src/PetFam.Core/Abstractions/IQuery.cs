@@ -1,4 +1,4 @@
-﻿namespace PetFam.Shared.Abstructions
+﻿namespace PetFam.Shared.Abstractions
 {
     public interface IQuery;
     

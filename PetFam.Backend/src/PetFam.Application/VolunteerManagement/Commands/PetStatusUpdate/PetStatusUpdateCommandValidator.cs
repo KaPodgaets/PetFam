@@ -1,6 +1,7 @@
 using FluentValidation;
 using PetFam.Application.Extensions;
 using PetFam.Domain.Volunteer.Pet;
+using PetFam.Shared.ValueObjects.Pet;
 
 namespace PetFam.Application.VolunteerManagement.Commands.PetStatusUpdate;
 

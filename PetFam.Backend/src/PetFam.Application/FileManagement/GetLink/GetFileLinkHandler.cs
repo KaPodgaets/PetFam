@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Commands.Create;
-using PetFam.Domain.Shared;
+using PetFam.Shared.Shared;
 
 namespace PetFam.Application.FileManagement.GetLink
 {

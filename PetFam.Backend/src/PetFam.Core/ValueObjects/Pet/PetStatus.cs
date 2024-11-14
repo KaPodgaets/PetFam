@@ -1,4 +1,4 @@
-﻿namespace PetFam.Domain.Volunteer.Pet
+﻿namespace PetFam.Shared.ValueObjects.Pet
 {
     public enum PetStatus
     {

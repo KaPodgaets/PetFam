@@ -1,6 +1,6 @@
-﻿using PetFam.Domain.Shared;
+﻿using PetFam.Shared.Shared;
 
-namespace PetFam.Domain.Volunteer.Pet
+namespace PetFam.Shared.ValueObjects.Pet
 {
     public record AccountInfo
     {

@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.Abstructions
+﻿using PetFam.Shared.Shared;
+
+namespace PetFam.Shared.Abstractions
 {
     public interface IQueryHandler<TValue, in TQuery> where TQuery : IQuery
     {

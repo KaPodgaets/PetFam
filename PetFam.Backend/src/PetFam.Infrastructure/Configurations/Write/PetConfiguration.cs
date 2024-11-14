@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFam.Application.Dtos.ValueObjects;
-using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer.Pet;
 using PetFam.Infrastructure.Extentions;
+using PetFam.Shared.Shared;
+using PetFam.Shared.ValueObjects.Pet;
+using PetFam.Shared.ValueObjects.Species;
 
 namespace PetFam.Infrastructure.Configurations.Write
 {

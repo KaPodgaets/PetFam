@@ -1,6 +1,6 @@
-﻿using PetFam.Domain.Shared;
+﻿using PetFam.Shared.Shared;
 
-namespace PetFam.Domain.SpeciesManagement
+namespace PetFam.Shared.ValueObjects.Species
 {
     public record SpeciesBreed
     {

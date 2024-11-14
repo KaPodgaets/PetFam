@@ -1,6 +1,7 @@
 ﻿using PetFam.Application.Dtos.ValueObjects;
 using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Domain.Volunteer;
+using PetFam.Shared.ValueObjects.Volunteer;
 
 namespace PetFam.Application.VolunteerManagement
 {

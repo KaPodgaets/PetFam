@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.Abstructions
+﻿using PetFam.Shared.Shared;
+
+namespace PetFam.Shared.Abstractions
 {
     public interface ICommandHandler<TValue, in TCommand> where TCommand : ICommand
     {

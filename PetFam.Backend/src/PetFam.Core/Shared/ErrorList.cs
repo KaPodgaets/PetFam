@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace PetFam.Domain.Shared
+namespace PetFam.Shared.Shared
 {
     public class ErrorList : IEnumerable<Error>
     {
