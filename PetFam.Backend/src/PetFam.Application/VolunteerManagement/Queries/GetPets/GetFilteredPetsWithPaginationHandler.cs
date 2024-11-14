@@ -1,9 +1,9 @@
 ﻿using PetFam.Application.Database;
 using PetFam.Application.Dtos;
 using PetFam.Application.Extensions;
-using PetFam.Application.Interfaces;
 using System.Linq.Expressions;
 using PetFam.Domain.Shared;
+using PetFam.Shared.Abstructions;
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetPets
 {

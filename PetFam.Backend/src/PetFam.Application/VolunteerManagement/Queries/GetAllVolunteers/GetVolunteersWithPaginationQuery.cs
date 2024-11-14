@@ -1,4 +1,4 @@
-﻿using PetFam.Application.Interfaces;
+﻿using PetFam.Shared.Abstructions;
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers
 {

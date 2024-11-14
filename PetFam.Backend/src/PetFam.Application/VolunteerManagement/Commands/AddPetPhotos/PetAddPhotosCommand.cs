@@ -1,5 +1,5 @@
 ﻿using PetFam.Application.FileProvider;
-using PetFam.Application.Interfaces;
+using PetFam.Shared.Abstructions;
 
 namespace PetFam.Application.VolunteerManagement.Commands.AddPetPhotos
 {

@@ -4,10 +4,10 @@ using PetFam.Application.Database;
 using PetFam.Application.Extensions;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
-using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
 using PetFam.Domain.Volunteer.Pet;
+using PetFam.Shared.Abstructions;
 
 namespace PetFam.Application.VolunteerManagement.Commands.AddPetPhotos
 {

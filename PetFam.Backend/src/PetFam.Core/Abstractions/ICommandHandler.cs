@@ -1,6 +1,4 @@
-﻿using PetFam.Domain.Shared;
-
-namespace PetFam.Application.Interfaces
+﻿namespace PetFam.Shared.Abstructions
 {
     public interface ICommandHandler<TValue, in TCommand> where TCommand : ICommand
     {

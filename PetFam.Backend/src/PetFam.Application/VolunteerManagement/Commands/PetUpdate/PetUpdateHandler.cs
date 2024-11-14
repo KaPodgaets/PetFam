@@ -1,11 +1,11 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
-using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer;
 using PetFam.Domain.Volunteer.Pet;
+using PetFam.Shared.Abstructions;
 
 namespace PetFam.Application.VolunteerManagement.Commands.PetUpdate;
 

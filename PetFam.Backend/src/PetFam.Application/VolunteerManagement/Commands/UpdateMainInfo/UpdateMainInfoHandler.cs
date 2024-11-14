@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
-using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.Volunteer;
+using PetFam.Shared.Abstructions;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
 {

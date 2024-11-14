@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
-using PetFam.Application.Interfaces;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
+using PetFam.Shared.Abstructions;
 
 namespace PetFam.Application.SpeciesManagement.Commands.CreateBreed
 {

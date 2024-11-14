@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Application.FileManagement.Upload;
-using PetFam.Application.Interfaces;
 using PetFam.Application.Validation;
+using PetFam.Shared.Abstructions;
 
 namespace PetFam.Application
 {

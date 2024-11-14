@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Database;
 using PetFam.Application.Extensions;
-using PetFam.Application.Interfaces;
 using PetFam.Application.VolunteerManagement;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
+using PetFam.Shared.Abstructions;
 
 namespace PetFam.Application.SpeciesManagement.Commands.Delete
 {
