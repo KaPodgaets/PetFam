@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\PetFam.Framework\PetFam.Framework.csproj" />
+    </ItemGroup>
+
 </Project>

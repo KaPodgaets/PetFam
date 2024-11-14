@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetFam.Shared.Models;
-using PetFam.Shared.SharedKernel;
 using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
 

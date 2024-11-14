@@ -1,4 +1,11 @@
-﻿namespace PetFam.Files.Presentation
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using PetFam.Framework;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.SharedKernel;
+
+namespace PetFam.Files.Presentation
 {
     public class FileController : ApplicationController
     {

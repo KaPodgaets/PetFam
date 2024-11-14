@@ -1,5 +1,5 @@
 ﻿namespace PetFam.Accounts.Presentation;
 
-public class Class1
+public class DependencyInjection
 {
 }

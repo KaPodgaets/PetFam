@@ -1,5 +1,6 @@
 ﻿namespace PetFam.Accounts.Infrasctructure;
 
-public class Class1
+public class DependencyInjection
 {
+    
 }
