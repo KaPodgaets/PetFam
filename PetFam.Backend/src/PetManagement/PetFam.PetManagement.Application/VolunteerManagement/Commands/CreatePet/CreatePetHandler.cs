@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFam.PetManagement.Application.Database;
+using PetFam.BreedManagement.Contracts;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.Extensions;
 using PetFam.Shared.SharedKernel.Errors;
@@ -12,27 +12,25 @@ using PetFam.PetManagement.Domain.Entities;
 
 namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePet
 {
-    public class CreatePetHandler:ICommandHandler<Guid, CreatePetCommand>
+    public class CreatePetHandler : ICommandHandler<Guid, CreatePetCommand>
     {
         private readonly IVolunteerRepository _volunteerRepository;
         private readonly IValidator<CreatePetCommand> _validator;
-        private readonly ISpeciesRepository _speciesRepository;
-        private readonly IReadDbContext _readDbContext;
         private readonly ILogger _logger;
+        private readonly ISpeciesContract _speciesContract;
+
 
         public CreatePetHandler(
             IVolunteerRepository repository,
-            ISpeciesRepository speciesRepository,
             ILogger<CreatePetHandler> logger,
-            IValidator<CreatePetCommand> validator,
-            IReadDbContext readDbContext)
+            IValidator<CreatePetCommand> validator, ISpeciesContract speciesContract)
         {
             _volunteerRepository = repository;
-            _speciesRepository = speciesRepository;
             _logger = logger;
             _validator = validator;
-            _readDbContext = readDbContext;
+            _speciesContract = speciesContract;
         }
+
         public async Task<Result<Guid>> ExecuteAsync(CreatePetCommand command,
             CancellationToken cancellationToken = default)
         {
@@ -45,67 +43,65 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
 
             var getVolunteerResult = await _volunteerRepository.GetById(volunteerId, cancellationToken);
 
-            if(getVolunteerResult.IsFailure)
+            if (getVolunteerResult.IsFailure)
             {
                 return Errors.General.NotFound(volunteerId.Value).ToErrorList();
             }
 
             var volunteer = getVolunteerResult.Value;
             
-            // check breed and species exists with ReadDbContext
-            var speciesDto = await _readDbContext.Species
-                .FirstOrDefaultAsync(s => s.Name == command.SpeciesName, cancellationToken);
+            var speciesId = SpeciesId.Create(command.SpeciesId);
             
-            if(speciesDto is null)
-                return Errors.General.NotFound(command.SpeciesName).ToErrorList();
-            
-            var breedDto = await _readDbContext.Breeds
-                .FirstOrDefaultAsync(b => b.Name == command.BreedName, cancellationToken);
-            
-            if(breedDto is null)
-                return Errors.General.NotFound(command.BreedName).ToErrorList();
-            
+            var isBreedExists = await _speciesContract.
+                CheckBreedExists(
+                    speciesId,
+                    BreedId.Create(command.BreedId),
+                    cancellationToken);
+
+            if (isBreedExists.Value)
+                return Errors.General.NotFound(command.BreedId).ToErrorList();
+
             var speciesBreed = SpeciesBreed.Create(
-                SpeciesId.Create(speciesDto.Id),
-                BreedId.Create(breedDto.Id).Value);
+                speciesId,
+                command.BreedId);
 
             // create pet values objects
             var generalInfoDto = command.PetGeneralInfoDto;
 
             var generalInfo = PetGeneralInfo.Create(
-                generalInfoDto.Comment, 
-                generalInfoDto.Color, 
-                generalInfoDto.Weight, 
-                generalInfoDto.Height, 
-                generalInfoDto.PhoneNumber)
-                    .Value;
+                    generalInfoDto.Comment,
+                    generalInfoDto.Color,
+                    generalInfoDto.Weight,
+                    generalInfoDto.Height,
+                    generalInfoDto.PhoneNumber)
+                .Value;
 
             var healthInfoDto = command.PetHealthInfoDto;
 
             var healthInfo = PetHealthInfo.Create(
-                healthInfoDto.Comment, 
-                healthInfoDto.IsCastrated, 
-                healthInfoDto.BirthDate.ToUniversalTime(), 
-                healthInfoDto.IsVaccinated,
-                healthInfoDto.Age)
-                    .Value;
+                    healthInfoDto.Comment,
+                    healthInfoDto.IsCastrated,
+                    healthInfoDto.BirthDate.ToUniversalTime(),
+                    healthInfoDto.IsVaccinated,
+                    healthInfoDto.Age)
+                .Value;
 
             var addressDto = command.AddressDto;
 
             var address = Address.Create(
-                addressDto.Country, 
-                addressDto.City, 
-                addressDto.Street, 
-                addressDto.Building, 
-                addressDto.Litteral)
-                    .Value;
+                    addressDto.Country,
+                    addressDto.City,
+                    addressDto.Street,
+                    addressDto.Building,
+                    addressDto.Litteral)
+                .Value;
 
             var accountInfoDto = command.AccountInfoDto;
 
             var accountInfo = AccountInfo.Create(
-                accountInfoDto.Number,
-                accountInfoDto.BankName)
-                    .Value;
+                    accountInfoDto.Number,
+                    accountInfoDto.BankName)
+                .Value;
 
             // create pet entity
 
@@ -130,7 +126,7 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
 
             var result = await _volunteerRepository.Update(volunteer, cancellationToken);
 
-            if(result.IsFailure)
+            if (result.IsFailure)
             {
                 return Result<Guid>.Failure(result.Errors);
             }
@@ -140,7 +136,7 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
                 volunteer.Id.Value,
                 createPetResult.Value.Id.Value);
 
-            
+
             return createPetResult.Value.Id.Value;
         }
     }

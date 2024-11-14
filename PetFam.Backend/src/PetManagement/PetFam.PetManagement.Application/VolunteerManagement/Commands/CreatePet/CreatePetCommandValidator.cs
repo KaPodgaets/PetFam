@@ -10,8 +10,8 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
         {
             RuleFor(x => x.VolunteerId).NotEmpty();
             RuleFor(x => x.NickName).NotEmpty();
-            RuleFor(x => x.BreedName).NotEmpty();
-            RuleFor(x => x.SpeciesName).NotEmpty();
+            RuleFor(x => x.BreedId).NotEmpty();
+            RuleFor(x => x.SpeciesId).NotEmpty();
 
             RuleFor(x => x.PetGeneralInfoDto)
                 .MustBeValueObject(dto => PetGeneralInfo.Create(

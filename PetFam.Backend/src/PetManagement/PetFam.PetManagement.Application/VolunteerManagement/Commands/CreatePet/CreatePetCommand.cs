@@ -6,8 +6,8 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
     public record CreatePetCommand(
         Guid VolunteerId,
         string NickName,
-        string SpeciesName,
-        string BreedName,
+        Guid SpeciesId,
+        Guid BreedId,
         PetGeneralInfoDto PetGeneralInfoDto,
         PetHealthInfoDto PetHealthInfoDto,
         PetAddressDto AddressDto,

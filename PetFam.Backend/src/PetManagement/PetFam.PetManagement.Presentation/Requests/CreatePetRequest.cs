@@ -5,8 +5,8 @@ namespace PetFam.PetManagement.Presentation.Requests
 {
     public record CreatePetRequest(
         string NickName,
-        string SpeciesName,
-        string BreedName,
+        Guid SpeciesId,
+        Guid BreedId,
         PetGeneralInfoDto PetGeneralInfoDto,
         PetHealthInfoDto PetHealthInfoDto,
         PetAddressDto AddressDto,
@@ -17,8 +17,8 @@ namespace PetFam.PetManagement.Presentation.Requests
             return new CreatePetCommand(
                 volunteerId,
                 NickName,
-                SpeciesName,
-                BreedName,
+                SpeciesId,
+                BreedId,
                 PetGeneralInfoDto,
                 PetHealthInfoDto,
                 AddressDto,
