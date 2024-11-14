@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement;
+using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Infrastructure.BackgroundServices
@@ -35,7 +36,8 @@ namespace PetFam.Infrastructure.BackgroundServices
 
                 var fileProvider = scope.ServiceProvider.GetRequiredService<IFileProvider>();
 
-                var photoFilePathsResult = await fileProvider.GetFiles(MinioOptions.PHOTO_BUCKET);
+                var photoFilePathsResult = await fileProvider
+                    .GetFiles(Constants.FileManagementOptions.PHOTO_BUCKET);
                 var photoFilePaths = photoFilePathsResult.Value;
 
                 var volunteerRepository = scope.ServiceProvider.GetRequiredService<IVolunteerRepository>();

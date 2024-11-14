@@ -74,5 +74,14 @@
                     $"breed with id: {id} still has relations");
             }
         }
+
+        internal class Pet
+        {
+            public static Error PhotoNotFound(string? path = null)
+            {
+                return Error.Validation("photo.not.found",
+                    $"photo with path: {path} was not found");
+            }
+        }
     }
 }

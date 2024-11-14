@@ -6,13 +6,19 @@ using PetFam.Application;
 using PetFam.Application.Dtos;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement.Commands.AddPetPhotos;
+using PetFam.Application.VolunteerManagement.Commands.ChangePetMainPhoto;
 using PetFam.Application.VolunteerManagement.Commands.Create;
 using PetFam.Application.VolunteerManagement.Commands.CreatePet;
 using PetFam.Application.VolunteerManagement.Commands.Delete;
+using PetFam.Application.VolunteerManagement.Commands.DeletePet;
+using PetFam.Application.VolunteerManagement.Commands.DeletePetPhotos;
+using PetFam.Application.VolunteerManagement.Commands.PetStatusUpdate;
+using PetFam.Application.VolunteerManagement.Commands.PetUpdate;
 using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
+using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
@@ -33,7 +39,7 @@ namespace PetFam.Api.Controllers
             var query = request.ToQuery();
 
             var result = await handler.HandleAsync(query, cancellationToken);
-            
+
             return result.ToResponse();
         }
 
@@ -117,7 +123,21 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPost("{id:guid}/add-photos/{petId:guid}")]
+        [HttpDelete("{id:guid}/pet/{petId:guid}")]
+        public async Task<ActionResult<Guid>> DeletePet(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromServices] DeletePetHandler handler,
+            CancellationToken cancellationToken)
+        {
+            var command = new DeletePetCommand(id, petId);
+
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+
+            return result.ToResponse();
+        }
+
+        [HttpPost("{id:guid}/pet/{petId:guid}/photos")]
         public async Task<ActionResult<string>> AddPetPhotos(
             [FromRoute] Guid id,
             [FromRoute] Guid petId,
@@ -125,16 +145,76 @@ namespace PetFam.Api.Controllers
             [FromForm] IFormFileCollection formFiles,
             CancellationToken cancellationToken = default)
         {
-            
             await using var fileProcessor = new FormFileProcessor();
             var filesData = fileProcessor.Process(formFiles);
-            var content = new Content(filesData, MinioOptions.PHOTO_BUCKET);
+            var content = new Content(filesData, Constants.FileManagementOptions.PHOTO_BUCKET);
 
             var command = new PetAddPhotosCommand(id, petId, content);
 
             var result = await handler.ExecuteAsync(command, cancellationToken);
 
             return result.ToResponse();
+        }
+
+        [HttpDelete("{id:guid}/photos/{petId:guid}")]
+        public async Task<ActionResult<string[]>> AddPetPhotos(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromBody] string[] photos,
+            [FromServices] DeletePetPhotosHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new DeletePetPhotosCommand(id, petId, photos);
+
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+
+            return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/pet/{petId:guid}")]
+        public async Task<ActionResult<Guid>> UpdatePet(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromBody] PetUpdateRequest request,
+            [FromServices] PetUpdateHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(id, petId);
+
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+
+            return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/pet-status/{petId:guid}")]
+        public async Task<ActionResult<Guid>> UpdatePetStatus(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromQuery] int newPetStatus,
+            [FromServices] PetStatusUpdateHandler handler,
+            CancellationToken cancellationToken)
+        {
+            var command = new PetStatusUpdateCommand(id, petId, newPetStatus);
+            
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+            
+            return result.ToResponse();
+        }
+
+        [HttpPut("{id:guid}/pet/{petId:guid}/main-photo")]
+        public async Task<ActionResult<string>> SetMainPhoto(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromQuery] string photoPath,
+            [FromServices] ChangePetMainPhotoHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new ChangePetMainPhotoCommand(id, petId, photoPath);
+            
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+            
+            var actionResult = result.ToResponse();
+            return actionResult;
         }
     }
 }

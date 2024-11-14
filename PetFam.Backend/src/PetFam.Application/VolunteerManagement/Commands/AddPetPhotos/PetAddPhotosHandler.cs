@@ -76,7 +76,7 @@ namespace PetFam.Application.VolunteerManagement.Commands.AddPetPhotos
 
                     galleryItems.Add(createPetPhotoResult.Value);
                 }
-
+                
                 var result = pet.AddPhotos(galleryItems);
 
                 if (result.IsFailure)

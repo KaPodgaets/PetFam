@@ -1,4 +1,5 @@
 ﻿using PetFam.Application.FileProvider;
+using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Processors
@@ -12,7 +13,9 @@ namespace PetFam.Api.Processors
             foreach (var item in files)
             {
                 var extension = Path.GetExtension(item.FileName);
-                var fileMetadata = new FileMetedata(MinioOptions.PHOTO_BUCKET, Guid.NewGuid().ToString() + extension);
+                var fileMetadata = new FileMetadata(
+                    Constants.FileManagementOptions.PHOTO_BUCKET,
+                    Guid.NewGuid().ToString() + extension);
 
                 var stream = item.OpenReadStream();
                 var fileData = new FileData(stream, fileMetadata);

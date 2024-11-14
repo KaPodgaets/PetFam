@@ -2,10 +2,13 @@
 {
     public class PetPhotoDto
     {
-        public PetPhotoDto(string filepath)
+        public PetPhotoDto(string filepath, bool isMain)
         {
             Filepath = filepath;
+            IsMain = isMain;
         }
+
+        public bool IsMain { get; set; }
         public string Filepath { get; init; } = string.Empty;
     }
 }

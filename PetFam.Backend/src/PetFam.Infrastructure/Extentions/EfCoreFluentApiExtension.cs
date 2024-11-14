@@ -7,7 +7,7 @@ namespace PetFam.Infrastructure.Extentions
 {
     public static class EfCoreFluentApiExtension
     {
-        public static PropertyBuilder<IReadOnlyList<TValueObject>> ValueObjectsCollectionJsonConversion<TValueObject, TDto>(
+        public static PropertyBuilder<IReadOnlyList<TValueObject>> HasValueObjectsCollectionJsonConversion<TValueObject, TDto>(
         this PropertyBuilder<IReadOnlyList<TValueObject>> builder,
         Func<TValueObject, TDto> toDtoSelector,
         Func<TDto, TValueObject> toValueObjectSelector)

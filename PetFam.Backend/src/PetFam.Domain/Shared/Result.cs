@@ -31,7 +31,7 @@
     {
         private readonly TValue? _value;
 
-        public Result(TValue? value, bool isSuccess, ErrorList? errors)
+        private Result(TValue? value, bool isSuccess, ErrorList? errors)
             : base(isSuccess, errors)
         {
             _value = value;

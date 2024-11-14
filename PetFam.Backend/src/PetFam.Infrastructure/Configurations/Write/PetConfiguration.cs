@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFam.Application.Dtos.ValueObjects;
 using PetFam.Domain.Shared;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer.Pet;
 using PetFam.Infrastructure.Extentions;
-using System.Text.Json;
 
 namespace PetFam.Infrastructure.Configurations.Write
 {
@@ -29,9 +27,9 @@ namespace PetFam.Infrastructure.Configurations.Write
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
 
             builder.Property(p => p.Photos)
-                .ValueObjectsCollectionJsonConversion(
-                    photos => new PetPhotoDto(photos.FilePath),
-                    json => PetPhoto.Create(json.Filepath).Value)
+                .HasValueObjectsCollectionJsonConversion(
+                    photos => new PetPhotoDto(photos.FilePath, photos.IsMain),
+                    json => PetPhoto.Create(json.Filepath, json.IsMain).Value)
                 .HasColumnName("photos");
 
             builder.OwnsOne(p => p.SpeciesAndBreed, sbb =>

@@ -20,8 +20,7 @@ namespace PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo
             RuleFor(v => v.GeneralInformationDto).MustBeValueObject(x =>
                 GeneralInformation.Create(x.BioEducation, x.ShortDescription));
 
-            RuleFor(v => v.Email).MustBeValueObject(x =>
-                Email.Create(x));
+            RuleFor(v => v.Email).MustBeValueObject(Email.Create);
 
             RuleFor(v => v.AgeOfExperience).GreaterThanOrEqualTo(0);
         }
