@@ -1,13 +1,13 @@
-﻿using PetFam.Shared.SharedKernel;
-using PetFam.Volunteers.Application.FileProvider;
+﻿using PetFam.Shared.Dtos;
+using PetFam.Shared.SharedKernel;
 
 namespace PetFam.Api.Processors
 {
     public class FormFileProcessor : IAsyncDisposable
     {
-        private readonly List<FileData> _files = [];
+        private readonly List<FileDataDto> _files = [];
 
-        public List<FileData> Process(IFormFileCollection files)
+        public List<FileDataDto> Process(IFormFileCollection files)
         {
             foreach (var item in files)
             {
@@ -17,7 +17,7 @@ namespace PetFam.Api.Processors
                     Guid.NewGuid().ToString() + extension);
 
                 var stream = item.OpenReadStream();
-                var fileData = new FileData(stream, fileMetadata);
+                var fileData = new FileDataDto(stream, fileMetadata);
 
                 _files.Add(fileData);
             }

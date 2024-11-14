@@ -27,7 +27,8 @@ namespace PetFam.Shared.SharedKernel.ValueObjects.Pet
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            throw new NotImplementedException();
+            yield return Number;
+            yield return BankName;
         }
     }
 }

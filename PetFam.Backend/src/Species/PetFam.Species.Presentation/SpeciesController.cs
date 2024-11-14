@@ -1,4 +1,9 @@
-﻿using PetFam.Species.Contracts.SpeciesRequests;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using PetFam.Framework;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.Models;
+using PetFam.Species.Contracts.SpeciesRequests;
 
 namespace PetFam.Species.Presentation
 {

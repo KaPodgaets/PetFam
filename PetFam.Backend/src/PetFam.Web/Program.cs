@@ -42,7 +42,7 @@ namespace PetFam.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
 
-                await app.ApplyMigration();
+                // await app.ApplyMigration();
             }
 
             app.MapControllers();

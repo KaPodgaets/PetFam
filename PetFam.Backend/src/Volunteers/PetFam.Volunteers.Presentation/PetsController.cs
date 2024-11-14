@@ -1,4 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using PetFam.Framework;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.Models;
+using PetFam.Volunteers.Application.VolunteerManagement.Queries.GetPetById;
+using PetFam.Volunteers.Application.VolunteerManagement.Queries.GetPets;
+using PetFam.Volunteers.Contracts.Pets;
 
 namespace PetFam.Volunteers.Presentation
 {
