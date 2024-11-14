@@ -75,7 +75,7 @@
             }
         }
 
-        internal class Pet
+        public static class Pet
         {
             public static Error PhotoNotFound(string? path = null)
             {

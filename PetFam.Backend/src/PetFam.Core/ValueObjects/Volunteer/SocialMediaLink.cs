@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.ValueObjects.Volunteer
+﻿using PetFam.Shared.Shared;
+
+namespace PetFam.Shared.ValueObjects.Volunteer
 {
     public record SocialMediaLink
     {

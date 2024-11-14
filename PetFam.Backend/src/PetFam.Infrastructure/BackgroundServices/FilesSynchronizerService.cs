@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.VolunteerManagement;
-using PetFam.Infrastructure.Options;
 using PetFam.Shared.Shared;
 
 namespace PetFam.Infrastructure.BackgroundServices

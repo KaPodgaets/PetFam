@@ -1,8 +1,6 @@
 using FluentValidation;
 using PetFam.Application.Extensions;
 using PetFam.Application.Validation;
-using PetFam.Domain.SpeciesManagement;
-using PetFam.Domain.Volunteer.Pet;
 using PetFam.Shared.ValueObjects.Pet;
 using PetFam.Shared.ValueObjects.Species;
 

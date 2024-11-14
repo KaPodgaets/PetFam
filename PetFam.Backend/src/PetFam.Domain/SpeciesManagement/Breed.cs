@@ -1,4 +1,6 @@
-﻿using PetFam.Domain.Shared;
+﻿using PetFam.Shared.Abstractions;
+using PetFam.Shared.Shared;
+using PetFam.Shared.ValueObjects.Species;
 
 namespace PetFam.Domain.SpeciesManagement
 {

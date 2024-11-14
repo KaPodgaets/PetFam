@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.ValueObjects.Pet
+﻿using PetFam.Shared.Shared;
+
+namespace PetFam.Shared.ValueObjects.Pet
 {
     public record PetGeneralInfo
     {

@@ -1,6 +1,7 @@
-﻿using PetFam.Domain.Shared;
-using PetFam.Domain.SpeciesManagement;
-using System.Collections;
+﻿using PetFam.Shared.Abstractions;
+using PetFam.Shared.Shared;
+using PetFam.Shared.ValueObjects.Pet;
+using PetFam.Shared.ValueObjects.Species;
 
 namespace PetFam.Domain.Volunteer.Pet
 {

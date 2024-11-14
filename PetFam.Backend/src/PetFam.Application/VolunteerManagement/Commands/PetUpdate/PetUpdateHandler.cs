@@ -1,9 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Extensions;
-using PetFam.Domain.SpeciesManagement;
-using PetFam.Domain.Volunteer;
-using PetFam.Domain.Volunteer.Pet;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.Shared;
 using PetFam.Shared.ValueObjects.Pet;

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFam.Application.Extensions;
 using PetFam.Domain.Volunteer;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.Shared;
@@ -9,28 +11,31 @@ namespace PetFam.Application.VolunteerManagement.Commands.Create
     public class CreateVolunteerHandler : ICommandHandler<Guid, CreateVolunteerCommand>
     {
         private readonly IVolunteerRepository _repository;
+        private readonly IValidator<CreateVolunteerCommand> _validator;
         private readonly ILogger _logger;
 
         public CreateVolunteerHandler(
             IVolunteerRepository repository,
-            ILogger<CreateVolunteerHandler> logger)
+            ILogger<CreateVolunteerHandler> logger,
+            IValidator<CreateVolunteerCommand> validator)
         {
             _repository = repository;
             _logger = logger;
+            _validator = validator;
         }
-        
+
         public async Task<Result<Guid>> ExecuteAsync(CreateVolunteerCommand command,
             CancellationToken cancellationToken = default)
         {
-            var fullNameCreationResult = FullName.Create(
-                command.FullNameDto.FirstName,
-                command.FullNameDto.LastName,
-                command.FullNameDto.Patronimycs);
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+            if (validationResult.IsValid is false)
+                return validationResult.ToErrorList();
 
-            if (fullNameCreationResult.IsFailure)
-            {
-                return Result<Guid>.Failure(fullNameCreationResult.Errors);
-            }
+            var fullName = FullName.Create(
+                    command.FullNameDto.FirstName,
+                    command.FullNameDto.LastName,
+                    command.FullNameDto.Patronimycs)
+                .Value;
 
             List<SocialMediaLink> socialMediaLinks = VolunteerDtoMappers.MapSocialMediaLinkModel(command);
 
@@ -68,7 +73,7 @@ namespace PetFam.Application.VolunteerManagement.Commands.Create
 
             var volunteerCreationResult = Volunteer.Create(
                 VolunteerId.NewId(),
-                fullNameCreationResult.Value,
+                fullName,
                 createEmailResult.Value,
                 createSocialMediaDetailsResult.Value,
                 createRequisiteDetailsResult.Value);
@@ -85,7 +90,5 @@ namespace PetFam.Application.VolunteerManagement.Commands.Create
 
             return creationResult;
         }
-
-        
     }
 }
