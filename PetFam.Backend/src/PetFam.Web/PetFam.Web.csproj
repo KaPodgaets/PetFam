@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>0bc72193-5bdf-44d2-812b-c66de2ef70c7</UserSecretsId>
+    <RootNamespace>PetFam.Api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
