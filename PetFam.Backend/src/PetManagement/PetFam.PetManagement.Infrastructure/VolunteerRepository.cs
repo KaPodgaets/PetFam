@@ -1,8 +1,9 @@
-﻿using PetFam.Shared.SharedKernel;
+﻿using Microsoft.EntityFrameworkCore;
 using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
 using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
 using PetFam.PetManagement.Application.VolunteerManagement;
+using PetFam.PetManagement.Domain;
 using PetFam.PetManagement.Infrastructure.DbContexts;
 
 namespace PetFam.PetManagement.Infrastructure

@@ -1,4 +1,10 @@
-﻿namespace PetFam.PetManagement.Infrastructure.Configurations.Write
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetFam.BreedManagement.Domain;
+using PetFam.Shared.SharedKernel;
+using PetFam.Shared.SharedKernel.ValueObjects.Species;
+
+namespace PetFam.BreedManagement.Infrastructure.Configurations.Write
 {
     public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
     {

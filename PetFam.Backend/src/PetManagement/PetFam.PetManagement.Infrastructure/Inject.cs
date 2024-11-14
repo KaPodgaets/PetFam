@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Shared.Abstractions;
-using PetFam.Shared.Messaging;
-using PetFam.Shared.SharedKernel;
 using PetFam.PetManagement.Application.Database;
+using PetFam.PetManagement.Application.VolunteerManagement;
 using PetFam.PetManagement.Infrastructure.BackgroundServices;
 using PetFam.PetManagement.Infrastructure.DbContexts;
-using PetFam.PetManagement.Infrastructure.MessageQueues;
 
 namespace PetFam.PetManagement.Infrastructure
 {
@@ -40,7 +38,6 @@ namespace PetFam.PetManagement.Infrastructure
             this IServiceCollection services)
         {
             services.AddScoped<IVolunteerRepository, VolunteerRepository>();
-            services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 
             return services;
         }
@@ -50,7 +47,7 @@ namespace PetFam.PetManagement.Infrastructure
         {
             services.AddHostedService<FilesSynchronizerService>();
             services.AddHostedService<FilesCleanerService>();
-
+            
             return services;
         }
     }

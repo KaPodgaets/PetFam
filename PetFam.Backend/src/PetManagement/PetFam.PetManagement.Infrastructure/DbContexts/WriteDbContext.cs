@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetFam.PetManagement.Domain;
 using PetFam.Shared.Options;
-using PetFam.Shared.SharedKernel;
 
 namespace PetFam.PetManagement.Infrastructure.DbContexts
 {
