@@ -1,4 +1,13 @@
-﻿namespace PetFam.BreedManagement.Infrastructure
+﻿using Microsoft.EntityFrameworkCore;
+using PetFam.BreedManagement.Application.Database;
+using PetFam.BreedManagement.Domain;
+using PetFam.BreedManagement.Domain.Entities;
+using PetFam.BreedManagement.Infrastructure.Contexts;
+using PetFam.Shared.SharedKernel.Errors;
+using PetFam.Shared.SharedKernel.Result;
+using PetFam.Shared.SharedKernel.ValueObjects.Species;
+
+namespace PetFam.BreedManagement.Infrastructure
 {
     public class SpeciesRepository : ISpeciesRepository
     {

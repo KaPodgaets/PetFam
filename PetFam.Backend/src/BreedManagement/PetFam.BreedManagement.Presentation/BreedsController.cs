@@ -1,4 +1,10 @@
-using PetFam.BreedManagement.Contracts.BreedsRequests;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using PetFam.BreedManagement.Application.SpeciesManagement.Queries.GetBreeds;
+using PetFam.BreedManagement.Presentation.Requests;
+using PetFam.Framework;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.Models;
 
 namespace PetFam.BreedManagement.Presentation;
 

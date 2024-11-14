@@ -5,7 +5,7 @@ using PetFam.Shared.Dtos;
 using PetFam.Shared.Models;
 using PetFam.PetManagement.Application.VolunteerManagement.Queries.GetPetById;
 using PetFam.PetManagement.Application.VolunteerManagement.Queries.GetPets;
-using PetFam.PetManagement.Contracts.Pets;
+using PetFam.PetManagement.Presentation.Requests;
 
 namespace PetFam.PetManagement.Presentation
 {

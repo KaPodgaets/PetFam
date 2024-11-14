@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\PetManagement\PetFam.PetManagement.Contracts\PetFam.PetManagement.Contracts.csproj" />
       <ProjectReference Include="..\..\Shared\PetFam.Core\PetFam.Core.csproj" />
       <ProjectReference Include="..\..\Shared\PetFam.SharedKernel\PetFam.SharedKernel.csproj" />
       <ProjectReference Include="..\PetFam.BreedManagement.Domain\PetFam.BreedManagement.Domain.csproj" />

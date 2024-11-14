@@ -1,4 +1,6 @@
-﻿namespace PetFam.PetManagement.Contracts.Pets
+﻿using PetFam.PetManagement.Application.VolunteerManagement.Queries.GetPets;
+
+namespace PetFam.PetManagement.Presentation.Requests
 {
     public record GetFilteredPetsWithPaginationRequest(
         Guid? VolunteerId,

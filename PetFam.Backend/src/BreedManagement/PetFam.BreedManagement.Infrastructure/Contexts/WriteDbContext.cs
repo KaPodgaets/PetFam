@@ -1,9 +1,15 @@
-namespace PetFam.BreedManagement.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using PetFam.BreedManagement.Domain;
+using PetFam.Shared.Options;
 
-public class WriteDbContextSpecies(
+namespace PetFam.BreedManagement.Infrastructure.Contexts;
+
+public class WriteDbContext(
     IConfiguration configuration) : DbContext
 {
-    public DbSet<Errors.Species> Species { get; set; }
+    public DbSet<Species> Species { get; set; }
         
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

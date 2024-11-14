@@ -1,4 +1,7 @@
-﻿namespace PetFam.PetManagement.Contracts.Volunteer
+﻿using PetFam.PetManagement.Application.VolunteerManagement.Commands.Create;
+using PetFam.Shared.Dtos.ValueObjects;
+
+namespace PetFam.PetManagement.Presentation.Requests
 {
     public record CreateVolunteerRequest(FullNameDto FullNameDto,
         string Email,

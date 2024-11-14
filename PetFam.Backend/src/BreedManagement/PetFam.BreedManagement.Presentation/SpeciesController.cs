@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PetFam.BreedManagement.Contracts.SpeciesRequests;
+using PetFam.BreedManagement.Application.SpeciesManagement.Commands.Create;
+using PetFam.BreedManagement.Application.SpeciesManagement.Commands.CreateBreed;
+using PetFam.BreedManagement.Application.SpeciesManagement.Commands.Delete;
+using PetFam.BreedManagement.Application.SpeciesManagement.Commands.DeleteBreed;
+using PetFam.BreedManagement.Application.SpeciesManagement.Queries.Get;
+using PetFam.BreedManagement.Presentation.Requests;
 using PetFam.Framework;
 using PetFam.Shared.Dtos;
 using PetFam.Shared.Models;

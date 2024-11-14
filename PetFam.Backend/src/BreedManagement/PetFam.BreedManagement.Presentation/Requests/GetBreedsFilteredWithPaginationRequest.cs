@@ -1,4 +1,6 @@
-namespace PetFam.BreedManagement.Contracts.BreedsRequests;
+using PetFam.BreedManagement.Application.SpeciesManagement.Queries.GetBreeds;
+
+namespace PetFam.BreedManagement.Presentation.Requests;
 
 public record GetBreedsFilteredWithPaginationRequest(
     Guid SpeciesId,

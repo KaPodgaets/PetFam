@@ -1,4 +1,4 @@
-﻿namespace PetFam.PetManagement.Contracts.Volunteer
+﻿namespace PetFam.PetManagement.Presentation.Requests
 {
     public record GetVolunteersWithPaginationRequest(
         Guid? VolunteerId,

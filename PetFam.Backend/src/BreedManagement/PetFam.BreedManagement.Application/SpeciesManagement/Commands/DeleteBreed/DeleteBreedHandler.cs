@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.BreedManagement.Application.Database;
+using PetFam.PetManagement.Contracts;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.Extensions;
 using PetFam.Shared.SharedKernel.Errors;
@@ -13,20 +14,20 @@ public class DeleteBreedHandler
     :ICommandHandler<DeleteBreedCommand>
 {
     private readonly ISpeciesRepository _repository;
-    private readonly IReadDbContext _readDbContext;
     private readonly IValidator<DeleteBreedCommand> _validator;
+    private readonly IVolunteerContract _volunteerContract;
     private readonly ILogger _logger;
 
     public DeleteBreedHandler(
         ILogger<DeleteBreedHandler> logger,
         IValidator<DeleteBreedCommand> validator,
         ISpeciesRepository repository,
-        IReadDbContext readDbContext)
+        IVolunteerContract volunteerContract)
     {
         _logger = logger;
         _validator = validator;
         _repository = repository;
-        _readDbContext = readDbContext;
+        _volunteerContract = volunteerContract;
     }
     public async Task<Result> ExecuteAsync(
         DeleteBreedCommand command,
@@ -37,10 +38,10 @@ public class DeleteBreedHandler
         if (validationResult.IsValid == false)
             return validationResult.ToErrorList();
         
-        var isPetsWithDeletingBreedExist = await _readDbContext.Pets
-            .AnyAsync(p => p.SpeciesAndBreed.BreedId == command.BreedId, cancellationToken);
+        var isPetsWithDeletingBreedExist = await _volunteerContract
+            .IsPetsWithBreedExisting(BreedId.Create(command.BreedId), cancellationToken);
         
-        if(isPetsWithDeletingBreedExist)
+        if(isPetsWithDeletingBreedExist.Value)
             return Errors.Breed
                 .CannotDeleteDueToRelatedRecords(command.BreedId)
                 .ToErrorList();

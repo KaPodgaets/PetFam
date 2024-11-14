@@ -1,4 +1,6 @@
-﻿namespace PetFam.PetManagement.Contracts.Volunteer
+﻿using PetFam.Shared.Dtos.ValueObjects;
+
+namespace PetFam.PetManagement.Presentation.Requests
 {
     public record UpdateMainInfoRequest(
         FullNameDto FullNameDto,

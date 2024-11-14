@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.Framework;
 using PetFam.Shared.Dtos;
 using PetFam.Shared.Models;
-using PetFam.PetManagement.Application.VolunteerManagement.Commands.AddPetPhotos;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.ChangePetMainPhoto;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.Create;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePet;
@@ -17,7 +15,7 @@ using PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateMainIn
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.PetManagement.Application.VolunteerManagement.Queries.GetAllVolunteers;
-using PetFam.PetManagement.Contracts.Volunteer;
+using PetFam.PetManagement.Presentation.Requests;
 
 namespace PetFam.PetManagement.Presentation
 {

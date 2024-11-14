@@ -1,6 +1,13 @@
-namespace PetFam.BreedManagement.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using PetFam.BreedManagement.Application.Database;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.Options;
 
-public class ReadDbContextSpecies(
+namespace PetFam.BreedManagement.Infrastructure.Contexts;
+
+public class ReadDbContext(
     IConfiguration configuration) : DbContext, IReadDbContext
 {
     public DbSet<SpeciesDto> Species { get; set; }
