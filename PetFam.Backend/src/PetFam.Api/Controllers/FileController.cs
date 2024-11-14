@@ -5,6 +5,7 @@ using PetFam.Application.FileManagement.Delete;
 using PetFam.Application.FileManagement.GetLink;
 using PetFam.Application.FileManagement.Upload;
 using PetFam.Application.FileProvider;
+using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
@@ -28,10 +29,10 @@ namespace PetFam.Api.Controllers
             var fileName = Guid.NewGuid().ToString();
             var fileData = new FileData(
                 stream,
-                new FileMetadata(MinioOptions.PHOTO_BUCKET, fileName));
+                new FileMetadata(Constants.FileManagementOptions.PHOTO_BUCKET, fileName));
 
             List<FileData> files = [fileData];
-            var content = new Content(files, MinioOptions.PHOTO_BUCKET);
+            var content = new Content(files, Constants.FileManagementOptions.PHOTO_BUCKET);
 
             var request = new UploadFileCommand(content);
 
@@ -46,7 +47,7 @@ namespace PetFam.Api.Controllers
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default)
         {
-            var fileMetadata = new FileMetadata(MinioOptions.PHOTO_BUCKET, id.ToString());
+            var fileMetadata = new FileMetadata(Constants.FileManagementOptions.PHOTO_BUCKET, id.ToString());
 
             var request = new GetFileLinkCommand(fileMetadata);
 
@@ -61,7 +62,7 @@ namespace PetFam.Api.Controllers
             [FromRoute] Guid id,
             CancellationToken cancellationToken = default)
         {
-            var fileMetadata = new FileMetadata(MinioOptions.PHOTO_BUCKET, id.ToString());
+            var fileMetadata = new FileMetadata(Constants.FileManagementOptions.PHOTO_BUCKET, id.ToString());
 
             var request = new DeleteFileCommand(fileMetadata);
 

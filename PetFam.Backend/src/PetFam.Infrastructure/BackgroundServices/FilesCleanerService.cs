@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
+using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Infrastructure.BackgroundServices
@@ -37,7 +38,7 @@ namespace PetFam.Infrastructure.BackgroundServices
 
                 foreach ( var path in paths)
                 {
-                    var fileMetadata = new FileMetadata(MinioOptions.PHOTO_BUCKET, path);
+                    var fileMetadata = new FileMetadata(Constants.FileManagementOptions.PHOTO_BUCKET, path);
                     var result = await fileProvider.DeleteFile(fileMetadata, stoppingToken);
 
                     if (result.IsFailure)

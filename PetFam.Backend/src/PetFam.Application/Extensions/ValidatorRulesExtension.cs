@@ -1,6 +1,6 @@
-namespace PetFam.Application.Exte;
+namespace PetFam.Application.Extensions;
 
-public static class ValidatorExtension
+public static class ValidatorRulesExtension
 {
     public static bool BeValidPetStatus<TEnum>(int enumValue)
     {

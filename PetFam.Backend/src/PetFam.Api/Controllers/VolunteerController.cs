@@ -18,6 +18,7 @@ using PetFam.Application.VolunteerManagement.Commands.UpdateMainInfo;
 using PetFam.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.Application.VolunteerManagement.Queries.GetAllVolunteers;
+using PetFam.Domain.Shared;
 using PetFam.Infrastructure.Options;
 
 namespace PetFam.Api.Controllers
@@ -122,7 +123,7 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpDelete("{id:guid}/delete-pet/{petId:guid}")]
+        [HttpDelete("{id:guid}/pet/{petId:guid}")]
         public async Task<ActionResult<Guid>> DeletePet(
             [FromRoute] Guid id,
             [FromRoute] Guid petId,
@@ -136,7 +137,7 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPost("{id:guid}/add-photos/{petId:guid}")]
+        [HttpPost("{id:guid}/pet/{petId:guid}/photos")]
         public async Task<ActionResult<string>> AddPetPhotos(
             [FromRoute] Guid id,
             [FromRoute] Guid petId,
@@ -146,7 +147,7 @@ namespace PetFam.Api.Controllers
         {
             await using var fileProcessor = new FormFileProcessor();
             var filesData = fileProcessor.Process(formFiles);
-            var content = new Content(filesData, MinioOptions.PHOTO_BUCKET);
+            var content = new Content(filesData, Constants.FileManagementOptions.PHOTO_BUCKET);
 
             var command = new PetAddPhotosCommand(id, petId, content);
 
@@ -155,7 +156,7 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpDelete("{id:guid}/delete-photos/{petId:guid}")]
+        [HttpDelete("{id:guid}/photos/{petId:guid}")]
         public async Task<ActionResult<string[]>> AddPetPhotos(
             [FromRoute] Guid id,
             [FromRoute] Guid petId,
@@ -170,7 +171,7 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPut("{id:guid}/pet-update/{petId:guid}")]
+        [HttpPut("{id:guid}/pet/{petId:guid}")]
         public async Task<ActionResult<Guid>> UpdatePet(
             [FromRoute] Guid id,
             [FromRoute] Guid petId,
@@ -185,7 +186,7 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPut("{id:guid}/pet-status-update/{petId:guid}")]
+        [HttpPut("{id:guid}/pet-status/{petId:guid}")]
         public async Task<ActionResult<Guid>> UpdatePetStatus(
             [FromRoute] Guid id,
             [FromRoute] Guid petId,
@@ -200,7 +201,7 @@ namespace PetFam.Api.Controllers
             return result.ToResponse();
         }
 
-        [HttpPut("{id:guid}/pet/{petId:guid}/set-main-photo")]
+        [HttpPut("{id:guid}/pet/{petId:guid}/main-photo")]
         public async Task<ActionResult<string>> SetMainPhoto(
             [FromRoute] Guid id,
             [FromRoute] Guid petId,

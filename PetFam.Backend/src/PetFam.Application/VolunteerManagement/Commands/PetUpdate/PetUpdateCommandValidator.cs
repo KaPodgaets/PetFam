@@ -1,5 +1,5 @@
 using FluentValidation;
-using PetFam.Application.Exte;
+using PetFam.Application.Extensions;
 using PetFam.Application.Validation;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Domain.Volunteer.Pet;
@@ -23,7 +23,7 @@ public class PetUpdateCommandValidator : AbstractValidator<PetUpdateCommand>
                 dto.BreedId));
 
         RuleFor(x => x.Status)
-            .Must(ValidatorExtension.BeValidPetStatus<PetStatus>)
+            .Must(ValidatorRulesExtension.BeValidPetStatus<PetStatus>)
             .WithMessage("Invalid status");
 
         RuleFor(x => x.HealthInfo)
