@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.SharedKernel.ValueObjects.Pet
+﻿using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Shared.SharedKernel.ValueObjects.Pet
 {
     public record PetHealthInfo
     {

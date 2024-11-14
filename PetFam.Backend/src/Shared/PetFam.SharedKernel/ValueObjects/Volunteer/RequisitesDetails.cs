@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
+﻿using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
 {
     public record RequisitesDetails
     {
@@ -15,7 +17,7 @@
         public static Result<RequisitesDetails> Create(IEnumerable<Requisite> value)
         {
             if (value.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
-                return Errors.General.ValueIsRequired(nameof(RequisitesDetails)).ToErrorList();
+                return Errors.Errors.General.ValueIsRequired(nameof(RequisitesDetails)).ToErrorList();
 
             return new RequisitesDetails(value);
         }

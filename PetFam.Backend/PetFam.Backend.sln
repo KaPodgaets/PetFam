@@ -18,33 +18,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4C6C71B0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Core", "src\Shared\PetFam.Core\PetFam.Core.csproj", "{002E06C9-89F5-4C2B-A6D8-07CB5806B207}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Volunteers.Domain", "src\Volunteers\PetFam.Volunteers.Domain\PetFam.Volunteers.Domain.csproj", "{14F9E080-5766-4C52-BA54-2D073DC85C65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.PetManagement.Domain", "src\PetManagement\PetFam.PetManagement.Domain\PetFam.PetManagement.Domain.csproj", "{14F9E080-5766-4C52-BA54-2D073DC85C65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Species.Domain", "src\Species\PetFam.Species.Domain\PetFam.Species.Domain.csproj", "{B30EE261-F16C-480F-805B-F7CDA14DF37D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.BreedManagement.Domain", "src\BreedManagement\PetFam.BreedManagement.Domain\PetFam.BreedManagement.Domain.csproj", "{B30EE261-F16C-480F-805B-F7CDA14DF37D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Volunteers.Infrastructure", "src\Volunteers\PetFam.Volunteers.Infrastructure\PetFam.Volunteers.Infrastructure.csproj", "{E5EE62B3-077C-425C-A6C7-57603318C66C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.PetManagement.Infrastructure", "src\PetManagement\PetFam.PetManagement.Infrastructure\PetFam.PetManagement.Infrastructure.csproj", "{E5EE62B3-077C-425C-A6C7-57603318C66C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Species.Infrastructure", "src\Species\PetFam.Species.Infrastructure\PetFam.Species.Infrastructure.csproj", "{5855C155-B0FD-416F-AF15-6E0152671166}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.BreedManagement.Infrastructure", "src\BreedManagement\PetFam.BreedManagement.Infrastructure\PetFam.BreedManagement.Infrastructure.csproj", "{5855C155-B0FD-416F-AF15-6E0152671166}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Volunteers.Application", "src\Volunteers\PetFam.Volunteers.Application\PetFam.Volunteers.Application.csproj", "{2C9C4348-D406-46C4-A569-3C7E74000098}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.PetManagement.Application", "src\PetManagement\PetFam.PetManagement.Application\PetFam.PetManagement.Application.csproj", "{2C9C4348-D406-46C4-A569-3C7E74000098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Species.Application", "src\Species\PetFam.Species.Application\PetFam.Species.Application.csproj", "{1FF3360E-880D-4A23-BA7F-B9D2A9CE368F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.BreedManagement.Application", "src\BreedManagement\PetFam.BreedManagement.Application\PetFam.BreedManagement.Application.csproj", "{1FF3360E-880D-4A23-BA7F-B9D2A9CE368F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Volunteers.Contracts", "src\Volunteers\PetFam.Volunteers.Contracts\PetFam.Volunteers.Contracts.csproj", "{D883B3BC-F67F-45DA-9365-C8C1C61ADD23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.PetManagement.Contracts", "src\PetManagement\PetFam.PetManagement.Contracts\PetFam.PetManagement.Contracts.csproj", "{D883B3BC-F67F-45DA-9365-C8C1C61ADD23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Volunteers.Presentation", "src\Volunteers\PetFam.Volunteers.Presentation\PetFam.Volunteers.Presentation.csproj", "{3687601F-A22C-4730-8628-6756C0456B12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.PetManagement.Presentation", "src\PetManagement\PetFam.PetManagement.Presentation\PetFam.PetManagement.Presentation.csproj", "{3687601F-A22C-4730-8628-6756C0456B12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Species.Contracts", "src\Species\PetFam.Species.Contracts\PetFam.Species.Contracts.csproj", "{AFCBBFAA-A5B6-4814-9BD5-7B4B74CA7149}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.BreedManagement.Contracts", "src\BreedManagement\PetFam.BreedManagement.Contracts\PetFam.BreedManagement.Contracts.csproj", "{AFCBBFAA-A5B6-4814-9BD5-7B4B74CA7149}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Species.Presentation", "src\Species\PetFam.Species.Presentation\PetFam.Species.Presentation.csproj", "{BC52497E-1015-40B3-9DD8-2D590677457E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.BreedManagement.Presentation", "src\BreedManagement\PetFam.BreedManagement.Presentation\PetFam.BreedManagement.Presentation.csproj", "{BC52497E-1015-40B3-9DD8-2D590677457E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Accounts.Domain", "src\Accounts\PetFam.Accounts.Domain\PetFam.Accounts.Domain.csproj", "{19EF112C-74B1-4D20-99D0-D0C9F2117BCF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{623F8AE0-AEBF-4D2F-B026-61B6A8EF2EFB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Volunteers", "Volunteers", "{4128B80B-E9A3-40FB-B0C1-CFF56C0731E4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PetManagement", "PetManagement", "{4128B80B-E9A3-40FB-B0C1-CFF56C0731E4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Species", "Species", "{0213D94C-9C2B-4DAB-9062-762E2BB28072}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BreedManagement", "BreedManagement", "{0213D94C-9C2B-4DAB-9062-762E2BB28072}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{3BED09B4-5504-440F-B96C-BEA75EB7B2B5}"
 EndProject

@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using PetFam.Shared.SharedKernel;
+using PetFam.Shared.SharedKernel.Errors;
+using PetFam.Shared.SharedKernel.Result;
 
 namespace PetFam.Shared.Validation
 {

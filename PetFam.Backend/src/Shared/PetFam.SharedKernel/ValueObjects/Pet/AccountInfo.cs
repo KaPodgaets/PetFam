@@ -13,14 +13,14 @@ namespace PetFam.Shared.SharedKernel.ValueObjects.Pet
         public string Number { get; }
         public string BankName { get; }
 
-        public static Result<AccountInfo> Create(string number,
+        public static Result.Result<AccountInfo> Create(string number,
             string bankName)
         {
             if (string.IsNullOrWhiteSpace(number))
-                return Errors.General.ValueIsInvalid(nameof(Number)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(Number)).ToErrorList();
 
             if (string.IsNullOrWhiteSpace(bankName))
-                return Errors.General.ValueIsInvalid(nameof(BankName)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(BankName)).ToErrorList();
 
             return new AccountInfo(number, bankName);
         }

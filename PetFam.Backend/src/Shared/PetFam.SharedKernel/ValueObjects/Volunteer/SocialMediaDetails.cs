@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
+﻿using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
 {
     public record SocialMediaDetails
     {
@@ -18,7 +20,7 @@
         public static Result<SocialMediaDetails> Create(IEnumerable<SocialMediaLink> value)
         {
             if (value.ToList().Count < Constants.MIN_ELEMENTS_IN_ARRAY)
-                return Errors.General.ValueIsRequired(nameof(SocialMediaDetails)).ToErrorList();
+                return Errors.Errors.General.ValueIsRequired(nameof(SocialMediaDetails)).ToErrorList();
 
             return new SocialMediaDetails(value);
         }

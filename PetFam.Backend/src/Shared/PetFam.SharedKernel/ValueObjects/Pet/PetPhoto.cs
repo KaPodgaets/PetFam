@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.SharedKernel.ValueObjects.Pet
+﻿using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Shared.SharedKernel.ValueObjects.Pet
 {
     public record PetPhoto
     {
@@ -14,7 +16,7 @@
         public static Result<PetPhoto> Create(string filePath, bool isMain = false)
         {
             if (string.IsNullOrEmpty(filePath))
-                return Errors.General.ValueIsInvalid(nameof(FilePath)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(FilePath)).ToErrorList();
 
             return new PetPhoto(filePath, isMain);
         }

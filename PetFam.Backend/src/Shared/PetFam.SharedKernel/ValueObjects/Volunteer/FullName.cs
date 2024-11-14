@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
+﻿using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
 {
     public record FullName
     {
@@ -24,9 +26,9 @@
             string? patronymic)
         {
             if (string.IsNullOrWhiteSpace(firstName))
-                return Errors.General.ValueIsInvalid(nameof(FirstName)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(FirstName)).ToErrorList();
             if (string.IsNullOrWhiteSpace(lastName))
-                return Errors.General.ValueIsInvalid(nameof(LastName)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(LastName)).ToErrorList();
 
             return new FullName(firstName, lastName, patronymic);
         }

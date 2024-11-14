@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.SharedKernel.ValueObjects.Pet
+﻿using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Shared.SharedKernel.ValueObjects.Pet
 {
     public record Address
     {
@@ -29,11 +31,11 @@
             string? litteral)
         {
             if (string.IsNullOrWhiteSpace(country))
-                return Errors.General.ValueIsInvalid(nameof(Country)).ToErrorList(); ;
+                return Errors.Errors.General.ValueIsInvalid(nameof(Country)).ToErrorList(); ;
             if (string.IsNullOrWhiteSpace(city))
-                return Errors.General.ValueIsInvalid(nameof(City)).ToErrorList(); ;
+                return Errors.Errors.General.ValueIsInvalid(nameof(City)).ToErrorList(); ;
             if (string.IsNullOrWhiteSpace(street))
-                return Errors.General.ValueIsInvalid(nameof(Street)).ToErrorList(); ;
+                return Errors.Errors.General.ValueIsInvalid(nameof(Street)).ToErrorList(); ;
 
             return new Address(country, city, street, building, litteral);
         }

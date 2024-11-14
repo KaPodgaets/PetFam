@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using PetFam.Shared.Models;
 using PetFam.Shared.SharedKernel;
+using PetFam.Shared.SharedKernel.Errors;
 
 namespace PetFam.Api.Middlewares
 {

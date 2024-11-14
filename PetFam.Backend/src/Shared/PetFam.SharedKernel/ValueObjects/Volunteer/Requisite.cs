@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
+﻿using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
 {
     public record Requisite
     {
@@ -18,11 +20,11 @@
             string paymentInstruction)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return Errors.General.ValueIsInvalid(nameof(Name)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(Name)).ToErrorList();
             if (string.IsNullOrWhiteSpace(accountNumber))
-                return Errors.General.ValueIsInvalid(nameof(AccountNumber)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(AccountNumber)).ToErrorList();
             if (string.IsNullOrWhiteSpace(paymentInstruction))
-                return Errors.General.ValueIsInvalid(nameof(PaymentInstruction)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(PaymentInstruction)).ToErrorList();
 
             return new Requisite(name, accountNumber, paymentInstruction);
         }

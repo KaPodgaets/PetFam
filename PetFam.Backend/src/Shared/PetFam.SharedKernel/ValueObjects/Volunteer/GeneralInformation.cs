@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
+﻿using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
 {
     public record GeneralInformation
     {
@@ -15,12 +17,12 @@
         {
             if (bioEducation.Length <= Constants.MAX_LONG_TEXT_LENGTH)
             {
-                Errors.General.ValueIsInvalid("Education");
+                Errors.Errors.General.ValueIsInvalid("Education");
             }
 
             if (shortDescription.Length <= Constants.MAX_LONG_TEXT_LENGTH)
             {
-                Errors.General.ValueIsInvalid("Description");
+                Errors.Errors.General.ValueIsInvalid("Description");
             }
 
             return new GeneralInformation(bioEducation, shortDescription);

@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using PetFam.Shared.SharedKernel;
+using PetFam.Shared.SharedKernel.Errors;
 
 namespace PetFam.Shared.Extensions
 {

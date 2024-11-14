@@ -1,4 +1,6 @@
-﻿namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
+﻿using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Shared.SharedKernel.ValueObjects.Volunteer
 {
     public record SocialMediaLink
     {
@@ -14,9 +16,9 @@
         public static Result<SocialMediaLink> Create(string name, string link)
         {
             if (string.IsNullOrEmpty(name))
-                return Errors.General.ValueIsInvalid(nameof(Name)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(Name)).ToErrorList();
             if (string.IsNullOrEmpty(link))
-                return Errors.General.ValueIsInvalid(nameof(Link)).ToErrorList();
+                return Errors.Errors.General.ValueIsInvalid(nameof(Link)).ToErrorList();
 
             return new SocialMediaLink(name, link);
         }
