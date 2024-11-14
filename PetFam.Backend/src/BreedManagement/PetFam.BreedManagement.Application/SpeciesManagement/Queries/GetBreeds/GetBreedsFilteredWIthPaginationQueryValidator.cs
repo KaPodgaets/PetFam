@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace PetFam.BreedManagement.Application.SpeciesManagement.Queries.GetBreeds;
 
 public class GetBreedsFilteredWIthPaginationQueryValidator

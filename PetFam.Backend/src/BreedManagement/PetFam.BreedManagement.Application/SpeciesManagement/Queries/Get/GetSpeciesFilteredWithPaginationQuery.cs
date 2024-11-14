@@ -1,3 +1,5 @@
+using PetFam.Shared.Abstractions;
+
 namespace PetFam.BreedManagement.Application.SpeciesManagement.Queries.Get;
 
 public record GetSpeciesFilteredWithPaginationQuery(

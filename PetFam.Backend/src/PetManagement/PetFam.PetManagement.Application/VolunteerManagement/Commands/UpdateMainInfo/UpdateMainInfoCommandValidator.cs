@@ -1,4 +1,9 @@
-﻿namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateMainInfo
+﻿using FluentValidation;
+using PetFam.Shared.SharedKernel.Errors;
+using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
+using PetFam.Shared.Validation;
+
+namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateMainInfo
 {
     public class UpdateMainInfoCommandValidator : AbstractValidator<UpdateMainInfoCommand>
     {

@@ -10,13 +10,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetFam.UnitTests", "tests\PetFam.UnitTests\PetFam.UnitTests.csproj", "{1B79119B-862B-4441-A3E4-2F2EE45B1217}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{835BCECC-037E-4F54-B34D-A30780A5D8EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4C6C71B0-7E9A-4A21-A72A-810AC6A99DE5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{623F8AE0-AEBF-4D2F-B026-61B6A8EF2EFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PetManagement", "PetManagement", "{4128B80B-E9A3-40FB-B0C1-CFF56C0731E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BreedManagement", "BreedManagement", "{0213D94C-9C2B-4DAB-9062-762E2BB28072}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{2FE70DA5-05FF-403C-8E52-38E277D614F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{3BED09B4-5504-440F-B96C-BEA75EB7B2B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetFam.UnitTests", "tests\PetFam.UnitTests\PetFam.UnitTests.csproj", "{1B79119B-862B-4441-A3E4-2F2EE45B1217}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Core", "src\Shared\PetFam.Core\PetFam.Core.csproj", "{002E06C9-89F5-4C2B-A6D8-07CB5806B207}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.SharedKernel", "src\Shared\PetFam.SharedKernel\PetFam.SharedKernel.csproj", "{42B78C66-8348-4B51-89FA-6A1FD20482C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Framework", "src\Shared\PetFam.Framework\PetFam.Framework.csproj", "{3FB269C8-25F3-474D-888E-BB57212FDB22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.PetManagement.Domain", "src\PetManagement\PetFam.PetManagement.Domain\PetFam.PetManagement.Domain.csproj", "{14F9E080-5766-4C52-BA54-2D073DC85C65}"
 EndProject
@@ -40,21 +54,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.BreedManagement.Pres
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Accounts.Domain", "src\Accounts\PetFam.Accounts.Domain\PetFam.Accounts.Domain.csproj", "{19EF112C-74B1-4D20-99D0-D0C9F2117BCF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{623F8AE0-AEBF-4D2F-B026-61B6A8EF2EFB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PetManagement", "PetManagement", "{4128B80B-E9A3-40FB-B0C1-CFF56C0731E4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BreedManagement", "BreedManagement", "{0213D94C-9C2B-4DAB-9062-762E2BB28072}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{3BED09B4-5504-440F-B96C-BEA75EB7B2B5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.SharedKernel", "src\Shared\PetFam.SharedKernel\PetFam.SharedKernel.csproj", "{42B78C66-8348-4B51-89FA-6A1FD20482C8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Framework", "src\Shared\PetFam.Framework\PetFam.Framework.csproj", "{3FB269C8-25F3-474D-888E-BB57212FDB22}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Accounts.Application", "src\Accounts\PetFam.Accounts.Application\PetFam.Accounts.Application.csproj", "{217E77D9-E26D-4BDE-BF31-031EB89A4C5C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{2FE70DA5-05FF-403C-8E52-38E277D614F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Files.Domain", "src\Files\PetFam.Files.Domain\PetFam.Files.Domain.csproj", "{54BE5B63-2B60-4DBC-BDA7-338A16EF0A6A}"
 EndProject

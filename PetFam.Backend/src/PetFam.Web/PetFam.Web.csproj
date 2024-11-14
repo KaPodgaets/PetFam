@@ -5,21 +5,33 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>0bc72193-5bdf-44d2-812b-c66de2ef70c7</UserSecretsId>
-    <RootNamespace>PetFam.Api</RootNamespace>
+    <RootNamespace>PetFam.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Scrutor" Version="5.0.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Accounts\PetFam.Accounts.Application\PetFam.Accounts.Application.csproj" />
+    <ProjectReference Include="..\Accounts\PetFam.Accounts.Presentation\PetFam.Accounts.Presentation.csproj" />
+    <ProjectReference Include="..\BreedManagement\PetFam.BreedManagement.Application\PetFam.BreedManagement.Application.csproj" />
+    <ProjectReference Include="..\BreedManagement\PetFam.BreedManagement.Presentation\PetFam.BreedManagement.Presentation.csproj" />
+    <ProjectReference Include="..\Files\PetFam.Files.Application\PetFam.Files.Application.csproj" />
     <ProjectReference Include="..\Files\PetFam.Files.Contracts\PetFam.Files.Contracts.csproj" />
+    <ProjectReference Include="..\Files\PetFam.Files.Presentation\PetFam.Files.Presentation.csproj" />
+    <ProjectReference Include="..\PetManagement\PetFam.PetManagement.Application\PetFam.PetManagement.Application.csproj" />
+    <ProjectReference Include="..\PetManagement\PetFam.PetManagement.Presentation\PetFam.PetManagement.Presentation.csproj" />
     <ProjectReference Include="..\Shared\PetFam.Framework\PetFam.Framework.csproj" />
   </ItemGroup>
 

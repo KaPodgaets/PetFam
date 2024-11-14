@@ -1,4 +1,8 @@
-﻿namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateSocialMedia
+﻿using FluentValidation;
+using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
+using PetFam.Shared.Validation;
+
+namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {
     public class UpdateSocialMediaCommandValidator : AbstractValidator<UpdateSocialMediaCommand>
     {

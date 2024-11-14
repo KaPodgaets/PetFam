@@ -1,7 +1,7 @@
 ﻿using PetFam.Shared.Dtos;
 using PetFam.Shared.SharedKernel;
 
-namespace PetFam.Api.Processors
+namespace PetFam.Web.Processors
 {
     public class FormFileProcessor : IAsyncDisposable
     {

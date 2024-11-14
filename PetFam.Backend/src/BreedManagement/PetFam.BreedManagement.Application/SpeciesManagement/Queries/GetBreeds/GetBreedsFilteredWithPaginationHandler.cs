@@ -1,4 +1,11 @@
 using System.Linq.Expressions;
+using FluentValidation;
+using PetFam.BreedManagement.Application.Database;
+using PetFam.Shared.Abstractions;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.Extensions;
+using PetFam.Shared.Models;
+using PetFam.Shared.SharedKernel.Result;
 
 namespace PetFam.BreedManagement.Application.SpeciesManagement.Queries.GetBreeds;
 

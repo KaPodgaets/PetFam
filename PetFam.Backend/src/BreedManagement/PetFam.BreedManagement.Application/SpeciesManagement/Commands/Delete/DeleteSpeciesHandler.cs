@@ -1,24 +1,28 @@
-﻿using PetFam.BreedManagement.Application.Database;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using PetFam.BreedManagement.Application.Database;
+using PetFam.Shared.Abstractions;
+using PetFam.Shared.Extensions;
+using PetFam.Shared.SharedKernel.Errors;
+using PetFam.Shared.SharedKernel.Result;
+using PetFam.Shared.SharedKernel.ValueObjects.Species;
 
 namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Delete
 {
     public class DeleteSpeciesHandler:ICommandHandler<Guid, DeleteSpeciesCommand>
     {
         private readonly ISpeciesRepository _repository;
-        private readonly IVolunteerRepository _volunteerRepository;
         private readonly IReadDbContext _readDbContext;
         private readonly IValidator<DeleteSpeciesCommand> _validator;
         private readonly ILogger _logger;
 
         public DeleteSpeciesHandler(
             ISpeciesRepository repository,
-            IVolunteerRepository volunteerRepository,
             ILogger<DeleteSpeciesHandler> logger,
             IValidator<DeleteSpeciesCommand> validator,
             IReadDbContext readDbContext)
         {
             _repository = repository;
-            _volunteerRepository = volunteerRepository;
             _logger = logger;
             _validator = validator;
             _readDbContext = readDbContext;
@@ -40,10 +44,10 @@ namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Delete
             
             // check pets of this species exist wiht ReadDBContext
             
-            var isPetsWithDelitingSpeciesExist = await _readDbContext.Pets
+            var isPetsWithDeletingSpeciesExist = await _readDbContext.Pets
                 .AnyAsync(p => p.SpeciesAndBreed.SpeciesId == command.Id, cancellationToken);
             
-            if(isPetsWithDelitingSpeciesExist)
+            if(isPetsWithDeletingSpeciesExist)
                 return Errors.Species.CannotDeleteDueToRelatedRecords(command.Id).ToErrorList();
             
             species.Delete(); // breeds deleted also - cascade

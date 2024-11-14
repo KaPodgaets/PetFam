@@ -1,7 +1,7 @@
-using PetFam.Api.Middlewares;
+using PetFam.Web.Middlewares;
 using Serilog;
 
-namespace PetFam.Api
+namespace PetFam.Web
 {
     public static class Program
     {
@@ -25,7 +25,7 @@ namespace PetFam.Api
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddInfrastructure(builder.Configuration).AddApplication();
+            services.AddApplicationLayers();
 
             var app = builder.Build();
 

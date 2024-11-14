@@ -1,4 +1,6 @@
-﻿namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Delete
+﻿using FluentValidation;
+
+namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Delete
 {
     public class DeleteSpeciesCommandValidator : AbstractValidator<DeleteSpeciesCommand>
     {

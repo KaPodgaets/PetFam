@@ -1,3 +1,7 @@
+using FluentValidation;
+using PetFam.Shared.Extensions;
+using PetFam.Shared.SharedKernel.ValueObjects.Pet;
+
 namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.PetStatusUpdate;
 
 public class PetStatusUpdateCommandValidator : AbstractValidator<PetStatusUpdateCommand>

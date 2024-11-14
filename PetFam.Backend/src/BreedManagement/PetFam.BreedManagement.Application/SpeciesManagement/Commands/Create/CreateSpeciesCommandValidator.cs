@@ -1,4 +1,6 @@
-﻿namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Create
+﻿using FluentValidation;
+
+namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Create
 {
     public class CreateSpeciesCommandValidator : AbstractValidator<CreateSpeciesCommand>
     {

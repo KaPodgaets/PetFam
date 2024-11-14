@@ -1,4 +1,7 @@
-﻿namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateSocialMedia
+﻿using PetFam.Shared.Abstractions;
+using PetFam.Shared.Dtos.ValueObjects;
+
+namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateSocialMedia
 {
     public record UpdateSocialMediaCommand(
         Guid Id,

@@ -1,4 +1,11 @@
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using PetFam.BreedManagement.Application.Database;
+using PetFam.Shared.Abstractions;
+using PetFam.Shared.Extensions;
+using PetFam.Shared.SharedKernel.Errors;
+using PetFam.Shared.SharedKernel.Result;
+using PetFam.Shared.SharedKernel.ValueObjects.Species;
 
 namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.DeleteBreed;
 

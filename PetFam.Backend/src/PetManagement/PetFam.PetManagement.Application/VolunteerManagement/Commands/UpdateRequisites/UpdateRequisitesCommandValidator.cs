@@ -1,4 +1,8 @@
-﻿namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateRequisites
+﻿using FluentValidation;
+using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
+using PetFam.Shared.Validation;
+
+namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateRequisites
 {
     public class UpdateRequisitesCommandValidator : AbstractValidator<UpdateRequisitesCommand>
     {
