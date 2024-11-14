@@ -1,6 +1,6 @@
 ﻿using System.Threading.Channels;
 
-namespace PetFam.Volunteers.Infrastructure.MessageQueues
+namespace PetFam.Files.Infrastructure.MessageQueues
 {
     public class MessageQueue : IMessageQueue
     {

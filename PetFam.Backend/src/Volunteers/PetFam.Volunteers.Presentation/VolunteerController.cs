@@ -135,24 +135,24 @@ namespace PetFam.Volunteers.Presentation
             return result.ToResponse();
         }
 
-        [HttpPost("{id:guid}/pet/{petId:guid}/photos")]
-        public async Task<ActionResult<string>> AddPetPhotos(
-            [FromRoute] Guid id,
-            [FromRoute] Guid petId,
-            [FromServices] PetAddPhotosHandler handler,
-            [FromForm] IFormFileCollection formFiles,
-            CancellationToken cancellationToken = default)
-        {
-            await using var fileProcessor = new FormFileProcessor();
-            var filesData = fileProcessor.Process(formFiles);
-            var content = new Content(filesData, Constants.FileManagementOptions.PHOTO_BUCKET);
-
-            var command = new PetAddPhotosCommand(id, petId, content);
-
-            var result = await handler.ExecuteAsync(command, cancellationToken);
-
-            return result.ToResponse();
-        }
+        // [HttpPost("{id:guid}/pet/{petId:guid}/photos")]
+        // public async Task<ActionResult<string>> AddPetPhotos(
+        //     [FromRoute] Guid id,
+        //     [FromRoute] Guid petId,
+        //     [FromServices] PetAddPhotosHandler handler,
+        //     [FromForm] IFormFileCollection formFiles,
+        //     CancellationToken cancellationToken = default)
+        // {
+        //     await using var fileProcessor = new FormFileProcessor();
+        //     var filesData = fileProcessor.Process(formFiles);
+        //     var content = new Content(filesData, Constants.FileManagementOptions.PHOTO_BUCKET);
+        //
+        //     var command = new PetAddPhotosCommand(id, petId, content);
+        //
+        //     var result = await handler.ExecuteAsync(command, cancellationToken);
+        //
+        //     return result.ToResponse();
+        // }
 
         [HttpDelete("{id:guid}/photos/{petId:guid}")]
         public async Task<ActionResult<string[]>> AddPetPhotos(

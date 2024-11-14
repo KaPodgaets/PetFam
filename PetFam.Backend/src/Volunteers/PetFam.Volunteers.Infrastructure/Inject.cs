@@ -1,4 +1,10 @@
-﻿using PetFam.Volunteers.Infrastructure.BackgroundServices;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using PetFam.Shared.Abstractions;
+using PetFam.Shared.Messaging;
+using PetFam.Shared.SharedKernel;
+using PetFam.Volunteers.Application.Database;
+using PetFam.Volunteers.Infrastructure.BackgroundServices;
 using PetFam.Volunteers.Infrastructure.DbContexts;
 using PetFam.Volunteers.Infrastructure.MessageQueues;
 
@@ -12,35 +18,14 @@ namespace PetFam.Volunteers.Infrastructure
         {
             services.AddDbContexts()
                 .AddRepositories()
-                .AddMinio(configuration)
                 .AddBackgroundServices();
-
-            services.AddScoped<IFileProvider, MinioProvider>();
-
-            services.AddSingleton<IMessageQueue, MessageQueue>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
 
-        private static IServiceCollection AddMinio(
-            this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddMinio(options =>
-            {
-                var minioOptions = configuration
-                    .GetSection(Constants.FileManagementOptions.MINIO)
-                    .Get<MinioOptions>()
-                        ?? throw new ApplicationException("Missing MinIo configuration");
-
-                options.WithEndpoint(minioOptions.Endpoint);
-                options.WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey);
-                options.WithSSL(minioOptions.WithSsl);
-            });
-
-            return services;
-        }
+        
 
         private static IServiceCollection AddDbContexts(
             this IServiceCollection services)

@@ -1,7 +1,4 @@
-using PetFam.Api.Extensions;
 using PetFam.Api.Middlewares;
-using PetFam.Application;
-using PetFam.Infrastructure;
 using Serilog;
 
 namespace PetFam.Api

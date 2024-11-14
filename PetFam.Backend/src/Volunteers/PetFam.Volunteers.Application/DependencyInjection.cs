@@ -1,16 +1,18 @@
-﻿using PetFam.Volunteers.Application.FileManagement.Upload;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PetFam.Shared.Abstractions;
+using PetFam.Shared.Validation;
 
 namespace PetFam.Volunteers.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddVolunteerApplication(this IServiceCollection services)
         {
             services
                 .AddCommands()
                 .AddQueries();
 
-            services.AddScoped<IUploadFileHandler, UploadFileHandler>();
+            // services.AddScoped<IUploadFileHandler, UploadFileHandler>();
 
             services.AddValidatorsFromAssembly(typeof(CustomValidators).Assembly);
 
