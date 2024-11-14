@@ -1,4 +1,8 @@
-﻿namespace PetFam.PetManagement.Infrastructure.Configurations.Read
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetFam.Shared.Dtos;
+
+namespace PetFam.PetManagement.Infrastructure.Configurations.Read
 {
     public class VolunteerDtoConfiguration : IEntityTypeConfiguration<VolunteerDto>
     {

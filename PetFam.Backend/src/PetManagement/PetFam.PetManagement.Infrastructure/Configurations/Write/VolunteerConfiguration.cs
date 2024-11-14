@@ -1,4 +1,10 @@
-﻿namespace PetFam.PetManagement.Infrastructure.Configurations.Write
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetFam.PetManagement.Domain;
+using PetFam.Shared.SharedKernel;
+using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
+
+namespace PetFam.PetManagement.Infrastructure.Configurations.Write
 {
     public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
     {
