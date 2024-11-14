@@ -6,6 +6,7 @@ using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Application.SpeciesManagement;
 using PetFam.Application.VolunteerManagement;
+using PetFam.Domain.Shared;
 using PetFam.Infrastructure.BackgroundServices;
 using PetFam.Infrastructure.DbContexts;
 using PetFam.Infrastructure.MessageQueues;
@@ -40,8 +41,10 @@ namespace PetFam.Infrastructure
         {
             services.AddMinio(options =>
             {
-                var minioOptions = configuration.GetSection(MinioOptions.MINIO).Get<MinioOptions>()
-                    ?? throw new ApplicationException("Missing MinIo configuration");
+                var minioOptions = configuration
+                    .GetSection(Constants.FileManagementOptions.MINIO)
+                    .Get<MinioOptions>()
+                        ?? throw new ApplicationException("Missing MinIo configuration");
 
                 options.WithEndpoint(minioOptions.Endpoint);
                 options.WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey);
