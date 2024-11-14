@@ -6,7 +6,7 @@ using Serilog;
 
 namespace PetFam.Api
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {
@@ -47,7 +47,7 @@ namespace PetFam.Api
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

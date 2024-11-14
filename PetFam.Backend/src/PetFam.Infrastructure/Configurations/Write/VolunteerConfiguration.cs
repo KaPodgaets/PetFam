@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetFam.Domain.Volunteer;
 using PetFam.Shared.Shared;
 using PetFam.Shared.ValueObjects.Volunteer;
 

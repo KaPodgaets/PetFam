@@ -1,18 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Minio;
-using PetFam.Api.Extensions;
-using PetFam.Application.FileManagement.Delete;
-using PetFam.Application.FileManagement.GetLink;
-using PetFam.Application.FileManagement.Upload;
-using PetFam.Application.FileProvider;
-using PetFam.Infrastructure.Options;
-using PetFam.Shared.Shared;
+using PetFam.Framework;
+using PetFam.Shared.SharedKernel;
+using PetFam.Volunteers.Application.FileManagement.Delete;
+using PetFam.Volunteers.Application.FileManagement.GetLink;
+using PetFam.Volunteers.Application.FileManagement.Upload;
+using PetFam.Volunteers.Application.FileProvider;
 
 namespace PetFam.Api.Controllers
 {
     public class FileController : ApplicationController
     {
-        public FileController(ILogger<VolunteerController> logger)
+        public FileController(ILogger<FileController> logger)
             : base(logger)
         {
         }

@@ -14,4 +14,8 @@
       <ProjectReference Include="..\PetFam.Core\PetFam.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Authorization\" />
+    </ItemGroup>
+
 </Project>

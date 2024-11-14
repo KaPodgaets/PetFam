@@ -1,11 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
-using PetFam.Application.Database;
 using PetFam.Application.FileManagement;
-using PetFam.Application.FileProvider;
 using PetFam.Application.SpeciesManagement;
-using PetFam.Application.VolunteerManagement;
 using PetFam.Infrastructure.BackgroundServices;
 using PetFam.Infrastructure.DbContexts;
 using PetFam.Infrastructure.MessageQueues;
@@ -15,6 +12,9 @@ using PetFam.Infrastructure.Repositories;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.Messaging;
 using PetFam.Shared.Shared;
+using PetFam.Volunteers.Application.Database;
+using PetFam.Volunteers.Application.FileProvider;
+using PetFam.Volunteers.Application.VolunteerManagement;
 
 namespace PetFam.Infrastructure
 {

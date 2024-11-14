@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PetFam.Application.VolunteerManagement;
-using PetFam.Domain.Volunteer;
 using PetFam.Infrastructure.DbContexts;
 using PetFam.Shared.Shared;
 using PetFam.Shared.ValueObjects.Volunteer;
+using PetFam.Volunteers.Application.VolunteerManagement;
 
 namespace PetFam.Infrastructure.Repositories
 {

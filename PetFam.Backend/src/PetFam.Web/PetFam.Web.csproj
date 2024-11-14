@@ -20,12 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PetFam.Application\PetFam.Application.csproj" />
-    <ProjectReference Include="..\PetFam.Domain\PetFam.Domain.csproj" />
     <ProjectReference Include="..\PetFam.Infrastructure\PetFam.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Response\" />
+    <ProjectReference Include="..\Shared\PetFam.Framework\PetFam.Framework.csproj" />
   </ItemGroup>
 
 </Project>

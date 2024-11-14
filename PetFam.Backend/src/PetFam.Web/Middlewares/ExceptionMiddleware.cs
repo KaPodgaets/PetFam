@@ -1,6 +1,6 @@
-﻿using PetFam.Api.Response;
-using System.Net;
-using PetFam.Shared.Shared;
+﻿using System.Net;
+using PetFam.Shared.Models;
+using PetFam.Shared.SharedKernel;
 
 namespace PetFam.Api.Middlewares
 {

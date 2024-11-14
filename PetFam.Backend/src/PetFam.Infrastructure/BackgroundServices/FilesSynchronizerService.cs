@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.FileManagement;
-using PetFam.Application.FileProvider;
-using PetFam.Application.VolunteerManagement;
 using PetFam.Shared.Messaging;
 using PetFam.Shared.Shared;
+using PetFam.Volunteers.Application.FileProvider;
+using PetFam.Volunteers.Application.VolunteerManagement;
 
 namespace PetFam.Infrastructure.BackgroundServices
 {

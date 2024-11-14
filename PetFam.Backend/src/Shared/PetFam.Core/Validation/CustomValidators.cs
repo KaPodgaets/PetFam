@@ -19,7 +19,7 @@ namespace PetFam.Shared.Validation
 
                 var x = result.Errors.First();
 
-                var failure = new ValidationFailure(context.PropertyName, x.Message)
+                var failure = new ValidationFailure(context.PropertyPath, x.Message)
                 {
                     ErrorCode = x.Code // Setting the error code
                 };

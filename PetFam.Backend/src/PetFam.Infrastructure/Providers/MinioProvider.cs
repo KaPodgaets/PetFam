@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.DataModel.Args;
-using PetFam.Application.FileProvider;
 using PetFam.Shared.Shared;
+using PetFam.Volunteers.Application.FileProvider;
 
 namespace PetFam.Infrastructure.Providers
 {

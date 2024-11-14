@@ -18,6 +18,8 @@
     <ProjectReference Include="..\PetFam.Domain\PetFam.Domain.csproj" />
     <ProjectReference Include="..\Shared\PetFam.Core\PetFam.Core.csproj" />
     <ProjectReference Include="..\Shared\PetFam.SharedKernel\PetFam.SharedKernel.csproj" />
+    <ProjectReference Include="..\Species\PetFam.Species.Presentation\PetFam.Species.Presentation.csproj" />
+    <ProjectReference Include="..\Volunteers\PetFam.Volunteers.Presentation\PetFam.Volunteers.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
