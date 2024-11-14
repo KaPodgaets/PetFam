@@ -1,4 +1,6 @@
-﻿namespace PetFam.PetManagement.Presentation.Requests
+﻿using PetFam.PetManagement.Application.VolunteerManagement.Queries.GetAllVolunteers;
+
+namespace PetFam.PetManagement.Presentation.Requests
 {
     public record GetVolunteersWithPaginationRequest(
         Guid? VolunteerId,
