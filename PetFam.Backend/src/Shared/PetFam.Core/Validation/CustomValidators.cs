@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using PetFam.Shared.Shared;
+using PetFam.Shared.SharedKernel;
 
-namespace PetFam.Application.Validation
+namespace PetFam.Shared.Validation
 {
     public static class CustomValidators
     {

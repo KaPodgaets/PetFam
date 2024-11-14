@@ -1,4 +1,4 @@
-namespace PetFam.Application.Dtos;
+namespace PetFam.Shared.Dtos;
 
 public class BreedDto
 {

@@ -1,6 +1,6 @@
-﻿using PetFam.Application.Dtos.ValueObjects;
+﻿using PetFam.Shared.Dtos.ValueObjects;
 
-namespace PetFam.Application.Dtos
+namespace PetFam.Shared.Dtos
 {
     public class PetDto
     {

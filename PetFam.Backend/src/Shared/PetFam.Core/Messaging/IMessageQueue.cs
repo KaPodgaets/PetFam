@@ -1,6 +1,6 @@
-﻿namespace PetFam.Application.FileManagement
+﻿namespace PetFam.Shared.Messaging
 {
-    public interface IFilesCleanerMessageQueue
+    public interface IMessageQueue
     {
         Task<string[]> ReadAsync(CancellationToken cancellationToken);
         Task WriteAsync(string[] paths, CancellationToken cancellationToken);

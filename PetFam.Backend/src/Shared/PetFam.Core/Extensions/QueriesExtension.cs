@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using PetFam.Shared.Models;
 
-namespace PetFam.Application.Extensions
+namespace PetFam.Shared.Extensions
 {
     public static class QueriesExtension
     {

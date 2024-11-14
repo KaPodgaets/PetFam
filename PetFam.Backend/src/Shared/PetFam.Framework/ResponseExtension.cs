@@ -1,9 +1,10 @@
 ﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PetFam.Api.Response;
-using PetFam.Shared.Shared;
+using PetFam.Shared.Models;
+using PetFam.Shared.SharedKernel;
 
-namespace PetFam.Api.Extensions
+namespace PetFam.Framework
 {
     public static class ResponseExtension
     {

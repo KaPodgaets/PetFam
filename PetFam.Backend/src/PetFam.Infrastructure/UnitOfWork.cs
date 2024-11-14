@@ -2,6 +2,7 @@
 using PetFam.Application.Database;
 using PetFam.Infrastructure.DbContexts;
 using System.Data;
+using PetFam.Shared.Abstractions;
 
 namespace PetFam.Infrastructure
 {

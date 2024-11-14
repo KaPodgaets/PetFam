@@ -12,6 +12,8 @@ using PetFam.Infrastructure.MessageQueues;
 using PetFam.Infrastructure.Options;
 using PetFam.Infrastructure.Providers;
 using PetFam.Infrastructure.Repositories;
+using PetFam.Shared.Abstractions;
+using PetFam.Shared.Messaging;
 using PetFam.Shared.Shared;
 
 namespace PetFam.Infrastructure
@@ -29,7 +31,7 @@ namespace PetFam.Infrastructure
 
             services.AddScoped<IFileProvider, MinioProvider>();
 
-            services.AddSingleton<IFilesCleanerMessageQueue, FilesCleanerMessageQueue>();
+            services.AddSingleton<IMessageQueue, MessageQueue>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

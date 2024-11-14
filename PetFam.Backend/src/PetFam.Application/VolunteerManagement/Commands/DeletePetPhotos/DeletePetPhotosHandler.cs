@@ -1,8 +1,9 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFam.Application.Extensions;
 using PetFam.Application.FileManagement;
 using PetFam.Shared.Abstractions;
+using PetFam.Shared.Extensions;
+using PetFam.Shared.Messaging;
 using PetFam.Shared.Shared;
 using PetFam.Shared.ValueObjects.Pet;
 using PetFam.Shared.ValueObjects.Volunteer;
@@ -15,13 +16,13 @@ public class DeletePetPhotosHandler
     private readonly ILogger<DeletePetPhotosHandler> _logger;
     private readonly IVolunteerRepository _repository;
     private readonly IValidator<DeletePetPhotosCommand> _validator;
-    private readonly  IFilesCleanerMessageQueue _queue;
+    private readonly  IMessageQueue _queue;
 
     public DeletePetPhotosHandler(
         ILogger<DeletePetPhotosHandler> logger,
         IVolunteerRepository repository,
         IValidator<DeletePetPhotosCommand> validator,
-        IFilesCleanerMessageQueue queue)
+        IMessageQueue queue)
     {
         _logger = logger;
         _repository = repository;

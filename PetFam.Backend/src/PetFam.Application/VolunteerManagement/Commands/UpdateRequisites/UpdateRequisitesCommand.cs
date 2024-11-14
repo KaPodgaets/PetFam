@@ -1,5 +1,5 @@
-﻿using PetFam.Application.Dtos.ValueObjects;
-using PetFam.Shared.Abstractions;
+﻿using PetFam.Shared.Abstractions;
+using PetFam.Shared.Dtos.ValueObjects;
 
 namespace PetFam.Application.VolunteerManagement.Commands.UpdateRequisites
 {

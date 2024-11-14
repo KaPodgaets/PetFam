@@ -1,4 +1,4 @@
-﻿namespace PetFam.Application
+﻿namespace PetFam.Shared.Models
 {
     public class PagedList<T>
     {

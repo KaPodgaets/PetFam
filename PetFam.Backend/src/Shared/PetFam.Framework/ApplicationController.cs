@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using PetFam.Api.Response;
+using Microsoft.Extensions.Logging;
+using PetFam.Shared.Models;
 
-namespace PetFam.Api.Controllers
+namespace PetFam.Framework
 {
     [ApiController]
     [Route("[controller]")]

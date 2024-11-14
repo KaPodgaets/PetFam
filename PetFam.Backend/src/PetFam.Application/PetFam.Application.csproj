@@ -16,7 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PetFam.Domain\PetFam.Domain.csproj" />
-    <ProjectReference Include="..\PetFam.Core\PetFam.Core.csproj" />
+    <ProjectReference Include="..\Shared\PetFam.Core\PetFam.Core.csproj" />
+    <ProjectReference Include="..\Shared\PetFam.SharedKernel\PetFam.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

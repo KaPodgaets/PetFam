@@ -1,9 +1,10 @@
 ﻿using PetFam.Application.FileManagement;
 using System.Threading.Channels;
+using PetFam.Shared.Messaging;
 
 namespace PetFam.Infrastructure.MessageQueues
 {
-    public class FilesCleanerMessageQueue : IFilesCleanerMessageQueue
+    public class MessageQueue : IMessageQueue
     {
         private readonly Channel<string[]> _channel = Channel.CreateUnbounded<string[]>();
 

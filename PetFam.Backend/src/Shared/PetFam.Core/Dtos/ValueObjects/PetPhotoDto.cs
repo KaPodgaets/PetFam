@@ -1,4 +1,4 @@
-﻿namespace PetFam.Application.Dtos.ValueObjects
+﻿namespace PetFam.Shared.Dtos.ValueObjects
 {
     public class PetPhotoDto
     {

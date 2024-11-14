@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetFam.Application.Dtos;
-using PetFam.Application.Dtos.ValueObjects;
 using System.Text.Json;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.Dtos.ValueObjects;
 
 namespace PetFam.Infrastructure.Configurations.Read
 {

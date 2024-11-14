@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Database;
-using PetFam.Application.Extensions;
 using PetFam.Application.SpeciesManagement;
 using PetFam.Domain.Volunteer.Pet;
 using PetFam.Shared.Abstractions;
+using PetFam.Shared.Extensions;
 using PetFam.Shared.Shared;
 using PetFam.Shared.ValueObjects.Pet;
 using PetFam.Shared.ValueObjects.Species;

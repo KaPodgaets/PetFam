@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
-using PetFam.Shared.Shared;
+using PetFam.Shared.SharedKernel;
 
-namespace PetFam.Application.Extensions
+namespace PetFam.Shared.Extensions
 {
     public static class ValidationExtensions
     {

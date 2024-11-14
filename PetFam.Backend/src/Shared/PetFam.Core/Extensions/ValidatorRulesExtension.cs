@@ -1,4 +1,4 @@
-namespace PetFam.Application.Extensions;
+namespace PetFam.Shared.Extensions;
 
 public static class ValidatorRulesExtension
 {

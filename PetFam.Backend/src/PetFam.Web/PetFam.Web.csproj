@@ -24,4 +24,8 @@
     <ProjectReference Include="..\PetFam.Infrastructure\PetFam.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Response\" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Database;
-using PetFam.Application.Dtos;
-using PetFam.Application.Extensions;
 using PetFam.Shared.Abstractions;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.Extensions;
 using PetFam.Shared.Shared;
 
 namespace PetFam.Application.VolunteerManagement.Queries.GetPetById;

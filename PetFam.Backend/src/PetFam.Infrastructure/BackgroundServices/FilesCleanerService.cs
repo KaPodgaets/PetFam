@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Infrastructure.Options;
+using PetFam.Shared.Messaging;
 using PetFam.Shared.Shared;
 
 namespace PetFam.Infrastructure.BackgroundServices
@@ -12,13 +13,13 @@ namespace PetFam.Infrastructure.BackgroundServices
     {
         private readonly ILogger<FilesCleanerService> _logger;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IFilesCleanerMessageQueue _queue;
+        private readonly IMessageQueue _queue;
 
 
         public FilesCleanerService(
             ILogger<FilesCleanerService> logger,
             IServiceProvider serviceProvider,
-            IFilesCleanerMessageQueue queue)
+            IMessageQueue queue)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;

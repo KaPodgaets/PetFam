@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Database;
-using PetFam.Application.Extensions;
 using PetFam.Application.FileManagement;
 using PetFam.Application.FileProvider;
 using PetFam.Shared.Abstractions;
+using PetFam.Shared.Extensions;
+using PetFam.Shared.Messaging;
 using PetFam.Shared.Shared;
 using PetFam.Shared.ValueObjects.Pet;
 using PetFam.Shared.ValueObjects.Volunteer;
@@ -18,14 +19,14 @@ namespace PetFam.Application.VolunteerManagement.Commands.AddPetPhotos
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<PetAddPhotosCommand> _validator;
         private readonly ILogger _logger;
-        private readonly IFilesCleanerMessageQueue _queue;
+        private readonly IMessageQueue _queue;
 
         public PetAddPhotosHandler(
             IVolunteerRepository repository,
             IFileProvider fileProvider,
             IUnitOfWork unitOfWork,
             ILogger<PetAddPhotosHandler> logger,
-            IFilesCleanerMessageQueue queue,
+            IMessageQueue queue,
             IValidator<PetAddPhotosCommand> validator)
         {
             _repository = repository;

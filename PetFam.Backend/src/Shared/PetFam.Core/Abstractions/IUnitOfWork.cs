@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace PetFam.Application.Database
+namespace PetFam.Shared.Abstractions
 {
     public interface IUnitOfWork
     {

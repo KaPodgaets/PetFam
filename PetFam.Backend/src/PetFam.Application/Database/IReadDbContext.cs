@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PetFam.Application.Dtos;
 using PetFam.Domain.SpeciesManagement;
+using PetFam.Shared.Dtos;
 
 namespace PetFam.Application.Database
 {

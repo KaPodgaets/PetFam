@@ -1,4 +1,5 @@
-﻿using PetFam.Shared.Shared;
+﻿
+using PetFam.Shared.SharedKernel;
 
 namespace PetFam.Shared.Abstractions
 {

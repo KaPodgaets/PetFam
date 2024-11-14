@@ -1,6 +1,6 @@
-﻿using PetFam.Shared.Shared;
+﻿using PetFam.Shared.SharedKernel;
 
-namespace PetFam.Api.Response
+namespace PetFam.Shared.Models
 {
     public record Envelope
     {

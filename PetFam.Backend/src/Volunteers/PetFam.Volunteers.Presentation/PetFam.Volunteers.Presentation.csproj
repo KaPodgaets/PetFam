@@ -6,4 +6,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\PetFam.Core\PetFam.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\PetFam.Framework\PetFam.Framework.csproj" />
+      <ProjectReference Include="..\..\Shared\PetFam.SharedKernel\PetFam.SharedKernel.csproj" />
+      <ProjectReference Include="..\PetFam.Volunteers.Application\PetFam.Volunteers.Application.csproj" />
+      <ProjectReference Include="..\PetFam.Volunteers.Contracts\PetFam.Volunteers.Contracts.csproj" />
+      <ProjectReference Include="..\PetFam.Volunteers.Domain\PetFam.Volunteers.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

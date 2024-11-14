@@ -2,9 +2,9 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFam.Application.Database;
-using PetFam.Application.Extensions;
 using PetFam.Domain.SpeciesManagement;
 using PetFam.Shared.Abstractions;
+using PetFam.Shared.Extensions;
 using PetFam.Shared.Shared;
 using PetFam.Shared.ValueObjects.Species;
 
