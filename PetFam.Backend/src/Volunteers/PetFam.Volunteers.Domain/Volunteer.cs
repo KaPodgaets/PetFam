@@ -1,8 +1,15 @@
-﻿namespace PetFam.Volunteer.Domain
+﻿using PetFam.Shared.SharedKernel;
+using PetFam.Shared.SharedKernel.Abstractions;
+using PetFam.Shared.SharedKernel.ValueObjects.Pet;
+using PetFam.Shared.SharedKernel.ValueObjects.Species;
+using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
+using PetFam.Volunteer.Domain.Entities;
+
+namespace PetFam.Volunteer.Domain
 {
     public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     {
-        private List<Pet> _pets = [];
+        private readonly List<Pet> _pets = [];
         private bool _isDeleted = false;
 
         private Volunteer(VolunteerId id) : base(id)
@@ -58,12 +65,12 @@
         public void UpdateMainInfo(
             FullName fullName,
             Email email,
-            int ageOfExpirience,
+            int ageOfExperience,
             GeneralInformation generalInformation)
         {
             FullName = fullName;
             Email = email;
-            AgesOfExperience = ageOfExpirience;
+            AgesOfExperience = ageOfExperience;
             GeneralInformation1 = generalInformation;
         }
 

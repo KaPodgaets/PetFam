@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using PetFam.Shared.Abstractions;
 using PetFam.Volunteers.Infrastructure.DbContexts;
 
 namespace PetFam.Volunteers.Infrastructure

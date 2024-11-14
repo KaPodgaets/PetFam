@@ -1,4 +1,9 @@
-﻿namespace PetFam.Volunteer.Domain
+﻿using PetFam.Shared.SharedKernel;
+using PetFam.Shared.SharedKernel.Abstractions;
+using PetFam.Shared.SharedKernel.ValueObjects.Pet;
+using PetFam.Shared.SharedKernel.ValueObjects.Species;
+
+namespace PetFam.Volunteer.Domain.Entities
 {
 
     public class Pet : Entity<PetId>, ISoftDeletable

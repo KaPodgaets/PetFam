@@ -1,10 +1,16 @@
-﻿namespace PetFam.Volunteers.Infrastructure.DbContexts
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using PetFam.Shared.Options;
+using PetFam.Shared.SharedKernel;
+
+namespace PetFam.Volunteers.Infrastructure.DbContexts
 {
     public class WriteDbContext(
         IConfiguration configuration) : DbContext
     {
         public DbSet<Volunteer> Volunteers { get; set; }
-        public DbSet<Species> Species { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
