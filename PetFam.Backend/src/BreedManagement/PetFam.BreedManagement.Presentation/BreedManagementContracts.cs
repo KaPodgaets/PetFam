@@ -1,13 +1,31 @@
-﻿using PetFam.BreedManagement.Contracts;
+﻿using PetFam.BreedManagement.Application.SpeciesManagement.Queries.GetBreedById;
+using PetFam.BreedManagement.Contracts;
+using PetFam.Shared.Dtos;
 using PetFam.Shared.SharedKernel.Result;
-using PetFam.Shared.SharedKernel.ValueObjects.Species;
 
 namespace PetFam.BreedManagement.Presentation;
 
 public class BreedManagementContracts:IBreedManagementContracts
 {
-    public Task<Result<bool>> CheckBreedExists(SpeciesId speciesId, BreedId breedId, CancellationToken cancellationToken = default)
+    private readonly GetBreedByIdHandler _getBreedByIdHandler;
+
+    public BreedManagementContracts(
+        GetBreedByIdHandler getBreedByIdHandler)
     {
-        throw new NotImplementedException();
+        _getBreedByIdHandler = getBreedByIdHandler;
+    }
+
+    public async Task<Result<BreedDto>> GetBreedById(
+        Guid breedId,
+        CancellationToken cancellationToken = default)
+    {
+        var query = new GetBreedByIdQuery(
+            breedId);
+        
+        var getBreedResult = await _getBreedByIdHandler.HandleAsync(query, cancellationToken);
+        if (getBreedResult.IsFailure)
+            return getBreedResult;
+        
+        return getBreedResult.Value;
     }
 }

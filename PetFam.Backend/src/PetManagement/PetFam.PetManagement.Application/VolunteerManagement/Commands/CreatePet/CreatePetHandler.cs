@@ -47,20 +47,19 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
             {
                 return Errors.General.NotFound(volunteerId.Value).ToErrorList();
             }
+            
+            var getBreedResult = await _breedManagementContracts.
+                GetBreedById(
+                    command.BreedId,
+                    cancellationToken);
 
+            if (getBreedResult.IsFailure)
+                return Errors.General.NotFound(command.BreedId).ToErrorList();
+            
             var volunteer = getVolunteerResult.Value;
             
             var speciesId = SpeciesId.Create(command.SpeciesId);
             
-            var isBreedExists = await _breedManagementContracts.
-                CheckBreedExists(
-                    speciesId,
-                    BreedId.Create(command.BreedId),
-                    cancellationToken);
-
-            if (isBreedExists.Value)
-                return Errors.General.NotFound(command.BreedId).ToErrorList();
-
             var speciesBreed = SpeciesBreed.Create(
                 speciesId,
                 command.BreedId);

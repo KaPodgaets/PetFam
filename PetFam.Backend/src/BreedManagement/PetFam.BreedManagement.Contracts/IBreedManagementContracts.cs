@@ -1,9 +1,9 @@
-﻿using PetFam.Shared.SharedKernel.Result;
-using PetFam.Shared.SharedKernel.ValueObjects.Species;
+﻿using PetFam.Shared.Dtos;
+using PetFam.Shared.SharedKernel.Result;
 
 namespace PetFam.BreedManagement.Contracts;
 
 public interface IBreedManagementContracts
 {
-    Task<Result<bool>> CheckBreedExists(SpeciesId speciesId, BreedId breedId, CancellationToken cancellationToken = default);
+    Task<Result<BreedDto>> GetBreedById(Guid breedId, CancellationToken cancellationToken = default);
 }
