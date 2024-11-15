@@ -1,3 +1,6 @@
+using PetFam.BreedManagement.Presentation;
+using PetFam.Files.Presentation;
+using PetFam.PetManagement.Presentation;
 using PetFam.Web.Middlewares;
 using Serilog;
 
@@ -9,7 +12,7 @@ namespace PetFam.Web
         {
             var builder = WebApplication.CreateBuilder(args);
             var services = builder.Services;
-
+            
 
             builder.Host.UseSerilog((context, loggerConfig) =>
                 loggerConfig.ReadFrom.Configuration(context.Configuration));
@@ -25,7 +28,10 @@ namespace PetFam.Web
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddApplicationLayers();
+            services.AddApplicationLayers()
+                .AddFilesModule(builder.Configuration)
+                .AddBreedManagementModule()
+                .AddPetManagementModule(builder.Configuration);
 
             var app = builder.Build();
 

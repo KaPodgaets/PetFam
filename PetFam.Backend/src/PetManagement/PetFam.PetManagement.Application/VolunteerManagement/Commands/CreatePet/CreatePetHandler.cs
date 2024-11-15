@@ -17,18 +17,18 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
         private readonly IVolunteerRepository _volunteerRepository;
         private readonly IValidator<CreatePetCommand> _validator;
         private readonly ILogger _logger;
-        private readonly ISpeciesContract _speciesContract;
+        private readonly IBreedManagementContracts _breedManagementContracts;
 
 
         public CreatePetHandler(
             IVolunteerRepository repository,
             ILogger<CreatePetHandler> logger,
-            IValidator<CreatePetCommand> validator, ISpeciesContract speciesContract)
+            IValidator<CreatePetCommand> validator, IBreedManagementContracts breedManagementContracts)
         {
             _volunteerRepository = repository;
             _logger = logger;
             _validator = validator;
-            _speciesContract = speciesContract;
+            _breedManagementContracts = breedManagementContracts;
         }
 
         public async Task<Result<Guid>> ExecuteAsync(CreatePetCommand command,
@@ -52,7 +52,7 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
             
             var speciesId = SpeciesId.Create(command.SpeciesId);
             
-            var isBreedExists = await _speciesContract.
+            var isBreedExists = await _breedManagementContracts.
                 CheckBreedExists(
                     speciesId,
                     BreedId.Create(command.BreedId),

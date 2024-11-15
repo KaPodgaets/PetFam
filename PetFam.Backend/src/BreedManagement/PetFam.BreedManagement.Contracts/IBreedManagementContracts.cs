@@ -3,7 +3,7 @@ using PetFam.Shared.SharedKernel.ValueObjects.Species;
 
 namespace PetFam.BreedManagement.Contracts;
 
-public interface ISpeciesContract
+public interface IBreedManagementContracts
 {
     Task<Result<bool>> CheckBreedExists(SpeciesId speciesId, BreedId breedId, CancellationToken cancellationToken = default);
 }

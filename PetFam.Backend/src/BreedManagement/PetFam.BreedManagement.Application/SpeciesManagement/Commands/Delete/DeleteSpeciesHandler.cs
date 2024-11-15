@@ -13,7 +13,7 @@ namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Delete
     public class DeleteSpeciesHandler:ICommandHandler<Guid, DeleteSpeciesCommand>
     {
         private readonly ISpeciesRepository _repository;
-        private readonly IVolunteerContract _volunteerContract;
+        private readonly IVolunteerContracts _volunteerContracts;
         private readonly IValidator<DeleteSpeciesCommand> _validator;
         private readonly ILogger _logger;
 
@@ -21,12 +21,12 @@ namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Delete
             ISpeciesRepository repository,
             ILogger<DeleteSpeciesHandler> logger,
             IValidator<DeleteSpeciesCommand> validator,
-            IVolunteerContract volunteerContract)
+            IVolunteerContracts volunteerContracts)
         {
             _repository = repository;
             _logger = logger;
             _validator = validator;
-            _volunteerContract = volunteerContract;
+            _volunteerContracts = volunteerContracts;
         }
         public async Task<Result<Guid>> ExecuteAsync(DeleteSpeciesCommand command,
             CancellationToken cancellationToken = default)
@@ -45,7 +45,7 @@ namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Delete
             
             // check pets of this species exist wiht ReadDBContext
 
-            var isPetsWithDeletingSpeciesExist = await _volunteerContract
+            var isPetsWithDeletingSpeciesExist = await _volunteerContracts
                 .IsPetsWithSpeciesExisting(species.Id, cancellationToken);
                 
             if(isPetsWithDeletingSpeciesExist.Value)

@@ -10,6 +10,7 @@
       <ProjectReference Include="..\..\Shared\PetFam.Framework\PetFam.Framework.csproj" />
       <ProjectReference Include="..\PetFam.BreedManagement.Application\PetFam.BreedManagement.Application.csproj" />
       <ProjectReference Include="..\PetFam.BreedManagement.Contracts\PetFam.BreedManagement.Contracts.csproj" />
+      <ProjectReference Include="..\PetFam.BreedManagement.Infrastructure\PetFam.BreedManagement.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

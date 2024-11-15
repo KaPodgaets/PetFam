@@ -15,19 +15,19 @@ public class DeleteBreedHandler
 {
     private readonly ISpeciesRepository _repository;
     private readonly IValidator<DeleteBreedCommand> _validator;
-    private readonly IVolunteerContract _volunteerContract;
+    private readonly IVolunteerContracts _volunteerContracts;
     private readonly ILogger _logger;
 
     public DeleteBreedHandler(
         ILogger<DeleteBreedHandler> logger,
         IValidator<DeleteBreedCommand> validator,
         ISpeciesRepository repository,
-        IVolunteerContract volunteerContract)
+        IVolunteerContracts volunteerContracts)
     {
         _logger = logger;
         _validator = validator;
         _repository = repository;
-        _volunteerContract = volunteerContract;
+        _volunteerContracts = volunteerContracts;
     }
     public async Task<Result> ExecuteAsync(
         DeleteBreedCommand command,
@@ -38,7 +38,7 @@ public class DeleteBreedHandler
         if (validationResult.IsValid == false)
             return validationResult.ToErrorList();
         
-        var isPetsWithDeletingBreedExist = await _volunteerContract
+        var isPetsWithDeletingBreedExist = await _volunteerContracts
             .IsPetsWithBreedExisting(BreedId.Create(command.BreedId), cancellationToken);
         
         if(isPetsWithDeletingBreedExist.Value)

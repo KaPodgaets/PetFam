@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetFam.Files.Application.FileProvider;
+using PetFam.PetManagement.Contracts;
 using PetFam.Shared.Messaging;
 using PetFam.Shared.SharedKernel;
 
@@ -13,16 +14,19 @@ namespace PetFam.Files.Infrastructure.BackgroundServices
         private readonly ILogger<FilesSynchronizerService> _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly IMessageQueue _queue;
+        private readonly IVolunteerContracts _volunteerContracts;
 
 
         public FilesSynchronizerService(
             ILogger<FilesSynchronizerService> logger,
             IServiceProvider serviceProvider,
-            IMessageQueue queue)
+            IMessageQueue queue,
+            IVolunteerContracts volunteerContracts)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
             _queue = queue;
+            _volunteerContracts = volunteerContracts;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -38,16 +42,7 @@ namespace PetFam.Files.Infrastructure.BackgroundServices
                     .GetFiles(Constants.FileManagementOptions.PHOTO_BUCKET);
                 var photoFilePaths = photoFilePathsResult.Value;
 
-                var volunteerRepository = scope.ServiceProvider.GetRequiredService<IVolunteerRepository>();
-
-                var volunteersResult = await volunteerRepository.GetAllAsync(stoppingToken);
-                var volunteers = volunteersResult.Value;
-                var photoPaths = volunteers
-                    .SelectMany(v => v.Pets)
-                    .SelectMany(p => p.Photos)
-                    .Select(ph => ph.FilePath)
-                    .ToList();
-
+                var photoPaths = await _volunteerContracts.GetAllPhotoPaths(stoppingToken);
                 var result = photoFilePaths.Except(photoPaths).ToList();
 
                 // pass result into message queue
