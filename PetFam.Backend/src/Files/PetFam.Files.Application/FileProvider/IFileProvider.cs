@@ -1,4 +1,7 @@
-﻿namespace PetFam.PetManagement.Application.FileProvider
+﻿using PetFam.Shared.Dtos;
+using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Files.Application.FileProvider
 {
     public interface IFileProvider
     {

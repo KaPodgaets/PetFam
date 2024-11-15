@@ -1,4 +1,13 @@
-﻿namespace PetFam.Files.Infrastructure.Providers
+﻿using Microsoft.Extensions.Logging;
+using Minio;
+using Minio.ApiEndpoints;
+using Minio.DataModel.Args;
+using PetFam.Files.Application.FileProvider;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.SharedKernel.Errors;
+using PetFam.Shared.SharedKernel.Result;
+
+namespace PetFam.Files.Infrastructure.Providers
 {
     public class MinioProvider : IFileProvider
     {
@@ -190,7 +199,5 @@
                 return Error.Failure("file.delete", "Fail to delete file in minio").ToErrorList();
             }
         }
-
-        
     }
 }

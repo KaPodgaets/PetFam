@@ -1,4 +1,12 @@
-﻿namespace PetFam.PetManagement.Infrastructure.BackgroundServices
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using PetFam.Files.Application.FileProvider;
+using PetFam.Shared.Dtos;
+using PetFam.Shared.Messaging;
+using PetFam.Shared.SharedKernel;
+
+namespace PetFam.Files.Infrastructure.BackgroundServices
 {
     public class FilesCleanerService : BackgroundService
     {

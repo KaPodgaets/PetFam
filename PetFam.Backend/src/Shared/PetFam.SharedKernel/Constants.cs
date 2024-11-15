@@ -10,7 +10,6 @@
 
         public static class FileManagementOptions
         {
-            public const string MINIO = "Minio";
             public const string PHOTO_BUCKET = "photos";
         }
     }

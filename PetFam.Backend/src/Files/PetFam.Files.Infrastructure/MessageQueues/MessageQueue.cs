@@ -1,4 +1,5 @@
 ﻿using System.Threading.Channels;
+using PetFam.Shared.Messaging;
 
 namespace PetFam.Files.Infrastructure.MessageQueues
 {

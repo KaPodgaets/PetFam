@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetFam.PetManagement.Application.FileProvider;
+using PetFam.Files.Contracts;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.Extensions;
 using PetFam.Shared.Messaging;
-using PetFam.Shared.SharedKernel;
 using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
 using PetFam.Shared.SharedKernel.ValueObjects.Pet;
@@ -15,26 +14,26 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.AddPetPh
     public class PetAddPhotosHandler:ICommandHandler<string, PetAddPhotosCommand>
     {
         private readonly IVolunteerRepository _repository;
-        private readonly IFileProvider _fileProvider;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<PetAddPhotosCommand> _validator;
         private readonly ILogger _logger;
         private readonly IMessageQueue _queue;
+        private readonly IFilesContracts _filesContracts;
 
         public PetAddPhotosHandler(
             IVolunteerRepository repository,
-            IFileProvider fileProvider,
             IUnitOfWork unitOfWork,
             ILogger<PetAddPhotosHandler> logger,
             IMessageQueue queue,
-            IValidator<PetAddPhotosCommand> validator)
+            IValidator<PetAddPhotosCommand> validator,
+            IFilesContracts filesContracts)
         {
             _repository = repository;
-            _fileProvider = fileProvider;
             _unitOfWork = unitOfWork;
             _logger = logger;
             _queue = queue;
             _validator = validator;
+            _filesContracts = filesContracts;
         }
 
         public async Task<Result<string>> ExecuteAsync(PetAddPhotosCommand command, CancellationToken cancellationToken = default)
@@ -90,7 +89,7 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.AddPetPh
 
 
                 // upload files
-                var uploadResult = await _fileProvider.UploadFiles(command.Content, cancellationToken);
+                var uploadResult = await _filesContracts.UploadFilesAsync(command.Content, cancellationToken);
 
                 if (uploadResult.IsFailure)
                     return uploadResult.Errors;
