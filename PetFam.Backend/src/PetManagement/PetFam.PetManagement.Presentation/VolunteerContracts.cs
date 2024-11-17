@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using PetFam.PetManagement.Application.Database;
 using PetFam.PetManagement.Contracts;
 using PetFam.Shared.SharedKernel.Result;
-using PetFam.Shared.SharedKernel.ValueObjects.Species;
 
 namespace PetFam.PetManagement.Presentation;
 
@@ -38,10 +37,13 @@ public class VolunteerContracts : IVolunteerContracts
 
     public async Task<IEnumerable<string>> GetAllPhotoPaths(CancellationToken cancellationToken = default)
     {
-        var paths = await _readDbContext.Pets
-            .SelectMany(p => p.Photos)
-            .Select(photo => photo.Filepath)
-            .ToListAsync(cancellationToken);
+        var source = _readDbContext.Pets.AsAsyncEnumerable();
+        var paths = new List<string>();
+
+        await foreach (var pet in source.WithCancellation(cancellationToken))
+        {
+            paths.AddRange(pet.Photos.Select(photo => photo.Filepath));
+        }
         
         return paths;
     }

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.Framework;
+using PetFam.PetManagement.Application.VolunteerManagement.Commands.AddPetPhotos;
 using PetFam.Shared.Dtos;
 using PetFam.Shared.Models;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.ChangePetMainPhoto;
@@ -15,7 +17,9 @@ using PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateMainIn
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateRequisites;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.UpdateSocialMedia;
 using PetFam.PetManagement.Application.VolunteerManagement.Queries.GetAllVolunteers;
+using PetFam.PetManagement.Presentation.Processors;
 using PetFam.PetManagement.Presentation.Requests;
+using PetFam.Shared.SharedKernel;
 
 namespace PetFam.PetManagement.Presentation
 {
@@ -105,7 +109,7 @@ namespace PetFam.PetManagement.Presentation
             return result.ToResponse();
         }
 
-        [HttpPost("{id:guid}/add-pet")]
+        [HttpPost("{id:guid}/pet")]
         public async Task<ActionResult<Guid>> AddNewPet(
             [FromRoute] Guid id,
             [FromServices] CreatePetHandler handler,
@@ -133,24 +137,24 @@ namespace PetFam.PetManagement.Presentation
             return result.ToResponse();
         }
 
-        // [HttpPost("{id:guid}/pet/{petId:guid}/photos")]
-        // public async Task<ActionResult<string>> AddPetPhotos(
-        //     [FromRoute] Guid id,
-        //     [FromRoute] Guid petId,
-        //     [FromServices] PetAddPhotosHandler handler,
-        //     [FromForm] IFormFileCollection formFiles,
-        //     CancellationToken cancellationToken = default)
-        // {
-        //     await using var fileProcessor = new FormFileProcessor();
-        //     var filesData = fileProcessor.Process(formFiles);
-        //     var content = new Content(filesData, Constants.FileManagementOptions.PHOTO_BUCKET);
-        //
-        //     var command = new PetAddPhotosCommand(id, petId, content);
-        //
-        //     var result = await handler.ExecuteAsync(command, cancellationToken);
-        //
-        //     return result.ToResponse();
-        // }
+        [HttpPost("{id:guid}/pet/{petId:guid}/photos")]
+        public async Task<ActionResult<string>> AddPetPhotos(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromServices] PetAddPhotosHandler handler,
+            [FromForm] IFormFileCollection formFiles,
+            CancellationToken cancellationToken = default)
+        {
+            await using var fileProcessor = new FormFileProcessor();
+            var filesData = fileProcessor.Process(formFiles);
+            var content = new Content(filesData, Constants.FileManagementOptions.PHOTO_BUCKET);
+        
+            var command = new PetAddPhotosCommand(id, petId, content);
+        
+            var result = await handler.ExecuteAsync(command, cancellationToken);
+        
+            return result.ToResponse();
+        }
 
         [HttpDelete("{id:guid}/photos/{petId:guid}")]
         public async Task<ActionResult<string[]>> AddPetPhotos(

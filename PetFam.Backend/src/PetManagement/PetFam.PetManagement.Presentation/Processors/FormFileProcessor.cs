@@ -1,7 +1,8 @@
-﻿using PetFam.Shared.Dtos;
+﻿using Microsoft.AspNetCore.Http;
+using PetFam.Shared.Dtos;
 using PetFam.Shared.SharedKernel;
 
-namespace PetFam.Web.Processors
+namespace PetFam.PetManagement.Presentation.Processors
 {
     public class FormFileProcessor : IAsyncDisposable
     {
