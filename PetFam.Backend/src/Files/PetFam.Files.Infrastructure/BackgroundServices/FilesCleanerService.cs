@@ -43,7 +43,7 @@ namespace PetFam.Files.Infrastructure.BackgroundServices
 
                     if (result.IsFailure)
                     {
-                        _logger.LogError("unable delete photo {path}", paths);
+                        _logger.LogError("unable delete photos");
                     }
                 }
                 

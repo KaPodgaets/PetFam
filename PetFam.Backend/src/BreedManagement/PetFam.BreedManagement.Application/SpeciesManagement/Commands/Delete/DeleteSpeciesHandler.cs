@@ -46,7 +46,7 @@ namespace PetFam.BreedManagement.Application.SpeciesManagement.Commands.Delete
             // check pets of this species exist wiht ReadDBContext
 
             var isPetsWithDeletingSpeciesExist = await _volunteerContracts
-                .IsPetsWithSpeciesExisting(species.Id, cancellationToken);
+                .IsPetsWithSpeciesExisting(species.Id.Value, cancellationToken);
                 
             if(isPetsWithDeletingSpeciesExist.Value)
                 return Errors.Species.CannotDeleteDueToRelatedRecords(command.Id).ToErrorList();

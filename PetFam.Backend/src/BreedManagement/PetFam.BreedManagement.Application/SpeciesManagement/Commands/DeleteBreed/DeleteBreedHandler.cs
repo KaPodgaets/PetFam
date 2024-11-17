@@ -39,7 +39,7 @@ public class DeleteBreedHandler
             return validationResult.ToErrorList();
         
         var isPetsWithDeletingBreedExist = await _volunteerContracts
-            .IsPetsWithBreedExisting(BreedId.Create(command.BreedId), cancellationToken);
+            .IsPetsWithBreedExisting(command.BreedId, cancellationToken);
         
         if(isPetsWithDeletingBreedExist.Value)
             return Errors.Breed

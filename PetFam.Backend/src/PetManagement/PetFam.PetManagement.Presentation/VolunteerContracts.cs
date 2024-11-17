@@ -18,14 +18,22 @@ public class VolunteerContracts : IVolunteerContracts
         _readDbContext = readDbContext;
         _logger = logger;
     }
-    public Task<Result<bool>> IsPetsWithBreedExisting(BreedId breedId, CancellationToken cancellationToken = default)
+    public async Task<Result<bool>> IsPetsWithBreedExisting(Guid breedId, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var breeds = await _readDbContext.Pets
+            .Select(p => p.SpeciesAndBreed.BreedId)
+            .ToListAsync(cancellationToken);
+        
+        return breeds.Contains(breedId);
     }
 
-    public Task<Result<bool>> IsPetsWithSpeciesExisting(SpeciesId speciesId, CancellationToken cancellationToken = default)
+    public async Task<Result<bool>> IsPetsWithSpeciesExisting(Guid speciesId, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var breeds = await _readDbContext.Pets
+            .Select(p => p.SpeciesAndBreed.SpeciesId)
+            .ToListAsync(cancellationToken);
+        
+        return breeds.Contains(speciesId);
     }
 
     public async Task<IEnumerable<string>> GetAllPhotoPaths(CancellationToken cancellationToken = default)
