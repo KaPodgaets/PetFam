@@ -14,19 +14,16 @@ namespace PetFam.Files.Infrastructure.BackgroundServices
         private readonly ILogger<FilesSynchronizerService> _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly IMessageQueue _queue;
-        private readonly IVolunteerContracts _volunteerContracts;
 
 
         public FilesSynchronizerService(
             ILogger<FilesSynchronizerService> logger,
             IServiceProvider serviceProvider,
-            IMessageQueue queue,
-            IVolunteerContracts volunteerContracts)
+            IMessageQueue queue)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
             _queue = queue;
-            _volunteerContracts = volunteerContracts;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -37,12 +34,13 @@ namespace PetFam.Files.Infrastructure.BackgroundServices
                 await using var scope = _serviceProvider.CreateAsyncScope();
 
                 var fileProvider = scope.ServiceProvider.GetRequiredService<IFileProvider>();
+                var volunteerContracts = scope.ServiceProvider.GetRequiredService<IVolunteerContracts>();
 
                 var photoFilePathsResult = await fileProvider
                     .GetFiles(Constants.FileManagementOptions.PHOTO_BUCKET);
                 var photoFilePaths = photoFilePathsResult.Value;
 
-                var photoPaths = await _volunteerContracts.GetAllPhotoPaths(stoppingToken);
+                var photoPaths = await volunteerContracts.GetAllPhotoPaths(stoppingToken);
                 var result = photoFilePaths.Except(photoPaths).ToList();
 
                 // pass result into message queue
