@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Application;
+using PetFam.Accounts.Application.RegisterUser;
 using PetFam.Framework;
 
 namespace PetFam.Accounts.Presentation;
-
 public class AccountsController(ILogger<ApplicationController> logger) : ApplicationController(logger)
 {
-    public record RegisterUserRequest(string Email, string Password);
-
     [HttpPost("registration")]
     public async Task<IActionResult> RegisterUser(
         [FromBody] RegisterUserRequest request,

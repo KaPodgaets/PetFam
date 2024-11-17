@@ -1,20 +1,24 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Domain;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
 
-namespace PetFam.Accounts.Application;
+namespace PetFam.Accounts.Application.RegisterUser;
 
 public class RegisterUserHandler
     :ICommandHandler<RegisterUserCommand>
 {
     private readonly UserManager<User> _userManager;
+    private readonly ILogger<RegisterUserHandler> _logger;
 
     public RegisterUserHandler(
-        UserManager<User> userManager)
+        UserManager<User> userManager,
+        ILogger<RegisterUserHandler> logger)
     {
         _userManager = userManager;
+        _logger = logger;
     }
     public async Task<Result> ExecuteAsync(
         RegisterUserCommand command,
@@ -34,6 +38,7 @@ public class RegisterUserHandler
         };
         
         var result = await _userManager.CreateAsync(user, command.Password);
+        
         if (result.Succeeded is false)
         {
              var errors = result.Errors
@@ -43,6 +48,7 @@ public class RegisterUserHandler
              return new ErrorList(errors);
         }
         
+        _logger.LogInformation("New user created {email}", user.Email);
         return Result.Success();
     }
 }
