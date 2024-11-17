@@ -4,12 +4,20 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>PetFam.Accounts.Infrastructure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="EFCore.NamingConventions" Version="8.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\PetFam.Core\PetFam.Core.csproj" />
+      <ProjectReference Include="..\PetFam.Accounts.Application\PetFam.Accounts.Application.csproj" />
+      <ProjectReference Include="..\PetFam.Accounts.Domain\PetFam.Accounts.Domain.csproj" />
     </ItemGroup>
 
 </Project>

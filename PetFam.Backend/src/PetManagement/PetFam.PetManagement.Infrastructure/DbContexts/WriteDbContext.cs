@@ -11,7 +11,6 @@ namespace PetFam.PetManagement.Infrastructure.DbContexts
     {
         public DbSet<Volunteer> Volunteers { get; set; }
         
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(InfrastructureOptions.DATABASE));

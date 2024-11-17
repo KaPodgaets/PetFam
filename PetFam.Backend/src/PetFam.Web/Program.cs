@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PetFam.Accounts.Presentation;
 using PetFam.BreedManagement.Presentation;
 using PetFam.Files.Presentation;
 using PetFam.PetManagement.Presentation;
@@ -55,12 +56,13 @@ namespace PetFam.Web
                     }
                 });
             });
-            
+
 
             services.AddApplicationLayers()
                 .AddFilesModule(builder.Configuration)
                 .AddBreedManagementModule()
-                .AddPetManagementModule(builder.Configuration);
+                .AddPetManagementModule(builder.Configuration)
+                .AddAccountsModule();
 
             services.AddAuthentication(options =>
                 {
