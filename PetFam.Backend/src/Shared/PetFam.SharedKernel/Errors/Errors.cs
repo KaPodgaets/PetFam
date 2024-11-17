@@ -43,6 +43,10 @@
             {
                 return Error.Conflict("can't.delete.entity", "can not delete entity with relation");
             }
+            public static Error AlreadyExist(string? email = null)
+            {
+                return Error.Validation("volunteer.already.exist", $"volunteer with email: {email} already exist");
+            }
         }
         public static class VolunteerErrors
         {
