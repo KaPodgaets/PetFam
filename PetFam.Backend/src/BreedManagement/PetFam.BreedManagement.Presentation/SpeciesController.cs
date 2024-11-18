@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.BreedManagement.Application.SpeciesManagement.Commands.Create;
 using PetFam.BreedManagement.Application.SpeciesManagement.Commands.CreateBreed;
@@ -12,6 +13,7 @@ using PetFam.Shared.Models;
 
 namespace PetFam.BreedManagement.Presentation
 {
+    [Authorize]
     public class SpeciesController : ApplicationController
     {
         public SpeciesController(ILogger<ApplicationController> logger) : base(logger)

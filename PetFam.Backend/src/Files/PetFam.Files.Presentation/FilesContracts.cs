@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetFam.Files.Application.FileManagement.Upload;
 using PetFam.Files.Contracts;
@@ -7,6 +8,7 @@ using PetFam.Shared.SharedKernel.Result;
 
 namespace PetFam.Files.Presentation;
 
+[Authorize]
 public class FilesContracts : IFilesContracts
 {
     private readonly IServiceProvider _serviceProvider;

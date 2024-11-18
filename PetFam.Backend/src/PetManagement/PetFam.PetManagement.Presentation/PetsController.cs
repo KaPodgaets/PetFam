@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.Framework;
 using PetFam.Shared.Dtos;
@@ -9,6 +10,7 @@ using PetFam.PetManagement.Presentation.Requests;
 
 namespace PetFam.PetManagement.Presentation
 {
+    [Authorize]
     public class PetsController : ApplicationController
     {
         public PetsController(ILogger<ApplicationController> logger) : base(logger)

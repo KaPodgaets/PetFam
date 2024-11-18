@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.BreedManagement.Application.SpeciesManagement.Queries.GetBreeds;
@@ -8,6 +9,7 @@ using PetFam.Shared.Models;
 
 namespace PetFam.BreedManagement.Presentation;
 
+[Authorize]
 public class BreedsController:ApplicationController
 {
     public BreedsController(ILogger<ApplicationController> logger) : base(logger)

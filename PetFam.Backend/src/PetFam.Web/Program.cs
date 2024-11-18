@@ -1,6 +1,8 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PetFam.Accounts.Infrastructure;
 using PetFam.Accounts.Presentation;
 using PetFam.BreedManagement.Presentation;
 using PetFam.Files.Presentation;
@@ -72,12 +74,20 @@ namespace PetFam.Web
                 })
                 .AddJwtBearer(options =>
                 {
+                    var jwtOptions = builder.Configuration
+                        .GetSection(JwtOptions.JwtOptionsName)
+                        .Get<JwtOptions>()
+                        ?? throw new ApplicationException("missing JwtOptions");
+                    
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateIssuerSigningKey = false,
-                        ValidateLifetime = false
+                        ValidIssuer = jwtOptions.Issuer,
+                        ValidAudience =  jwtOptions.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)), 
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true
                     };
                 });
             
