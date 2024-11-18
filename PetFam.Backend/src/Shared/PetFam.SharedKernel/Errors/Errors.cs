@@ -87,5 +87,13 @@
                     $"photo with path: {path} was not found");
             }
         }
+
+        public static class User
+        {
+            public static Error InvalidCredentials()
+            {
+                return Error.Failure("user.password.incorrect", "user or password is incorrect");
+            }
+        }
     }
 }

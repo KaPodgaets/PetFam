@@ -62,7 +62,7 @@ namespace PetFam.Web
                 .AddFilesModule(builder.Configuration)
                 .AddBreedManagementModule()
                 .AddPetManagementModule(builder.Configuration)
-                .AddAccountsModule();
+                .AddAccountsModule(builder.Configuration);
 
             services.AddAuthentication(options =>
                 {
