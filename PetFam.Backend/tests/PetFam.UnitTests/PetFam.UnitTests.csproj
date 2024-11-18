@@ -19,11 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PetFam.Domain\PetFam.Domain.csproj" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="..\..\src\PetManagement\PetFam.PetManagement.Domain\PetFam.PetManagement.Domain.csproj" />
   </ItemGroup>
 
 </Project>
