@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.Framework;
@@ -21,8 +22,10 @@ using PetFam.PetManagement.Presentation.Processors;
 using PetFam.PetManagement.Presentation.Requests;
 using PetFam.Shared.SharedKernel;
 
+
 namespace PetFam.PetManagement.Presentation
 {
+    [Authorize]
     public class VolunteerController : ApplicationController
     {
         public VolunteerController(ILogger<VolunteerController> logger)

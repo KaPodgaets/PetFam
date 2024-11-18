@@ -1,3 +1,9 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using PetFam.Accounts.Infrastructure;
+using PetFam.Accounts.Presentation;
 using PetFam.BreedManagement.Presentation;
 using PetFam.Files.Presentation;
 using PetFam.PetManagement.Presentation;
@@ -26,13 +32,67 @@ namespace PetFam.Web
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+           
+            services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
+
 
             services.AddApplicationLayers()
                 .AddFilesModule(builder.Configuration)
                 .AddBreedManagementModule()
-                .AddPetManagementModule(builder.Configuration);
+                .AddPetManagementModule(builder.Configuration)
+                .AddAccountsModule(builder.Configuration);
 
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    var jwtOptions = builder.Configuration
+                        .GetSection(JwtOptions.JwtOptionsName)
+                        .Get<JwtOptions>()
+                        ?? throw new ApplicationException("missing JwtOptions");
+                    
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = jwtOptions.Issuer,
+                        ValidAudience =  jwtOptions.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)), 
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true
+                    };
+                });
+            
+            services.AddAuthorization();
+            
             var app = builder.Build();
 
             app.UseSerilogRequestLogging();
@@ -47,7 +107,10 @@ namespace PetFam.Web
 
                 // await app.ApplyMigration();
             }
-
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
             app.MapControllers();
 
             await app.RunAsync();

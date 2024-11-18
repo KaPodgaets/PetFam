@@ -70,7 +70,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Accounts.Contracts",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Accounts.Presentation", "src\Accounts\PetFam.Accounts.Presentation\PetFam.Accounts.Presentation.csproj", "{7FD61E15-D9B1-4BBF-8A76-975583407B8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Accounts.Infrasctructure", "src\Accounts\PetFam.Accounts.Infrasctructure\PetFam.Accounts.Infrasctructure.csproj", "{3F0D4546-7C31-4D22-8E50-CF89C4344EF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Accounts.Infrastructure", "src\Accounts\PetFam.Accounts.Infrastructure\PetFam.Accounts.Infrastructure.csproj", "{3F0D4546-7C31-4D22-8E50-CF89C4344EF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

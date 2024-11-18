@@ -43,6 +43,10 @@
             {
                 return Error.Conflict("can't.delete.entity", "can not delete entity with relation");
             }
+            public static Error AlreadyExist(string? email = null)
+            {
+                return Error.Validation("volunteer.already.exist", $"volunteer with email: {email} already exist");
+            }
         }
         public static class VolunteerErrors
         {
@@ -81,6 +85,14 @@
             {
                 return Error.Validation("photo.not.found",
                     $"photo with path: {path} was not found");
+            }
+        }
+
+        public static class User
+        {
+            public static Error InvalidCredentials()
+            {
+                return Error.Failure("user.password.incorrect", "user or password is incorrect");
             }
         }
     }
