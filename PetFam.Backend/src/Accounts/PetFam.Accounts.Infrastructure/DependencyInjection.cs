@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Domain;
+using PetFam.Accounts.Infrastructure.Seeding;
 
 namespace PetFam.Accounts.Infrastructure;
 
@@ -18,6 +19,7 @@ public static class DependencyInjection
         
         services.AddTransient<ITokenProvider,JwtTokenProvider>();
         
+        services.AddSingleton<AccountsSeeder>();
         services.RegisterIdentity();
         
         return services;

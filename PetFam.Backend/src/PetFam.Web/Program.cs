@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PetFam.Accounts.Infrastructure;
+using PetFam.Accounts.Infrastructure.Seeding;
 using PetFam.Accounts.Presentation;
 using PetFam.BreedManagement.Presentation;
 using PetFam.Files.Presentation;
@@ -65,40 +66,20 @@ namespace PetFam.Web
                 .AddBreedManagementModule()
                 .AddPetManagementModule(builder.Configuration)
                 .AddAccountsModule(builder.Configuration);
-
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    var jwtOptions = builder.Configuration
-                        .GetSection(JwtOptions.JwtOptionsName)
-                        .Get<JwtOptions>()
-                        ?? throw new ApplicationException("missing JwtOptions");
-                    
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = jwtOptions.Issuer,
-                        ValidAudience =  jwtOptions.Audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)), 
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidateLifetime = true
-                    };
-                });
             
-            services.AddAuthorization();
+            services.AddAuthorizationServices(builder.Configuration);
             
             var app = builder.Build();
 
+            // seed permissions
+            var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
+
+            await accountsSeeder.SeedAsync();
+            
             app.UseSerilogRequestLogging();
-
+            
             app.UseExceptionCustomHandler();
-
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

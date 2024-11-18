@@ -11,6 +11,9 @@ namespace PetFam.Accounts.Infrastructure;
 public class AccountsWriteDbContext(IConfiguration configuration)
     : IdentityDbContext<User, Role, Guid>
 {
+    public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+    public DbSet<Permission> Permissions => Set<Permission>();
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql(configuration.GetConnectionString(InfrastructureOptions.DATABASE));
@@ -43,6 +46,32 @@ public class AccountsWriteDbContext(IConfiguration configuration)
 
         modelBuilder.Entity<IdentityUserRole<Guid>>()
             .ToTable("user_roles");
+        
+        modelBuilder.Entity<RolePermission>()
+            .ToTable("role_permissions");
+        
+        modelBuilder.Entity<Permission>()
+            .ToTable("permissions");
+        
+        modelBuilder.Entity<Permission>()
+            .HasIndex(p => p.Code)
+            .IsUnique();
+
+        modelBuilder.Entity<RolePermission>()
+            .HasKey(rp => new { rp.RoleId, rp.PermissionId });
+        
+        modelBuilder.Entity<RolePermission>()
+            .HasOne(rp => rp.Role)
+            .WithMany(r => r.RolePermissions)
+            .HasForeignKey(rp => rp.RoleId);
+
+        modelBuilder.Entity<RolePermission>()
+            .HasOne(rp => rp.Permission)
+            .WithMany()
+            .HasForeignKey(rp => rp.PermissionId);
+
+        modelBuilder.HasDefaultSchema("accounts");
+        
     }
 
     private ILoggerFactory CreateLoggerFactory() =>
