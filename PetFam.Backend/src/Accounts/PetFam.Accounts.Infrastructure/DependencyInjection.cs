@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Domain;
@@ -30,5 +31,6 @@ public static class DependencyInjection
         services.AddIdentityCore<User>(options => { options.User.RequireUniqueEmail = true; })
             .AddRoles<Role>()
             .AddEntityFrameworkStores<AccountsWriteDbContext>();
+        
     }
 }
