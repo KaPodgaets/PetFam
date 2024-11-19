@@ -44,7 +44,7 @@ public class AccountsSeeder
             stoppingToken);
     }
 
-    private static async Task SeedRolePermissions(
+    private async Task SeedRolePermissions(
         RolePermissionConfig seedData,
         RoleManager<Role> roleManager,
         PermissionManager permissionManager,
@@ -58,8 +58,9 @@ public class AccountsSeeder
             var role = await roleManager.FindByNameAsync(roleName);
             if(role is null)
                 throw new ApplicationException($"Role {roleName} not found during seeding");
-
-            foreach (var permissionCode in seedData.Roles[roleName])
+            
+            var rolePermissionsToAdd = seedData.Roles[roleName].ToList();
+            foreach (var permissionCode in rolePermissionsToAdd)
             {
                 var permission = await permissionManager.FindByCode(permissionCode, stoppingToken);
                 if(permission is null)
@@ -71,11 +72,11 @@ public class AccountsSeeder
                     PermissionId = permission.Id,
                 });
             }
-            await rolePermissionManager.CreateRangeAsync(rolePermissions, stoppingToken);
         }
+        await rolePermissionManager.CreateRangeAsync(rolePermissions, stoppingToken);
     }
 
-    private static async Task<RolePermissionConfig> ReadRolePermissionConfig()
+    private async Task<RolePermissionConfig> ReadRolePermissionConfig()
     {
         var json = await File.ReadAllTextAsync(ConfigurationJsonFilesPaths.Permissions);
         var seedData = JsonSerializer.Deserialize<RolePermissionConfig>(json)
@@ -94,7 +95,7 @@ public class AccountsSeeder
 
         await permissionManager.AddIfNotExist(permissionsToAdd, stoppingToken);
 
-        _logger.LogInformation("Added {count} permissions", permissionsToAdd.Count());
+        _logger.LogInformation("Added {count} permissions", permissionsToAdd.Count);
     }
 
     private async Task SeedRoles(

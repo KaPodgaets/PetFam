@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PetFam.Accounts.Domain;
 
@@ -13,12 +12,12 @@ public class RolePermissionManager(
     {
         foreach (var rolePermission in rolePermissions)
         {
-            var rolePermissionExists = await accountsContext.RolePermissions
+            var isRolePermissionExists = await accountsContext.RolePermissions
                 .AnyAsync(
                     rp => rp.RoleId == rolePermission.RoleId && rp.PermissionId == rolePermission.PermissionId,
                     cancellationToken: stoppingToken);
             
-            if (rolePermissionExists is false)
+            if (isRolePermissionExists)
                 continue;
         
             await accountsContext.RolePermissions.AddAsync(rolePermission, stoppingToken);
