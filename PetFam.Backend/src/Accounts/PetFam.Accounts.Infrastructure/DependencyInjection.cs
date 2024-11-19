@@ -30,7 +30,8 @@ public static class DependencyInjection
     {
         services.AddIdentityCore<User>(options => { options.User.RequireUniqueEmail = true; })
             .AddRoles<Role>()
-            .AddEntityFrameworkStores<AccountsWriteDbContext>();
+            .AddEntityFrameworkStores<AccountsWriteDbContext>()
+            .AddRoleManager<RoleManager<Role>>();
         
     }
 }

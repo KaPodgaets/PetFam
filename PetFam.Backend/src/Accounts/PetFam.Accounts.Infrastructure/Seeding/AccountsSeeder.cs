@@ -11,17 +11,14 @@ public class AccountsSeeder
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<AccountsSeeder> _logger;
-    private readonly RoleManager<Role> _roleManager;
 
 
     public AccountsSeeder(
         IServiceScopeFactory serviceScopeFactory,
-        ILogger<AccountsSeeder> logger,
-        RoleManager<Role> roleManager)
+        ILogger<AccountsSeeder> logger)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
-        _roleManager = roleManager;
     }
 
     public async Task SeedAsync(CancellationToken stoppingToken = default)
