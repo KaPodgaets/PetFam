@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Domain;
+using PetFam.Accounts.Infrastructure.IdentityManagers;
 using PetFam.Accounts.Infrastructure.Seeding;
 
 namespace PetFam.Accounts.Infrastructure;
@@ -21,6 +22,7 @@ public static class DependencyInjection
         services.AddTransient<ITokenProvider,JwtTokenProvider>();
         
         services.AddSingleton<AccountsSeeder>();
+        
         services.RegisterIdentity();
         
         return services;
@@ -32,6 +34,8 @@ public static class DependencyInjection
             .AddRoles<Role>()
             .AddEntityFrameworkStores<AccountsWriteDbContext>()
             .AddRoleManager<RoleManager<Role>>();
-        
+
+        services.AddScoped<PermissionManager>();
+        services.AddScoped<RolePermissionManager>();
     }
 }

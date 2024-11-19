@@ -19,4 +19,9 @@
       <ProjectReference Include="..\PetFam.PetManagement.Domain\PetFam.PetManagement.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\20241118145043_PetManagement.Initial.cs" />
+      <Compile Remove="Migrations\20241118145043_PetManagement.Initial.Designer.cs" />
+    </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-namespace PetFam.Accounts.Infrastructure.Seeding;
+namespace PetFam.Accounts.Infrastructure;
 
 public class RolePermissionConfig
 {

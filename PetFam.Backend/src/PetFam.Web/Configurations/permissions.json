@@ -1,13 +1,35 @@
 {
   "Roles": {
     "Admin": [
-      "accounts.read"
+      "accounts.enroll",
+      "species.read",
+      "species.create",
+      "species.update",
+      "species.delete",
+      "breeds.read",
+      "breeds.create",
+      "breeds.update",
+      "breeds.delete"
     ],
     "Volunteer": [
-      "accounts.read"
+      "volunteers.read",
+      "volunteers.create",
+      "volunteers.update",
+      "pets.read",
+      "pets.create",
+      "pets.update",
+      "pets.delete",
+      "species.read",
+      "breeds.read",
+      "files.read",
+      "files.upload"
     ],
     "Participant": [
-      "accounts.read"
+      "volunteers.read",
+      "pets.read",
+      "species.read",
+      "breeds.read",
+      "files.read"
     ]
   },
   "Permissions": {

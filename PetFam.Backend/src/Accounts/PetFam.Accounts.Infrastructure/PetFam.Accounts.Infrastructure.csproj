@@ -21,4 +21,8 @@
       <ProjectReference Include="..\PetFam.Accounts.Domain\PetFam.Accounts.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\AccountsWriteDbContextModelSnapshot.cs" />
+    </ItemGroup>
+
 </Project>

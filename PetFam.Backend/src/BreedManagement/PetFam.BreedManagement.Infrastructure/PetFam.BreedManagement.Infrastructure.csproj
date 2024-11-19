@@ -20,4 +20,10 @@
       <ProjectReference Include="..\PetFam.BreedManagement.Domain\PetFam.BreedManagement.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\WriteDbContextModelSnapshot.cs" />
+      <Compile Remove="Migrations\20241118145100_BreedManagement.Initial.cs" />
+      <Compile Remove="Migrations\20241118145100_BreedManagement.Initial.Designer.cs" />
+    </ItemGroup>
+
 </Project>
