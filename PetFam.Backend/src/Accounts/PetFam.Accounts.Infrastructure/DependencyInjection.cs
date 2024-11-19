@@ -16,19 +16,33 @@ public static class DependencyInjection
     {
         services.AddScoped<AccountsWriteDbContext>();
         
-        services.Configure<JwtOptions>(
-            configuration.GetSection(JwtOptions.JwtOptionsName));
-        
         services.AddTransient<ITokenProvider,JwtTokenProvider>();
         
-        services.AddSingleton<AccountsSeeder>();
-        
-        services.RegisterIdentity();
-        
+        services
+            .RegisterOptions(configuration)
+            .RegisterIdentity()
+            .AddAccountsSeeding();
+
         return services;
     }
 
-    private static void RegisterIdentity(this IServiceCollection services)
+    private static IServiceCollection AddAccountsSeeding(this IServiceCollection services)
+    {
+        services.AddSingleton<AccountsSeeder>();
+        services.AddScoped<AccountsSeedingService>();
+        return services;
+    }
+
+    private static IServiceCollection RegisterOptions(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<JwtOptions>(
+            configuration.GetSection(JwtOptions.SectionName));
+        services.Configure<AdminOptions>(
+            configuration.GetSection(AdminOptions.SectionName));
+        return services;
+    }
+
+    private static IServiceCollection RegisterIdentity(this IServiceCollection services)
     {
         services.AddIdentityCore<User>(options => { options.User.RequireUniqueEmail = true; })
             .AddRoles<Role>()
@@ -37,5 +51,8 @@ public static class DependencyInjection
 
         services.AddScoped<PermissionManager>();
         services.AddScoped<RolePermissionManager>();
+        services.AddScoped<PermissionManager>();
+        
+        return services;
     }
 }

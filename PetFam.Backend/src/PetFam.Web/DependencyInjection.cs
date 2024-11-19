@@ -53,7 +53,7 @@ public static class DependencyInjection
             .AddJwtBearer(options =>
             {
                 var jwtOptions = configuration
-                                     .GetSection(JwtOptions.JwtOptionsName)
+                                     .GetSection(JwtOptions.SectionName)
                                      .Get<JwtOptions>()
                                  ?? throw new ApplicationException("missing JwtOptions");
 

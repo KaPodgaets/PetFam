@@ -17,6 +17,8 @@ namespace PetFam.Web
     {
         public static async Task Main(string[] args)
         {
+            DotNetEnv.Env.Load();
+            
             var builder = WebApplication.CreateBuilder(args);
             var services = builder.Services;
             
