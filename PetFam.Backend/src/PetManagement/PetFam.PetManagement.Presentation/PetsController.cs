@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.Framework;
+using PetFam.Framework.Authorization;
 using PetFam.Shared.Dtos;
 using PetFam.Shared.Models;
 using PetFam.PetManagement.Application.VolunteerManagement.Queries.GetPetById;
@@ -16,7 +17,8 @@ namespace PetFam.PetManagement.Presentation
         public PetsController(ILogger<ApplicationController> logger) : base(logger)
         {
         }
-
+        
+        [Permission(Permissions.Pets.Read)]
         [HttpGet("{petId:guid}")]
         public async Task<ActionResult<PetDto>> GetPetById(
             [FromRoute] Guid petId,
@@ -29,7 +31,8 @@ namespace PetFam.PetManagement.Presentation
             
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Pets.Read)]
         [HttpGet]
         public async Task<ActionResult<PagedList<PetDto>>> GetFilteredPetsWithPagination(
             [FromQuery] GetFilteredPetsWithPaginationRequest request,

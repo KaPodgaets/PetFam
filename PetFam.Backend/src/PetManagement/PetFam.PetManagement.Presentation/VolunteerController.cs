@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.Framework;
+using PetFam.Framework.Authorization;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.AddPetPhotos;
 using PetFam.Shared.Dtos;
 using PetFam.Shared.Models;
@@ -25,14 +26,14 @@ using PetFam.Shared.SharedKernel;
 
 namespace PetFam.PetManagement.Presentation
 {
-    [Authorize]
     public class VolunteerController : ApplicationController
     {
         public VolunteerController(ILogger<VolunteerController> logger)
             : base(logger)
         {
         }
-
+        
+        [Permission(Permissions.Volunteers.Read)]
         [HttpGet]
         public async Task<ActionResult<PagedList<VolunteerDto>>> GetAllVolunteers(
             [FromServices] GetVolunteersWithPaginationHandler handler,
@@ -45,7 +46,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Volunteers.Create)]
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
             [FromServices] CreateVolunteerHandler handler,
@@ -56,7 +58,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Volunteers.Update)]
         [HttpPut("{id:guid}/main-info")]
         public async Task<ActionResult<Guid>> UpdateMainInfo(
             [FromRoute] Guid id,
@@ -70,7 +73,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Volunteers.Update)]
         [HttpPut("{id:guid}/requisites")]
         public async Task<ActionResult<Guid>> UpdateRequisites(
             [FromRoute] Guid id,
@@ -84,7 +88,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Volunteers.Update)]
         [HttpPut("{id:guid}/social-media")]
         public async Task<ActionResult<Guid>> UpdateSocialMedia(
             [FromRoute] Guid id,
@@ -98,7 +103,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Volunteers.Delete)]
         [HttpDelete("{id:guid}/delete")]
         public async Task<ActionResult<Guid>> Delete(
             [FromRoute] Guid id,
@@ -111,7 +117,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Pets.Create)]
         [HttpPost("{id:guid}/pet")]
         public async Task<ActionResult<Guid>> AddNewPet(
             [FromRoute] Guid id,
@@ -125,7 +132,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Pets.Delete)]
         [HttpDelete("{id:guid}/pet/{petId:guid}")]
         public async Task<ActionResult<Guid>> DeletePet(
             [FromRoute] Guid id,
@@ -139,7 +147,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Pets.UploadPhoto)]
         [HttpPost("{id:guid}/pet/{petId:guid}/photos")]
         public async Task<ActionResult<string>> AddPetPhotos(
             [FromRoute] Guid id,
@@ -158,7 +167,8 @@ namespace PetFam.PetManagement.Presentation
         
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Pets.DeletePhoto)]
         [HttpDelete("{id:guid}/photos/{petId:guid}")]
         public async Task<ActionResult<string[]>> AddPetPhotos(
             [FromRoute] Guid id,
@@ -173,7 +183,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Pets.Update)]
         [HttpPut("{id:guid}/pet/{petId:guid}")]
         public async Task<ActionResult<Guid>> UpdatePet(
             [FromRoute] Guid id,
@@ -188,7 +199,8 @@ namespace PetFam.PetManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Pets.Update)]
         [HttpPut("{id:guid}/pet-status/{petId:guid}")]
         public async Task<ActionResult<Guid>> UpdatePetStatus(
             [FromRoute] Guid id,
@@ -203,7 +215,8 @@ namespace PetFam.PetManagement.Presentation
             
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Pets.Update)]
         [HttpPut("{id:guid}/pet/{petId:guid}/main-photo")]
         public async Task<ActionResult<string>> SetMainPhoto(
             [FromRoute] Guid id,

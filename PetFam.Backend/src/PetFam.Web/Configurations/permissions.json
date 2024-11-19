@@ -62,6 +62,7 @@
       "files.upload"
     ],
     "Accounts": [
+      "account.read",
       "accounts.enroll"
     ]
   }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using PetFam.Shared.Models;
 
 namespace PetFam.Framework.Authorization;
 
@@ -16,19 +17,19 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
         AuthorizationHandlerContext context,
         PermissionAttribute permission)
     {
-        // using var scope = _serviceScopeFactory.CreateScope();
-        //
-        // var permissions = context.User.Claims
-        //     .Where(c => c.Type == CustomClaims.Permission)
-        //     .Select(c => c.Value)
-        //     .ToList();
-        //
-        // if (permissions.Contains(permission.Code))
-        // {
-        //     context.Succeed(permission);
-        //     return;
-        // }
+        using var scope = _serviceScopeFactory.CreateScope();
+        
+        var permissions = context.User.Claims
+            .Where(c => c.Type == CustomClaims.Permission)
+            .Select(c => c.Value)
+            .ToList();
+        
+        if (permissions.Contains(permission.Code))
+        {
+            context.Succeed(permission);
+            return;
+        }
 
-        context.Succeed(permission);
+        context.Fail();
     }
 }
