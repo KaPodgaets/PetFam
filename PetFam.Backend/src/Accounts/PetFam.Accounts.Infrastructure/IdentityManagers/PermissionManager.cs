@@ -19,7 +19,7 @@ public class PermissionManager(
                     cancellationToken: stoppingToken);
         
             if (isPermissionExist)
-                return;
+                continue;
         
             await accountsContext.Permissions
                 .AddAsync(new Permission(Guid.NewGuid(), permissionCode), stoppingToken);
