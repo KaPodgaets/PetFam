@@ -8,6 +8,7 @@ using PetFam.Accounts.Infrastructure.IdentityManagers;
 using PetFam.Accounts.Infrastructure.Options;
 using PetFam.Accounts.Infrastructure.Seeding;
 using PetFam.Shared.Abstractions;
+using PetFam.Shared.SharedKernel;
 
 namespace PetFam.Accounts.Infrastructure;
 
@@ -19,6 +20,7 @@ public static class DependencyInjection
     {
         services.AddScoped<AccountsWriteDbContext>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Accounts);
         
         services.AddTransient<ITokenProvider,JwtTokenProvider>();
         
