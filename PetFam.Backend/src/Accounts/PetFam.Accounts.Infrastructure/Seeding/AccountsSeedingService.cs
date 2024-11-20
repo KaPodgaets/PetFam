@@ -17,6 +17,8 @@ public class AccountsSeedingService
     private readonly RoleManager<Role> _roleManager;
     private readonly RolePermissionManager _rolePermissionManager;
     private readonly PermissionManager _permissionManager;
+    private readonly AdminAccountsManager _adminAccountsManager;
+    private readonly UnitOfWork _unitOfWork;
 
     public AccountsSeedingService(
         ILogger<AccountsSeedingService> logger,
@@ -24,7 +26,9 @@ public class AccountsSeedingService
         IOptions<AdminOptions> adminOptions,
         RoleManager<Role> roleManager,
         RolePermissionManager rolePermissionManager,
-        PermissionManager permissionManager)
+        PermissionManager permissionManager, 
+        AdminAccountsManager adminAccountsManager, 
+        UnitOfWork unitOfWork)
     {
         _logger = logger;
         _userManager = userManager;
@@ -32,6 +36,8 @@ public class AccountsSeedingService
         _roleManager = roleManager;
         _rolePermissionManager = rolePermissionManager;
         _permissionManager = permissionManager;
+        _adminAccountsManager = adminAccountsManager;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task SeedAsync(CancellationToken stoppingToken = default)
@@ -43,10 +49,12 @@ public class AccountsSeedingService
         await SeedPermissions(seedData, stoppingToken);
         await SeedRoles(seedData, _roleManager);
         await SeedRolePermissions(seedData, stoppingToken);
-        await SeedAdminUser();
+        await SeedAdminUser(stoppingToken);
+        
+        _logger.LogInformation("Stop seeding accounts");
     }
 
-    private async Task SeedAdminUser()
+    private async Task SeedAdminUser(CancellationToken stoppingToken = default)
     {
         var existingAdmin = _userManager.FindByEmailAsync(_adminOptions.Email).Result;
         if (existingAdmin is not null)
@@ -56,10 +64,32 @@ public class AccountsSeedingService
                         ?? throw new ApplicationException("Could not find admin role.");
         
         var adminUser = User.CreateAdmin(_adminOptions.Email, [adminRole]);
+
+        var transaction = await _unitOfWork.BeginTransaction(stoppingToken);
         
-        var result = await _userManager.CreateAsync(adminUser, _adminOptions.Password);
-        if(result.Succeeded is false)
-            throw new ApplicationException("Could not create admin user.");
+        _logger.LogInformation("begin transaction to seed admin user and admin account");
+        
+        try
+        {
+            var result = await _userManager.CreateAsync(adminUser, _adminOptions.Password);
+            if(result.Succeeded is false)
+                throw new ApplicationException("Could not create admin user.");
+        
+            var adminAccount = new AdminAccount
+            {
+                UserId = adminUser.Id,
+                FullName = _adminOptions.UserName,
+            };
+            await _adminAccountsManager.CreateAccount(adminAccount, stoppingToken);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Seeding admin was failed with error: {error}", e.Message);
+            transaction.Rollback();
+            throw new ApplicationException(e.Message);
+        }
+        transaction.Commit();
+        _logger.LogInformation("successfully end transaction to seed admin user and admin account");
     }
 
     private async Task SeedRolePermissions(

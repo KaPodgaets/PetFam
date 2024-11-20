@@ -1,4 +1,4 @@
-namespace PetFam.Accounts.Infrastructure;
+namespace PetFam.Accounts.Infrastructure.Models;
 
 public static class CustomClaims
 {

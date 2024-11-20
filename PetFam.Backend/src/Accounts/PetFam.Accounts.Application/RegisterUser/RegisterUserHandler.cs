@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Domain;
 using PetFam.Shared.Abstractions;
@@ -12,13 +13,22 @@ public class RegisterUserHandler
 {
     private readonly UserManager<User> _userManager;
     private readonly ILogger<RegisterUserHandler> _logger;
+    private readonly IParticipantAccountsManager _participantAccountsManager;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly RoleManager<Role> _roleManager;
 
     public RegisterUserHandler(
         UserManager<User> userManager,
-        ILogger<RegisterUserHandler> logger)
+        ILogger<RegisterUserHandler> logger,
+        IParticipantAccountsManager participantAccountsManager, 
+        [FromKeyedServices(Modules.Accounts)] IUnitOfWork unitOfWork, 
+        RoleManager<Role> roleManager)
     {
         _userManager = userManager;
         _logger = logger;
+        _participantAccountsManager = participantAccountsManager;
+        _unitOfWork = unitOfWork;
+        _roleManager = roleManager;
     }
     public async Task<Result> ExecuteAsync(
         RegisterUserCommand command,
@@ -30,20 +40,43 @@ public class RegisterUserHandler
             return Errors.General.AlreadyExist("email").ToErrorList();
         
         // create new user in bd
+        var participantRole = await _roleManager.FindByNameAsync(ParticipantAccount.RoleName)
+                        ?? throw new ApplicationException("Could not find admin role.");
         
-        var user = User.CreateUser(command.Email);
+        var user = User.CreateParticipant(command.Email, [participantRole]);
         
-        var result = await _userManager.CreateAsync(user, command.Password);
-        
-        if (result.Succeeded is false)
+        var participantAccount = new ParticipantAccount
         {
-             var errors = result.Errors
-                 .Select(e => Error.Failure(e.Code,e.Description))
-                 .ToList();
-             
-             return new ErrorList(errors);
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            FullName = user.UserName ?? string.Empty,
+        };
+        
+        var transaction = await _unitOfWork.BeginTransaction(cancellationToken);
+        try
+        {
+            var result = await _userManager.CreateAsync(user, command.Password);
+            
+            if (result.Succeeded is false)
+            {
+                var errors = result.Errors
+                    .Select(e => Error.Failure(e.Code,e.Description))
+                    .ToList();
+                
+                transaction.Rollback();
+                return new ErrorList(errors);
+            }
+
+            await _participantAccountsManager.CreateAccount(participantAccount, cancellationToken);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("error while registering new participant. Error - {error}", e.Message);
+            transaction.Rollback();
+            throw new ApplicationException("An error occured while registering user", e);
         }
         
+        transaction.Commit();
         _logger.LogInformation("New user created {email}", user.Email);
         return Result.Success();
     }

@@ -4,9 +4,8 @@ namespace PetFam.Accounts.Domain;
 
 public class VolunteerAccount
 {
-    public int Experience { get; set; }
-    public RequisitesDetails Requisites { get; set; }
-    public List<string> Certificates { get; set; }
-    public string Fullname { get; set; } = string.Empty;
+    public const string RoleName = "Volunteer";
+    public Guid Id { get; set; }
     public Guid UserId { get; set; }
+    public string Fullname { get; set; } = string.Empty;
 }

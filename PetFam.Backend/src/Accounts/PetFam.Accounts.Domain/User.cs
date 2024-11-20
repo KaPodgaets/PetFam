@@ -12,16 +12,27 @@ public class User : IdentityUser<Guid>
 
     public IReadOnlyList<Role> Roles => _roles.AsReadOnly();
 
-    public static User CreateUser(string email)
+    public static User CreateAdmin(string email, IEnumerable<Role> roles)
     {
         return new User
         {
-            UserName = email,
             Email = email,
+            UserName = email,
+            _roles = roles.ToList()
         };
     }
-
-    public static User CreateAdmin(string email, IEnumerable<Role> roles)
+    
+    public static User CreateVolunteer(string email, IEnumerable<Role> roles)
+    {
+        return new User
+        {
+            Email = email,
+            UserName = email,
+            _roles = roles.ToList()
+        };
+    }
+    
+    public static User CreateParticipant(string email, IEnumerable<Role> roles)
     {
         return new User
         {
