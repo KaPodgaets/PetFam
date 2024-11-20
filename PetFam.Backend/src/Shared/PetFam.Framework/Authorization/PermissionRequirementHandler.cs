@@ -23,8 +23,20 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
             .Where(c => c.Type == CustomClaims.Permission)
             .Select(c => c.Value)
             .ToList();
+
+        var claims = context.User.Claims
+            .Where(c => c.Type == CustomClaims.Permission)
+            .ToList();
+
+        var permissionsValue = claims.Select(c => c.Value).ToList();
         
         if (permissions.Contains(permission.Code))
+        {
+            context.Succeed(permission);
+            return;
+        }
+        
+        if (permissionsValue.Contains(permission.Code))
         {
             context.Succeed(permission);
             return;

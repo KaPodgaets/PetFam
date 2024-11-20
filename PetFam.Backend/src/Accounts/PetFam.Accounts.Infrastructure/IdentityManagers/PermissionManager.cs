@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using PetFam.Accounts.Domain;
 
@@ -34,5 +35,19 @@ public class PermissionManager(
         
         return permission;
     }
-    
+
+    public async Task<IEnumerable<string>> GetUserPermissionsCode(
+        Guid userId,
+        CancellationToken cancellationToken = default)
+    {
+        var permissions = await accountsContext.Users
+            .Include(u => u.Roles)
+            .Where(u => u.Id == userId)
+            .SelectMany(u => u.Roles)
+            .SelectMany(r => r.RolePermissions)
+            .Select(rp => rp.Permission.Code)
+            .ToListAsync(cancellationToken);
+        
+        return permissions;
+    }
 }

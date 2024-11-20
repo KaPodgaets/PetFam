@@ -38,7 +38,7 @@ public class LoginHandler
         if (passwordCheck is false)
             return Errors.User.InvalidCredentials().ToErrorList();
         
-        var token = _tokenProvider.GetAccessToken(user);
+        var token = await _tokenProvider.GetAccessToken(user, cancellationToken);
 
         return token;
     }

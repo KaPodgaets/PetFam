@@ -9,11 +9,14 @@
       "breeds.read",
       "breeds.create",
       "breeds.update",
-      "breeds.delete"
+      "breeds.delete",
+      "volunteers.read",
+      "volunteers.create",
+      "volunteers.update",
+      "volunteers.delete"
     ],
     "Volunteer": [
       "volunteers.read",
-      "volunteers.create",
       "volunteers.update",
       "pets.read",
       "pets.create",

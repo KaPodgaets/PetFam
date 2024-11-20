@@ -14,7 +14,6 @@ using PetFam.Shared.Models;
 
 namespace PetFam.BreedManagement.Presentation
 {
-    [Authorize]
     public class SpeciesController : ApplicationController
     {
         public SpeciesController(ILogger<ApplicationController> logger) : base(logger)

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Domain;
 using PetFam.Accounts.Infrastructure.IdentityManagers;
+using PetFam.Accounts.Infrastructure.Options;
 using PetFam.Accounts.Infrastructure.Seeding;
 
 namespace PetFam.Accounts.Infrastructure;

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using PetFam.Accounts.Infrastructure;
+using PetFam.Accounts.Infrastructure.Options;
 using PetFam.Framework.Authorization;
 
 namespace PetFam.Web;
