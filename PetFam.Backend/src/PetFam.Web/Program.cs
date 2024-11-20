@@ -1,8 +1,4 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using PetFam.Accounts.Infrastructure;
 using PetFam.Accounts.Infrastructure.Seeding;
 using PetFam.Accounts.Presentation;
 using PetFam.BreedManagement.Presentation;
@@ -21,7 +17,7 @@ namespace PetFam.Web
             
             var builder = WebApplication.CreateBuilder(args);
             var services = builder.Services;
-            
+            var configuration = builder.Configuration;
 
             builder.Host.UseSerilog((context, loggerConfig) =>
                 loggerConfig.ReadFrom.Configuration(context.Configuration));
@@ -64,12 +60,12 @@ namespace PetFam.Web
 
 
             services.AddApplicationLayers()
-                .AddFilesModule(builder.Configuration)
+                .AddFilesModule(configuration)
                 .AddBreedManagementModule()
-                .AddPetManagementModule(builder.Configuration)
-                .AddAccountsModule(builder.Configuration);
+                .AddPetManagementModule(configuration)
+                .AddAccountsModule(configuration);
             
-            services.AddAuthorizationServices(builder.Configuration);
+            services.AddAuthorizationServices(configuration);
             
             var app = builder.Build();
 

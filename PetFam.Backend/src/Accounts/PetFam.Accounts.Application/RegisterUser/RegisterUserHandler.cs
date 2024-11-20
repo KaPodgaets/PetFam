@@ -31,11 +31,7 @@ public class RegisterUserHandler
         
         // create new user in bd
         
-        var user = new User
-        {
-            Email = command.Email,
-            UserName = command.Email,
-        };
+        var user = User.CreateUser(command.Email);
         
         var result = await _userManager.CreateAsync(user, command.Password);
         

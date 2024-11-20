@@ -42,15 +42,15 @@ public class AccountsSeedingService
         await SeedPermissions(seedData, stoppingToken);
         await SeedRoles(seedData, _roleManager);
         await SeedRolePermissions(seedData, stoppingToken);
-
-        var adminUser = new User
-        {
-            UserName = _adminOptions.UserName,
-            Email = _adminOptions.Email
-        };
         
-        await _userManager.CreateAsync(adminUser, _adminOptions.Password);
-        await _userManager.AddToRoleAsync(adminUser, "Admin");
+        var adminRole = await _roleManager.FindByNameAsync(AdminOptions.RoleName)
+                        ?? throw new ApplicationException("Could not find admin role.");
+        
+        var adminUser = User.CreateAdmin(_adminOptions.Email, [adminRole]);
+        
+        var result = await _userManager.CreateAsync(adminUser, _adminOptions.Password);
+        if(result.Succeeded is false)
+            throw new ApplicationException("Could not create admin user.");
     }
     
     private async Task SeedRolePermissions(

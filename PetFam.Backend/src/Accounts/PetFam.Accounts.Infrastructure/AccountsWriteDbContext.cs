@@ -25,9 +25,10 @@ public class AccountsWriteDbContext(IConfiguration configuration)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<User>()
-            .ToTable("users");
+        
+        modelBuilder.ApplyConfigurationsFromAssembly(
+            typeof(AccountsWriteDbContext).Assembly,
+            type => type.FullName?.Contains("Configurations.Write") ?? false);
 
         modelBuilder.Entity<Role>()
             .ToTable("roles");
@@ -71,7 +72,6 @@ public class AccountsWriteDbContext(IConfiguration configuration)
             .HasForeignKey(rp => rp.PermissionId);
 
         modelBuilder.HasDefaultSchema("accounts");
-        
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

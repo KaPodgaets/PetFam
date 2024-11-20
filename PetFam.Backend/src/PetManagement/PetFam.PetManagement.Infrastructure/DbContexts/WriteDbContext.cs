@@ -9,7 +9,7 @@ namespace PetFam.PetManagement.Infrastructure.DbContexts
     public class WriteDbContext(
         IConfiguration configuration) : DbContext
     {
-        public DbSet<Volunteer> Volunteers { get; set; }
+        public DbSet<Volunteer> Volunteers => Set<Volunteer>();
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
