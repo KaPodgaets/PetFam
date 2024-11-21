@@ -9,7 +9,7 @@ using PetFam.PetManagement.Infrastructure.DbContexts;
 
 #nullable disable
 
-namespace PetFam.PetManagement.Infrastructure.Migrations
+namespace PetFam.PetManagement.Infrastructure.Migrations.WriteDb
 {
     [DbContext(typeof(WriteDbContext))]
     partial class WriteDbContextModelSnapshot : ModelSnapshot
@@ -18,7 +18,7 @@ namespace PetFam.PetManagement.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

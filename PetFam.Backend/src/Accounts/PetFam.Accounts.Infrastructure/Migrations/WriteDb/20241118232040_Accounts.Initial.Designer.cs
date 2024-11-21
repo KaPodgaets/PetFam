@@ -9,17 +9,18 @@ using PetFam.Accounts.Infrastructure;
 
 #nullable disable
 
-namespace PetFam.Accounts.Infrastructure.Migrations
+namespace PetFam.Accounts.Infrastructure.Migrations.WriteDb
 {
     [DbContext(typeof(AccountsWriteDbContext))]
-    [Migration("20241117142654_Initial")]
-    partial class Initial
+    [Migration("20241118232040_Accounts.Initial")]
+    partial class AccountsInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("accounts")
                 .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -52,7 +53,7 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                     b.HasIndex("RoleId")
                         .HasDatabaseName("ix_role_claims_role_id");
 
-                    b.ToTable("role_claims", (string)null);
+                    b.ToTable("role_claims", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -82,7 +83,7 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_user_claims_user_id");
 
-                    b.ToTable("user_claims", (string)null);
+                    b.ToTable("user_claims", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -109,7 +110,7 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_user_logins_user_id");
 
-                    b.ToTable("user_logins", (string)null);
+                    b.ToTable("user_logins", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -128,7 +129,7 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                     b.HasIndex("RoleId")
                         .HasDatabaseName("ix_user_roles_role_id");
 
-                    b.ToTable("user_roles", (string)null);
+                    b.ToTable("user_roles", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -152,7 +153,29 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name")
                         .HasName("pk_user_tokens");
 
-                    b.ToTable("user_tokens", (string)null);
+                    b.ToTable("user_tokens", "accounts");
+                });
+
+            modelBuilder.Entity("PetFam.Accounts.Domain.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.HasKey("Id")
+                        .HasName("pk_permissions");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_permissions_code");
+
+                    b.ToTable("permissions", "accounts");
                 });
 
             modelBuilder.Entity("PetFam.Accounts.Domain.Role", b =>
@@ -184,7 +207,26 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("roles", (string)null);
+                    b.ToTable("roles", "accounts");
+                });
+
+            modelBuilder.Entity("PetFam.Accounts.Domain.RolePermission", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("permission_id");
+
+                    b.HasKey("RoleId", "PermissionId")
+                        .HasName("pk_role_permissions");
+
+                    b.HasIndex("PermissionId")
+                        .HasDatabaseName("ix_role_permissions_permission_id");
+
+                    b.ToTable("role_permissions", "accounts");
                 });
 
             modelBuilder.Entity("PetFam.Accounts.Domain.User", b =>
@@ -265,7 +307,7 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -323,6 +365,32 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_tokens_users_user_id");
+                });
+
+            modelBuilder.Entity("PetFam.Accounts.Domain.RolePermission", b =>
+                {
+                    b.HasOne("PetFam.Accounts.Domain.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_role_permissions_permissions_permission_id");
+
+                    b.HasOne("PetFam.Accounts.Domain.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_role_permissions_roles_role_id");
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("PetFam.Accounts.Domain.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
                 });
 #pragma warning restore 612, 618
         }

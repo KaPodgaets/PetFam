@@ -1,5 +1,12 @@
-﻿using PetFam.Shared.Abstractions;
+﻿using System.Text;
+using PetFam.Shared.Abstractions;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using PetFam.Accounts.Infrastructure;
+using PetFam.Accounts.Infrastructure.Options;
+using PetFam.Framework.Authorization;
 
 namespace PetFam.Web;
 
@@ -28,6 +35,43 @@ public static class DependencyInjection
             .WithScopedLifetime());
 
         services.AddValidatorsFromAssemblies(assemblies);
+        return services;
+    }
+
+    public static IServiceCollection AddAuthorizationServices(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+
+        services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                var jwtOptions = configuration
+                                     .GetSection(JwtOptions.SectionName)
+                                     .Get<JwtOptions>()
+                                 ?? throw new ApplicationException("missing JwtOptions");
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidAudience = jwtOptions.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true
+                };
+            });
+        
+        services.AddAuthorization();
+        
         return services;
     }
 }

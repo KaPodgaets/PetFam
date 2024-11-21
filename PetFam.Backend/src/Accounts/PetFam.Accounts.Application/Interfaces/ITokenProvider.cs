@@ -4,5 +4,5 @@ namespace PetFam.Accounts.Application.Interfaces;
 
 public interface ITokenProvider
 {
-    string GetAccessToken(User user);
+    Task<string> GetAccessToken(User user, CancellationToken cancellationToken = default);
 }

@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Domain;
+using PetFam.Accounts.Infrastructure.IdentityManagers;
+using PetFam.Accounts.Infrastructure.Options;
+using PetFam.Accounts.Infrastructure.Seeding;
 
 namespace PetFam.Accounts.Infrastructure;
 
@@ -13,20 +17,43 @@ public static class DependencyInjection
     {
         services.AddScoped<AccountsWriteDbContext>();
         
-        services.Configure<JwtOptions>(
-            configuration.GetSection(JwtOptions.JwtOptionsName));
-        
         services.AddTransient<ITokenProvider,JwtTokenProvider>();
         
-        services.RegisterIdentity();
-        
+        services
+            .RegisterOptions(configuration)
+            .RegisterIdentity()
+            .AddAccountsSeeding();
+
         return services;
     }
 
-    private static void RegisterIdentity(this IServiceCollection services)
+    private static IServiceCollection AddAccountsSeeding(this IServiceCollection services)
+    {
+        services.AddSingleton<AccountsSeeder>();
+        services.AddScoped<AccountsSeedingService>();
+        return services;
+    }
+
+    private static IServiceCollection RegisterOptions(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<JwtOptions>(
+            configuration.GetSection(JwtOptions.SectionName));
+        services.Configure<AdminOptions>(
+            configuration.GetSection(AdminOptions.SectionName));
+        return services;
+    }
+
+    private static IServiceCollection RegisterIdentity(this IServiceCollection services)
     {
         services.AddIdentityCore<User>(options => { options.User.RequireUniqueEmail = true; })
             .AddRoles<Role>()
-            .AddEntityFrameworkStores<AccountsWriteDbContext>();
+            .AddEntityFrameworkStores<AccountsWriteDbContext>()
+            .AddRoleManager<RoleManager<Role>>();
+
+        services.AddScoped<PermissionManager>();
+        services.AddScoped<RolePermissionManager>();
+        services.AddScoped<PermissionManager>();
+        
+        return services;
     }
 }

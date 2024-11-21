@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PetFam.PetManagement.Infrastructure.Migrations
+namespace PetFam.PetManagement.Infrastructure.Migrations.WriteDb
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class PetManagementInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -8,18 +8,19 @@ using PetFam.BreedManagement.Application.SpeciesManagement.Commands.DeleteBreed;
 using PetFam.BreedManagement.Application.SpeciesManagement.Queries.Get;
 using PetFam.BreedManagement.Presentation.Requests;
 using PetFam.Framework;
+using PetFam.Framework.Authorization;
 using PetFam.Shared.Dtos;
 using PetFam.Shared.Models;
 
 namespace PetFam.BreedManagement.Presentation
 {
-    [Authorize]
     public class SpeciesController : ApplicationController
     {
         public SpeciesController(ILogger<ApplicationController> logger) : base(logger)
         {
         }
-
+        
+        [Permission(Permissions.Species.Read)]
         [HttpGet]
         public async Task<ActionResult<PagedList<SpeciesDto>>> GetAllSpecies(
             [FromQuery] GetSpeciesFilteredWithPaginationRequest request,
@@ -32,6 +33,7 @@ namespace PetFam.BreedManagement.Presentation
             return result.ToResponse();
         }
         
+        [Permission(Permissions.Species.Create)]
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateSpecies(
             [FromServices] CreateSpeciesHandler handler,
@@ -42,7 +44,8 @@ namespace PetFam.BreedManagement.Presentation
 
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Species.Delete)]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteSpecies(
             [FromServices] DeleteSpeciesHandler handler,
@@ -56,6 +59,7 @@ namespace PetFam.BreedManagement.Presentation
             return result.ToResponse();
         }
         
+        [Permission(Permissions.Breeds.Read)]
         [HttpDelete("{speciesId:guid}/breed/{breedId:guid}")]
         public async Task<ActionResult<Guid>> DeleteSpecies(
             Guid speciesId,
@@ -68,7 +72,8 @@ namespace PetFam.BreedManagement.Presentation
             var result = await handler.ExecuteAsync(query, cancellationToken);
             return result.ToResponse();
         }
-
+        
+        [Permission(Permissions.Breeds.Create)]
         [HttpPost("{speciesId:guid}/breed")]
         public async Task<ActionResult<Guid>> AddBreed(
             [FromServices] CreateBreedHandler handler,
