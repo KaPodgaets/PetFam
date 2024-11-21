@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Accounts.Application.Interfaces;
+using PetFam.Accounts.Application.RegisterUser;
 using PetFam.Accounts.Domain;
 using PetFam.Accounts.Infrastructure.DbContexts;
 using PetFam.Accounts.Infrastructure.IdentityManagers;
@@ -58,7 +59,7 @@ public static class DependencyInjection
         services.AddScoped<PermissionManager>();
         services.AddScoped<RolePermissionManager>();
         services.AddScoped<AdminAccountsManager>();
-        services.AddScoped<ParticipantAccountsAccountManager, ParticipantAccountsAccountManager>();
+        services.AddScoped<IParticipantAccountsManager, ParticipantAccountsManager>();
         
         
         return services;

@@ -1,11 +1,14 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PetFam.Accounts.Domain;
 using PetFam.Accounts.Infrastructure.IdentityManagers;
 using PetFam.Accounts.Infrastructure.Options;
 using PetFam.Shared;
+using PetFam.Shared.Abstractions;
+using PetFam.Shared.SharedKernel;
 
 namespace PetFam.Accounts.Infrastructure.Seeding;
 
@@ -18,7 +21,7 @@ public class AccountsSeedingService
     private readonly RolePermissionManager _rolePermissionManager;
     private readonly PermissionManager _permissionManager;
     private readonly AdminAccountsManager _adminAccountsManager;
-    private readonly UnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
     public AccountsSeedingService(
         ILogger<AccountsSeedingService> logger,
@@ -28,7 +31,7 @@ public class AccountsSeedingService
         RolePermissionManager rolePermissionManager,
         PermissionManager permissionManager, 
         AdminAccountsManager adminAccountsManager, 
-        UnitOfWork unitOfWork)
+        [FromKeyedServices(Modules.Accounts)] IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _userManager = userManager;

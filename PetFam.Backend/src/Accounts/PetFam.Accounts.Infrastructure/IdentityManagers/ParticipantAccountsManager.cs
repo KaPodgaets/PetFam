@@ -4,7 +4,7 @@ using PetFam.Accounts.Infrastructure.DbContexts;
 
 namespace PetFam.Accounts.Infrastructure.IdentityManagers;
 
-public class ParticipantAccountsAccountManager(AccountsWriteDbContext accountsContext):IParticipantAccountsManager
+public class ParticipantAccountsManager(AccountsWriteDbContext accountsContext):IParticipantAccountsManager
 {
     public async Task CreateAccount(ParticipantAccount account,CancellationToken cancellationToken = default)
     {
