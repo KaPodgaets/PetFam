@@ -69,15 +69,15 @@ public class RegisterUserHandler
             }
 
             await _participantAccountsManager.CreateAccount(participantAccount, cancellationToken);
+            
+            transaction.Commit();
         }
         catch (Exception e)
         {
             _logger.LogError("error while registering new participant. Error - {error}", e.Message);
             transaction.Rollback();
-            throw new ApplicationException("An error occured while registering user", e);
+            return Errors.General.Failure().ToErrorList();
         }
-        
-        transaction.Commit();
         _logger.LogInformation("New user created {email}", user.Email);
         return Result.Success();
     }

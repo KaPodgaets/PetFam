@@ -84,6 +84,8 @@ public class AccountsSeedingService
                 FullName = _adminOptions.UserName,
             };
             await _adminAccountsManager.CreateAccount(adminAccount, stoppingToken);
+            
+            transaction.Commit();
         }
         catch (Exception e)
         {
@@ -91,7 +93,6 @@ public class AccountsSeedingService
             transaction.Rollback();
             throw new ApplicationException(e.Message);
         }
-        transaction.Commit();
         _logger.LogInformation("successfully end transaction to seed admin user and admin account");
     }
 
