@@ -16,6 +16,7 @@ public class AccountsWriteDbContext(IConfiguration configuration)
     public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
     public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
     public DbSet<VolunteerAccount> VolunteerAccounts => Set<VolunteerAccount>();
+    public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -33,6 +34,14 @@ public class AccountsWriteDbContext(IConfiguration configuration)
             typeof(AccountsWriteDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Write") ?? false);
 
+        modelBuilder.Entity<RefreshSession>()
+            .ToTable("refresh_sessions");
+        
+        modelBuilder.Entity<RefreshSession>()
+            .HasOne(r => r.User)
+            .WithMany()
+            .HasForeignKey(r => r.UserId);
+        
         modelBuilder.Entity<Role>()
             .ToTable("roles");
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Accounts.Infrastructure;
+using PetFam.Accounts.Presentation.Providers;
 
 namespace PetFam.Accounts.Presentation;
 
@@ -11,6 +12,8 @@ public static IServiceCollection AddAccountsModule(
     IConfiguration configuration)
     {
         services.AddInfrastructure(configuration);
+        services.AddScoped<HttpContextProvider>();
+        services.AddHttpContextAccessor();
         return services;
     }
 }

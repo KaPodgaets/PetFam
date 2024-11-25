@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\PetFam.Framework\PetFam.Framework.csproj" />
+      <ProjectReference Include="..\PetFam.Accounts.Contracts\PetFam.Accounts.Contracts.csproj" />
       <ProjectReference Include="..\PetFam.Accounts.Infrastructure\PetFam.Accounts.Infrastructure.csproj" />
     </ItemGroup>
 

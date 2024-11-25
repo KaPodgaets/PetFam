@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Domain;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.SharedKernel;
