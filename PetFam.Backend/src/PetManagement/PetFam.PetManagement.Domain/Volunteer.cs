@@ -12,8 +12,6 @@ namespace PetFam.PetManagement.Domain
     public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     {
         private readonly List<Pet> _pets = [];
-        private bool _isDeleted = false;
-
         private Volunteer(VolunteerId id) : base(id)
         {
         }
@@ -88,24 +86,24 @@ namespace PetFam.PetManagement.Domain
             Requisites = requisites;
         }
 
-        public void Delete()
+        public new void Delete()
         {
             foreach (var pet in _pets)
             {
                 pet.Delete();
             }
 
-            _isDeleted = true;
+            IsDeleted = true;
         }
 
-        public void Restore()
+        public new void Restore()
         {
             foreach (var pet in _pets)
             {
                 pet.Restore();
             }
 
-            _isDeleted = false;
+            IsDeleted = false;
         }
 
         public void AddPet(Pet pet)

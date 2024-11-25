@@ -1,8 +1,22 @@
-﻿namespace PetFam.Shared.SharedKernel.Abstractions
+﻿namespace PetFam.Shared.SharedKernel.Abstractions;
+
+public interface ISoftDeletable
 {
-    public interface ISoftDeletable
+    void Delete();
+    void Restore();
+}
+
+public abstract class SoftDeletableEntity : ISoftDeletable
+{
+    public bool IsDeleted { get; set; }
+    public DateTime DeletedOn { get; set; }
+    public virtual void Delete()
     {
-        void Delete();
-        void Restore();
+        IsDeleted = true;
+    }
+
+    public virtual void Restore()
+    {
+        IsDeleted = false;
     }
 }

@@ -10,7 +10,6 @@ namespace PetFam.BreedManagement.Domain
 {
     public class Species : Entity<SpeciesId>, ISoftDeletable
     {
-        private bool _isDeleted = false;
         private List<Breed> _breeds = [];
         // EF Core ctor
         private Species(SpeciesId id) : base(id) { }
@@ -56,18 +55,13 @@ namespace PetFam.BreedManagement.Domain
             return breedId;
         }
 
-        public void Delete()
+        public new void Delete()
         {
-            _isDeleted = true;
+            IsDeleted = true;
             foreach (var breed in _breeds)
             {
                 breed.Delete();
             }
-        }
-
-        public void Restore()
-        {
-            _isDeleted = false;
         }
     }
 }
