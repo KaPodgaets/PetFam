@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using PetFam.Accounts.Infrastructure.Seeding;
 using PetFam.Accounts.Presentation;
+using PetFam.Api.Extensions;
 using PetFam.BreedManagement.Presentation;
 using PetFam.Files.Presentation;
 using PetFam.PetManagement.Presentation;
@@ -69,10 +70,8 @@ namespace PetFam.Web
             
             var app = builder.Build();
 
-            // seed permissions
-            var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
-
-            await accountsSeeder.SeedAsync();
+            // seed permissions, roles and accounts
+            app.SeedAccounts();
             
             app.UseSerilogRequestLogging();
             

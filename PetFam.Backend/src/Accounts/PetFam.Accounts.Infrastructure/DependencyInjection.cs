@@ -2,10 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Accounts.Application.Interfaces;
+using PetFam.Accounts.Application.RegisterUser;
 using PetFam.Accounts.Domain;
+using PetFam.Accounts.Infrastructure.DbContexts;
 using PetFam.Accounts.Infrastructure.IdentityManagers;
 using PetFam.Accounts.Infrastructure.Options;
 using PetFam.Accounts.Infrastructure.Seeding;
+using PetFam.Shared.Abstractions;
+using PetFam.Shared.SharedKernel;
 
 namespace PetFam.Accounts.Infrastructure;
 
@@ -16,6 +20,8 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddScoped<AccountsWriteDbContext>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Accounts);
         
         services.AddTransient<ITokenProvider,JwtTokenProvider>();
         
@@ -52,7 +58,9 @@ public static class DependencyInjection
 
         services.AddScoped<PermissionManager>();
         services.AddScoped<RolePermissionManager>();
-        services.AddScoped<PermissionManager>();
+        services.AddScoped<AdminAccountsManager>();
+        services.AddScoped<IParticipantAccountsManager, ParticipantAccountsManager>();
+        
         
         return services;
     }

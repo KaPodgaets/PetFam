@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PetFam.Accounts.Infrastructure;
+using PetFam.Accounts.Infrastructure.DbContexts;
 
 #nullable disable
 
-namespace PetFam.Accounts.Infrastructure.Migrations.WriteDb
+namespace PetFam.Accounts.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountsWriteDbContext))]
-    partial class AccountsWriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241120120025_Accounts.Initial")]
+    partial class AccountsInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,6 +154,50 @@ namespace PetFam.Accounts.Infrastructure.Migrations.WriteDb
                         .HasName("pk_user_tokens");
 
                     b.ToTable("user_tokens", "accounts");
+                });
+
+            modelBuilder.Entity("PetFam.Accounts.Domain.AdminAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("full_name");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_admin_accounts");
+
+                    b.ToTable("admin_accounts", "accounts");
+                });
+
+            modelBuilder.Entity("PetFam.Accounts.Domain.ParticipantAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("full_name");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_participant_accounts");
+
+                    b.ToTable("participant_accounts", "accounts");
                 });
 
             modelBuilder.Entity("PetFam.Accounts.Domain.Permission", b =>
@@ -305,6 +352,28 @@ namespace PetFam.Accounts.Infrastructure.Migrations.WriteDb
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("users", "accounts");
+                });
+
+            modelBuilder.Entity("PetFam.Accounts.Domain.VolunteerAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Fullname")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("fullname");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_volunteer_accounts");
+
+                    b.ToTable("volunteer_accounts", "accounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

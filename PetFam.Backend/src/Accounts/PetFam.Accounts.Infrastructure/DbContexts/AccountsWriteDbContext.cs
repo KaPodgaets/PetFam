@@ -6,13 +6,16 @@ using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Domain;
 using PetFam.Shared.Options;
 
-namespace PetFam.Accounts.Infrastructure;
+namespace PetFam.Accounts.Infrastructure.DbContexts;
 
 public class AccountsWriteDbContext(IConfiguration configuration)
     : IdentityDbContext<User, Role, Guid>
 {
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     public DbSet<Permission> Permissions => Set<Permission>();
+    public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
+    public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
+    public DbSet<VolunteerAccount> VolunteerAccounts => Set<VolunteerAccount>();
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace PetFam.Accounts.Infrastructure.Migrations.WriteDb
+namespace PetFam.Accounts.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class AccountsInitial : Migration
@@ -14,6 +14,34 @@ namespace PetFam.Accounts.Infrastructure.Migrations.WriteDb
         {
             migrationBuilder.EnsureSchema(
                 name: "accounts");
+
+            migrationBuilder.CreateTable(
+                name: "admin_accounts",
+                schema: "accounts",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    full_name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_admin_accounts", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "participant_accounts",
+                schema: "accounts",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    full_name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_participant_accounts", x => x.id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "permissions",
@@ -67,6 +95,20 @@ namespace PetFam.Accounts.Infrastructure.Migrations.WriteDb
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_users", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "volunteer_accounts",
+                schema: "accounts",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    fullname = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_volunteer_accounts", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -275,6 +317,14 @@ namespace PetFam.Accounts.Infrastructure.Migrations.WriteDb
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "admin_accounts",
+                schema: "accounts");
+
+            migrationBuilder.DropTable(
+                name: "participant_accounts",
+                schema: "accounts");
+
+            migrationBuilder.DropTable(
                 name: "role_claims",
                 schema: "accounts");
 
@@ -296,6 +346,10 @@ namespace PetFam.Accounts.Infrastructure.Migrations.WriteDb
 
             migrationBuilder.DropTable(
                 name: "user_tokens",
+                schema: "accounts");
+
+            migrationBuilder.DropTable(
+                name: "volunteer_accounts",
                 schema: "accounts");
 
             migrationBuilder.DropTable(

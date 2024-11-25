@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Domain;
 using PetFam.Accounts.Infrastructure.IdentityManagers;
+using PetFam.Accounts.Infrastructure.Models;
 using PetFam.Accounts.Infrastructure.Options;
 
 namespace PetFam.Accounts.Infrastructure;

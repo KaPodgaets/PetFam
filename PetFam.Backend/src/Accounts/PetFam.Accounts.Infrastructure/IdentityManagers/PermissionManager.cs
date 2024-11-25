@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using PetFam.Accounts.Domain;
+using PetFam.Accounts.Infrastructure.DbContexts;
 
 namespace PetFam.Accounts.Infrastructure.IdentityManagers;
 
