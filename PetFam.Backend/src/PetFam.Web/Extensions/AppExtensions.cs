@@ -1,6 +1,6 @@
 ﻿using PetFam.Accounts.Infrastructure.Seeding;
 
-namespace PetFam.Api.Extensions
+namespace PetFam.Web.Extensions
 {
     public static class AppExtensions
     {

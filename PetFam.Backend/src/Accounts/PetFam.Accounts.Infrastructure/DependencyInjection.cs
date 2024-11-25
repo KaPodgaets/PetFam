@@ -60,6 +60,7 @@ public static class DependencyInjection
         services.AddScoped<RolePermissionManager>();
         services.AddScoped<AdminAccountsManager>();
         services.AddScoped<IParticipantAccountsManager, ParticipantAccountsManager>();
+        services.AddScoped<IRefreshSessionsManager, RefreshSessionsManager>();
         
         
         return services;

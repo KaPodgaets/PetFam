@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Application.Interfaces;
+using PetFam.Accounts.Contracts.Responses;
 using PetFam.Accounts.Domain;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.SharedKernel.Errors;
@@ -9,7 +10,7 @@ using PetFam.Shared.SharedKernel.Result;
 namespace PetFam.Accounts.Application.Login;
 
 public class LoginHandler
-    : ICommandHandler<string, LoginCommand>
+    : ICommandHandler<LoginResponse, LoginCommand>
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenProvider _tokenProvider;
@@ -25,7 +26,7 @@ public class LoginHandler
         _tokenProvider = tokenProvider;
     }
 
-    public async Task<Result<string>> ExecuteAsync(
+    public async Task<Result<LoginResponse>> ExecuteAsync(
         LoginCommand command,
         CancellationToken cancellationToken = default)
     {
@@ -38,8 +39,12 @@ public class LoginHandler
         if (passwordCheck is false)
             return Errors.User.InvalidCredentials().ToErrorList();
         
-        var token = await _tokenProvider.GetAccessToken(user, cancellationToken);
-
-        return token;
+        var jwtResult = await _tokenProvider.GenerateAccessToken(user, cancellationToken);
+        var accessToken = jwtResult.AccessToken;
+        var refreshToken = await _tokenProvider.GenerateRefreshToken(user, jwtResult.AccessTokenJti, cancellationToken);
+        
+        var response = new LoginResponse(accessToken, refreshToken);
+        _logger.LogInformation("user {userId} logged in", user.Id);
+        return response;
     }
 }

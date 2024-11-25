@@ -95,5 +95,18 @@
                 return Error.Failure("user.password.incorrect", "user or password is incorrect");
             }
         }
+
+        public static class Tokens
+        {
+            public static Error ExpiredToken()
+            {
+                return Error.Validation("token.expired", "token expired");
+            }
+
+            public static Error NotValid()
+            {
+                return Error.Validation("token.not.valid", "token not valid");
+            }
+        }
     }
 }

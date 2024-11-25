@@ -1,3 +1,4 @@
+using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Application.RegisterUser;
 using PetFam.Accounts.Domain;
 using PetFam.Accounts.Infrastructure.DbContexts;

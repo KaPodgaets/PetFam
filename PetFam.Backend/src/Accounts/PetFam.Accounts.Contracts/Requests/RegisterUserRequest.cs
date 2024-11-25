@@ -1,3 +1,3 @@
-namespace PetFam.Accounts.Presentation.Requests;
+namespace PetFam.Accounts.Contracts.Requests;
 
 public record RegisterUserRequest(string Email, string Password);

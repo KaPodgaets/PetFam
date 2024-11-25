@@ -57,17 +57,8 @@ public static class DependencyInjection
                                      .GetSection(JwtOptions.SectionName)
                                      .Get<JwtOptions>()
                                  ?? throw new ApplicationException("missing JwtOptions");
-
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = jwtOptions.Issuer,
-                    ValidAudience = jwtOptions.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey)),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidateLifetime = true
-                };
+                
+                options.TokenValidationParameters = JwtValidationParametersFactory.CreateWithLifeTime(jwtOptions);
             });
         
         services.AddAuthorization();

@@ -1,6 +1,6 @@
 using PetFam.Accounts.Domain;
 
-namespace PetFam.Accounts.Application.RegisterUser;
+namespace PetFam.Accounts.Application.Interfaces;
 
 public interface IParticipantAccountsManager
 {
