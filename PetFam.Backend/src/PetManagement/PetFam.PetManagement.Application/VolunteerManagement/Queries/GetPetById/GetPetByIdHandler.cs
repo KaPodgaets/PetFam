@@ -4,7 +4,6 @@ using PetFam.PetManagement.Application.Database;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.Dtos;
 using PetFam.Shared.Extensions;
-using PetFam.Shared.SharedKernel;
 using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
 

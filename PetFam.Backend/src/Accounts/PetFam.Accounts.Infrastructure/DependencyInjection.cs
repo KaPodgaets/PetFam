@@ -9,6 +9,7 @@ using PetFam.Accounts.Infrastructure.IdentityManagers;
 using PetFam.Accounts.Infrastructure.Options;
 using PetFam.Accounts.Infrastructure.Seeding;
 using PetFam.Shared.Abstractions;
+using PetFam.Shared.Options;
 using PetFam.Shared.SharedKernel;
 
 namespace PetFam.Accounts.Infrastructure;
@@ -46,6 +47,8 @@ public static class DependencyInjection
             configuration.GetSection(JwtOptions.SectionName));
         services.Configure<AdminOptions>(
             configuration.GetSection(AdminOptions.SectionName));
+        services.Configure<SoftDeleteOptions>(
+            configuration.GetSection(SoftDeleteOptions.SectionName));
         return services;
     }
 

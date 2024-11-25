@@ -27,8 +27,7 @@ namespace PetFam.BreedManagement.Infrastructure.Configurations.Write
                 .WithOne()
                 .HasForeignKey("species_id");
 
-            builder.Property<bool>("_isDeleted")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+            builder.Property(x => x.IsDeleted)
                 .HasColumnName("is_deleted");
         }
     }
