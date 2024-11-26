@@ -317,6 +317,10 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("access_failed_count");
 
+                    b.Property<Guid?>("AdminAccountId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("admin_account_id");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text")
@@ -349,6 +353,10 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("normalized_user_name");
 
+                    b.Property<Guid?>("ParticipantAccountId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("participant_account_id");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text")
                         .HasColumnName("password_hash");
@@ -374,8 +382,16 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("user_name");
 
+                    b.Property<Guid?>("VolunteerAccountId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("volunteer_account_id");
+
                     b.HasKey("Id")
                         .HasName("pk_users");
+
+                    b.HasIndex("AdminAccountId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_admin_account_id");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -383,6 +399,14 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("ParticipantAccountId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_participant_account_id");
+
+                    b.HasIndex("VolunteerAccountId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_volunteer_account_id");
 
                     b.ToTable("users", "accounts");
                 });
@@ -497,6 +521,30 @@ namespace PetFam.Accounts.Infrastructure.Migrations
                     b.Navigation("Permission");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("PetFam.Accounts.Domain.User", b =>
+                {
+                    b.HasOne("PetFam.Accounts.Domain.AdminAccount", "AdminAccount")
+                        .WithOne()
+                        .HasForeignKey("PetFam.Accounts.Domain.User", "AdminAccountId")
+                        .HasConstraintName("fk_users_admin_accounts_admin_account_id");
+
+                    b.HasOne("PetFam.Accounts.Domain.ParticipantAccount", "ParticipantAccount")
+                        .WithOne()
+                        .HasForeignKey("PetFam.Accounts.Domain.User", "ParticipantAccountId")
+                        .HasConstraintName("fk_users_participant_accounts_participant_account_id");
+
+                    b.HasOne("PetFam.Accounts.Domain.VolunteerAccount", "VolunteerAccount")
+                        .WithOne()
+                        .HasForeignKey("PetFam.Accounts.Domain.User", "VolunteerAccountId")
+                        .HasConstraintName("fk_users_volunteer_accounts_volunteer_account_id");
+
+                    b.Navigation("AdminAccount");
+
+                    b.Navigation("ParticipantAccount");
+
+                    b.Navigation("VolunteerAccount");
                 });
 
             modelBuilder.Entity("PetFam.Accounts.Domain.Role", b =>
