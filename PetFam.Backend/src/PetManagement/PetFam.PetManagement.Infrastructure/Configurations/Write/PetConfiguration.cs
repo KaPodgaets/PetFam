@@ -109,6 +109,8 @@ namespace PetFam.PetManagement.Infrastructure.Configurations.Write
 
             builder.Property(x => x.IsDeleted)
                 .HasColumnName("is_deleted");
+            
+            builder.HasQueryFilter(x => x.IsDeleted == false);
         }
     }
 }
