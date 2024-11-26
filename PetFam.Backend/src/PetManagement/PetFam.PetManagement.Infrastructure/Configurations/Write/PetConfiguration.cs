@@ -107,8 +107,7 @@ namespace PetFam.PetManagement.Infrastructure.Configurations.Write
                 hib.Property(a => a.Comment).HasColumnName("health_info_comment");
             });
 
-            builder.Property<bool>("_isDeleted")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+            builder.Property(x => x.IsDeleted)
                 .HasColumnName("is_deleted");
         }
     }

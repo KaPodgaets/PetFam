@@ -96,8 +96,7 @@ namespace PetFam.PetManagement.Infrastructure.Configurations.Write
                     .HasMaxLength(Constants.MAX_LONG_TEXT_LENGTH);
             });
 
-            builder.Property<bool>("_isDeleted")
-                .UsePropertyAccessMode(PropertyAccessMode.Field)
+            builder.Property(x => x.IsDeleted)
                 .HasColumnName("is_deleted");
         }
     }

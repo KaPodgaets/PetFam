@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.PetManagement.Application.Database;
 using PetFam.PetManagement.Application.VolunteerManagement;
+using PetFam.PetManagement.Infrastructure.BackgroundServices;
 using PetFam.PetManagement.Infrastructure.DbContexts;
 using PetFam.Shared.Abstractions;
 
@@ -18,7 +19,7 @@ public static class DependencyInjection
             .AddRepositories();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+        services.AddHostedService<PetManagementEntityCleaner>();
         return services;
     }
 

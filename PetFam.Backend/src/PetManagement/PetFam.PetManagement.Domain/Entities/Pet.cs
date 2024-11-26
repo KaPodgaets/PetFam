@@ -11,7 +11,6 @@ namespace PetFam.PetManagement.Domain.Entities
 
     public class Pet : Entity<PetId>, ISoftDeletable
     {
-        private bool _isDeleted = false;
         private List<PetPhoto> _photos = [];
         private Pet(PetId id) : base(id)
         {
@@ -155,19 +154,13 @@ namespace PetFam.PetManagement.Domain.Entities
             return Result.Success();
         }
 
-        public void Delete()
+        public new void Delete()
         {
-            _isDeleted = true;
+            IsDeleted = true;
             
             if(_photos.Count > 0)
                 DeletePhotos(_photos);
         }
-
-        public void Restore()
-        {
-            _isDeleted = false;
-        }
-
         internal void ChangeOrderNumber(int orderNumber)
         {
             Order = orderNumber;

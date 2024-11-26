@@ -1,6 +1,8 @@
-﻿namespace PetFam.Shared.SharedKernel
+﻿using PetFam.Shared.SharedKernel.Abstractions;
+
+namespace PetFam.Shared.SharedKernel
 {
-    public abstract class Entity<TId> where TId : notnull
+    public abstract class Entity<TId>: SoftDeletableEntity where TId : notnull
     {
         protected Entity(TId id)
         {

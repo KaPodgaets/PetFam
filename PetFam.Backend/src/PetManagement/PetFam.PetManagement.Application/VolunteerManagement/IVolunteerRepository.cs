@@ -1,7 +1,6 @@
 ﻿using PetFam.Shared.SharedKernel.Result;
 using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
 using PetFam.PetManagement.Domain;
-using PetFam.PetManagement.Domain.Entities;
 
 
 namespace PetFam.PetManagement.Application.VolunteerManagement
