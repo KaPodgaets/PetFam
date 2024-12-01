@@ -9,7 +9,7 @@ public class IntegrationTestsWebFactory:WebApplicationFactory<Program>
 {
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
         .WithImage("postgres")
-        .WithDatabase("petManagement")
+        .WithDatabase("pet-fam")
         .WithUsername("postgres")
         .WithPassword("postgres")
         .Build();
