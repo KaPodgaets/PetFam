@@ -23,7 +23,7 @@ services:
     - 8081:80
 
   minio:
-    container_name: minio
+    container_name: petfam-minio
     image: minio/minio
     ports: 
     - 9000:9000
