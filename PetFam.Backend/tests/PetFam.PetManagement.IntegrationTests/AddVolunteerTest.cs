@@ -4,18 +4,12 @@ using PetFam.PetManagement.Application.Database;
 
 namespace PetFam.PetManagement.IntegrationTests;
 
-public class UnitTest1:IClassFixture<IntegrationTestsWebFactory>
+public class AddVolunteerTest(IntegrationTestsWebFactory factory) : IClassFixture<IntegrationTestsWebFactory>
 {
-    private readonly IntegrationTestsWebFactory _factory;
-
-    public UnitTest1(IntegrationTestsWebFactory factory)
-    {
-        _factory = factory;
-    }
     [Fact]
-    public void Test1()
+    public void GetVolunteersTest()
     {
-        var scope = _factory.Services.CreateScope();
+        var scope = factory.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<IReadDbContext>();
         
         var volunteers = dbContext.Volunteers.ToList();

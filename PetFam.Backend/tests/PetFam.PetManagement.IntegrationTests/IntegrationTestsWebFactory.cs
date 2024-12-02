@@ -31,32 +31,33 @@ public class IntegrationTestsWebFactory:WebApplicationFactory<Program>, IAsyncLi
             s.ServiceType == typeof(IReadDbContext));
         var writeDbContext = services.SingleOrDefault(s =>
             s.ServiceType == typeof(WriteDbContext));
-        var accountsDbContext = services.SingleOrDefault(s =>
-            s.ServiceType == typeof(AccountsWriteDbContext));
+        // var accountsDbContext = services.SingleOrDefault(s =>
+        //     s.ServiceType == typeof(AccountsWriteDbContext));
         
         if(readDbContext is not null)
             services.Remove(readDbContext);
         if(writeDbContext is not null)
             services.Remove(writeDbContext);
-        if(accountsDbContext is not null)
-            services.Remove(accountsDbContext);
+        // if(accountsDbContext is not null)
+        //     services.Remove(accountsDbContext);
         
         services.AddScoped<IReadDbContext, ReadDbContext>(_ =>
             new ReadDbContext(_dbContainer.GetConnectionString()));
         services.AddScoped<WriteDbContext>(_ =>
             new WriteDbContext(_dbContainer.GetConnectionString()));
-        services.AddScoped<AccountsWriteDbContext>(_ =>
-            new AccountsWriteDbContext(_dbContainer.GetConnectionString()));
+        // services.AddScoped<AccountsWriteDbContext>(_ =>
+        //     new AccountsWriteDbContext(_dbContainer.GetConnectionString()));
         
     }
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
+        
         using var scope = Services.CreateScope();
         var writeDbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        // var accountsDbContext = scope.ServiceProvider.GetRequiredService<AccountsWriteDbContext>();
         await writeDbContext.Database.EnsureCreatedAsync();
-        var accountsDbContext = scope.ServiceProvider.GetRequiredService<AccountsWriteDbContext>();
-        await accountsDbContext.Database.EnsureCreatedAsync();
+        // await accountsDbContext.Database.EnsureCreatedAsync();
     }
 
     public new async Task DisposeAsync()

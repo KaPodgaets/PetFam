@@ -70,7 +70,7 @@ namespace PetFam.Web
             var app = builder.Build();
 
             // seed permissions, roles and accounts
-            await app.SeedAccounts();
+            //await app.SeedAccounts();
             
             app.UseSerilogRequestLogging();
             
