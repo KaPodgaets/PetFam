@@ -24,8 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\PetFam.Web\PetFam.Web.csproj" />
-      <ProjectReference Include="..\..\src\PetManagement\PetFam.PetManagement.Application\PetFam.PetManagement.Application.csproj" />
+      <ProjectReference Include="..\src\PetFam.Web\PetFam.Web.csproj" />
     </ItemGroup>
 
 </Project>
