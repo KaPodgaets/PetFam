@@ -11,7 +11,7 @@ namespace PetFam.Web
 {
     public class Program
     {
-        public async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             DotNetEnv.Env.Load();
             

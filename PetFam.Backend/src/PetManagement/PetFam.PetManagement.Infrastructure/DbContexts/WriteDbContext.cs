@@ -7,13 +7,13 @@ using PetFam.Shared.Options;
 namespace PetFam.PetManagement.Infrastructure.DbContexts
 {
     public class WriteDbContext(
-        IConfiguration configuration) : DbContext
+        string connectionString) : DbContext
     {
         public DbSet<Volunteer> Volunteers => Set<Volunteer>();
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(configuration.GetConnectionString(InfrastructureOptions.DATABASE));
+            optionsBuilder.UseNpgsql(connectionString);
             optionsBuilder.UseSnakeCaseNamingConvention();
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());

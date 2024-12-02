@@ -5,6 +5,7 @@ using PetFam.PetManagement.Application.VolunteerManagement;
 using PetFam.PetManagement.Infrastructure.BackgroundServices;
 using PetFam.PetManagement.Infrastructure.DbContexts;
 using PetFam.Shared.Abstractions;
+using PetFam.Shared.Options;
 
 namespace PetFam.PetManagement.Infrastructure;
 
@@ -15,7 +16,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services
-            .AddDbContexts()
+            .AddDbContexts(configuration)
             .AddRepositories();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -24,19 +25,20 @@ public static class DependencyInjection
     }
 
     private static IServiceCollection AddDbContexts(
-        this IServiceCollection services)
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
-        services.AddScoped<WriteDbContext>();
-        services.AddScoped<IReadDbContext, ReadDbContext>();
+        services.AddScoped<WriteDbContext>(_ =>
+            new WriteDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
+        services.AddScoped<IReadDbContext, ReadDbContext>(_ =>
+            new ReadDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
 
         return services;
     }
 
-    private static IServiceCollection AddRepositories(
+    private static void AddRepositories(
         this IServiceCollection services)
     {
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();
-
-        return services;
     }
 }
