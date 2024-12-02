@@ -9,7 +9,7 @@ using Testcontainers.PostgreSql;
 
 namespace PetFam.Volunteers.IntegrationTests;
 
-public class Factory:WebApplicationFactory<Program>,IAsyncLifetime
+public class Factory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
         .WithImage("postgres")
@@ -17,11 +17,12 @@ public class Factory:WebApplicationFactory<Program>,IAsyncLifetime
         .WithUsername("postgres")
         .WithPassword("postgres")
         .Build();
-    
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(ConfigureDefaultServices);
     }
+
     protected virtual void ConfigureDefaultServices(IServiceCollection services)
     {
         services.RemoveAll(typeof(WriteDbContext));
@@ -37,13 +38,17 @@ public class Factory:WebApplicationFactory<Program>,IAsyncLifetime
         await _dbContainer.StartAsync();
         
         using var scope = Services.CreateScope();
-        var volunteersDbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
-        await volunteersDbContext.Database.EnsureCreatedAsync();
+        var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+        
+        await Task.CompletedTask;
     }
-
+    
     public new async Task DisposeAsync()
     {
         await _dbContainer.StopAsync();
         await _dbContainer.DisposeAsync();
+        
+        await Task.CompletedTask;
     }
 }

@@ -6,30 +6,32 @@ using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
 
 namespace PetFam.Volunteers.IntegrationTests;
 
-public class GetVolunteerTest : IClassFixture<Factory>
+public class GetVolunteerTest : IClassFixture<Factory>, IAsyncLifetime
 {
     private readonly Factory _factory;
+    private readonly IServiceScope _scope;
+    private readonly WriteDbContext _writeDbContext;
 
     public GetVolunteerTest(Factory factory)
     {
         _factory = factory;
+        _scope = factory.Services.CreateScope();
+        _writeDbContext = _scope.ServiceProvider.GetRequiredService<WriteDbContext>();
     }
 
     [Fact]
     public void Test1()
     {
+        _writeDbContext.Database.EnsureCreated();
         
-        using var scope = _factory.Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
-        
-        CreateVolunteerRecord(dbContext);
+        CreateVolunteerRecord();
 
-        var volunteers = dbContext.Volunteers.ToList();
+        var volunteers = _writeDbContext.Volunteers.ToList();
         
         volunteers.Should().NotBeEmpty();
     }
 
-    private void CreateVolunteerRecord(WriteDbContext context)
+    private void CreateVolunteerRecord()
     {
         var volunteer = Volunteer.Create(
             VolunteerId.NewId(),
@@ -38,7 +40,18 @@ public class GetVolunteerTest : IClassFixture<Factory>
             null,
             null
         ).Value;
-        context.Add(volunteer);
-        context.SaveChanges();
+        _writeDbContext.Add(volunteer);
+        _writeDbContext.SaveChanges();
+    }
+
+    public async Task InitializeAsync()
+    {
+        await Task.CompletedTask;
+    }
+
+    public async Task DisposeAsync()
+    {
+        _scope.Dispose();
+        await Task.CompletedTask;
     }
 }
