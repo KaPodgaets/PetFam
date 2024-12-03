@@ -13,7 +13,7 @@ namespace PetFam.Web
     {
         public static async Task Main(string[] args)
         {
-            DotNetEnv.Env.Load();
+            // DotNetEnv.Env.Load();
             
             var builder = WebApplication.CreateBuilder(args);
             var services = builder.Services;
@@ -70,7 +70,7 @@ namespace PetFam.Web
             var app = builder.Build();
 
             // seed permissions, roles and accounts
-            //await app.SeedAccounts();
+            await app.SeedAccounts();
             
             app.UseSerilogRequestLogging();
             
