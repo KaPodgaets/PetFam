@@ -14,6 +14,7 @@ public class Factory : WebApplicationFactory<Program>, IAsyncLifetime
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
         .WithImage("postgres")
         .WithDatabase("pet-fam_tests")
+        .WithPortBinding(49111,5435)
         .WithUsername("postgres")
         .WithPassword("postgres")
         .Build();
