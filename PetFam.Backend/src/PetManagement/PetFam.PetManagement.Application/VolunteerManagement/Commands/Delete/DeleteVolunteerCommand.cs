@@ -2,5 +2,5 @@
 
 namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.Delete
 {
-    public record DeleteCommand(Guid Id) :ICommand;
+    public record DeleteVolunteerCommand(Guid Id) :ICommand;
 }

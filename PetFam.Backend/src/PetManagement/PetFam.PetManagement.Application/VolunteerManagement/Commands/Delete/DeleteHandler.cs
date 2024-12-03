@@ -6,7 +6,7 @@ using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
 
 namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.Delete
 {
-    public class DeleteHandler : ICommandHandler<Guid, DeleteCommand>
+    public class DeleteHandler : ICommandHandler<Guid, DeleteVolunteerCommand>
     {
         private readonly IVolunteerRepository _repository;
         private readonly ILogger _logger;
@@ -20,7 +20,7 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.Delete
         }
 
         public async Task<Result<Guid>> ExecuteAsync(
-            DeleteCommand request,
+            DeleteVolunteerCommand request,
             CancellationToken cancellationToken = default)
         {
             var volunteerId = VolunteerId.Create(request.Id);

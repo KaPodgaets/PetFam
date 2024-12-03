@@ -111,7 +111,7 @@ namespace PetFam.PetManagement.Presentation
             [FromServices] DeleteHandler handler,
             CancellationToken cancellationToken = default)
         {
-            var command = new DeleteCommand(id);
+            var command = new DeleteVolunteerCommand(id);
 
             var result = await handler.ExecuteAsync(command, cancellationToken);
 
