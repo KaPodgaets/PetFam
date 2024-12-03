@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Npgsql;
 using NSubstitute;
 using PetFam.BreedManagement.Contracts;
@@ -39,6 +40,7 @@ public class TestsWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
     protected virtual void ConfigureDefaultServices(IServiceCollection services)
     {
+        services.RemoveAll(typeof(IHostedService));
         services.RemoveAll(typeof(WriteDbContext));
 
         var connectionString = _dbContainer.GetConnectionString();

@@ -20,7 +20,7 @@ public static class DependencyInjection
             .AddRepositories();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        // services.AddHostedService<PetManagementEntityCleaner>();
+        services.AddHostedService<PetManagementEntityCleaner>();
         return services;
     }
 
