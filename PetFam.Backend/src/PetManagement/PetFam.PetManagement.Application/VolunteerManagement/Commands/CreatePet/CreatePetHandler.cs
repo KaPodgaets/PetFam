@@ -34,20 +34,21 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
         public async Task<Result<Guid>> ExecuteAsync(CreatePetCommand command,
             CancellationToken cancellationToken = default)
         {
+            // validation
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
 
             if (validationResult.IsValid == false)
                 return validationResult.ToErrorList();
-
+            
+            // check that volunteer exists
             var volunteerId = VolunteerId.Create(command.VolunteerId);
 
             var getVolunteerResult = await _volunteerRepository.GetById(volunteerId, cancellationToken);
 
             if (getVolunteerResult.IsFailure)
-            {
                 return Errors.General.NotFound(volunteerId.Value).ToErrorList();
-            }
             
+            // check that breed exists
             var getBreedResult = await _breedManagementContracts.
                 GetBreedById(
                     command.BreedId,
@@ -56,6 +57,7 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
             if (getBreedResult.IsFailure)
                 return Errors.General.NotFound(command.BreedId).ToErrorList();
             
+            // create pet values objects
             var volunteer = getVolunteerResult.Value;
             
             var speciesId = SpeciesId.Create(command.SpeciesId);
@@ -63,8 +65,7 @@ namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePe
             var speciesBreed = SpeciesBreed.Create(
                 speciesId,
                 command.BreedId);
-
-            // create pet values objects
+            
             var generalInfoDto = command.PetGeneralInfoDto;
 
             var generalInfo = PetGeneralInfo.Create(

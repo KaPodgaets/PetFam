@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.Delete;
 using PetFam.Shared.Abstractions;
 
-namespace PetFam.Volunteers.IntegrationTests;
+namespace PetFam.Volunteers.IntegrationTests.Volunteers;
 
 public class DeleteVolunteerTest : PetManagementTestBase
 {
@@ -14,7 +14,7 @@ public class DeleteVolunteerTest : PetManagementTestBase
     }
     
     [Fact]
-    public async Task DeleteVolunteerFromDatabase_should_be_success()
+    public async Task DeleteVolunteer_should_be_success()
     {
         // Arrange
         var volunteerId = await SeedVolunteer();

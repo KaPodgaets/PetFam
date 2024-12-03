@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.Create;
 using PetFam.Shared.Abstractions;
 
-namespace PetFam.Volunteers.IntegrationTests;
+namespace PetFam.Volunteers.IntegrationTests.Volunteers;
 
 public class AddVolunteerTest : PetManagementTestBase
 {
