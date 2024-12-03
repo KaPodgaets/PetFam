@@ -8,11 +8,12 @@ namespace PetFam.Volunteers.IntegrationTests.Volunteers;
 public class DeleteVolunteerTest : PetManagementTestBase
 {
     private readonly ICommandHandler<Guid, DeleteVolunteerCommand> _sut;
+
     public DeleteVolunteerTest(TestsWebAppFactory factory) : base(factory)
     {
         _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, DeleteVolunteerCommand>>();
     }
-    
+
     [Fact]
     public async Task DeleteVolunteer_should_be_success()
     {
@@ -32,6 +33,4 @@ public class DeleteVolunteerTest : PetManagementTestBase
         var volunteers = _writeDbContext.Volunteers.ToList();
         volunteers.Should().BeEmpty();
     }
-
-
 }

@@ -30,8 +30,4 @@
       <ProjectReference Include="..\..\src\PetFam.Web\PetFam.Web.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Pets\" />
-    </ItemGroup>
-
 </Project>

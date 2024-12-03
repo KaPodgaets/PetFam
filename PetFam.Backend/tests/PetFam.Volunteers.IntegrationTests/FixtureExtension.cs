@@ -1,5 +1,6 @@
 using AutoFixture;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.Create;
+using PetFam.PetManagement.Application.VolunteerManagement.Commands.CreatePet;
 using PetFam.PetManagement.Application.VolunteerManagement.Commands.Delete;
 using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
 
@@ -18,6 +19,13 @@ public static class FixtureExtension
     {
         return fixture.Build<DeleteVolunteerCommand>()
             .With(c => c.Id, volunteerId)
+            .Create();
+    }
+    
+    public static CreatePetCommand FakeCreatePetCommand(this IFixture fixture, Guid volunteerId)
+    {
+        return fixture.Build<CreatePetCommand>()
+            .With(c => c.VolunteerId, volunteerId)
             .Create();
     }
 }
