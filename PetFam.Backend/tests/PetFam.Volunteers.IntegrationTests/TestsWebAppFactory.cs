@@ -40,7 +40,10 @@ public class TestsWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
     protected virtual void ConfigureDefaultServices(IServiceCollection services)
     {
+        // Delete all Background services
         services.RemoveAll(typeof(IHostedService));
+        
+        // change VolunteerDbContext
         services.RemoveAll(typeof(WriteDbContext));
 
         var connectionString = _dbContainer.GetConnectionString();
