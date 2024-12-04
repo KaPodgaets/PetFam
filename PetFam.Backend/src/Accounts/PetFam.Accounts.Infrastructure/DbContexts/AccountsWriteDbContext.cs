@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Domain;
-using PetFam.Shared.Options;
 
 namespace PetFam.Accounts.Infrastructure.DbContexts;
 
-public class AccountsWriteDbContext(IConfiguration configuration)
+public class AccountsWriteDbContext(string connectionString)
     : IdentityDbContext<User, Role, Guid>
 {
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
@@ -20,7 +18,7 @@ public class AccountsWriteDbContext(IConfiguration configuration)
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString(InfrastructureOptions.DATABASE));
+        optionsBuilder.UseNpgsql(connectionString);
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());

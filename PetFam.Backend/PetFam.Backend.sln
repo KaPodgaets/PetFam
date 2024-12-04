@@ -72,6 +72,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Accounts.Presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Accounts.Infrastructure", "src\Accounts\PetFam.Accounts.Infrastructure\PetFam.Accounts.Infrastructure.csproj", "{3F0D4546-7C31-4D22-8E50-CF89C4344EF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Volunteers.IntegrationTests", "tests\PetFam.Volunteers.IntegrationTests\PetFam.Volunteers.IntegrationTests.csproj", "{0AC4B271-23DD-4A61-89D4-42DC5D2DC24B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -178,6 +180,10 @@ Global
 		{3F0D4546-7C31-4D22-8E50-CF89C4344EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F0D4546-7C31-4D22-8E50-CF89C4344EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F0D4546-7C31-4D22-8E50-CF89C4344EF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC4B271-23DD-4A61-89D4-42DC5D2DC24B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC4B271-23DD-4A61-89D4-42DC5D2DC24B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC4B271-23DD-4A61-89D4-42DC5D2DC24B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC4B271-23DD-4A61-89D4-42DC5D2DC24B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,5 +222,6 @@ Global
 		{42472794-524B-435E-B618-330BC70BE2AC} = {623F8AE0-AEBF-4D2F-B026-61B6A8EF2EFB}
 		{7FD61E15-D9B1-4BBF-8A76-975583407B8A} = {623F8AE0-AEBF-4D2F-B026-61B6A8EF2EFB}
 		{3F0D4546-7C31-4D22-8E50-CF89C4344EF8} = {623F8AE0-AEBF-4D2F-B026-61B6A8EF2EFB}
+		{0AC4B271-23DD-4A61-89D4-42DC5D2DC24B} = {4C6C71B0-7E9A-4A21-A72A-810AC6A99DE5}
 	EndGlobalSection
 EndGlobal

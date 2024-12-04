@@ -1,5 +1,4 @@
 using Microsoft.OpenApi.Models;
-using PetFam.Accounts.Infrastructure.Seeding;
 using PetFam.Accounts.Presentation;
 using PetFam.BreedManagement.Presentation;
 using PetFam.Files.Presentation;
@@ -10,11 +9,11 @@ using Serilog;
 
 namespace PetFam.Web
 {
-    public static class Program
+    public class Program
     {
         public static async Task Main(string[] args)
         {
-            DotNetEnv.Env.Load();
+            // DotNetEnv.Env.Load();
             
             var builder = WebApplication.CreateBuilder(args);
             var services = builder.Services;
@@ -71,7 +70,7 @@ namespace PetFam.Web
             var app = builder.Build();
 
             // seed permissions, roles and accounts
-            app.SeedAccounts();
+            await app.SeedAccounts();
             
             app.UseSerilogRequestLogging();
             

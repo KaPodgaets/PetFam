@@ -20,7 +20,9 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<AccountsWriteDbContext>();
+        services.AddScoped<AccountsWriteDbContext>(_ =>
+            new AccountsWriteDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
+        
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Accounts);
         

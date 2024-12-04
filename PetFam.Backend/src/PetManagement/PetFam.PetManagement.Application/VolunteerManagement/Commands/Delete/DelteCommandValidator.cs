@@ -2,7 +2,7 @@
 
 namespace PetFam.PetManagement.Application.VolunteerManagement.Commands.Delete
 {
-    public class DelteCommandValidator : AbstractValidator<DeleteCommand>
+    public class DelteCommandValidator : AbstractValidator<DeleteVolunteerCommand>
     {
         public DelteCommandValidator()
         {

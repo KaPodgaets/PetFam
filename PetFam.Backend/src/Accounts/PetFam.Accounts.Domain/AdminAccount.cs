@@ -3,7 +3,7 @@ namespace PetFam.Accounts.Domain;
 public class AdminAccount
 {
     public const string RoleName = "Admin";
-    public Guid Id { get; set; }
-    public Guid UserId { get; set; }
-    public string FullName { get; set; } = string.Empty;
+    public Guid Id { get; init; }
+    public Guid UserId { get; init; }
+    public string FullName { get; init; } = string.Empty;
 }
