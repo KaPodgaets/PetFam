@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetFam.Accounts.Application.Interfaces;
+using PetFam.Accounts.Application.Database;
 using PetFam.Accounts.Domain;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.SharedKernel;
 using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
 
-namespace PetFam.Accounts.Application.RegisterUser;
+namespace PetFam.Accounts.Application.Features.RegisterUser;
 
 public class RegisterUserHandler
     :ICommandHandler<RegisterUserCommand>

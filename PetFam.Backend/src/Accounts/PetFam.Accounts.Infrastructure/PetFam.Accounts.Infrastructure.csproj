@@ -25,4 +25,8 @@
       <Compile Remove="Migrations\AccountsWriteDbContextModelSnapshot.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Configurations\Read\" />
+    </ItemGroup>
+
 </Project>

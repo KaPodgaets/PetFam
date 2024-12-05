@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PetFam.Accounts.Application.Database;
 using PetFam.Accounts.Application.Interfaces;
-using PetFam.Accounts.Application.RegisterUser;
 using PetFam.Accounts.Domain;
 using PetFam.Accounts.Infrastructure.DbContexts;
 using PetFam.Accounts.Infrastructure.IdentityManagers;
@@ -20,11 +20,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<AccountsWriteDbContext>(_ =>
-            new AccountsWriteDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
+        services.AddContexts(configuration);
         
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Accounts);
         
         services.AddTransient<ITokenProvider,JwtTokenProvider>();
         
@@ -33,6 +30,20 @@ public static class DependencyInjection
             .RegisterIdentity()
             .AddAccountsSeeding();
 
+        return services;
+    }
+
+    private static IServiceCollection AddContexts(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddScoped<AccountsWriteDbContext>(_ =>
+            new AccountsWriteDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
+        services.AddScoped<IAccountsReadDbContext, AccountsReadDbContext>(_ =>
+            new AccountsReadDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Accounts);
+        
         return services;
     }
 

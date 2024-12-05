@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using PetFam.Accounts.Application.Database;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Application.Models;
 using PetFam.Accounts.Domain;

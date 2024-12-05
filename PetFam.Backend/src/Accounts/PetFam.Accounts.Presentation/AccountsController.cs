@@ -1,9 +1,10 @@
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PetFam.Accounts.Application.Login;
-using PetFam.Accounts.Application.RefreshTokens;
-using PetFam.Accounts.Application.RegisterUser;
+using PetFam.Accounts.Application.Features.GetUserById;
+using PetFam.Accounts.Application.Features.Login;
+using PetFam.Accounts.Application.Features.RefreshTokens;
+using PetFam.Accounts.Application.Features.RegisterUser;
 using PetFam.Accounts.Contracts.Requests;
 using PetFam.Accounts.Presentation.Providers;
 using PetFam.Framework;
@@ -64,5 +65,20 @@ public class AccountsController(
             return setCookieResult.ToResponse();
         
         return Ok(refreshResult.Value.AccessToken);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetUserById(
+        [FromRoute] Guid id,
+        [FromServices] GetUserByIdHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var command = new GetUserByIdQuery(id);
+        var result = await handler.HandleAsync(command, cancellationToken);
+        
+        if(result.IsFailure)
+            return result.Errors.ToResponse();
+        
+        return Ok(result.Value);
     }
 }

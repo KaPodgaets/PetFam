@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
+using PetFam.Accounts.Application.Database;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Contracts.Responses;
 using PetFam.Shared.Abstractions;
@@ -7,7 +8,7 @@ using PetFam.Shared.Models;
 using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
 
-namespace PetFam.Accounts.Application.RefreshTokens;
+namespace PetFam.Accounts.Application.Features.RefreshTokens;
 
 public class RefreshTokensHandler
     :ICommandHandler<LoginResponse, RefreshTokensCommand>
