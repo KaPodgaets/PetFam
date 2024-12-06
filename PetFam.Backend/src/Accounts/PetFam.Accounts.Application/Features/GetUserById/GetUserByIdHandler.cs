@@ -26,7 +26,6 @@ public class GetUserByIdHandler
         CancellationToken cancellationToken = default)
     {
         var user = await _dbContext.Users
-            .Include(u => u.Roles)
             .FirstOrDefaultAsync(u => u.Id == query.UserId, cancellationToken: cancellationToken);
 
         if (user is null)

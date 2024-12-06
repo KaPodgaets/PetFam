@@ -8,14 +8,14 @@ public class UserDataModel
 
     public Guid? AdminAccountId { get; init; }
     public Guid? VolunteerAccountId { get; init; }
-    public Guid ParticipantAccountId { get; init; }
+    public Guid? ParticipantAccountId { get; init; }
 
     public string UserName { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     
     public AdminAccount? AdminAccount { get; init; }
     public VolunteerAccount? VolunteerAccount { get; init; }
-    public ParticipantAccount ParticipantAccount { get; init; } = null!;
+    public ParticipantAccount? ParticipantAccount { get; init; } = null!;
 
     public List<RoleDataModel> Roles { get; init; } = [];
 }
