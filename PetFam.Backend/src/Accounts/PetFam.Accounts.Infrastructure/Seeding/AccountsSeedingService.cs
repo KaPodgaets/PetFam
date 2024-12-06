@@ -85,6 +85,9 @@ public class AccountsSeedingService
                 FullName = _adminOptions.UserName,
             };
             await _adminAccountsManager.CreateAccount(adminAccount, stoppingToken);
+
+            adminUser.AdminAccount = adminAccount;
+            await _userManager.UpdateAsync(adminUser);
             
             transaction.Commit();
         }

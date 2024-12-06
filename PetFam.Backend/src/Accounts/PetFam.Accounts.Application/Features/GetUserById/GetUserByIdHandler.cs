@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Application.Database;
 using PetFam.Accounts.Application.DataModels;
-using PetFam.Accounts.Domain;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
@@ -26,6 +25,7 @@ public class GetUserByIdHandler
         CancellationToken cancellationToken = default)
     {
         var user = await _dbContext.Users
+            .Include(u => u.Roles)
             .FirstOrDefaultAsync(u => u.Id == query.UserId, cancellationToken: cancellationToken);
 
         if (user is null)

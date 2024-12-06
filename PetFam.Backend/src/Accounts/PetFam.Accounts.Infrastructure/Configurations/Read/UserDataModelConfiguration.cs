@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFam.Accounts.Application.DataModels;
@@ -10,6 +11,12 @@ public class UserDataModelConfiguration:IEntityTypeConfiguration<UserDataModel>
     {
         builder.ToTable("users");
         
-        builder.HasKey(x => x.Id);
+        builder.HasMany(u => u.Roles)
+            .WithMany()
+            .UsingEntity<UserRoleDataModel>(
+                e => e.HasOne<UserDataModel>()
+                    .WithMany(u => u.UserRoles)
+                    .HasForeignKey("UserId")
+            );
     }
 }

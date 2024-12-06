@@ -18,4 +18,5 @@ public class UserDataModel
     public ParticipantAccount? ParticipantAccount { get; init; } = null!;
 
     public List<RoleDataModel> Roles { get; init; } = [];
+    public List<UserRoleDataModel> UserRoles { get; init; } = default!;
 }
