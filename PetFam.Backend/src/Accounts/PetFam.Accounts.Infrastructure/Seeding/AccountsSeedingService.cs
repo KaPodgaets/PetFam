@@ -72,6 +72,7 @@ public class AccountsSeedingService
         
         _logger.LogInformation("begin transaction to seed admin user and admin account");
         
+        // TODO: how to add adminAccountId into record of user in DB?
         try
         {
             var result = await _userManager.CreateAsync(adminUser, _adminOptions.Password);
@@ -84,6 +85,9 @@ public class AccountsSeedingService
                 FullName = _adminOptions.UserName,
             };
             await _adminAccountsManager.CreateAccount(adminAccount, stoppingToken);
+
+            adminUser.AdminAccount = adminAccount;
+            await _userManager.UpdateAsync(adminUser);
             
             transaction.Commit();
         }
