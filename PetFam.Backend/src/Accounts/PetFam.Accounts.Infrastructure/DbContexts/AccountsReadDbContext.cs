@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Application.Database;
 using PetFam.Accounts.Application.DataModels;
+using PetFam.Accounts.Domain;
 
 namespace PetFam.Accounts.Infrastructure.DbContexts;
 
@@ -10,6 +11,9 @@ public class AccountsReadDbContext(string connectionString) : DbContext, IAccoun
     public DbSet<UserDataModel> Users => Set<UserDataModel>();
     public DbSet<RoleDataModel> Roles => Set<RoleDataModel>();
     public DbSet<UserRoleDataModel> UserRoles => Set<UserRoleDataModel>();
+    public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
+    public DbSet<VolunteerAccount> VolunteerAccounts => Set<VolunteerAccount>();
+    public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
