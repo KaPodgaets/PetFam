@@ -108,5 +108,13 @@
                 return Error.Validation("token.not.valid", "token not valid");
             }
         }
+        
+        public static class VolunteeringApplications
+        {
+            public static Error ChangeStatusNotAllowed()
+            {
+                return Error.Validation("status.change.denied", "Change status not allowed");
+            }
+        }
     }
 }
