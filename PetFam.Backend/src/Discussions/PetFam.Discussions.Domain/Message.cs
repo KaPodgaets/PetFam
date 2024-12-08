@@ -27,14 +27,14 @@ public class Message: Entity<MessageId>
 
     public static Result<Message> Create(string text, Guid userId)
     {
-        if (string.IsNullOrEmpty(text))
+        if (string.IsNullOrWhiteSpace(text))
             return Errors.Messages.CannotBeEmptyOrWhitespace().ToErrorList();
                 
         return new Message(MessageId.NewId(), text, DateTime.UtcNow, isEdited: false, userId);
     }
     public Result Edit(string newText)
     {
-        if (string.IsNullOrEmpty(newText))
+        if (string.IsNullOrWhiteSpace(newText))
             return Errors.Messages.CannotBeEmptyOrWhitespace().ToErrorList();
         
         Text = newText;
