@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.18.1" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
@@ -24,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\PetManagement\PetFam.PetManagement.Domain\PetFam.PetManagement.Domain.csproj" />
+    <ProjectReference Include="..\..\src\VolunteeringApplications\PetFam.VolunteeringApplications.Domain\PetFam.VolunteeringApplications.Domain.csproj" />
   </ItemGroup>
 
 </Project>
