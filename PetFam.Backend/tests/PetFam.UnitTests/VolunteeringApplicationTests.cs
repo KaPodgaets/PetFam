@@ -67,7 +67,7 @@ public class VolunteeringApplicationTests
         var application = VolunteeringApplicationHelper.CreateDummyVolunteeringApplication();
         
         // Act
-        application.FinalReject();
+        application.FinalReject("test comments");
 
         // Assert
         application.Status.Should().Be(VolunteeringApplicationStatus.Rejected);
