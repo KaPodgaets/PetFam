@@ -4,7 +4,7 @@ using PetFam.VolunteeringApplications.Domain;
 
 namespace PetFam.UnitTests;
 
-public class DiscussionTestsHelper
+public static class DiscussionTestsHelper
 {
     public static Discussion CreateDummyDiscussion()
     {
