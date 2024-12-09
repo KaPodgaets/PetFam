@@ -92,6 +92,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.VolunteeringApplicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.VolunteeringApplications.Contracts", "src\VolunteeringApplications\PetFam.VolunteeringApplications.Contracts\PetFam.VolunteeringApplications.Contracts.csproj", "{E24C0ED9-D73F-4F2A-9DB6-1AF426D9B5C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.VolunteeringApplications.IntegrationTests", "tests\PetFam.VolunteeringApplications.IntegrationTests\PetFam.VolunteeringApplications.IntegrationTests.csproj", "{2B163BE7-3383-4BBE-BA85-25796854F09B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -230,6 +232,10 @@ Global
 		{E24C0ED9-D73F-4F2A-9DB6-1AF426D9B5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E24C0ED9-D73F-4F2A-9DB6-1AF426D9B5C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E24C0ED9-D73F-4F2A-9DB6-1AF426D9B5C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B163BE7-3383-4BBE-BA85-25796854F09B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B163BE7-3383-4BBE-BA85-25796854F09B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B163BE7-3383-4BBE-BA85-25796854F09B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B163BE7-3383-4BBE-BA85-25796854F09B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -278,5 +284,6 @@ Global
 		{AA7EEE91-CAAE-4626-8754-90F867521172} = {B9200FC0-D250-4479-A51B-B14945429ED7}
 		{A04C9C56-E3EF-42BC-BDBE-23BA5EC8341E} = {B9200FC0-D250-4479-A51B-B14945429ED7}
 		{E24C0ED9-D73F-4F2A-9DB6-1AF426D9B5C2} = {B9200FC0-D250-4479-A51B-B14945429ED7}
+		{2B163BE7-3383-4BBE-BA85-25796854F09B} = {4C6C71B0-7E9A-4A21-A72A-810AC6A99DE5}
 	EndGlobalSection
 EndGlobal
