@@ -27,13 +27,13 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         DiscussionId = discussionId;
     }
 
-    public Guid AdminId { get; set; }
-    public Guid UserId { get; set; }
-    public string VolunteerInfo { get; set; } = string.Empty;
-    public VolunteeringApplicationStatus Status { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public string? RejectionComment { get; set; }
-    public Guid? DiscussionId { get; set; }
+    public Guid AdminId { get; private set; }
+    public Guid UserId { get; private set; }
+    public string VolunteerInfo { get; private set; }
+    public VolunteeringApplicationStatus Status { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public string? RejectionComment { get; private set; }
+    public Guid? DiscussionId { get; private set; }
 
     public static Result<VolunteeringApplication> CreateNewApplication(
         Guid adminId,
@@ -55,13 +55,23 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         );
     }
 
-    public void StartReview()
+    public Result StartReview()
     {
+        var result = CheckThatStatusAllowChanges();
+        if (result.IsSuccess)
+            return result;
+        
         Status = VolunteeringApplicationStatus.Review;
+        
+        return Result.Success();
     }
 
     public Result RejectWithComment(string comment)
     {
+        var result = CheckThatStatusAllowChanges();
+        if (result.IsSuccess)
+            return result;
+        
         if(string.IsNullOrWhiteSpace(comment))
             return Errors.General.ValueIsInvalid("comment").ToErrorList();
         
@@ -71,15 +81,31 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         return Result.Success();
     }
     
-    public void FinalReject()
+    public Result FinalReject()
     {
+        var result = CheckThatStatusAllowChanges();
+        if (result.IsSuccess)
+            return result;
         Status = VolunteeringApplicationStatus.Rejected;
         RejectionComment = null;
+        return Result.Success();
     }
     
-    public void Approve()
+    public Result Approve()
     {
+        var result = CheckThatStatusAllowChanges();
+        if (result.IsSuccess)
+            return result;
         Status = VolunteeringApplicationStatus.Approved;
         RejectionComment = null;
+        return Result.Success();
+    }
+
+    private Result CheckThatStatusAllowChanges()
+    {
+        if(Status == VolunteeringApplicationStatus.Approved ||
+           Status == VolunteeringApplicationStatus.Rejected)
+            return Errors.VolunteeringApplications.ChangeStatusNotAllowed().ToErrorList();
+        return Result.Success();
     }
 }
