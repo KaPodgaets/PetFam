@@ -13,17 +13,17 @@ public class CreatePetTests : PetManagementTestBase
 
     public CreatePetTests(TestsWebAppFactory factory) : base(factory)
     {
-        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreatePetCommand>>();
+        _sut = Scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreatePetCommand>>();
     }
 
     [Fact]
     public async Task CreatePet_should_success()
     {
         // Arrange
-        _factory.SetupSuccessBreedManagementContractsMock();
+        Factory.SetupSuccessBreedManagementContractsMock();
 
         var volunteerId = await SeedVolunteer();
-        var command = _fixture.FakeCreatePetCommand(volunteerId);
+        var command = Fixture.FakeCreatePetCommand(volunteerId);
 
         // Act
         var result = await _sut.ExecuteAsync(command);
@@ -46,10 +46,10 @@ public class CreatePetTests : PetManagementTestBase
     public async Task CreatePet_WithNotExistingBreed_should_fail()
     {
         // Arrange
-        _factory.SetupFailureBreedManagementContractsMock();
+        Factory.SetupFailureBreedManagementContractsMock();
 
         var volunteerId = await SeedVolunteer();
-        var command = _fixture.FakeCreatePetCommand(volunteerId);
+        var command = Fixture.FakeCreatePetCommand(volunteerId);
 
         // Act
         var result = await _sut.ExecuteAsync(command);

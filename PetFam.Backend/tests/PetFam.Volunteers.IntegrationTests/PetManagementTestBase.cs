@@ -11,18 +11,18 @@ namespace PetFam.Volunteers.IntegrationTests;
 
 public class PetManagementTestBase : IClassFixture<TestsWebAppFactory>, IAsyncLifetime
 {
-    protected readonly Fixture _fixture;
-    protected readonly TestsWebAppFactory _factory;
-    protected readonly IServiceScope _scope;
+    protected readonly Fixture Fixture;
+    protected readonly TestsWebAppFactory Factory;
+    protected readonly IServiceScope Scope;
     protected readonly VolunteersWriteDbContext VolunteersWriteDbContext;
 
 
     protected PetManagementTestBase(TestsWebAppFactory factory)
     {
-        _factory = factory;
-        _fixture = new Fixture();
-        _scope = factory.Services.CreateScope();
-        VolunteersWriteDbContext = _scope.ServiceProvider.GetRequiredService<VolunteersWriteDbContext>();
+        Factory = factory;
+        Fixture = new Fixture();
+        Scope = factory.Services.CreateScope();
+        VolunteersWriteDbContext = Scope.ServiceProvider.GetRequiredService<VolunteersWriteDbContext>();
     }
 
     protected async Task<Guid> SeedVolunteer()
@@ -73,8 +73,8 @@ public class PetManagementTestBase : IClassFixture<TestsWebAppFactory>, IAsyncLi
 
     public async Task DisposeAsync()
     {
-        _scope.Dispose();
-        await _factory.ResetDatabaseAsync();
+        Scope.Dispose();
+        await Factory.ResetDatabaseAsync();
         await Task.CompletedTask;
     }
 }

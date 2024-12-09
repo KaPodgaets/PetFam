@@ -11,14 +11,14 @@ public class AddVolunteerTest : PetManagementTestBase
 
     public AddVolunteerTest(TestsWebAppFactory factory) : base(factory)
     {
-        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateVolunteerCommand>>();
+        _sut = Scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreateVolunteerCommand>>();
     }
 
     [Fact]
     public async Task AddVolunteerToDatabase_should_be_success()
     {
         // Arrange
-        var command = _fixture.FakeCreateVolunteerCommand();
+        var command = Fixture.FakeCreateVolunteerCommand();
 
         // Act
         var result = await _sut.ExecuteAsync(command);
