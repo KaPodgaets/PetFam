@@ -43,11 +43,13 @@
             {
                 return Error.Conflict("can't.delete.entity", "can not delete entity with relation");
             }
+
             public static Error AlreadyExist(string? email = null)
             {
                 return Error.Validation("volunteer.already.exist", $"volunteer with email: {email} already exist");
             }
         }
+
         public static class VolunteerErrors
         {
             public static Error AlreadyExist(string? email = null)
@@ -62,7 +64,7 @@
             {
                 return Error.Validation("species.already.exist", $"species with name: {name} already exist");
             }
-            
+
             public static Error CannotDeleteDueToRelatedRecords(Guid? id = null)
             {
                 return Error.Conflict("species.relations.exist",
@@ -108,12 +110,43 @@
                 return Error.Validation("token.not.valid", "token not valid");
             }
         }
-        
+
         public static class VolunteeringApplications
         {
             public static Error ChangeStatusNotAllowed()
             {
                 return Error.Validation("status.change.denied", "Change status not allowed");
+            }
+        }
+
+        public static class Discussions
+        {
+            public static Error CannotAddMessageToClosedDiscussion()
+            {
+                return Error.Failure("discussions.is.closed", "Can not add message to closed discussion");
+            }
+
+            public static Error IncorrectNumberOfParticipants()
+            {
+                return Error.Failure("discussions.not.created", "number of participants incorrect");
+            }
+
+            public static Error CannotAddNewMessageFromNonParticipants()
+            {
+                return Error.Failure("message.not.added", "Can not add message from non-participants");
+            }
+
+            public static Error OnlyAuthorCanRemoveMessage()
+            {
+                return Error.Failure("message.not.removed", "Only author can remove message");
+            }
+        }
+
+        public static class Messages
+        {
+            public static Error CannotBeEmptyOrWhitespace()
+            {
+                return Error.Failure("message.empty", "Message cannot be empty or whitespace");
             }
         }
     }
