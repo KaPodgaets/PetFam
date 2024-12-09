@@ -6,4 +6,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Queries\Get\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\PetFam.Core\PetFam.Core.csproj" />
+      <ProjectReference Include="..\PetFam.VolunteeringApplications.Domain\PetFam.VolunteeringApplications.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
