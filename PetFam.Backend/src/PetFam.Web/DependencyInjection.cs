@@ -12,6 +12,7 @@ using PetFam.BreedManagement.Presentation;
 using PetFam.Files.Presentation;
 using PetFam.Framework.Authorization;
 using PetFam.PetManagement.Presentation;
+using PetFam.VolunteeringApplications.Presentation;
 
 namespace PetFam.Web;
 
@@ -29,7 +30,8 @@ public static class DependencyInjection
             .AddFilesModule(configuration)
             .AddBreedManagementModule()
             .AddPetManagementModule(configuration)
-            .AddAccountsModule(configuration);
+            .AddAccountsModule(configuration)
+            .AddVolunteeringApplicationsModule(configuration);
             
         services.AddAuthorizationServices(configuration);
         

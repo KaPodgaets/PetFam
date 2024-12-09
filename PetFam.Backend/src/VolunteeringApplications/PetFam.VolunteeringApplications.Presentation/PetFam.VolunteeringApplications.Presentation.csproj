@@ -6,4 +6,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PetFam.VolunteeringApplications.Application\PetFam.VolunteeringApplications.Application.csproj" />
+      <ProjectReference Include="..\PetFam.VolunteeringApplications.Contracts\PetFam.VolunteeringApplications.Contracts.csproj" />
+      <ProjectReference Include="..\PetFam.VolunteeringApplications.Domain\PetFam.VolunteeringApplications.Domain.csproj" />
+      <ProjectReference Include="..\PetFam.VolunteeringApplications.Infrastructure\PetFam.VolunteeringApplications.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>

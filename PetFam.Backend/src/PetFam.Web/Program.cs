@@ -1,10 +1,4 @@
-using Microsoft.OpenApi.Models;
-using PetFam.Accounts.Presentation;
-using PetFam.BreedManagement.Presentation;
-using PetFam.Files.Presentation;
-using PetFam.PetManagement.Presentation;
 using PetFam.Web.Extensions;
-using PetFam.Web.Middlewares;
 using Serilog;
 
 namespace PetFam.Web

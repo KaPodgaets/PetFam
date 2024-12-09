@@ -7,18 +7,21 @@ namespace PetFam.VolunteeringApplications.Domain;
 
 public class VolunteeringApplication : Entity<VolunteeringApplicationId>
 {
+    // EF Core
+    private VolunteeringApplication(VolunteeringApplicationId id) : base(id)
+    {
+    }
+
     private VolunteeringApplication(
         VolunteeringApplicationId id,
-        Guid adminId,
         Guid userId,
         string volunteerInfo,
         VolunteeringApplicationStatus status,
         DateTime creationDate,
         string? rejectionComment,
-        Guid? discussionId) 
-            : base(id)
+        Guid? discussionId)
+        : base(id)
     {
-        AdminId = adminId;
         UserId = userId;
         VolunteerInfo = volunteerInfo;
         Status = status;
@@ -27,7 +30,7 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         DiscussionId = discussionId;
     }
 
-    public Guid AdminId { get; private set; }
+    public Guid? AdminId { get; private set; }
     public Guid UserId { get; private set; }
     public string VolunteerInfo { get; private set; }
     public VolunteeringApplicationStatus Status { get; private set; }
@@ -36,16 +39,14 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
     public Guid? DiscussionId { get; private set; }
 
     public static Result<VolunteeringApplication> CreateNewApplication(
-        Guid adminId,
         Guid userId,
         string volunteerInfo)
     {
-        if (adminId == Guid.Empty || userId == Guid.Empty)
+        if (userId == Guid.Empty)
             return Errors.General.ValueIsInvalid("adminId or userId").ToErrorList();
-        
+
         return new VolunteeringApplication(
             VolunteeringApplicationId.NewId(),
-            adminId,
             userId,
             volunteerInfo,
             VolunteeringApplicationStatus.Submitted,
@@ -60,9 +61,9 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         var result = CheckThatStatusAllowChanges();
         if (result.IsSuccess)
             return result;
-        
+
         Status = VolunteeringApplicationStatus.Review;
-        
+
         return Result.Success();
     }
 
@@ -71,16 +72,16 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         var result = CheckThatStatusAllowChanges();
         if (result.IsSuccess)
             return result;
-        
-        if(string.IsNullOrWhiteSpace(comment))
+
+        if (string.IsNullOrWhiteSpace(comment))
             return Errors.General.ValueIsInvalid("comment").ToErrorList();
-        
+
         Status = VolunteeringApplicationStatus.RevisionRequested;
         RejectionComment = comment;
-        
+
         return Result.Success();
     }
-    
+
     public Result FinalReject()
     {
         var result = CheckThatStatusAllowChanges();
@@ -90,7 +91,7 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         RejectionComment = null;
         return Result.Success();
     }
-    
+
     public Result Approve()
     {
         var result = CheckThatStatusAllowChanges();
@@ -103,9 +104,19 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
 
     private Result CheckThatStatusAllowChanges()
     {
-        if(Status == VolunteeringApplicationStatus.Approved ||
-           Status == VolunteeringApplicationStatus.Rejected)
+        if (Status == VolunteeringApplicationStatus.Approved ||
+            Status == VolunteeringApplicationStatus.Rejected)
             return Errors.VolunteeringApplications.ChangeStatusNotAllowed().ToErrorList();
         return Result.Success();
+    }
+
+    public void AssignAdmin(Guid adminId)
+    {
+        AdminId = adminId;
+    }
+
+    public void UnassignAdmin()
+    {
+        AdminId = null;
     }
 }

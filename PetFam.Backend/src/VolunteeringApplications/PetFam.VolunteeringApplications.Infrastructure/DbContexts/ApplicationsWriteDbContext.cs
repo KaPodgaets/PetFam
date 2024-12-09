@@ -1,19 +1,17 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetFam.BreedManagement.Domain;
-using PetFam.Shared.Options;
+using PetFam.VolunteeringApplications.Domain;
 
-namespace PetFam.BreedManagement.Infrastructure.Contexts;
+namespace PetFam.VolunteeringApplications.Infrastructure.DbContexts;
 
-public class WriteDbContext(
-    IConfiguration configuration) : DbContext
+public class ApplicationsWriteDbContext(
+    string connectionString) : DbContext
 {
-    public DbSet<Species> Species { get; set; }
+    public DbSet<VolunteeringApplication> Applications => Set<VolunteeringApplication>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString(InfrastructureOptions.DATABASE));
+        optionsBuilder.UseNpgsql(connectionString);
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
@@ -22,10 +20,10 @@ public class WriteDbContext(
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(WriteDbContext).Assembly,
+            typeof(ApplicationsWriteDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Write") ?? false);
 
-        modelBuilder.HasDefaultSchema("breeds");
+        modelBuilder.HasDefaultSchema("applications");
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

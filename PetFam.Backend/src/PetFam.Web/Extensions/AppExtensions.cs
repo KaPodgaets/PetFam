@@ -1,4 +1,5 @@
 ﻿using PetFam.Accounts.Infrastructure.Seeding;
+using PetFam.Shared.Abstractions;
 using PetFam.Web.Middlewares;
 using Serilog;
 
@@ -6,15 +7,17 @@ namespace PetFam.Web.Extensions
 {
     public static class AppExtensions
     {
-        // public static async Task ApplyMigration(this WebApplication app)
-        // {
-        //     await using var scope = app.Services.CreateAsyncScope();
-        //     var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
-        //
-        //     await dbContext.Database.MigrateAsync();
-        // }
+        private static async Task ApplyMigrations(this WebApplication app)
+        {
+            await using var scope = app.Services.CreateAsyncScope();
+            var migrators = scope.ServiceProvider.GetServices<IMigrator>();
+            foreach (var migrator in migrators)
+            {
+                await migrator.MigrateAsync();
+            }
+        }
 
-        public static async Task SeedAccounts(this WebApplication app)
+        private static async Task SeedAccounts(this WebApplication app)
         {
             await using var scope = app.Services.CreateAsyncScope();
             var accountsSeeder = scope.ServiceProvider.GetRequiredService<AccountsSeeder>();
@@ -30,7 +33,7 @@ namespace PetFam.Web.Extensions
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                // await app.ApplyMigration();
+                await app.ApplyMigrations();
                 
                 // seed permissions, roles and accounts
                 await app.SeedAccounts();

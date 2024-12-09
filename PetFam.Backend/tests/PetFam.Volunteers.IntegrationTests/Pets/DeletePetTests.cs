@@ -32,7 +32,7 @@ public class DeletePetTests : PetManagementTestBase
         result.IsSuccess.Should().Be(true);
         result.Value.Should().NotBeEmpty();
 
-        var volunteer = await _writeDbContext.Volunteers
+        var volunteer = await VolunteersWriteDbContext.Volunteers
             .Include(v => v.Pets)
             .FirstOrDefaultAsync(v => v.Id == VolunteerId.Create(volunteerId));
 

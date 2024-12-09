@@ -9,7 +9,6 @@ public class VolunteeringApplicationHelper
     {
         return VolunteeringApplication.CreateNewApplication(
             Guid.NewGuid(),
-            Guid.NewGuid(),
             "Test Volunteer Application"
             ).Value;
     }

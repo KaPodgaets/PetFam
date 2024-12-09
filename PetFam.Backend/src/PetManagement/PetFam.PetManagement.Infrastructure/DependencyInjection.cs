@@ -28,8 +28,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<WriteDbContext>(_ =>
-            new WriteDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
+        services.AddScoped<VolunteersWriteDbContext>(_ =>
+            new VolunteersWriteDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
         services.AddScoped<IReadDbContext, ReadDbContext>(_ =>
             new ReadDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
 

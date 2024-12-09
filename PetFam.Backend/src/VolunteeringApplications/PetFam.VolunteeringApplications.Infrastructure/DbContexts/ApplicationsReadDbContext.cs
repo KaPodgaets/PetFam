@@ -1,21 +1,18 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetFam.BreedManagement.Application.Database;
-using PetFam.Shared.Dtos;
-using PetFam.Shared.Options;
+using PetFam.VolunteeringApplications.Application.Database;
+using PetFam.VolunteeringApplications.Domain;
 
-namespace PetFam.BreedManagement.Infrastructure.Contexts;
+namespace PetFam.VolunteeringApplications.Infrastructure.DbContexts;
 
-public class ReadDbContext(
-    IConfiguration configuration) : DbContext, IReadDbContext
+public class ApplicationsReadDbContext(
+    string connectionString) : DbContext, IApplicationsReadDbContext
 {
-    public DbSet<SpeciesDto> Species { get; set; }
-    public DbSet<BreedDto> Breeds { get; set; }
+    public DbSet<VolunteeringApplication> Applications { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString(InfrastructureOptions.DATABASE));
+        optionsBuilder.UseNpgsql(connectionString);
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
@@ -26,15 +23,12 @@ public class ReadDbContext(
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(ReadDbContext).Assembly,
+            typeof(ApplicationsReadDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Read") ?? false);
-        
-        modelBuilder.HasDefaultSchema("breeds");
+
+        modelBuilder.HasDefaultSchema("applications");
     }
 
     private ILoggerFactory CreateLoggerFactory() =>
-        LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole();
-        });
+        LoggerFactory.Create(builder => { builder.AddConsole(); });
 }

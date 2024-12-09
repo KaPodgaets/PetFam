@@ -1,16 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFam.PetManagement.Domain;
-using PetFam.Shared.Options;
 
 namespace PetFam.PetManagement.Infrastructure.DbContexts
 {
-    public class WriteDbContext(
+    public class VolunteersWriteDbContext(
         string connectionString) : DbContext
     {
         public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(connectionString);
@@ -22,14 +20,14 @@ namespace PetFam.PetManagement.Infrastructure.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(
-                typeof(WriteDbContext).Assembly,
+                typeof(VolunteersWriteDbContext).Assembly,
                 type => type.FullName?.Contains("Configurations.Write") ?? false);
+
+            modelBuilder.HasDefaultSchema("volunteers");
         }
 
+
         private ILoggerFactory CreateLoggerFactory() =>
-            LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-            });
+            LoggerFactory.Create(builder => { builder.AddConsole(); });
     }
 }

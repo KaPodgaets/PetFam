@@ -30,7 +30,7 @@ public class DeleteVolunteerTest : PetManagementTestBase
         result.Value.Should().NotBeEmpty();
         result.Value.Should().Be(volunteerId);
 
-        var volunteers = _writeDbContext.Volunteers.ToList();
+        var volunteers = VolunteersWriteDbContext.Volunteers.ToList();
         volunteers.Should().BeEmpty();
     }
 }
