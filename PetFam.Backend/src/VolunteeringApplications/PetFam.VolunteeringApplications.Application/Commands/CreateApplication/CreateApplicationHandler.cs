@@ -33,15 +33,17 @@ public class CreateApplicationHandler
         if (validationResult.IsValid is false)
             return validationResult.ToErrorList();
 
+        // TODO: check that user exists
+
         var application = VolunteeringApplication.CreateNewApplication(
             command.UserId,
             command.VolunteerInfo).Value;
-        
+
         var result = await _repository.Add(application, cancellationToken);
 
         if (result.IsFailure)
             return result;
-        
+
         return result.Value;
     }
 }

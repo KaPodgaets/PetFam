@@ -34,7 +34,9 @@ public class AssignAdminHandler
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid is false)
             return validationResult.ToErrorList();
-
+        
+        // TODO: check that admin exists
+        
         var getApplicationResult = await _repository.GetById(
             VolunteeringApplicationId.Create(command.Id),
             cancellationToken);

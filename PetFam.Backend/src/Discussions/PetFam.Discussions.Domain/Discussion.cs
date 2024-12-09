@@ -3,7 +3,7 @@ using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
 
 namespace PetFam.Discussions.Domain;
-
+// TODO: think to be able to change admin user in discussion
 public class Discussion : Entity<DiscussionId>
 {
     private readonly List<User> _users;

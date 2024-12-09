@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using PetFam.Shared.SharedKernel;
+﻿using PetFam.Shared.SharedKernel;
 using PetFam.Shared.SharedKernel.Errors;
 using PetFam.Shared.SharedKernel.Result;
 
@@ -32,7 +31,7 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
 
     public Guid? AdminId { get; private set; }
     public Guid UserId { get; private set; }
-    public string VolunteerInfo { get; private set; }
+    public string VolunteerInfo { get; private set; } = string.Empty;
     public VolunteeringApplicationStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public string? RejectionComment { get; private set; }
@@ -82,13 +81,17 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         return Result.Success();
     }
 
-    public Result FinalReject()
+    public Result FinalReject(string comment)
     {
         var result = CheckThatStatusAllowChanges();
         if (result.IsSuccess)
             return result;
+
+        if (string.IsNullOrWhiteSpace(comment))
+            return Errors.General.ValueIsInvalid("comment").ToErrorList();
+
         Status = VolunteeringApplicationStatus.Rejected;
-        RejectionComment = null;
+        RejectionComment = comment;
         return Result.Success();
     }
 
@@ -118,5 +121,18 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
     public void UnassignAdmin()
     {
         AdminId = null;
+    }
+
+    public Result Update(string volunteerInfo)
+    {
+        var result = CheckThatStatusAllowChanges();
+        if (result.IsSuccess)
+            return result;
+
+        if (string.IsNullOrWhiteSpace(volunteerInfo))
+            return Errors.General.ValueIsInvalid("volunteerInfo").ToErrorList();
+        VolunteerInfo = volunteerInfo.Trim();
+
+        return Result.Success();
     }
 }

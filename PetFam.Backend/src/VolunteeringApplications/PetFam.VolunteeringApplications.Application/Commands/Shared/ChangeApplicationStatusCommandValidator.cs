@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace PetFam.VolunteeringApplications.Application.Commands;
+namespace PetFam.VolunteeringApplications.Application.Commands.Shared;
 
 public class ChangeApplicationStatusCommandValidator:AbstractValidator<ChangeApplicationStatusCommand>
 {
