@@ -6,6 +6,7 @@ namespace PetFam.UnitTests;
 
 public static class DiscussionTestsHelper
 {
+    public const string InitTextForMessage = "This is a test message";
     public static Discussion CreateDummyDiscussion()
     {
         var users = new List<User>
@@ -17,6 +18,13 @@ public static class DiscussionTestsHelper
         return Discussion.Create(Guid.NewGuid(),users)
             .Value;
     }
+
+    public static Discussion AddMessage(this Discussion discussion)
+    {
+        var message = Message.Create(DiscussionTestsHelper.InitTextForMessage, discussion.Users[0].UserId).Value;
+        discussion.AddMessage(message);
+        return discussion;
+    }
 }
 
 public class DiscussionTests
@@ -27,7 +35,7 @@ public class DiscussionTests
         // Arrange
         var discussion = DiscussionTestsHelper.CreateDummyDiscussion();
         var message = Message.Create("test message", discussion.Users[0].UserId).Value;
-
+        
         // Act
         var result = discussion.AddMessage(message);
 
@@ -35,65 +43,81 @@ public class DiscussionTests
         result.IsSuccess.Should().Be(true);
         discussion.Messages.Should().HaveCount(1);
     }
-
+    
     [Fact]
-    public void RejectWithComment()
+    public void CreateNewMessageWithEmptyText_should_fail()
     {
         // Arrange
-        var application = VolunteeringApplicationHelper.CreateDummyVolunteeringApplication();
-
+        
         // Act
-        var result = application.RejectWithComment("This is a comment");
+        var result = Message.Create("   ", Guid.NewGuid());
 
         // Assert
-        result.IsSuccess.Should().BeTrue();
-
-        application.Status.Should().Be(VolunteeringApplicationStatus.RevisionRequested);
-        application.RejectionComment.Should().NotBeNull();
-        application.RejectionComment.Should().NotBeEmpty();
+        result.IsSuccess.Should().Be(false);
     }
 
     [Fact]
-    public void RejectWithoutComment_should_fail()
+    public void DeleteMessage_should_success()
     {
         // Arrange
-        var application = VolunteeringApplicationHelper.CreateDummyVolunteeringApplication();
-
+        var discussion = DiscussionTestsHelper.CreateDummyDiscussion().AddMessage();
+        var messageId = discussion.Messages[0].Id.Value;
+        var userId = discussion.Messages[0].UserId;
+        
         // Act
-        var result = application.RejectWithComment("  ");
+        var result = discussion.DeleteMessage(messageId, userId);
 
         // Assert
-        result.IsSuccess.Should().BeFalse();
+        result.IsSuccess.Should().Be(true);
+        discussion.Messages.Should().BeEmpty();
+    }
+    
+    [Fact]
+    public void DeleteMessageWithNonParticipantUserId_should_fail()
+    {
+        // Arrange
+        var discussion = DiscussionTestsHelper.CreateDummyDiscussion().AddMessage();
+        var messageId = discussion.Messages[0].Id.Value;
+        var userId = Guid.NewGuid();
+        
+        // Act
+        var result = discussion.DeleteMessage(messageId, userId);
 
-        application.Status.Should().Be(VolunteeringApplicationStatus.Submitted);
-        application.RejectionComment.Should().BeNull();
+        // Assert
+        result.IsSuccess.Should().Be(false);
+        discussion.Messages.Should().HaveCount(1);
     }
 
     [Fact]
-    public void FinalReject()
+    public void EditMessage_should_success()
     {
         // Arrange
-        var application = VolunteeringApplicationHelper.CreateDummyVolunteeringApplication();
-
+        var discussion = DiscussionTestsHelper.CreateDummyDiscussion().AddMessage();
+        var messageId = discussion.Messages[0].Id.Value;
+        var userId = discussion.Messages[0].UserId;
+        var newText = "new message";
+        
         // Act
-        application.FinalReject();
+        var result = discussion.EditMessage(messageId, userId,newText);
 
         // Assert
-        application.Status.Should().Be(VolunteeringApplicationStatus.Rejected);
-        application.RejectionComment.Should().BeNull();
+        result.IsSuccess.Should().Be(true);
+        discussion.Messages[0].Text.Should().Be(newText);
     }
-
+    
     [Fact]
-    public void Approve()
+    public void EditMessageChangeTextToWhiteSpace_should_fail()
     {
         // Arrange
-        var application = VolunteeringApplicationHelper.CreateDummyVolunteeringApplication();
-
+        var discussion = DiscussionTestsHelper.CreateDummyDiscussion().AddMessage();
+        var messageId = discussion.Messages[0].Id.Value;
+        var userId = discussion.Messages[0].UserId;
+        
         // Act
-        application.Approve();
+        var result = discussion.EditMessage(messageId, userId,"   ");
 
         // Assert
-        application.Status.Should().Be(VolunteeringApplicationStatus.Approved);
-        application.RejectionComment.Should().BeNull();
+        result.IsSuccess.Should().Be(false);
+        discussion.Messages[0].Text.Should().Be(DiscussionTestsHelper.InitTextForMessage);
     }
 }
