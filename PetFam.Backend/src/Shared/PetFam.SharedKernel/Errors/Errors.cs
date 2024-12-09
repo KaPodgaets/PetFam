@@ -110,7 +110,7 @@
                 return Error.Validation("token.not.valid", "token not valid");
             }
         }
-        
+
         public static class VolunteeringApplications
         {
             public static Error ChangeStatusNotAllowed()
@@ -118,8 +118,6 @@
                 return Error.Validation("status.change.denied", "Change status not allowed");
             }
         }
-    }
-}
 
         public static class Discussions
         {
@@ -127,6 +125,7 @@
             {
                 return Error.Failure("discussions.is.closed", "Can not add message to closed discussion");
             }
+
             public static Error IncorrectNumberOfParticipants()
             {
                 return Error.Failure("discussions.not.created", "number of participants incorrect");
@@ -136,6 +135,7 @@
             {
                 return Error.Failure("message.not.added", "Can not add message from non-participants");
             }
+
             public static Error OnlyAuthorCanRemoveMessage()
             {
                 return Error.Failure("message.not.removed", "Only author can remove message");
