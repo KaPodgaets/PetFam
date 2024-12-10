@@ -40,7 +40,7 @@ public class RequestRevisionHandler:ICommandHandler<Guid, RejectApplicationComma
         if(getApplicationResult.IsFailure)
             return Errors.General.NotFound("application not found").ToErrorList();
         
-        var changeStatusResult = getApplicationResult.Value.RejectWithComment(command.Comment);
+        var changeStatusResult = getApplicationResult.Value.RequestRevision(command.Comment);
         if (changeStatusResult.IsFailure) 
             return changeStatusResult.Errors;
         

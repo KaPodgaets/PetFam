@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFam.VolunteeringApplications.Domain;
 
-namespace PetFam.VolunteeringApplications.Infrastructure.Configurations.Write;
+namespace PetFam.VolunteeringApplications.Infrastructure.Configurations.Read;
 
-public class ApplicationConfiguration : IEntityTypeConfiguration<VolunteeringApplication>
+public class ApplicationDtoConfiguration: IEntityTypeConfiguration<VolunteeringApplication>
 {
     public void Configure(EntityTypeBuilder<VolunteeringApplication> builder)
     {

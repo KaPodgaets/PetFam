@@ -58,7 +58,7 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
     public Result StartReview()
     {
         var result = CheckThatStatusAllowChanges();
-        if (result.IsSuccess)
+        if (result.IsFailure)
             return result;
 
         Status = VolunteeringApplicationStatus.Review;
@@ -66,10 +66,10 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         return Result.Success();
     }
 
-    public Result RejectWithComment(string comment)
+    public Result RequestRevision(string comment)
     {
         var result = CheckThatStatusAllowChanges();
-        if (result.IsSuccess)
+        if (result.IsFailure)
             return result;
 
         if (string.IsNullOrWhiteSpace(comment))
@@ -84,7 +84,7 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
     public Result FinalReject(string comment)
     {
         var result = CheckThatStatusAllowChanges();
-        if (result.IsSuccess)
+        if (result.IsFailure)
             return result;
 
         if (string.IsNullOrWhiteSpace(comment))
@@ -98,7 +98,7 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
     public Result Approve()
     {
         var result = CheckThatStatusAllowChanges();
-        if (result.IsSuccess)
+        if (result.IsFailure)
             return result;
         Status = VolunteeringApplicationStatus.Approved;
         RejectionComment = null;
@@ -110,6 +110,7 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
         if (Status == VolunteeringApplicationStatus.Approved ||
             Status == VolunteeringApplicationStatus.Rejected)
             return Errors.VolunteeringApplications.ChangeStatusNotAllowed().ToErrorList();
+        
         return Result.Success();
     }
 
@@ -126,7 +127,7 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
     public Result Update(string volunteerInfo)
     {
         var result = CheckThatStatusAllowChanges();
-        if (result.IsSuccess)
+        if (result.IsFailure)
             return result;
 
         if (string.IsNullOrWhiteSpace(volunteerInfo))

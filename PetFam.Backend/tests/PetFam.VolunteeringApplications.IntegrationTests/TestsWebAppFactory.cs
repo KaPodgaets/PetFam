@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Npgsql;
 using NSubstitute;
 using PetFam.BreedManagement.Contracts;
+using PetFam.VolunteeringApplications.Application.Database;
 using PetFam.VolunteeringApplications.Infrastructure.DbContexts;
 using PetFam.Web;
 using Respawn;
@@ -39,11 +40,14 @@ public class TestsWebAppFactory: WebApplicationFactory<Program>, IAsyncLifetime
     {
         // change VolunteerDbContext
         services.RemoveAll(typeof(ApplicationsWriteDbContext));
+        services.RemoveAll(typeof(IApplicationsReadDbContext));
 
         var connectionString = _dbContainer.GetConnectionString();
 
         services.AddScoped<ApplicationsWriteDbContext>(_ =>
             new ApplicationsWriteDbContext(connectionString));
+        services.AddScoped<IApplicationsReadDbContext, ApplicationsReadDbContext>(_ =>
+            new ApplicationsReadDbContext(connectionString));
     }
 
     public async Task InitializeAsync()

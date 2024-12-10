@@ -43,4 +43,12 @@ public static class Permissions
         public const string Read = "accounts.read";
         public const string Enroll = "accounts.enroll";
     }
+    
+    public static class VolunteeringApplications
+    {
+        public const string Create = "applications.create";
+        public const string Read = "applications.read";
+        public const string Update = "applications.update";
+        public const string Delete = "applications.delete";
+    }
 }

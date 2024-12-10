@@ -9,14 +9,14 @@ using PetFam.VolunteeringApplications.Domain;
 
 namespace PetFam.VolunteeringApplications.Application.Commands.Update;
 
-public class UpdateCommandHandler
+public class UpdateHandler
     : ICommandHandler<Guid, UpdateCommand>
 {
     private readonly ILogger<ICommandHandler<Guid, UpdateCommand>> _logger;
     private readonly IApplicationsRepository _repository;
     private readonly IValidator<UpdateCommand> _validator;
 
-    public UpdateCommandHandler(
+    public UpdateHandler(
         ILogger<ICommandHandler<Guid, UpdateCommand>> logger,
         IApplicationsRepository repository,
         IValidator<UpdateCommand> validator)

@@ -23,12 +23,37 @@ public class ApplicationsTestBase: IClassFixture<TestsWebAppFactory>, IAsyncLife
         WriteDbContext = Scope.ServiceProvider.GetRequiredService<ApplicationsWriteDbContext>();
         ReadDbContext = Scope.ServiceProvider.GetRequiredService<IApplicationsReadDbContext>();
     }
-    protected async Task<Guid> SeedApplication()
+    protected async Task<Guid> SeedApplicationAsync()
     {
         var application = VolunteeringApplication.CreateNewApplication(
             Guid.NewGuid(),
             Fixture.Create<string>())
             .Value;
+        
+        await WriteDbContext.AddAsync(application);
+        await WriteDbContext.SaveChangesAsync();
+        
+        return application.Id.Value;
+    }
+    
+    protected async Task<List<Guid>> SeedFewApplicationsAsync(int count)
+    {
+        var list = new List<Guid>();
+        for (var i = 0; i < count; i++)
+        {
+            list.Add(await SeedApplicationAsync());
+        }
+        
+        return list;
+    }
+    
+    protected async Task<Guid> SeedApplicationWithAssignedAdminAsync()
+    {
+        var application = VolunteeringApplication.CreateNewApplication(
+                Guid.NewGuid(),
+                Fixture.Create<string>())
+            .Value;
+        application.AssignAdmin(Guid.NewGuid());
         
         await WriteDbContext.AddAsync(application);
         await WriteDbContext.SaveChangesAsync();

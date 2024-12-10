@@ -35,7 +35,7 @@ public class VolunteeringApplicationTests
         var application = VolunteeringApplicationHelper.CreateDummyVolunteeringApplication();
         
         // Act
-        var result = application.RejectWithComment("This is a comment");
+        var result = application.RequestRevision("This is a comment");
         
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -51,7 +51,7 @@ public class VolunteeringApplicationTests
         var application = VolunteeringApplicationHelper.CreateDummyVolunteeringApplication();
         
         // Act
-        var result = application.RejectWithComment("  ");
+        var result = application.RequestRevision("  ");
         
         // Assert
         result.IsSuccess.Should().BeFalse();
