@@ -2,13 +2,20 @@ using System.Data.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Npgsql;
 using NSubstitute;
+using PetFam.Accounts.Application.Database;
 using PetFam.Accounts.Infrastructure.DbContexts;
+using PetFam.Accounts.Infrastructure.Migrator;
 using PetFam.BreedManagement.Contracts;
+using PetFam.BreedManagement.Infrastructure.Contexts;
+using PetFam.PetManagement.Infrastructure.DbContexts;
+using PetFam.Shared.Abstractions;
+using PetFam.VolunteeringApplications.Infrastructure.DbContexts;
 using PetFam.Web;
 using Respawn;
 using Testcontainers.PostgreSql;
@@ -44,11 +51,17 @@ public class AccountsTestsWebAppFactory : WebApplicationFactory<Program>, IAsync
 
         // change VolunteerDbContext
         services.RemoveAll(typeof(AccountsWriteDbContext));
+        services.RemoveAll(typeof(IAccountsReadDbContext));
+        services.RemoveAll(typeof(IMigrator));
+        
 
         var connectionString = _dbContainer.GetConnectionString();
 
         services.AddScoped<AccountsWriteDbContext>(_ =>
             new AccountsWriteDbContext(connectionString));
+        services.AddScoped<IAccountsReadDbContext>(_ =>
+            new AccountsReadDbContext(connectionString));
+        services.AddScoped<IMigrator, AccountsMigrator>();
 
         // substitute external resources
         services.RemoveAll(typeof(IBreedManagementContracts));
@@ -62,8 +75,8 @@ public class AccountsTestsWebAppFactory : WebApplicationFactory<Program>, IAsync
         using var scope = Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<AccountsWriteDbContext>();
 
-        await dbContext.Database.EnsureDeletedAsync();
-        await dbContext.Database.EnsureCreatedAsync();
+        // await dbContext.Database.EnsureDeletedAsync();
+        // await dbContext.Database.EnsureCreatedAsync();
 
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
         await InitializeRespawner();

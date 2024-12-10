@@ -71,7 +71,7 @@ public class VolunteeringApplicationTests
 
         // Assert
         application.Status.Should().Be(VolunteeringApplicationStatus.Rejected);
-        application.RejectionComment.Should().BeNull();
+        application.RejectionComment.Should().Be("test comments");
     }
 
     [Fact]

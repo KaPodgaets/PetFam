@@ -40,7 +40,7 @@ public class ApproveHandler:ICommandHandler<Guid, ChangeApplicationStatusCommand
         if(getApplicationResult.IsFailure)
             return Errors.General.NotFound("application not found").ToErrorList();
         
-        var changeStatusResult = getApplicationResult.Value.StartReview();
+        var changeStatusResult = getApplicationResult.Value.Approve();
         if (changeStatusResult.IsFailure) 
             return changeStatusResult.Errors;
         

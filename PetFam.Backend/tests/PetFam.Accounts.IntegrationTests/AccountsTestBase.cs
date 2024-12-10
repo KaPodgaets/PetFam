@@ -1,5 +1,6 @@
 using AutoFixture;
 using Microsoft.Extensions.DependencyInjection;
+using PetFam.Accounts.Domain;
 using PetFam.Accounts.Infrastructure.DbContexts;
 using PetFam.PetManagement.Domain;
 using PetFam.Shared.SharedKernel.ValueObjects.Volunteer;
@@ -8,34 +9,31 @@ namespace PetFam.Accounts.IntegrationTests;
 
 public class AccountsTestBase: IClassFixture<AccountsTestsWebAppFactory>, IAsyncLifetime
 {
-    protected readonly Fixture _fixture;
-    protected readonly AccountsTestsWebAppFactory _factory;
-    protected readonly IServiceScope _scope;
-    protected readonly AccountsWriteDbContext _writeDbContext;
+    protected readonly Fixture Fixture;
+    protected readonly AccountsTestsWebAppFactory Factory;
+    protected readonly IServiceScope Scope;
+    protected readonly AccountsWriteDbContext WriteDbContext;
 
 
     protected AccountsTestBase(AccountsTestsWebAppFactory factory)
     {
-        _factory = factory;
-        _fixture = new Fixture();
-        _scope = factory.Services.CreateScope();
-        _writeDbContext = _scope.ServiceProvider.GetRequiredService<AccountsWriteDbContext>();
+        Factory = factory;
+        Fixture = new Fixture();
+        Scope = factory.Services.CreateScope();
+        WriteDbContext = Scope.ServiceProvider.GetRequiredService<AccountsWriteDbContext>();
     }
 
-    protected async Task<Guid> SeedVolunteer()
+    protected async Task<Guid> SeedAdminUser()
     {
-        var volunteer = Volunteer.Create(
-            VolunteerId.NewId(),
-            FullName.Create("Test", "Test", null).Value,
-            Email.Create("Test@Test.com").Value,
-            null,
-            null
-        ).Value;
+        var adminUser = User.CreateAdmin(
+            "Test@Test.com",
+            []
+        );
         
-        await _writeDbContext.AddAsync(volunteer);
-        await _writeDbContext.SaveChangesAsync();
+        await WriteDbContext.Users.AddAsync(adminUser);
+        await WriteDbContext.SaveChangesAsync();
         
-        return volunteer.Id.Value;
+        return adminUser.Id;
     }
 
     public async Task InitializeAsync()
@@ -45,8 +43,8 @@ public class AccountsTestBase: IClassFixture<AccountsTestsWebAppFactory>, IAsync
 
     public async Task DisposeAsync()
     {
-        _scope.Dispose();
-        await _factory.ResetDatabaseAsync();
+        Scope.Dispose();
+        await Factory.ResetDatabaseAsync();
         await Task.CompletedTask;
     }
 }

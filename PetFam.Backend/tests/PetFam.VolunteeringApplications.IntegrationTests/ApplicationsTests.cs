@@ -8,6 +8,7 @@ using PetFam.VolunteeringApplications.Application.Commands.CreateApplication;
 using PetFam.VolunteeringApplications.Application.Commands.Reject;
 using PetFam.VolunteeringApplications.Application.Commands.RequestRevision;
 using PetFam.VolunteeringApplications.Application.Commands.Shared;
+using PetFam.VolunteeringApplications.Application.Commands.StartReview;
 using PetFam.VolunteeringApplications.Application.Commands.UnassignAdmin;
 using PetFam.VolunteeringApplications.Application.Commands.Update;
 using PetFam.VolunteeringApplications.Application.Queries.Get;
@@ -155,7 +156,7 @@ public class ApplicationsTests:ApplicationsTestBase
         var cancellationToken = new CancellationToken();
         var applicationId = await SeedApplicationAsync();
         var command = new ChangeApplicationStatusCommand(applicationId);
-        var sut = Scope.ServiceProvider.GetRequiredService<ApproveHandler>();
+        var sut = Scope.ServiceProvider.GetRequiredService<StartReviewHandler>();
         
         // Act
         var result = await sut.ExecuteAsync(command, cancellationToken);
