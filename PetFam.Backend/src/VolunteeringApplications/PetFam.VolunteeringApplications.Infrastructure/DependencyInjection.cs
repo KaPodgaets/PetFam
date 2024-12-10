@@ -1,8 +1,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PetFam.Shared.Abstractions;
 using PetFam.Shared.Options;
 using PetFam.VolunteeringApplications.Application.Database;
 using PetFam.VolunteeringApplications.Infrastructure.DbContexts;
+using PetFam.VolunteeringApplications.Infrastructure.Migrator;
 
 namespace PetFam.VolunteeringApplications.Infrastructure;
 
@@ -13,7 +15,8 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddDbContexts(configuration)
-            .AddRepositories();
+            .AddRepositories()
+            .AddDatabase();
 
         return services;
     }
@@ -34,6 +37,14 @@ public static class DependencyInjection
         this IServiceCollection services)
     {
         services.AddScoped<IApplicationsRepository, ApplicationsRepository>();
+
+        return services;
+    }
+    
+    private static IServiceCollection AddDatabase(
+        this IServiceCollection services)
+    {
+        services.AddScoped<IMigrator, ApplicationsMigrator>();
 
         return services;
     }

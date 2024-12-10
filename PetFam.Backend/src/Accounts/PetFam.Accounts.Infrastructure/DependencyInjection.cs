@@ -6,6 +6,7 @@ using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Domain;
 using PetFam.Accounts.Infrastructure.DbContexts;
 using PetFam.Accounts.Infrastructure.IdentityManagers;
+using PetFam.Accounts.Infrastructure.Migrator;
 using PetFam.Accounts.Infrastructure.Options;
 using PetFam.Accounts.Infrastructure.Seeding;
 using PetFam.Shared.Abstractions;
@@ -21,15 +22,24 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddContexts(configuration);
-        
-        
-        services.AddTransient<ITokenProvider,JwtTokenProvider>();
-        
+
+        services.AddTransient<ITokenProvider, JwtTokenProvider>();
+
         services
             .RegisterOptions(configuration)
             .RegisterIdentity()
-            .AddAccountsSeeding();
+            .AddAccountsSeeding()
+            .AddDatabase();
 
+        return services;
+    }
+
+    private static IServiceCollection AddDatabase(this IServiceCollection services)
+    {
+        services.AddScoped<IMigrator, AccountsMigrator>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Accounts);
         return services;
     }
 
@@ -41,9 +51,7 @@ public static class DependencyInjection
             new AccountsWriteDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
         services.AddScoped<IAccountsReadDbContext, AccountsReadDbContext>(_ =>
             new AccountsReadDbContext(configuration.GetConnectionString(InfrastructureOptions.DATABASE)!));
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Accounts);
-        
+
         return services;
     }
 
@@ -77,8 +85,7 @@ public static class DependencyInjection
         services.AddScoped<AdminAccountsManager>();
         services.AddScoped<IParticipantAccountsManager, ParticipantAccountsManager>();
         services.AddScoped<IRefreshSessionsManager, RefreshSessionsManager>();
-        
-        
+
         return services;
     }
 }

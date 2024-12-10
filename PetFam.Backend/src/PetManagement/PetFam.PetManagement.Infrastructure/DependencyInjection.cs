@@ -4,6 +4,7 @@ using PetFam.PetManagement.Application.Database;
 using PetFam.PetManagement.Application.VolunteerManagement;
 using PetFam.PetManagement.Infrastructure.BackgroundServices;
 using PetFam.PetManagement.Infrastructure.DbContexts;
+using PetFam.PetManagement.Infrastructure.Migrator;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.Options;
 
@@ -17,10 +18,23 @@ public static class DependencyInjection
     {
         services
             .AddDbContexts(configuration)
-            .AddRepositories();
+            .AddRepositories()
+            .AddBackgroundServices()
+            .AddDatabase();
 
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        return services;
+    }
+    
+    private static IServiceCollection AddBackgroundServices(this IServiceCollection services)
+    {
         services.AddHostedService<PetManagementEntityCleaner>();
+        return services;
+    }
+
+    private static IServiceCollection AddDatabase(this IServiceCollection services)
+    {
+        services.AddScoped<IMigrator, VolunteersMigrator>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 
@@ -36,9 +50,10 @@ public static class DependencyInjection
         return services;
     }
 
-    private static void AddRepositories(
+    private static IServiceCollection AddRepositories(
         this IServiceCollection services)
     {
         services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+        return services;
     }
 }
