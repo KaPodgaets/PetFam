@@ -11,18 +11,18 @@ namespace PetFam.Volunteers.IntegrationTests;
 
 public class PetManagementTestBase : IClassFixture<TestsWebAppFactory>, IAsyncLifetime
 {
-    protected readonly Fixture _fixture;
-    protected readonly TestsWebAppFactory _factory;
-    protected readonly IServiceScope _scope;
-    protected readonly WriteDbContext _writeDbContext;
+    protected readonly Fixture Fixture;
+    protected readonly TestsWebAppFactory Factory;
+    protected readonly IServiceScope Scope;
+    protected readonly VolunteersWriteDbContext VolunteersWriteDbContext;
 
 
     protected PetManagementTestBase(TestsWebAppFactory factory)
     {
-        _factory = factory;
-        _fixture = new Fixture();
-        _scope = factory.Services.CreateScope();
-        _writeDbContext = _scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        Factory = factory;
+        Fixture = new Fixture();
+        Scope = factory.Services.CreateScope();
+        VolunteersWriteDbContext = Scope.ServiceProvider.GetRequiredService<VolunteersWriteDbContext>();
     }
 
     protected async Task<Guid> SeedVolunteer()
@@ -35,15 +35,15 @@ public class PetManagementTestBase : IClassFixture<TestsWebAppFactory>, IAsyncLi
             null
         ).Value;
         
-        await _writeDbContext.AddAsync(volunteer);
-        await _writeDbContext.SaveChangesAsync();
+        await VolunteersWriteDbContext.AddAsync(volunteer);
+        await VolunteersWriteDbContext.SaveChangesAsync();
         
         return volunteer.Id.Value;
     }
 
     protected async Task<Guid> SeedPet(Guid volunteerId)
     {
-        var volunteer = await _writeDbContext.Volunteers.FindAsync(VolunteerId.Create(volunteerId));
+        var volunteer = await VolunteersWriteDbContext.Volunteers.FindAsync(VolunteerId.Create(volunteerId));
         if (volunteer is null)
             return Guid.Empty;
 
@@ -61,7 +61,7 @@ public class PetManagementTestBase : IClassFixture<TestsWebAppFactory>, IAsyncLi
         
         volunteer.AddPet(pet);
         
-        await _writeDbContext.SaveChangesAsync();
+        await VolunteersWriteDbContext.SaveChangesAsync();
         
         return pet.Id.Value;
     }
@@ -73,8 +73,8 @@ public class PetManagementTestBase : IClassFixture<TestsWebAppFactory>, IAsyncLi
 
     public async Task DisposeAsync()
     {
-        _scope.Dispose();
-        await _factory.ResetDatabaseAsync();
+        Scope.Dispose();
+        await Factory.ResetDatabaseAsync();
         await Task.CompletedTask;
     }
 }

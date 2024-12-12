@@ -32,7 +32,7 @@ public class PetManagementEntityCleaner:BackgroundService
             _logger.LogInformation("PetManagement deleted entity cleaner started to work");
             await using var scope = _serviceProvider.CreateAsyncScope();
 
-            var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+            var dbContext = scope.ServiceProvider.GetRequiredService<VolunteersWriteDbContext>();
 
             var entitiesToDelete = await dbContext.Volunteers
                 .Where(x => x.IsDeleted 

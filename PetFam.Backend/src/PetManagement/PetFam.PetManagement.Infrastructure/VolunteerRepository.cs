@@ -10,8 +10,8 @@ namespace PetFam.PetManagement.Infrastructure
 {
     public class VolunteerRepository : IVolunteerRepository
     {
-        private readonly WriteDbContext _dbContext;
-        public VolunteerRepository(WriteDbContext dbContext)
+        private readonly VolunteersWriteDbContext _dbContext;
+        public VolunteerRepository(VolunteersWriteDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -22,7 +22,7 @@ namespace PetFam.PetManagement.Infrastructure
             {
                 await _dbContext.Volunteers.AddAsync(model, cancellationToken);
 
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch (Exception)
             {

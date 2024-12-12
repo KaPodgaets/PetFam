@@ -11,7 +11,7 @@ public class DeleteVolunteerTest : PetManagementTestBase
 
     public DeleteVolunteerTest(TestsWebAppFactory factory) : base(factory)
     {
-        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, DeleteVolunteerCommand>>();
+        _sut = Scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, DeleteVolunteerCommand>>();
     }
 
     [Fact]
@@ -19,7 +19,7 @@ public class DeleteVolunteerTest : PetManagementTestBase
     {
         // Arrange
         var volunteerId = await SeedVolunteer();
-        var command = _fixture.FakeDeleteVolunteerCommand(volunteerId);
+        var command = Fixture.FakeDeleteVolunteerCommand(volunteerId);
 
         // Act
         var result = await _sut.ExecuteAsync(command);
@@ -30,7 +30,7 @@ public class DeleteVolunteerTest : PetManagementTestBase
         result.Value.Should().NotBeEmpty();
         result.Value.Should().Be(volunteerId);
 
-        var volunteers = _writeDbContext.Volunteers.ToList();
+        var volunteers = VolunteersWriteDbContext.Volunteers.ToList();
         volunteers.Should().BeEmpty();
     }
 }

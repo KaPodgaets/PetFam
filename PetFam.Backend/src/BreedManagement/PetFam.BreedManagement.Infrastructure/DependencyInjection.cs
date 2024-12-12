@@ -2,6 +2,8 @@
 using PetFam.BreedManagement.Application.Database;
 using PetFam.BreedManagement.Infrastructure.BackgroundServices;
 using PetFam.BreedManagement.Infrastructure.Contexts;
+using PetFam.BreedManagement.Infrastructure.Migrator;
+using PetFam.Shared.Abstractions;
 
 namespace PetFam.BreedManagement.Infrastructure;
 
@@ -10,11 +12,29 @@ public static class DependencyInjection
     public static IServiceCollection AddBreedManagementInfrastructure(this IServiceCollection services)
     {
         services.AddDbContexts()
-            .AddRepositories();
-        services.AddHostedService<BreedManagementEntityCleaner>();
+            .AddRepositories()
+            .AddBackgroundServices()
+            .AddDatabase();
+
         return services;
     }
-    
+
+    private static IServiceCollection AddDatabase(
+        this IServiceCollection services)
+    {
+        services.AddScoped<IMigrator, BreedsMigrator>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddBackgroundServices(
+        this IServiceCollection services)
+    {
+        services.AddHostedService<BreedManagementEntityCleaner>();
+
+        return services;
+    }
+
     private static IServiceCollection AddDbContexts(
         this IServiceCollection services)
     {
@@ -23,7 +43,7 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     private static IServiceCollection AddRepositories(
         this IServiceCollection services)
     {

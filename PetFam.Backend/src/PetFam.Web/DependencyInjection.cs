@@ -1,17 +1,15 @@
-﻿using System.Text;
-using PetFam.Shared.Abstractions;
+﻿using PetFam.Shared.Abstractions;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using PetFam.Accounts.Infrastructure;
 using PetFam.Accounts.Infrastructure.Options;
 using PetFam.Accounts.Presentation;
 using PetFam.BreedManagement.Presentation;
 using PetFam.Files.Presentation;
 using PetFam.Framework.Authorization;
 using PetFam.PetManagement.Presentation;
+using PetFam.VolunteeringApplications.Presentation;
 
 namespace PetFam.Web;
 
@@ -25,11 +23,13 @@ public static class DependencyInjection
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.ConfigureSwagger();
+        
         services.AddApplicationLayers()
             .AddFilesModule(configuration)
             .AddBreedManagementModule()
             .AddPetManagementModule(configuration)
-            .AddAccountsModule(configuration);
+            .AddAccountsModule(configuration)
+            .AddVolunteeringApplicationsModule(configuration);
             
         services.AddAuthorizationServices(configuration);
         
@@ -72,7 +72,8 @@ public static class DependencyInjection
             });
         });
     }
-    public static IServiceCollection AddApplicationLayers(this IServiceCollection services)
+
+    private static IServiceCollection AddApplicationLayers(this IServiceCollection services)
     {
         var assemblies = new[]
         {
@@ -80,6 +81,7 @@ public static class DependencyInjection
             typeof(PetFam.BreedManagement.Application.DependencyInjection).Assembly,
             typeof(PetFam.Files.Application.DependencyInjection).Assembly,
             typeof(PetFam.Accounts.Application.DependencyInjection).Assembly,
+            typeof(PetFam.VolunteeringApplications.Application.DependencyInjection).Assembly,
         };
 
         services.Scan(scan => scan.FromAssemblies(assemblies)
@@ -98,7 +100,7 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddAuthorizationServices(
+    private static IServiceCollection AddAuthorizationServices(
         this IServiceCollection services,
         IConfiguration configuration)
     {

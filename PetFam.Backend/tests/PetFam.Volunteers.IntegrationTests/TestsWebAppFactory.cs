@@ -44,12 +44,12 @@ public class TestsWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
         services.RemoveAll(typeof(IHostedService));
         
         // change VolunteerDbContext
-        services.RemoveAll(typeof(WriteDbContext));
+        services.RemoveAll(typeof(VolunteersWriteDbContext));
 
         var connectionString = _dbContainer.GetConnectionString();
 
-        services.AddScoped<WriteDbContext>(_ =>
-            new WriteDbContext(connectionString));
+        services.AddScoped<VolunteersWriteDbContext>(_ =>
+            new VolunteersWriteDbContext(connectionString));
         
         // substitute external resources
         services.RemoveAll(typeof(IBreedManagementContracts));
@@ -61,7 +61,7 @@ public class TestsWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
         await _dbContainer.StartAsync();
 
         using var scope = Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<VolunteersWriteDbContext>();
         await dbContext.Database.EnsureCreatedAsync();
         
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());

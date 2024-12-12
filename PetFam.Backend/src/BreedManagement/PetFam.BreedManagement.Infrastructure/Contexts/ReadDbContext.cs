@@ -28,6 +28,8 @@ public class ReadDbContext(
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(ReadDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Read") ?? false);
+        
+        modelBuilder.HasDefaultSchema("breeds");
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

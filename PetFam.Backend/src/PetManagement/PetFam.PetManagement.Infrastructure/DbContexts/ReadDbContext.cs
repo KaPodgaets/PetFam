@@ -26,12 +26,11 @@ namespace PetFam.PetManagement.Infrastructure.DbContexts
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(ReadDbContext).Assembly,
                 type => type.FullName?.Contains("Configurations.Read") ?? false);
+
+            modelBuilder.HasDefaultSchema("volunteers");
         }
 
         private ILoggerFactory CreateLoggerFactory() =>
-            LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-            });
+            LoggerFactory.Create(builder => { builder.AddConsole(); });
     }
 }

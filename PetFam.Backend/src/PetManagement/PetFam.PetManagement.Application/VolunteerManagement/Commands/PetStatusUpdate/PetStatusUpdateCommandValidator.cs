@@ -12,7 +12,7 @@ public class PetStatusUpdateCommandValidator : AbstractValidator<PetStatusUpdate
         RuleFor(x => x.PetId).NotEmpty();
 
         RuleFor(x => x.NewPetStatus)
-            .Must(ValidatorRulesExtension.BeValidPetStatus<PetStatus>)
+            .Must(ValidatorRulesExtension.BeValidEnum<PetStatus>)
             .WithMessage("Invalid status");
     }
 }

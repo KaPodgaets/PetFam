@@ -13,17 +13,17 @@ public class CreatePetTests : PetManagementTestBase
 
     public CreatePetTests(TestsWebAppFactory factory) : base(factory)
     {
-        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreatePetCommand>>();
+        _sut = Scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, CreatePetCommand>>();
     }
 
     [Fact]
     public async Task CreatePet_should_success()
     {
         // Arrange
-        _factory.SetupSuccessBreedManagementContractsMock();
+        Factory.SetupSuccessBreedManagementContractsMock();
 
         var volunteerId = await SeedVolunteer();
-        var command = _fixture.FakeCreatePetCommand(volunteerId);
+        var command = Fixture.FakeCreatePetCommand(volunteerId);
 
         // Act
         var result = await _sut.ExecuteAsync(command);
@@ -33,7 +33,7 @@ public class CreatePetTests : PetManagementTestBase
         result.IsSuccess.Should().Be(true);
         result.Value.Should().NotBeEmpty();
 
-        var volunteer = await _writeDbContext.Volunteers
+        var volunteer = await VolunteersWriteDbContext.Volunteers
             .Include(v => v.Pets)
             .FirstOrDefaultAsync(v => v.Id == VolunteerId.Create(volunteerId));
         
@@ -46,10 +46,10 @@ public class CreatePetTests : PetManagementTestBase
     public async Task CreatePet_WithNotExistingBreed_should_fail()
     {
         // Arrange
-        _factory.SetupFailureBreedManagementContractsMock();
+        Factory.SetupFailureBreedManagementContractsMock();
 
         var volunteerId = await SeedVolunteer();
-        var command = _fixture.FakeCreatePetCommand(volunteerId);
+        var command = Fixture.FakeCreatePetCommand(volunteerId);
 
         // Act
         var result = await _sut.ExecuteAsync(command);
@@ -58,7 +58,7 @@ public class CreatePetTests : PetManagementTestBase
         result.Should().NotBeNull();
         result.IsSuccess.Should().Be(false);
 
-        var volunteer = await _writeDbContext.Volunteers
+        var volunteer = await VolunteersWriteDbContext.Volunteers
             .Include(v => v.Pets)
             .FirstOrDefaultAsync(v => v.Id == VolunteerId.Create(volunteerId));
         

@@ -10,7 +10,7 @@ public class WriteDbContext(
     IConfiguration configuration) : DbContext
 {
     public DbSet<Species> Species { get; set; }
-        
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql(configuration.GetConnectionString(InfrastructureOptions.DATABASE));
@@ -18,17 +18,16 @@ public class WriteDbContext(
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
     }
-        
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(WriteDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Write") ?? false);
+
+        modelBuilder.HasDefaultSchema("breeds");
     }
 
     private ILoggerFactory CreateLoggerFactory() =>
-        LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole();
-        });
+        LoggerFactory.Create(builder => { builder.AddConsole(); });
 }

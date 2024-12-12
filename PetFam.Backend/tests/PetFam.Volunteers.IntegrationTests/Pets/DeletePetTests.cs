@@ -13,7 +13,7 @@ public class DeletePetTests : PetManagementTestBase
 
     public DeletePetTests(TestsWebAppFactory factory) : base(factory)
     {
-        _sut = _scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, DeletePetCommand>>();
+        _sut = Scope.ServiceProvider.GetRequiredService<ICommandHandler<Guid, DeletePetCommand>>();
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class DeletePetTests : PetManagementTestBase
         // Arrange
         var volunteerId = await SeedVolunteer();
         var petId = await SeedPet(volunteerId);
-        var command = _fixture.FakeDeletePetCommand(volunteerId, petId);
+        var command = Fixture.FakeDeletePetCommand(volunteerId, petId);
 
         // Act
         var result = await _sut.ExecuteAsync(command);
@@ -32,7 +32,7 @@ public class DeletePetTests : PetManagementTestBase
         result.IsSuccess.Should().Be(true);
         result.Value.Should().NotBeEmpty();
 
-        var volunteer = await _writeDbContext.Volunteers
+        var volunteer = await VolunteersWriteDbContext.Volunteers
             .Include(v => v.Pets)
             .FirstOrDefaultAsync(v => v.Id == VolunteerId.Create(volunteerId));
 
