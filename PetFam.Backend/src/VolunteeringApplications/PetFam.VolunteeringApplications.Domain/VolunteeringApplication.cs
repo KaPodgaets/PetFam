@@ -117,11 +117,13 @@ public class VolunteeringApplication : Entity<VolunteeringApplicationId>
     public void AssignAdmin(Guid adminId)
     {
         AdminId = adminId;
+        Status = VolunteeringApplicationStatus.Review;
     }
 
     public void UnassignAdmin()
     {
         AdminId = null;
+        Status = VolunteeringApplicationStatus.Submitted;
     }
 
     public Result Update(string volunteerInfo)

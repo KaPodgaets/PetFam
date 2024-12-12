@@ -28,13 +28,13 @@ public class VolunteeringApplicationsController:ApplicationController
     [Permission(Permissions.VolunteeringApplications.Read)]
     [HttpGet]
     public async Task<ActionResult<PagedList<VolunteeringApplication>>> GetPaginated(
-        [FromServices] GetHandler handler,
+        [FromServices] GetWithPaginationAndFilters withPaginationAndFilters,
         [FromQuery] GetWithPaginationRequest request,
         CancellationToken cancellationToken = default)
     {
         var query = request.ToQuery();
 
-        var result = await handler.HandleAsync(query, cancellationToken);
+        var result = await withPaginationAndFilters.HandleAsync(query, cancellationToken);
 
         return result.ToResponse();
     }

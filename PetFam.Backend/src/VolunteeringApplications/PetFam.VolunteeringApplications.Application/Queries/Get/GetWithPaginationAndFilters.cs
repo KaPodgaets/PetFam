@@ -8,12 +8,12 @@ using PetFam.VolunteeringApplications.Domain;
 
 namespace PetFam.VolunteeringApplications.Application.Queries.Get;
 
-public class GetHandler : IQueryHandler<PagedList<VolunteeringApplication>, GetWithPaginationQuery>
+public class GetWithPaginationAndFilters : IQueryHandler<PagedList<VolunteeringApplication>, GetWithPaginationQuery>
 {
     private readonly IApplicationsReadDbContext _dbContext;
     private readonly IValidator<GetWithPaginationQuery> _validator;
 
-    public GetHandler(IApplicationsReadDbContext dbContext,
+    public GetWithPaginationAndFilters(IApplicationsReadDbContext dbContext,
         IValidator<GetWithPaginationQuery> validator)
     {
         _dbContext = dbContext;
