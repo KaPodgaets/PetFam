@@ -7,7 +7,6 @@ namespace PetFam.Discussions.Domain;
 // TODO: think to be able to change admin user in discussion
 public class Discussion : Entity<DiscussionId>
 {
-    private readonly List<User> _users = [];
     private readonly List<Message> _messages = [];
 
     private Discussion(DiscussionId id) : base(id)
@@ -17,20 +16,20 @@ public class Discussion : Entity<DiscussionId>
     private Discussion(
         DiscussionId id,
         Guid relationId,
-        List<User> users) : base(id)
+        Users users) : base(id)
     {
         RelationId = relationId;
-        _users = users;
+        Users = users;
     }
 
     public Guid RelationId { get; private set; }
-    public List<User> Users => _users;
+    public Users Users { get; private set; }
     public IReadOnlyList<Message> Messages => _messages.AsReadOnly();
     public bool IsClosed { get; private set; }
 
-    public static Result<Discussion> Create(Guid relationId, List<User> users)
+    public static Result<Discussion> Create(Guid relationId, Users users)
     {
-        if (users.Count != 2)
+        if (users.SecondUser.UserId == Guid.Empty|| users.FirstUser.UserId == Guid.Empty)
             return Errors.Discussions.IncorrectNumberOfParticipants().ToErrorList();
 
         return new Discussion(

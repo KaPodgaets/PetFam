@@ -2,9 +2,6 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFam.Discussions.Domain;
-using PetFam.Shared.Dtos.ValueObjects;
-using PetFam.Shared.Extensions;
-using PetFam.Shared.SharedKernel.ValueObjects.Pet;
 
 namespace PetFam.Discussions.Infrastructure.Configurations.Write;
 
@@ -33,20 +30,7 @@ public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
             .HasForeignKey(x => x.DiscussionId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        // builder.Property(p => p.Users)
-        //     .HasValueObjectsCollectionJsonConversion(
-        //         user => new UserDto(user.UserId, user.Name),
-        //         json => User.Create(json.UserId, json.Name))
-        //     .HasColumnType("jsonb")
-        //     .HasColumnName("users");
         
-        // builder.Property(typeof(List<User>), "_users")
-        //     .HasConversion(
-        //         users => JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = false }),
-        //         json => JsonSerializer.Deserialize<List<User>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<User>()
-        //     )
-        //     .HasColumnType("jsonb") // Use 'jsonb' for PostgreSQL, 'nvarchar(max)' for SQL Server
-        //     .HasColumnName("users");
     }
 }
 
