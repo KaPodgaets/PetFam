@@ -43,7 +43,7 @@ public class Discussion : Entity<DiscussionId>
         if (IsClosed is true)
             return Errors.Discussions.CannotAddMessageToClosedDiscussion().ToErrorList();
 
-        if (_users.Select(x => x.UserId).Contains(message.UserId) is false)
+        if (Users.FirstUser.UserId != message.UserId || Users.SecondUser.UserId != message.UserId )
             return Errors.Discussions.CannotAddNewMessageFromNonParticipants().ToErrorList();
 
         _messages.Add(message);
