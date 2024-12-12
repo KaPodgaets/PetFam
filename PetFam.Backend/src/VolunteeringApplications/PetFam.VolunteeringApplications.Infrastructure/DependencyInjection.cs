@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.Shared.Abstractions;
 using PetFam.Shared.Options;
+using PetFam.Shared.SharedKernel;
 using PetFam.VolunteeringApplications.Application.Database;
 using PetFam.VolunteeringApplications.Infrastructure.DbContexts;
 using PetFam.VolunteeringApplications.Infrastructure.Migrator;
@@ -43,9 +44,11 @@ public static class DependencyInjection
     
     private static IServiceCollection AddDatabase(
         this IServiceCollection services)
-    {
+    {   
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Applications);
         services.AddScoped<IMigrator, ApplicationsMigrator>();
 
         return services;
     }
 }
+

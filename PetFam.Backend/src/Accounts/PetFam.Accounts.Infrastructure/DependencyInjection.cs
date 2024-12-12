@@ -21,12 +21,11 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddContexts(configuration);
-
         services.AddTransient<ITokenProvider, JwtTokenProvider>();
 
         services
             .RegisterOptions(configuration)
+            .AddContexts(configuration)
             .RegisterIdentity()
             .AddAccountsSeeding()
             .AddDatabase();
@@ -38,7 +37,6 @@ public static class DependencyInjection
     {
         services.AddScoped<IMigrator, AccountsMigrator>();
 
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Modules.Accounts);
         return services;
     }

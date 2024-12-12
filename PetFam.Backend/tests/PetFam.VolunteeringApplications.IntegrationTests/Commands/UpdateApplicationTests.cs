@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PetFam.VolunteeringApplications.Application.Commands.Update;
 using PetFam.VolunteeringApplications.Domain;
 
-namespace PetFam.VolunteeringApplications.IntegrationTests;
+namespace PetFam.VolunteeringApplications.IntegrationTests.Commands;
 
 public class UpdateApplicationTests : ApplicationsTestBase
 {

@@ -13,11 +13,11 @@ public interface IApplicationsRepository
         VolunteeringApplicationId id,
         CancellationToken cancellationToken = default);
 
-    Task<Result<Guid>> Update(
+    Result<Guid> Update(
         VolunteeringApplication model,
         CancellationToken cancellationToken = default);
 
-    Task<Result<Guid>> Delete(
+    public Result<Guid> Delete(
         VolunteeringApplication model,
         CancellationToken cancellationToken = default);
 

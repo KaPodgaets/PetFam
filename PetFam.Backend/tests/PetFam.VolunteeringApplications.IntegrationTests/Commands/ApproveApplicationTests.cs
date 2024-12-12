@@ -5,7 +5,7 @@ using PetFam.VolunteeringApplications.Application.Commands.Approve;
 using PetFam.VolunteeringApplications.Application.Commands.Shared;
 using PetFam.VolunteeringApplications.Domain;
 
-namespace PetFam.VolunteeringApplications.IntegrationTests;
+namespace PetFam.VolunteeringApplications.IntegrationTests.Commands;
 
 public class ApproveApplicationTests : ApplicationsTestBase
 {

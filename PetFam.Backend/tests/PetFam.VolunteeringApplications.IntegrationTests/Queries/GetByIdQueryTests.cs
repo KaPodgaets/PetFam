@@ -2,7 +2,7 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.VolunteeringApplications.Application.Queries.GetById;
 
-namespace PetFam.VolunteeringApplications.IntegrationTests;
+namespace PetFam.VolunteeringApplications.IntegrationTests.Queries;
 
 public class GetByIdQueryTests : ApplicationsTestBase
 {

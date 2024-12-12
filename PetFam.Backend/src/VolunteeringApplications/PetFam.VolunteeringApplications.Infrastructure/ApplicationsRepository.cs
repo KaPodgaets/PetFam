@@ -10,7 +10,7 @@ namespace PetFam.VolunteeringApplications.Infrastructure;
 public class ApplicationsRepository : IApplicationsRepository
 {
     private readonly ApplicationsWriteDbContext _dbContext;
-
+    
     public ApplicationsRepository(ApplicationsWriteDbContext dbContext)
     {
         _dbContext = dbContext;
@@ -23,8 +23,6 @@ public class ApplicationsRepository : IApplicationsRepository
         try
         {
             await _dbContext.Applications.AddAsync(model, cancellationToken);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
         }
         catch (Exception)
         {
@@ -45,24 +43,23 @@ public class ApplicationsRepository : IApplicationsRepository
         {
             return Errors.General.NotFound(id.Value).ToErrorList();
         }
+
         return model;
     }
 
-    public async Task<Result<Guid>> Update(
+    public Result<Guid> Update(
         VolunteeringApplication model,
         CancellationToken cancellationToken = default)
     {
-        _dbContext.Applications.Attach(model);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        _dbContext.Applications.Update(model);
         return model.Id.Value;
     }
 
-    public async Task<Result<Guid>> Delete(
+    public Result<Guid> Delete(
         VolunteeringApplication model,
         CancellationToken cancellationToken = default)
     {
         _dbContext.Applications.Remove(model);
-        await _dbContext.SaveChangesAsync(cancellationToken);
         return model.Id.Value;
     }
 

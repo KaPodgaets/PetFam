@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PetFam.VolunteeringApplications.Application.Queries.Get;
 
-namespace PetFam.VolunteeringApplications.IntegrationTests;
+namespace PetFam.VolunteeringApplications.IntegrationTests.Queries;
 
 public class GetQueryWithPaginationTests : ApplicationsTestBase
 {
