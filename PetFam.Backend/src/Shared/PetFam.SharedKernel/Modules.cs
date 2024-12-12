@@ -5,5 +5,6 @@ public enum Modules
     Files,
     Accounts,
     Issues,
-    Applications
+    Applications,
+    Discussions
 }

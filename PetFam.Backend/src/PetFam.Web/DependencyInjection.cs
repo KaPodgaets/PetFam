@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using PetFam.Accounts.Infrastructure.Options;
 using PetFam.Accounts.Presentation;
 using PetFam.BreedManagement.Presentation;
+using PetFam.Discussions.Presentation;
 using PetFam.Files.Presentation;
 using PetFam.Framework.Authorization;
 using PetFam.PetManagement.Presentation;
@@ -23,13 +24,14 @@ public static class DependencyInjection
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.ConfigureSwagger();
-        
+
         services.AddApplicationLayers()
             .AddFilesModule(configuration)
             .AddBreedManagementModule()
             .AddPetManagementModule(configuration)
             .AddAccountsModule(configuration)
-            .AddVolunteeringApplicationsModule(configuration);
+            .AddVolunteeringApplicationsModule(configuration)
+            .AddDiscussionsModule(configuration);
             
         services.AddAuthorizationServices(configuration);
         

@@ -31,6 +31,7 @@ namespace PetFam.PetManagement.Infrastructure.Configurations.Write
                 .HasValueObjectsCollectionJsonConversion(
                     photos => new PetPhotoDto(photos.FilePath, photos.IsMain),
                     json => PetPhoto.Create(json.Filepath, json.IsMain).Value)
+                .HasColumnType("jsonb")
                 .HasColumnName("photos");
 
             builder.OwnsOne(p => p.SpeciesAndBreed, sbb =>
