@@ -10,10 +10,11 @@ public static class DiscussionTestsHelper
 
     public static Discussion CreateDummyDiscussion()
     {
-        var users = new Users(
+        var users = new List<User>
+        {
             User.Create(Guid.NewGuid(), Guid.NewGuid().ToString()),
             User.Create(Guid.NewGuid(), Guid.NewGuid().ToString())
-        );
+        };
 
         return Discussion.Create(Guid.NewGuid(), users)
             .Value;
@@ -21,7 +22,7 @@ public static class DiscussionTestsHelper
 
     public static Discussion AddMessage(this Discussion discussion)
     {
-        var message = Message.Create(DiscussionTestsHelper.InitTextForMessage, discussion.Users.FirstUser.UserId).Value;
+        var message = Message.Create(DiscussionTestsHelper.InitTextForMessage, discussion.Users[0].UserId).Value;
         discussion.AddMessage(message);
         return discussion;
     }
@@ -34,7 +35,7 @@ public class DiscussionTests
     {
         // Arrange
         var discussion = DiscussionTestsHelper.CreateDummyDiscussion();
-        var message = Message.Create("test message", discussion.Users.FirstUser.UserId).Value;
+        var message = Message.Create("test message", discussion.Users[0].UserId).Value;
 
         // Act
         var result = discussion.AddMessage(message);

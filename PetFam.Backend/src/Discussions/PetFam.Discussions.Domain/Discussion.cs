@@ -8,6 +8,7 @@ namespace PetFam.Discussions.Domain;
 public class Discussion : Entity<DiscussionId>
 {
     private readonly List<Message> _messages = [];
+    private readonly List<User> _users = [];
 
     private Discussion(DiscussionId id) : base(id)
     {
@@ -16,21 +17,21 @@ public class Discussion : Entity<DiscussionId>
     private Discussion(
         DiscussionId id,
         Guid relationId,
-        Users users) : base(id)
+        List<User> users) : base(id)
     {
         RelationId = relationId;
-        Users = users;
+        _users = users;
     }
 
     public Guid RelationId { get; private set; }
-    public Users Users { get; private set; }
+    public IReadOnlyList<User> Users => _users;
     public IReadOnlyList<Message> Messages => _messages.AsReadOnly();
     public bool IsClosed { get; private set; }
 
-    public static Result<Discussion> Create(Guid relationId, Users users)
+    public static Result<Discussion> Create(Guid relationId, List<User> users)
     {
-        if (users.SecondUser.UserId == Guid.Empty|| users.FirstUser.UserId == Guid.Empty)
-            return Errors.Discussions.IncorrectNumberOfParticipants().ToErrorList();
+        // if (users.SecondUser.UserId == Guid.Empty|| users.FirstUser.UserId == Guid.Empty)
+        //     return Errors.Discussions.IncorrectNumberOfParticipants().ToErrorList();
 
         return new Discussion(
             DiscussionId.NewId(),
@@ -43,8 +44,8 @@ public class Discussion : Entity<DiscussionId>
         if (IsClosed is true)
             return Errors.Discussions.CannotAddMessageToClosedDiscussion().ToErrorList();
 
-        if (Users.FirstUser.UserId != message.UserId || Users.SecondUser.UserId != message.UserId )
-            return Errors.Discussions.CannotAddNewMessageFromNonParticipants().ToErrorList();
+        // if (Users.FirstUser.UserId != message.UserId || Users.SecondUser.UserId != message.UserId )
+        //     return Errors.Discussions.CannotAddNewMessageFromNonParticipants().ToErrorList();
 
         _messages.Add(message);
         return message.Id.Value;
