@@ -23,8 +23,8 @@ public class Message: Entity<MessageId>
     public DateTime CreatedAt { get; private set; }
     public bool IsEdited { get; private set; }
     public Guid UserId { get; private set; }
-    public Discussion Discussion { get; private set; }
-    public Guid DiscussionId { get; private set; }
+    // public Discussion Discussion { get; private set; }
+    // public Guid DiscussionId { get; private set; }
     public static Result<Message> Create(string text, Guid userId)
     {
         if (string.IsNullOrWhiteSpace(text))

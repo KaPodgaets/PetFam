@@ -11,23 +11,21 @@ public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
     public void Configure(EntityTypeBuilder<Discussion> builder)
     {
         builder.ToTable("discussions");
-        builder.HasKey(x => x.Id)
-            .HasName("id");
+        builder.HasKey(x => x.Id);
 
         builder.Property(p => p.Id)
             .HasConversion(
                 id => id.Value,
-                value => DiscussionId.Create(value))
-            .HasColumnName("id");
+                value => DiscussionId.Create(value));
 
         builder.Property(p => p.RelationId)
             .HasColumnName("relation_id");
         builder.Property(p => p.IsClosed)
             .HasColumnName("is_closed");
-
+        
         builder.HasMany(x => x.Messages)
             .WithOne()
-            .HasForeignKey(x => x.DiscussionId)
+            .HasForeignKey("discussion_id")
             .OnDelete(DeleteBehavior.Cascade);
 
         // builder.OwnsOne(x => x.Users, xb =>
