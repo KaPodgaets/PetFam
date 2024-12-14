@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetFam.Discussions.Domain;
 
-namespace PetFam.Discussions.Infrastructure.Configurations.Write;
+namespace PetFam.Discussions.Infrastructure.Configurations.Read;
 
 public class MessageConfiguration : IEntityTypeConfiguration<Message>
 {

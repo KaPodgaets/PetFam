@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetFam.Discussions.Application.Dtos;
 using PetFam.Discussions.Domain;
 using PetFam.Shared.Extensions;
 
@@ -28,14 +29,6 @@ public class DiscussionConfiguration : IEntityTypeConfiguration<Discussion>
             .HasForeignKey("discussion_id")
             .OnDelete(DeleteBehavior.Cascade);
 
-        // builder.OwnsOne(x => x.Users, xb =>
-        // {
-        //     xb.Property(x => x.FirstUser.UserId).HasColumnName("first_user_id");
-        //     xb.Property(x => x.FirstUser.Name).HasColumnName("first_user_name");
-        //     xb.Property(x => x.SecondUser.UserId).HasColumnName("second_user_id");
-        //     xb.Property(x => x.SecondUser.Name).HasColumnName("second_user_name");
-        // });
-        
         builder.Property(p => p.Users)
             .HasValueObjectsCollectionJsonConversion(
                 user => new UserDto(user.UserId, user.Name),
