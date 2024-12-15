@@ -23,7 +23,7 @@ public class GetByIdHandler:IQueryHandler<Discussion, GetByIdQuery>
         if (query.Id == Guid.Empty)
             return Errors.General.ValueIsInvalid("Id").ToErrorList();
         var discussion = await _context.Discussions
-            .FirstOrDefaultAsync(x => x.Id == DiscussionId.Create(query.Id), cancellationToken);
+            .FirstOrDefaultAsync(x => x.RelationId == query.Id, cancellationToken);
         if (discussion is null)
             return Errors.General.NotFound("Discussion Not Found").ToErrorList();
 
