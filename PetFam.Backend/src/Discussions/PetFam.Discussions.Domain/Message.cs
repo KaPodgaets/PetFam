@@ -29,6 +29,9 @@ public class Message: Entity<MessageId>
     {
         if (string.IsNullOrWhiteSpace(text))
             return Errors.Messages.CannotBeEmptyOrWhitespace().ToErrorList();
+        
+        if(userId.Equals(Guid.Empty))
+            return Errors.Messages.ShouldHaveUserId().ToErrorList();
                 
         return new Message(MessageId.NewId(), text, DateTime.UtcNow, isEdited: false, userId);
     }

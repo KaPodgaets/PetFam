@@ -102,7 +102,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Discussions.Presenta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Discussions.Contracts", "PetFam.Discussions.Contracts\PetFam.Discussions.Contracts.csproj", "{D681B30D-A0B1-4492-B6D3-67BC80DF0C3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Discussions.IntregrationTests", "tests\PetFam.Discussions.IntregrationTests\PetFam.Discussions.IntregrationTests.csproj", "{DB9EAFA2-3555-4D89-9B06-D0C7B5217B0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFam.Discussions.IntegrationTests", "tests\PetFam.Discussions.IntegrationTests\PetFam.Discussions.IntegrationTests.csproj", "{DB9EAFA2-3555-4D89-9B06-D0C7B5217B0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
 ﻿using PetFam.Discussions.Application.Commands.Create;
+using PetFam.Discussions.Application.Dtos;
 using PetFam.Discussions.Domain;
 
 namespace PetFam.Discussions.Presentation.Requests;
@@ -12,10 +13,10 @@ public record CreateDiscussionRequest(
 {
     public CreateDiscussionCommand ToCommand()
     {
-        var users = new List<User>
+        var users = new List<UserDto>
         {
-            User.Create(FirstUserId, FirstUserName),
-            User.Create(SecondUserId, SecondUserName)
+            new UserDto(FirstUserId, FirstUserName),
+            new UserDto(SecondUserId, SecondUserName)
         };
 
         return new CreateDiscussionCommand(

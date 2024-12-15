@@ -53,9 +53,6 @@ public class Discussion : Entity<DiscussionId>
 
     public Result DeleteMessage(Guid messageId, Guid userId)
     {
-        if (IsClosed is true)
-            return Errors.Discussions.CannotAddMessageToClosedDiscussion().ToErrorList();
-
         var message = _messages.FirstOrDefault(x => x.Id.Value == messageId);
         if (message is null)
             return Errors.General.NotFound(messageId).ToErrorList();
