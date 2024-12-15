@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Folder Include="Commands\AddMessage\" />
-      <Folder Include="Commands\Close\" />
       <Folder Include="Commands\DeleteMessage\" />
       <Folder Include="Commands\EditeMessage\" />
       <Folder Include="Queries\" />

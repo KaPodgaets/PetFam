@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PetFam.Discussions.Application.Commands.Close;
 using PetFam.Discussions.Application.Commands.Create;
 using PetFam.Discussions.Domain;
 using PetFam.Discussions.Presentation.Requests;
@@ -36,9 +37,23 @@ public class DiscussionController:ApplicationController
         [FromBody] CreateDiscussionRequest request,
         CancellationToken cancellationToken = default)
     {
-        var query = request.ToCommand();
+        var command = request.ToCommand();
 
-        var result = await handler.ExecuteAsync(query, cancellationToken);
+        var result = await handler.ExecuteAsync(command, cancellationToken);
+
+        return result.ToResponse();
+    }
+    
+    [Permission(Permissions.Discussions.Update)]
+    [HttpPut("{id:guid}/closed")]
+    public async Task<ActionResult<Guid>> Create(
+        [FromServices] CloseDiscussionHandler handler,
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new CloseDiscussionCommand(id);
+
+        var result = await handler.ExecuteAsync(command, cancellationToken);
 
         return result.ToResponse();
     }
