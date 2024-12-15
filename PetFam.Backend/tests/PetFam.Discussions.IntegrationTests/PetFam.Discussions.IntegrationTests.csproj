@@ -29,6 +29,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Discussions\PetFam.Discussions.Infrastructure\PetFam.Discussions.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\src\PetFam.Web\PetFam.Web.csproj" />
     </ItemGroup>
 
     <ItemGroup>

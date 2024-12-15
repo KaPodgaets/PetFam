@@ -84,6 +84,7 @@ public static class DependencyInjection
             typeof(PetFam.Files.Application.DependencyInjection).Assembly,
             typeof(PetFam.Accounts.Application.DependencyInjection).Assembly,
             typeof(PetFam.VolunteeringApplications.Application.DependencyInjection).Assembly,
+            typeof(PetFam.Discussions.Application.DependencyInjection).Assembly,
         };
 
         services.Scan(scan => scan.FromAssemblies(assemblies)

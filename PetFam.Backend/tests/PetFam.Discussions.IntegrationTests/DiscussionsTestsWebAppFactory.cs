@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Npgsql;
 using PetFam.Discussions.Application;
 using PetFam.Discussions.Application.Database;
 using PetFam.Discussions.Infrastructure.DbContexts;
+using PetFam.Web;
 using Respawn;
 using Testcontainers.PostgreSql;
 
@@ -33,9 +33,9 @@ public class DiscussionsTestsWebAppFactory: WebApplicationFactory<Program>, IAsy
 
     protected virtual void ConfigureDefaultServices(IServiceCollection services)
     {
-        // change VolunteerDbContext
+        // change DbContext
         services.RemoveAll(typeof(DiscussionsWriteDbContext));
-        services.RemoveAll(typeof(IDiscussionsRepository));
+        services.RemoveAll(typeof(IDiscussionsReadDbContext));
 
         var connectionString = _dbContainer.GetConnectionString();
 

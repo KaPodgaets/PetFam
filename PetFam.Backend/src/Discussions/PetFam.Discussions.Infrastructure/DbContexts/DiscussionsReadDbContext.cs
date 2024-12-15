@@ -25,7 +25,7 @@ public class DiscussionsReadDbContext(
             typeof(DiscussionsReadDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Read") ?? false);
 
-        modelBuilder.HasDefaultSchema("applications");
+        modelBuilder.HasDefaultSchema("discussions");
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

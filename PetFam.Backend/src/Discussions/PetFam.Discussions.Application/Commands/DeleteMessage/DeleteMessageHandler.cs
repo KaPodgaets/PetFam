@@ -38,7 +38,7 @@ public class DeleteMessageHandler:ICommandHandler<Guid,DeleteMessageCommand>
 
         var getDiscussionResult = await _discussionsRepository
             .GetById(DiscussionId.Create(command.DiscussionId), cancellationToken);
-        if (getDiscussionResult.IsSuccess)
+        if (getDiscussionResult.IsFailure)
             return Errors.General.NotFound("Discussion Not Found").ToErrorList();
         
         var deleteMessageResult = getDiscussionResult.Value.DeleteMessage(command.MessageId, command.UserId);

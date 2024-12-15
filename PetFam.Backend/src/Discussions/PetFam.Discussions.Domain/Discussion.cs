@@ -80,6 +80,6 @@ public class Discussion : Entity<DiscussionId>
 
     public void Close()
     {
-        IsClosed = false;
+        IsClosed = true;
     }
 }

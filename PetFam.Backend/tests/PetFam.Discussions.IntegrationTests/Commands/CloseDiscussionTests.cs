@@ -1,23 +1,24 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PetFam.Discussions.Application.Commands.Create;
+using PetFam.Discussions.Application.Commands.Close;
 
 namespace PetFam.Discussions.IntegrationTests.Commands;
 
-public class CreateDiscussionTests:DiscussionsTestBase
+public class CloseDiscussionTests:DiscussionsTestBase
 {
-    public CreateDiscussionTests(DiscussionsTestsWebAppFactory factory) : base(factory)
+    public CloseDiscussionTests(DiscussionsTestsWebAppFactory factory) : base(factory)
     {
     }
 
     [Fact]
-    public async Task CreateDiscussion_should_succeed()
+    public async Task CloseDiscussion_should_succeed()
     {
         // Arrange
         var cancellationToken = new CancellationToken();
-        var command = Fixture.FakeCreateCommand();
-        var sut = Scope.ServiceProvider.GetRequiredService<CreateDiscussionHandler>();
+        var discussion = await SeedDiscussion();
+        var command = Fixture.FakeCloseDiscussionCommand(discussion.Id.Value);
+        var sut = Scope.ServiceProvider.GetRequiredService<CloseDiscussionHandler>();
         
         // Act
         var result = await sut.ExecuteAsync(command, cancellationToken);
@@ -28,6 +29,6 @@ public class CreateDiscussionTests:DiscussionsTestBase
         var discussions = await ReadDbContext.Discussions.ToListAsync(cancellationToken);
         discussions.Should().NotBeNull();
         discussions.Should().HaveCount(1);
-        discussions.First().IsClosed.Should().BeFalse();
+        discussions.First().IsClosed.Should().BeTrue();
     }
 }

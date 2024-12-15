@@ -38,7 +38,7 @@ public class CloseDiscussionHandler:ICommandHandler<Guid,CloseDiscussionCommand>
 
         var getDiscussionResult = await _discussionsRepository
             .GetById(DiscussionId.Create(command.Id), cancellationToken);
-        if (getDiscussionResult.IsSuccess)
+        if (getDiscussionResult.IsFailure)
             return Errors.General.NotFound("Discussion Not Found").ToErrorList();
         
         getDiscussionResult.Value.Close();

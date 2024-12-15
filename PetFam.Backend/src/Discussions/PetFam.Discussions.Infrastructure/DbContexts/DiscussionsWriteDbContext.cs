@@ -24,7 +24,7 @@ public class DiscussionsWriteDbContext(
             typeof(DiscussionsWriteDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Write") ?? false);
 
-        modelBuilder.HasDefaultSchema("applications");
+        modelBuilder.HasDefaultSchema("discussions");
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

@@ -10,7 +10,8 @@ using PetFam.Shared.SharedKernel.Result;
 
 namespace PetFam.Discussions.Application.Commands.AddMessage;
 
-public class AddMessageHandler:ICommandHandler<Guid,AddMessageCommand>
+public class AddMessageHandler
+    :ICommandHandler<Guid,AddMessageCommand>
 {
     private readonly ILogger<ICommandHandler<Guid,AddMessageCommand>> _logger;
     private readonly IUnitOfWork _unitOfWork;
@@ -38,7 +39,7 @@ public class AddMessageHandler:ICommandHandler<Guid,AddMessageCommand>
 
         var getDiscussionResult = await _discussionsRepository
             .GetById(DiscussionId.Create(command.DiscussionId), cancellationToken);
-        if (getDiscussionResult.IsSuccess)
+        if (getDiscussionResult.IsFailure)
             return Errors.General.NotFound("Discussion Not Found").ToErrorList();
         
         var message = Message.Create(command.MessageText, command.UserId).Value;
