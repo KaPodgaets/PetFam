@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PetFam.Discussions.Application.Commands.Create;
 using PetFam.Discussions.Domain;
 using PetFam.Discussions.Presentation.Requests;
 using PetFam.Framework;
@@ -30,14 +31,14 @@ public class DiscussionController:ApplicationController
     
     [Permission(Permissions.Discussions.Create)]
     [HttpPost]
-    public async Task<ActionResult<PagedList<Discussion>>> Create(
-        [FromServices] _ handler,
+    public async Task<ActionResult<Guid>> Create(
+        [FromServices] CreateDiscussionHandler handler,
         [FromBody] CreateDiscussionRequest request,
         CancellationToken cancellationToken = default)
     {
         var query = request.ToCommand();
 
-        var result = await handler.HandleAsync(query, cancellationToken);
+        var result = await handler.ExecuteAsync(query, cancellationToken);
 
         return result.ToResponse();
     }

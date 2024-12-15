@@ -12,8 +12,8 @@ public static class DiscussionTestsHelper
     {
         var users = new List<User>
         {
-            User.Create(Guid.NewGuid(), Guid.NewGuid().ToString()),
-            User.Create(Guid.NewGuid(), Guid.NewGuid().ToString())
+            User.Create(Guid.NewGuid(), Guid.NewGuid().ToString()).Value,
+            User.Create(Guid.NewGuid(), Guid.NewGuid().ToString()).Value
         };
 
         return Discussion.Create(Guid.NewGuid(), users)

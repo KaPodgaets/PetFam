@@ -31,7 +31,7 @@ public class DiscussionConfiguration:IEntityTypeConfiguration<Discussion>
         builder.Property(p => p.Users)
             .HasValueObjectsCollectionJsonConversion(
                 user => new UserDto(user.UserId, user.Name),
-                json => User.Create(json.UserId, json.Name))
+                json => User.Create(json.UserId, json.Name).Value)
             .HasColumnType("jsonb")
             .HasColumnName("users");
     }
