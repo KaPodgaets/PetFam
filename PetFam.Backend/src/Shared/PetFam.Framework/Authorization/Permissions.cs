@@ -51,4 +51,12 @@ public static class Permissions
         public const string Update = "applications.update";
         public const string Delete = "applications.delete";
     }
+    
+    public static class Discussions
+    {
+        public const string Create = "discussions.create";
+        public const string Read = "discussions.read";
+        public const string Update = "discussions.update";
+        public const string Delete = "discussions.delete";
+    }
 }

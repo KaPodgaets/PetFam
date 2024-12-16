@@ -29,6 +29,7 @@
     <ProjectReference Include="..\Accounts\PetFam.Accounts.Presentation\PetFam.Accounts.Presentation.csproj" />
     <ProjectReference Include="..\BreedManagement\PetFam.BreedManagement.Application\PetFam.BreedManagement.Application.csproj" />
     <ProjectReference Include="..\BreedManagement\PetFam.BreedManagement.Presentation\PetFam.BreedManagement.Presentation.csproj" />
+    <ProjectReference Include="..\Discussions\PetFam.Discussions.Presentation\PetFam.Discussions.Presentation.csproj" />
     <ProjectReference Include="..\Files\PetFam.Files.Application\PetFam.Files.Application.csproj" />
     <ProjectReference Include="..\Files\PetFam.Files.Contracts\PetFam.Files.Contracts.csproj" />
     <ProjectReference Include="..\Files\PetFam.Files.Presentation\PetFam.Files.Presentation.csproj" />

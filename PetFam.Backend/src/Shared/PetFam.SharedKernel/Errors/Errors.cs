@@ -148,6 +148,11 @@
             {
                 return Error.Failure("message.empty", "Message cannot be empty or whitespace");
             }
+
+            public static Error ShouldHaveUserId()
+            {
+                return Error.Failure("message.id", "Should have user id");
+            }
         }
     }
 }

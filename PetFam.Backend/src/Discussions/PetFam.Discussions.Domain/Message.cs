@@ -20,15 +20,18 @@ public class Message: Entity<MessageId>
     }
 
     public string Text { get; private set; }
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
     public bool IsEdited { get; private set; }
-
-    public Guid UserId { get; set; }
-
+    public Guid UserId { get; private set; }
+    // public Discussion Discussion { get; private set; }
+    // public Guid DiscussionId { get; private set; }
     public static Result<Message> Create(string text, Guid userId)
     {
         if (string.IsNullOrWhiteSpace(text))
             return Errors.Messages.CannotBeEmptyOrWhitespace().ToErrorList();
+        
+        if(userId.Equals(Guid.Empty))
+            return Errors.Messages.ShouldHaveUserId().ToErrorList();
                 
         return new Message(MessageId.NewId(), text, DateTime.UtcNow, isEdited: false, userId);
     }

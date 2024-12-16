@@ -7,15 +7,16 @@ namespace PetFam.UnitTests;
 public static class DiscussionTestsHelper
 {
     public const string InitTextForMessage = "This is a test message";
+
     public static Discussion CreateDummyDiscussion()
     {
         var users = new List<User>
         {
-            new User { Name = "John Doe", UserId = Guid.NewGuid() },
-            new User { Name = "Anna Frank", UserId = Guid.NewGuid() }
+            User.Create(Guid.NewGuid(), Guid.NewGuid().ToString()).Value,
+            User.Create(Guid.NewGuid(), Guid.NewGuid().ToString()).Value
         };
 
-        return Discussion.Create(Guid.NewGuid(),users)
+        return Discussion.Create(Guid.NewGuid(), users)
             .Value;
     }
 
@@ -35,7 +36,7 @@ public class DiscussionTests
         // Arrange
         var discussion = DiscussionTestsHelper.CreateDummyDiscussion();
         var message = Message.Create("test message", discussion.Users[0].UserId).Value;
-        
+
         // Act
         var result = discussion.AddMessage(message);
 
@@ -43,12 +44,12 @@ public class DiscussionTests
         result.IsSuccess.Should().Be(true);
         discussion.Messages.Should().HaveCount(1);
     }
-    
+
     [Fact]
     public void CreateNewMessageWithEmptyText_should_fail()
     {
         // Arrange
-        
+
         // Act
         var result = Message.Create("   ", Guid.NewGuid());
 
@@ -63,7 +64,7 @@ public class DiscussionTests
         var discussion = DiscussionTestsHelper.CreateDummyDiscussion().AddMessage();
         var messageId = discussion.Messages[0].Id.Value;
         var userId = discussion.Messages[0].UserId;
-        
+
         // Act
         var result = discussion.DeleteMessage(messageId, userId);
 
@@ -71,7 +72,7 @@ public class DiscussionTests
         result.IsSuccess.Should().Be(true);
         discussion.Messages.Should().BeEmpty();
     }
-    
+
     [Fact]
     public void DeleteMessageWithNonParticipantUserId_should_fail()
     {
@@ -79,7 +80,7 @@ public class DiscussionTests
         var discussion = DiscussionTestsHelper.CreateDummyDiscussion().AddMessage();
         var messageId = discussion.Messages[0].Id.Value;
         var userId = Guid.NewGuid();
-        
+
         // Act
         var result = discussion.DeleteMessage(messageId, userId);
 
@@ -96,15 +97,15 @@ public class DiscussionTests
         var messageId = discussion.Messages[0].Id.Value;
         var userId = discussion.Messages[0].UserId;
         var newText = "new message";
-        
+
         // Act
-        var result = discussion.EditMessage(messageId, userId,newText);
+        var result = discussion.EditMessage(messageId, userId, newText);
 
         // Assert
         result.IsSuccess.Should().Be(true);
         discussion.Messages[0].Text.Should().Be(newText);
     }
-    
+
     [Fact]
     public void EditMessageChangeTextToWhiteSpace_should_fail()
     {
@@ -112,9 +113,9 @@ public class DiscussionTests
         var discussion = DiscussionTestsHelper.CreateDummyDiscussion().AddMessage();
         var messageId = discussion.Messages[0].Id.Value;
         var userId = discussion.Messages[0].UserId;
-        
+
         // Act
-        var result = discussion.EditMessage(messageId, userId,"   ");
+        var result = discussion.EditMessage(messageId, userId, "   ");
 
         // Assert
         result.IsSuccess.Should().Be(false);
