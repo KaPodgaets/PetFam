@@ -31,7 +31,7 @@ namespace PetFam.Web.Extensions
             app.UseExceptionCustomHandler();
             
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
             {
                 await app.ApplyMigrations();
                 
@@ -40,6 +40,11 @@ namespace PetFam.Web.Extensions
                 
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                
+                if (app.Environment.IsEnvironment("Docker"))
+                {
+                    app.MapGet("/", () => "Hello World!");
+                }
             }
             
             app.UseAuthentication();
