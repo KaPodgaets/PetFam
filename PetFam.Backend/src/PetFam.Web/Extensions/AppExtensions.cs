@@ -40,6 +40,11 @@ namespace PetFam.Web.Extensions
                 
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                
+                if (app.Environment.IsEnvironment("Docker"))
+                {
+                    app.MapGet("/", () => "Hello World!");
+                }
             }
             
             app.UseAuthentication();
