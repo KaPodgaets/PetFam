@@ -10,7 +10,7 @@ using PetFam.Shared.SharedKernel.Result;
 
 namespace PetFam.Discussions.Application.Commands.Create;
 
-public class CreateDiscussionHandler : ICommandHandler<Guid, CreateDiscussionCommand>
+public class CreateDiscussionHandler:ICommandHandler<Guid,CreateDiscussionCommand>
 {
     private readonly ILogger<ICommandHandler<Guid, CreateDiscussionCommand>> _logger;
     private readonly IUnitOfWork _unitOfWork;
