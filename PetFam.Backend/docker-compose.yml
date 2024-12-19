@@ -1,4 +1,18 @@
 services:
+  backend:
+    build:
+      context: ./
+      dockerfile: ./src/PetFam.Web/Dockerfile
+    ports:
+      - "58080:8080"
+    depends_on:
+      - postgres
+      - minio
+      - seq
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    
   postgres:
     container_name: PetFamPostgres
     image: postgres
