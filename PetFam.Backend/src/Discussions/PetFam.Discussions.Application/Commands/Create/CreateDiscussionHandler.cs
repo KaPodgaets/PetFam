@@ -12,14 +12,16 @@ namespace PetFam.Discussions.Application.Commands.Create;
 
 public class CreateDiscussionHandler:ICommandHandler<Guid,CreateDiscussionCommand>
 {
-    private readonly ILogger<ICommandHandler<Guid,CreateDiscussionCommand>> _logger;
+    private readonly ILogger<ICommandHandler<Guid, CreateDiscussionCommand>> _logger;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IDiscussionsRepository _discussionsRepository;
     private readonly IValidator<CreateDiscussionCommand> _validator;
+
     public CreateDiscussionHandler(
         ILogger<ICommandHandler<Guid, CreateDiscussionCommand>> logger,
-        [FromKeyedServices(Modules.Discussions)] IUnitOfWork unitOfWork, 
-        IDiscussionsRepository discussionsRepository, 
+        [FromKeyedServices(Modules.Discussions)]
+        IUnitOfWork unitOfWork,
+        IDiscussionsRepository discussionsRepository,
         IValidator<CreateDiscussionCommand> validator)
     {
         _logger = logger;
@@ -27,6 +29,7 @@ public class CreateDiscussionHandler:ICommandHandler<Guid,CreateDiscussionComman
         _discussionsRepository = discussionsRepository;
         _validator = validator;
     }
+
     public async Task<Result<Guid>> ExecuteAsync(
         CreateDiscussionCommand command,
         CancellationToken cancellationToken = default)
@@ -36,25 +39,19 @@ public class CreateDiscussionHandler:ICommandHandler<Guid,CreateDiscussionComman
             return validationResult.ToErrorList();
 
         // TODO: check that users exist
-        // TODO: how to check that relatedObject exists?
 
         List<User> users = [];
-        
-        foreach (var userDto in command.Users)
-        {
-            var user = User.Create(userDto.UserId, userDto.Name).Value;
-            users.Add(user);
-        } 
-        
+        users.AddRange(command.Users.Select(userDto => User.Create(userDto.UserId, userDto.Name).Value));
+
         var discussion = Discussion.Create(
             command.RelationId,
             users).Value;
 
-        var transaction = await _unitOfWork.BeginTransaction(cancellationToken);
-        
         var result = await _discussionsRepository.Add(discussion, cancellationToken);
         if (result.IsFailure)
             return result;
+        
+        var transaction = await _unitOfWork.BeginTransaction(cancellationToken);
         try
         {
             await _unitOfWork.SaveChangesAsync(cancellationToken);
