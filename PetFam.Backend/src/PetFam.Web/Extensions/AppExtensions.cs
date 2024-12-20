@@ -45,6 +45,8 @@ namespace PetFam.Web.Extensions
                 {
                     app.MapGet("/", () => "Hello World!");
                 }
+
+                app.ConfigureCors();
             }
             
             app.UseAuthentication();
@@ -52,5 +54,16 @@ namespace PetFam.Web.Extensions
             
             app.MapControllers();
         }
+        private static void ConfigureCors(this WebApplication app)
+        {
+            app.UseCors(config =>
+            {
+                config.WithOrigins("http://localhost:5174")
+                    .AllowCredentials()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        }
     }
+    
 }

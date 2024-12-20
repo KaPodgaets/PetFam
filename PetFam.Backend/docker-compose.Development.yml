@@ -1,0 +1,38 @@
+services:
+  postgres:
+    container_name: PetFamPostgres
+    image: postgres
+    restart: always
+    environment:
+        POSTGRES_DB: pet-fam
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+    ports:
+        - 5434:5432
+    volumes:
+    - postgres-data:/var/lib/postgresql/data
+
+  seq:
+    image: datalust/seq:latest
+    container_name: petfam-seq
+    restart: always
+    environment: 
+    - ACCEPT_EULA=Y
+    ports: 
+    - 5341:5341
+    - 8081:80
+
+  minio:
+    container_name: petfam-minio
+    image: minio/minio
+    ports: 
+    - 9000:9000
+    - 9001:9001
+    volumes:
+    - minio_data:/data
+    command: server --console-address ":9001" /data
+    restart: always
+
+volumes:
+    postgres-data:
+    minio_data:
