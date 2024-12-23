@@ -2,6 +2,7 @@
   "Roles": {
     "Admin": [
       "accounts.enroll",
+      "accounts.read",
       "species.read",
       "species.create",
       "species.update",

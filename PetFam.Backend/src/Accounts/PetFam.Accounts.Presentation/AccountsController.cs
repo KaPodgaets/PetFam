@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Application.Features.GetUserById;
@@ -6,8 +7,10 @@ using PetFam.Accounts.Application.Features.Login;
 using PetFam.Accounts.Application.Features.RefreshTokens;
 using PetFam.Accounts.Application.Features.RegisterUser;
 using PetFam.Accounts.Contracts.Requests;
+using PetFam.Accounts.Contracts.Responses;
 using PetFam.Accounts.Presentation.Providers;
 using PetFam.Framework;
+using PetFam.Framework.Authorization;
 
 namespace PetFam.Accounts.Presentation;
 
@@ -28,7 +31,7 @@ public class AccountsController(
     }
     
     [HttpPost("login")]
-    public async Task<IActionResult> Login(
+    public async Task<ActionResult<LoginResponse>> Login(
         [FromBody] LoginRequest request,
         [FromServices] LoginHandler handler,
         CancellationToken cancellationToken)
@@ -36,11 +39,12 @@ public class AccountsController(
         var command = new LoginCommand(request.UserEmail, request.Password);
         var result = await handler.ExecuteAsync(command, cancellationToken);
         
-        var setCookieResult = httpContextProvider.SetRefreshSessionCookie(result.Value.RefreshToken);
-        if(setCookieResult.IsFailure)
-            return setCookieResult.ToResponse();
+        HttpContext.Response.Cookies.Append("refreshToken", result.Value.RefreshToken.ToString());
+        return result.ToResponse();
         
-        return Ok(result.Value.AccessToken);
+        // var setCookieResult = httpContextProvider.SetRefreshSessionCookie(result.Value.RefreshToken);
+        // if(setCookieResult.IsFailure)
+        //     return setCookieResult.ToResponse();
     }
     
     [HttpPost("refresh")]
@@ -80,5 +84,13 @@ public class AccountsController(
             return result.Errors.ToResponse();
         
         return Ok(result.Value);
+    }
+    
+    [Permission(Permissions.Accounts.Read)]
+    [HttpGet("test")]
+    public ActionResult<string?> RegisterUser()
+    {
+        var result = httpContextProvider.GetAccessToken();
+        return result.ToResponse();
     }
 }

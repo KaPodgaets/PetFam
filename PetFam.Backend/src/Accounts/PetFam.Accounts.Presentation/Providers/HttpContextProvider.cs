@@ -7,6 +7,7 @@ namespace PetFam.Accounts.Presentation.Providers;
 public class HttpContextProvider
 {
     private const string REFRESH_TOKEN = "refreshToken";
+    private const string BEARER_TOKEN = "Bearer";
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public HttpContextProvider(IHttpContextAccessor httpContextAccessor)
@@ -20,7 +21,7 @@ public class HttpContextProvider
         {
             return Errors.General.Failure().ToErrorList();
         }
-        
+
         if (!_httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(REFRESH_TOKEN, out var refreshToken))
         {
             return Errors.General.NotFound(REFRESH_TOKEN).ToErrorList();
@@ -36,7 +37,17 @@ public class HttpContextProvider
             return Errors.General.Failure().ToErrorList();
         }
 
-        _httpContextAccessor.HttpContext.Response.Cookies.Append(REFRESH_TOKEN, refreshToken.ToString());
+        // _httpContextAccessor.HttpContext.Response.Cookies.Append(REFRESH_TOKEN, refreshToken.ToString());
+        _httpContextAccessor.HttpContext.Response.Cookies.Append(REFRESH_TOKEN, refreshToken.ToString(),
+            new CookieOptions()
+            {
+                HttpOnly = false,
+                Secure = false, // Set to true for HTTPS
+                SameSite = SameSiteMode.None,
+                Path = "/",
+                Expires = DateTimeOffset.UtcNow.AddDays(7),
+                Domain = "localhost:5174"
+            });
 
         return Result.Success();
     }
@@ -51,5 +62,10 @@ public class HttpContextProvider
         _httpContextAccessor.HttpContext.Response.Cookies.Delete(REFRESH_TOKEN);
 
         return Result.Success();
+    }
+
+    public Result<string?> GetAccessToken()
+    {
+        return "refreshToken[0]";
     }
 }
