@@ -39,26 +39,6 @@ public class RefreshTokensHandler
         if (sessionResult.Value.ExpiresIn < DateTime.UtcNow)
             return Errors.Tokens.ExpiredToken().ToErrorList();
         
-        var userClaimsResult = await _tokenProvider.GetUserClaims(command.AccessToken, cancellationToken);
-        if(userClaimsResult.IsFailure)
-            return userClaimsResult.Errors;
-        
-        var userIdString = userClaimsResult.Value
-            .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-        if(!Guid.TryParse(userIdString, out var userId))
-            return Errors.General.Failure().ToErrorList();
-
-        if(sessionResult.Value.UserId != userId)
-            return Errors.Tokens.NotValid().ToErrorList();
-        
-        var userJtiString = userClaimsResult.Value
-            .FirstOrDefault(c => c.Type == CustomClaims.Jti)?.Value;
-        if(!Guid.TryParse(userJtiString, out var userJti))
-            return Errors.General.Failure().ToErrorList();
-        
-        if(sessionResult.Value.Jti != userJti)
-            return Errors.Tokens.NotValid().ToErrorList();
-        
         await _refreshSessionManager.DeleteById(sessionResult.Value, cancellationToken);
         
         var jwtResult = await _tokenProvider

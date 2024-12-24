@@ -41,14 +41,10 @@ public class AccountsController(
         
         HttpContext.Response.Cookies.Append("refreshToken", result.Value.RefreshToken.ToString());
         return result.ToResponse();
-        
-        // var setCookieResult = httpContextProvider.SetRefreshSessionCookie(result.Value.RefreshToken);
-        // if(setCookieResult.IsFailure)
-        //     return setCookieResult.ToResponse();
     }
     
     [HttpPost("refresh")]
-    public async Task<IActionResult> RefreshTokens(
+    public async Task<ActionResult<string>> RefreshTokens(
         [FromHeader] string accessToken,
         [FromServices] RefreshTokensHandler handler,
         CancellationToken cancellationToken)
@@ -59,16 +55,14 @@ public class AccountsController(
             return Unauthorized();
         }
         
-        var command = new RefreshTokensCommand(accessToken, getRefreshSessionCookieResult.Value);
+        var command = new RefreshTokensCommand(getRefreshSessionCookieResult.Value);
         var refreshResult = await handler.ExecuteAsync(command, cancellationToken);
         if(refreshResult.IsFailure)
             return refreshResult.Errors.ToResponse();
         
-        var setCookieResult = httpContextProvider.SetRefreshSessionCookie(refreshResult.Value.RefreshToken);
-        if(setCookieResult.IsFailure)
-            return setCookieResult.ToResponse();
+        HttpContext.Response.Cookies.Append("refreshToken", refreshResult.Value.RefreshToken.ToString());
         
-        return Ok(refreshResult.Value.AccessToken);
+        return refreshResult.Value.AccessToken;
     }
 
     [HttpGet("{id:guid}")]
