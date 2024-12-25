@@ -95,13 +95,13 @@ namespace PetFam.Framework
             var distinctErrorTypes = errors.Select(e => e.Type)
                 .Distinct()
                 .ToList();
-
+        
             var statusCode = distinctErrorTypes.Count > 1
                 ? StatusCodes.Status500InternalServerError
                 : GetStatusCodeForErrorType(distinctErrorTypes.First());
-
+        
             var envelope = Envelope.Error(errors);
-
+        
             return new ObjectResult(envelope)
             {
                 StatusCode = statusCode,

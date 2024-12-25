@@ -58,7 +58,7 @@ namespace PetFam.Web.Extensions
         {
             app.UseCors(config =>
             {
-                config.WithOrigins("http://localhost:5174")
+                config.WithOrigins("http://localhost:5175")
                     .AllowCredentials()
                     .AllowAnyHeader()
                     .AllowAnyMethod();

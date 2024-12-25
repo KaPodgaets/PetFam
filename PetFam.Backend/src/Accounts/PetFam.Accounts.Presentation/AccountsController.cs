@@ -44,8 +44,7 @@ public class AccountsController(
     }
     
     [HttpPost("refresh")]
-    public async Task<ActionResult<string>> RefreshTokens(
-        [FromHeader] string accessToken,
+    public async Task<IActionResult> RefreshTokens(
         [FromServices] RefreshTokensHandler handler,
         CancellationToken cancellationToken)
     {
@@ -62,7 +61,7 @@ public class AccountsController(
         
         HttpContext.Response.Cookies.Append("refreshToken", refreshResult.Value.RefreshToken.ToString());
         
-        return refreshResult.Value.AccessToken;
+        return Ok(refreshResult.Value.AccessToken);
     }
 
     [HttpGet("{id:guid}")]
