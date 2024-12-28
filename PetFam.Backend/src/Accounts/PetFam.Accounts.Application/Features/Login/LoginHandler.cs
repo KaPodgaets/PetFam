@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using PetFam.Accounts.Application.DataModels;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Contracts.Responses;
 using PetFam.Accounts.Domain;
@@ -10,7 +11,7 @@ using PetFam.Shared.SharedKernel.Result;
 namespace PetFam.Accounts.Application.Features.Login;
 
 public class LoginHandler
-    : ICommandHandler<LoginResponse, LoginCommand>
+    : ICommandHandler<LoginResultDataModel, LoginCommand>
 {
     private readonly UserManager<User> _userManager;
     private readonly ITokenProvider _tokenProvider;
@@ -26,7 +27,7 @@ public class LoginHandler
         _tokenProvider = tokenProvider;
     }
 
-    public async Task<Result<LoginResponse>> ExecuteAsync(
+    public async Task<Result<LoginResultDataModel>> ExecuteAsync(
         LoginCommand command,
         CancellationToken cancellationToken = default)
     {
@@ -43,7 +44,7 @@ public class LoginHandler
         var accessToken = jwtResult.AccessToken;
         var refreshToken = await _tokenProvider.GenerateRefreshToken(user, jwtResult.AccessTokenJti, cancellationToken);
         
-        var response = new LoginResponse(accessToken, refreshToken);
+        var response = new LoginResultDataModel(accessToken, refreshToken);
         _logger.LogInformation("user {userId} logged in", user.Id);
         return response;
     }

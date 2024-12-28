@@ -27,20 +27,20 @@ namespace PetFam.Web.Extensions
         public static async Task ConfigureApplication(this WebApplication app)
         {
             app.UseSerilogRequestLogging();
-            
+
             app.UseExceptionCustomHandler();
-            
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
             {
                 await app.ApplyMigrations();
-                
+
                 // seed permissions, roles and accounts
                 await app.SeedAccounts();
-                
+
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                
+
                 if (app.Environment.IsEnvironment("Docker"))
                 {
                     app.MapGet("/", () => "Hello World!");
@@ -48,22 +48,26 @@ namespace PetFam.Web.Extensions
 
                 app.ConfigureCors();
             }
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.MapControllers();
         }
+
         private static void ConfigureCors(this WebApplication app)
         {
             app.UseCors(config =>
             {
-                config.WithOrigins("http://localhost:5175")
+                config.WithOrigins(
+                    [
+                        "http://localhost:5173",
+                        "http://localhost:5175"
+                    ])
                     .AllowCredentials()
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });
         }
     }
-    
 }

@@ -2,6 +2,7 @@ using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PetFam.Accounts.Application.DataModels;
 using PetFam.Accounts.Application.Features.GetUserById;
 using PetFam.Accounts.Application.Features.Login;
 using PetFam.Accounts.Application.Features.RefreshTokens;
@@ -26,10 +27,10 @@ public class AccountsController(
     {
         var command = new RegisterUserCommand(request.Email, request.Password);
         var result = await handler.ExecuteAsync(command, cancellationToken);
-        
+
         return result.IsFailure ? result.ToResponse() : Ok();
     }
-    
+
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponse>> Login(
         [FromBody] LoginRequest request,
@@ -38,47 +39,58 @@ public class AccountsController(
     {
         var command = new LoginCommand(request.UserEmail, request.Password);
         var result = await handler.ExecuteAsync(command, cancellationToken);
-        
+        if (result.IsFailure)
+            return result.Errors.ToResponse<LoginResponse>();
+
+        var response = result.Value.ToResponse();
+
         HttpContext.Response.Cookies.Append("refreshToken", result.Value.RefreshToken.ToString());
-        return result.ToResponse();
+        return response.ToResponse();
     }
-    
+
     [HttpPost("refresh")]
-    public async Task<IActionResult> RefreshTokens(
+    public async Task<ActionResult<LoginResponse>> RefreshTokens(
         [FromServices] RefreshTokensHandler handler,
         CancellationToken cancellationToken)
     {
-        var getRefreshSessionCookieResult = httpContextProvider.GetRefreshSessionCookie();
-        if (getRefreshSessionCookieResult.IsFailure)
+        var tokenResult = HttpContext.Request.Cookies.TryGetValue("refreshToken", out var value);
+
+        if (tokenResult is false)
+            return Unauthorized();
+        if (value is null)
         {
             return Unauthorized();
         }
-        
-        var command = new RefreshTokensCommand(getRefreshSessionCookieResult.Value);
+
+        var parseGuid = Guid.TryParse(value, out var token);
+        if (parseGuid is false)
+            return Unauthorized();
+
+        var command = new RefreshTokensCommand(token);
         var refreshResult = await handler.ExecuteAsync(command, cancellationToken);
-        if(refreshResult.IsFailure)
-            return refreshResult.Errors.ToResponse();
-        
+        if (refreshResult.IsFailure)
+            return refreshResult.Errors.ToResponse<LoginResponse>();
+        var response = refreshResult.Value.ToResponse();
+
         HttpContext.Response.Cookies.Append("refreshToken", refreshResult.Value.RefreshToken.ToString());
-        
-        return Ok(refreshResult.Value.AccessToken);
+        return response.ToResponse();
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetUserById(
+    public async Task<ActionResult<UserDataModel>> GetUserById(
         [FromRoute] Guid id,
         [FromServices] GetUserByIdHandler handler,
         CancellationToken cancellationToken)
     {
         var command = new GetUserByIdQuery(id);
         var result = await handler.HandleAsync(command, cancellationToken);
-        
-        if(result.IsFailure)
-            return result.Errors.ToResponse();
-        
+
+        if (result.IsFailure)
+            return result.Errors.ToResponse<UserDataModel>();
+
         return Ok(result.Value);
     }
-    
+
     [Permission(Permissions.Accounts.Read)]
     [HttpGet("test")]
     public ActionResult<string?> RegisterUser()

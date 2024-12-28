@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Application.Database;
+using PetFam.Accounts.Application.DataModels;
 using PetFam.Accounts.Application.Interfaces;
 using PetFam.Accounts.Contracts.Responses;
 using PetFam.Shared.Abstractions;
@@ -11,7 +12,7 @@ using PetFam.Shared.SharedKernel.Result;
 namespace PetFam.Accounts.Application.Features.RefreshTokens;
 
 public class RefreshTokensHandler
-    :ICommandHandler<LoginResponse, RefreshTokensCommand>
+    :ICommandHandler<LoginResultDataModel, RefreshTokensCommand>
 {
     private readonly ILogger<RefreshTokensHandler> _logger;
     private readonly IRefreshSessionsManager _refreshSessionManager;
@@ -27,7 +28,7 @@ public class RefreshTokensHandler
         _tokenProvider = tokenProvider;
     }
 
-    public async Task<Result<LoginResponse>> ExecuteAsync(
+    public async Task<Result<LoginResultDataModel>> ExecuteAsync(
         RefreshTokensCommand command,
         CancellationToken cancellationToken = default)
     {
@@ -49,6 +50,6 @@ public class RefreshTokensHandler
             jwtResult.AccessTokenJti,
             cancellationToken);
         
-        return new LoginResponse(newAccessToken, newRefreshToken);
+        return new LoginResultDataModel(newAccessToken, newRefreshToken);
     }
 }

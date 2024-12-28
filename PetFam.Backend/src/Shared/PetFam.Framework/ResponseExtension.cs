@@ -90,23 +90,23 @@ namespace PetFam.Framework
             };
         }
         
-        public static IActionResult ToResponse(this ErrorList errors)
-        {
-            var distinctErrorTypes = errors.Select(e => e.Type)
-                .Distinct()
-                .ToList();
-        
-            var statusCode = distinctErrorTypes.Count > 1
-                ? StatusCodes.Status500InternalServerError
-                : GetStatusCodeForErrorType(distinctErrorTypes.First());
-        
-            var envelope = Envelope.Error(errors);
-        
-            return new ObjectResult(envelope)
-            {
-                StatusCode = statusCode,
-            };
-        }
+        // public static IActionResult ToResponse(this ErrorList errors)
+        // {
+        //     var distinctErrorTypes = errors.Select(e => e.Type)
+        //         .Distinct()
+        //         .ToList();
+        //
+        //     var statusCode = distinctErrorTypes.Count > 1
+        //         ? StatusCodes.Status500InternalServerError
+        //         : GetStatusCodeForErrorType(distinctErrorTypes.First());
+        //
+        //     var envelope = Envelope.Error(errors);
+        //
+        //     return new ObjectResult(envelope)
+        //     {
+        //         StatusCode = statusCode,
+        //     };
+        // }
         
         private static int GetStatusCodeForErrorType(ErrorType errorType) =>
             errorType switch
