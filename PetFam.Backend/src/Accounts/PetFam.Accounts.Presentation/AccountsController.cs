@@ -1,5 +1,3 @@
-using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PetFam.Accounts.Application.DataModels;
@@ -12,6 +10,7 @@ using PetFam.Accounts.Contracts.Responses;
 using PetFam.Accounts.Presentation.Providers;
 using PetFam.Framework;
 using PetFam.Framework.Authorization;
+using PetFam.Shared.SharedKernel.Result;
 
 namespace PetFam.Accounts.Presentation;
 
@@ -93,9 +92,16 @@ public class AccountsController(
 
     [Permission(Permissions.Accounts.Read)]
     [HttpGet("test")]
-    public ActionResult<string?> RegisterUser()
+    public ActionResult<string> RegisterUser()
     {
-        var result = httpContextProvider.GetAccessToken();
+        var result = Result<string>.Success("test with auth"); 
+        return result.ToResponse();
+    }
+    
+    [HttpGet("test-without-authorization")]
+    public ActionResult<string> TestEndpoint()
+    {
+        var result = Result<string>.Success("test WITHOUT authorization");
         return result.ToResponse();
     }
 }

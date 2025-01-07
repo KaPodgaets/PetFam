@@ -62,6 +62,7 @@ namespace PetFam.Web.Extensions
                 config.WithOrigins(
                     [
                         "http://localhost:5173",
+                        "http://localhost:5174",
                         "http://localhost:5175"
                     ])
                     .AllowCredentials()
